@@ -1,0 +1,421 @@
+```{r, include = FALSE}
+knitr::opts_chunk$set(out.width = "100%")
+```
+
+
+# (PART) Statistical Methods {.unnumbered}
+
+# GEE and MLM {#GEEandMLM}
+
+
++ Tutorial of Generalized Estimating Equations and Mixed Linear Models
+
+
+针对某个科学问题，通常会在一段时间内对多个同一研究对象进行多次或重复测量，这类数据一般称为纵向数据。纵向数据具有两个特点，一是研究对象重复；二是观察值可能存在缺失值。上述两个因素导致在探索结果和观测指标相关性分析时，一般线性（linear regression model）或广义线性模型（generalized regression model）以及重复测量方差分析（repeated ANOVA）均不适用。因此，**广义估计方程(generalized estimating equations，GEE)** 和**混合线性模型(mixed linear model，MLM) **被广泛应用于纵向数据的统计分析。
+
++  **广义估计方程(generalized estimating equations，GEE)**： 假定每个研究对象的重复观察值间存在某种类型的作业相关矩阵（应变量的各次重复测量值两两之间相关性的大小），应用准似然函数原理，可以得到回归系数及其方差的一致性估计
+
++ **混合线性模型(mixed linear model，MLM)**：它是一类对误差进行精细分解成对固定效应和随机效应等误差的广义线性模型的方法，相比广义线性模型而言，它能处理纵向数据（如时间序列数据，时间一般作为随机因素）。
+
+
+上述两种方法适合解析因变量和自变量的相关性
+
+
+## 原理
+
+
+基本概念
+
++ **自变量**（independent variable）：又称独立变量、解释变量（explanatory variable）、外生变量，是可由研究者选择、控制、研究，且能独立变化而影响或引起其他变量变化的条件或因素（变数、变量、变项），因此自变量被看作是因变量的原因。
+
++ **因变量**（dependent variable）：又称应变量、被解释变量、内生变量、反应变量、响应变量（response variable）、依变量、果变量，亦即要研究的目标变量，其取值可被观测且随自变量的变化而变化。
+
++ **控制变量**（controlled variable）：又称额外变量（extraneous variable）、无关变量，是除了实验因素（自变量）以外，所有可能影响实验变化和结果并需要进行控制的潜在条件或因素（变数、变量、变项）
+
++ **协变量**（covariate）：在实验的设计中，协变量是一个独立变量(解释变量)，不为实验者所操纵，但仍影响响应。同时，它指与因变量有线性相关并在探讨自变量与因变量关系时通过统计技术加以控制 的变量。常用的协变量包括因变量的前测分数、人口统计学指标以及与因变量明显不同的个人特征等。_协变量应该属于控制变量的一种_。有些控制变量可以通过实验操作加以控制(如照明、室温等)，也称为*无关变量*；而另一些控制变量由于受实验设计等因素的限制，只能借助统计技术来加以控制，即成了统计分析中的协变量，因而属于统计概念。
+
+
+
+假定因变量**y**，自变量**X**，作为固定变量，而**Z**则是随机变量（协变量）。
+
++  **广义估计方程(generalized estimating equations，GEE)**
+
+    - 建立结果变量**y**与协变量**Z**之间（每个协变量内含有对应的自变量X）的函数关系
+    
+    - 建立**y**的方差与平均值之间的函数关系
+    
+    - 对**y**构建一个P*P维作业相关矩阵（自变量**X**），用以表示因变量的各次重复测量值（自变量）之间的相关性大小
+    
+    - 求参数$\beta$的估计值及其协方差矩阵
+
+
++ **混合线性模型(mixed linear model，MLM)**：构建包含固定因子和随机因子的线性混合模型
+
+$$y = X\beta + Z\mu + \epsilon $$
+
+    
+  - $\beta$ 是固定效应值；
+    
+  - $\mu$ 是随机效应值；
+    
+  - $\epsilon$ 是随机误差向量（拟合值和真实值的误差）；
+
+
+回归系数的95% 置信区间计算：$$CI_{0.95}^{\beta_{i}} = [\beta_{i} - 1.96 * SE(\beta_{i}),\space \beta_{i} + 1.96 * SE(\beta_{i})]$$
+
+
+
+**为各个变量之间存在不同的单位也即是量纲可能不同，所以对数据做归一化和标准化处理是必须的。**
+
+
+## 加载R包
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+library(data.table)
+
+# rm(list = ls())
+options(stringsAsFactors = F)
+options(future.globals.maxSize = 1000 * 1024^2)
+```
+
+
+## 导入数据
+
+可以点击此处下载数据[data_dropout.csv](https://github.com/HuaZou/DraftNotes/blob/main/InputData/TherapyData/data_dropout.csv)
+
+> 本案例数据来源于一个肾脏病的研究。研究对200个肾病患者进行随访，每年化验一次肾小球滤过率（GFR，评价肾脏功能的指标，会逐年下降）。主要分析目的是探索基线的尿蛋白定量对GFR年下降率（斜率）的影响（尿蛋白量越大，对肾功能危害越大），混杂因素包括基线年龄和性别。
+
+
+```{r, message = FALSE, warning = FALSE}
+dataset <- data.table::fread("./InputData/TherapyData/data_dropout.csv")
+
+dataset <- dataset |>
+  dplyr::select(-all_of(c("line", "normo")))
+
+head(dataset)
+```
+
++ **patient**: 患者ID编号；
+
++ **visit**：化验次序编号
+
++ **time**：化验时间（单位年），第一次化验定为0，后面依次推延；
+
++ **GFR**：肾小球滤过率，单位是ml/min/1.73^2，作为响应变量；
+
++ **age**：基线年龄，单位岁；
+
++ **gender**：性别，0=男，1=女；
+
++ **micro**：基线是否有微量蛋白尿，0=正常蛋白组，1=有；
+
++ **macro**：基线是否有大量蛋白尿，0=正常蛋白组，1=有；
+
+
+## 研究问题
+
+患者**GFR**是否受到基线年龄、性别、尿蛋白情况以及化验时间影响。另外根据专业医学知识，假设尿蛋白不仅影响GFR的下降率，也影响基线GFR，也即是time和尿蛋白micro和macro存在交互影响（此地排除age，gender对GFR下降率的影响）。
+
+> 预测变量还需要加上一个时间x尿蛋白的交互项（交互项是指不同的尿蛋白等级会有不同的GFR下降斜率和下降曲线）
+
+
+## 数据特点
+```{r}
+summary(dataset) 
+```
+
+```{r}
+dataset %>%
+  group_by(patient) %>%
+    summarise(
+      count = n(),
+      mean = mean(GFR, na.rm=TRUE),
+      sd = sd(GFR, na.rm=TRUE)
+    )
+```
+
+```{r}
+ggplot(data = dataset, aes(x = time, y = GFR, group = patient, color = patient)) +
+  geom_line(alpha = .3) + 
+  labs(title = "GFR Levels of Patient across the therapeutic times") +
+  theme(legend.position = "none")
+```
+
+```{r}
+rando <- sample(unique(dataset$patient), 10)
+indplot <- subset(dataset, patient %in% rando)
+ggplot(indplot, aes(x = time, y = GFR)) + 
+  geom_line(color = "tomato") + 
+  facet_wrap( ~ patient) + 
+  labs(x = "time", y="GFR Levels", title="Individual GFR Levels\nfor a Random Sample of Patients") + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
+```
+
+
+## 广义估计方程(generalized estimating equations，GEE)
+
+
++ **自变量**（independent variable）：age，gender，micro，macro，time
+
++ **因变量**（dependent variable）：GFR
+
++ **协变量**（covariate）：patient
+
+GEE通过协变量patient考虑到他们内部观测值的相关性后再对总体效应进行推断，如何确定分组需要考虑到组群变量。除此之外，确定组内相关关系，还需要考虑到组内观测之间的相关性是相互独立还是相互依赖等各种情况。
+
+```{r}
+library(geepack)
+
+gee_fit <- geeglm(GFR ~ age + gender + micro + macro + time + micro:time + macro:time, 
+              id = patient, 
+              data = dataset, 
+              std.err = "san.se",
+              corstr = "exchangeable",
+              family = "gaussian")
+
+gee_fit
+```
+
++ `GFR ~ age + gender + micro + macro + time + micro:time + macro:time`是因变量和自变量的线性关系方程式，其中`micro:time`是交互式影响自变量
+
++ `id = patient`表示每个patients是一个内在cluster的标识，用于剔除内在相关关系
+
++ `std.err = "san.se"`计算评估系数的标准误差，*san.se*适合cluster数目小于等于30的数据集
+
++ `corstr = "exchangeable"`是构造自变量作业相关矩阵参数
+
+    - exchangeable correlation：假设一个cluster里的不同观察是等相关的，并且是时间不依赖的
+    
+    - autoregressive correlation：假设一个cluster里的不同观察是等相关的，假设一个cluster内的观察是时间依赖的
+    
+    - unstructured correlation：is the most general of the correlation structures that we discuss. It imposes no structure to the correlation matrix. 
+    
+    - userdefined correlation：根据自变量自身特点构造作业相关矩阵
+
++ `family = "gaussian"`是连接函数，链接因变量和自变量（很多中文教程说是协变量）线性关系的函数
+
+
+提取结果
+```{r}
+gee_cc <- coef(summary(gee_fit)) |>
+  as.data.frame() |>
+  dplyr::mutate(lower_95CI = round(Estimate - 1.96 * Std.err, 2),
+                upper_95CI = round(Estimate + 1.96 * Std.err, 2)) |>
+  dplyr::mutate(Estimate_95CI = paste0(round(Estimate, 2), " (", lower_95CI, ", ", upper_95CI, ")")) |>
+  dplyr::select(-all_of(c("lower_95CI", "upper_95CI"))) |>
+  dplyr::mutate(OddRatio = round(exp(Estimate), 2)) |>
+  dplyr::arrange(`Pr(>|W|)`)
+
+DT::datatable(gee_cc)
+```
+
++ *Estimate*：$\beta$相关系数，其中_Intercept_是截距估计值。提供了截距和预测变量的估计系数。
+
++ *Std.err*：$\beta$相关系的标准误差。给出了与系数估计相关的标准误差。这些是参数估计的不确定性的度量。
+
++ *Wald*：$\beta$相关系的wald检验统计量（检验约束条件是否成立的方法之一：F检验、似然比检验（LR）、沃尔德检验（Wald）和拉格朗日乘子检验（LM））
+
++ *Pr(>|W|)*：$\beta$相关系的wald检验统计量对应pvalue。提供了与Wald检验相关的p值。它指示系数是否具有统计显著性。
+
++ *Estimate_95CI*：$\beta$置信区间提供可以合理确信真实总体参数位于其中的范围。Estimate 和 Std.err 值用于计算置信区间。例如，micro 变量的比值几率的95%置信区间可能是 [-23.75, -16.72]。该区间表示可以有95%的信心，真实的GFR比值几率位于-23.75和-16.72之间。
+
++ *OddRatio*：风险值，一般用于逻辑回归，可以通过对系数估计进行指数化来计算比值几率。比值几率表示单位预测变量变化时响应变量的几率的乘性变化。在本例中，不适合。
+
+
+在校正年龄和性别下，
+
++ 基线的GFR在micro - 正常蛋白组（micro->1; 正常蛋白组->0）估计值：**-20.23 (-23.75, -16.72)**；
+
++ 平均GFR年下降率（斜率）
+  
+  - time（正常蛋白组）：**-1.63 (-2.36, -0.9)**
+  
+  - micro - 正常蛋白组：**-1.56 (-2.58, -0.54)**
+  
+  - macro - 正常蛋白组：**-1.06 (-2.43, 0.31)**  
+
+
+### python实现方式
+
+```{r}
+library(reticulate)
+
+# myenvs <- conda_list()
+# 
+# envname <- myenvs$name[2]
+# use_condaenv(envname, required = TRUE)
+# # or
+use_condaenv("base", required = TRUE)
+```
+
++ python调用statsmodels包的gee函数
+```{python}
+import pandas as pd
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+```
+
++ 读取数据
+```{python}
+dataset = pd.read_csv("./InputData/TherapyData/data_dropout.csv")
+
+dataset = dataset.drop(columns = ['line', 'normo'])
+
+dataset.head()
+```
+
++ GEE实现
+```{python}
+fam = sm.families.Gaussian()
+ind = sm.cov_struct.Exchangeable()
+mod = smf.gee(formula = "GFR ~ age + gender + micro + macro + time + micro:time + macro:time", 
+              groups = "patient", 
+              data = dataset, 
+              cov_struct = ind,
+              family = fam) 
+
+res = mod.fit()
+
+print(res.summary())
+```
+
+
+## 混合线性模型(mixed linear model，MLM)
+
++ **自变量**（independent variable）：age，gender，micro，macro，time
+
++ **因变量**（dependent variable）：GFR
+
++ **协变量**（covariate）：patient
+
+线性混合效应(LME)模型可以被认为是具有附加成分的回归模型，这些成分可以解释个体(重复测量环境)或群体(多层次/分层环境)之间截距和/或斜率参数的变化。区分混合线性模型中的随机效应和固定效应是一个重要的概念。固定效应是具有特定水平的变量，而随机效应捕捉了由于分组或聚类引起的变异性。
+
+比如下方正在探究尿蛋白对来自不同患者的GFR的影响。拥有的变量（例如年龄、性别、尿蛋白等）和患者的变量（patient）。想要了解尿蛋白如何影响患者的G FR。
+
++ 固定效应：具有特定的水平或值需要进行研究的主要变量，如尿蛋白等
+
++ 随机效应：患者
+
++ 分层结构：尿蛋白嵌套在患者内
+
++ 模型方程：GFR = 尿蛋白 + 患者 + 误差
+
++ 解释：解释固定效应，以了解尿蛋白的变化如何与GFR的变化相关联。患者的随机效应捕捉了在患者之间的GFR变异性，这不能由固定效应解释
+
+
+```{r}
+# 第一种方法
+# library(lmerTest)
+# mlm_fit <- lmerTest::lmer(GFR ~ age + gender + time + micro + macro +
+#                   micro:time + macro:time +
+#                   (1|patient),
+#                 data = dataset)
+
+# 第二种方法
+library(nlme)
+mlm_fit <- nlme::lme(GFR ~ age + gender + micro + macro + time + micro:time + macro:time,
+               random = ~ 1 | patient,
+               method = "ML",
+               data = dataset,
+               control = lmeControl(opt = "optim"))
+
+mlm_fit
+```
+
+构建模型: 通过`(1|patient)`确定随机因子
+
++ `GFR` is the dependent variable you want to model.
+
++ `age`, `gender`, `time`, `micro`, `macro`, `micro:time`, and `macro:time` are the independent variables (fixed effects).
+
++ `(1|patient)` specifies a `random intercept` term for the grouping variable patient. This accounts for the fact that measurements are nested within patients, allowing for correlations among measurements within the same patient.
+
+
++ 提取结果
+```{r}
+summary(mlm_fit)
+
+# mlm_cc <- coef(summary(mlm_fit)) |>
+#   as.data.frame() |>
+#   dplyr::mutate(lower_95CI = round(Estimate - 1.96 * `Std. Error`, 2),
+#                 upper_95CI = round(Estimate + 1.96 * `Std. Error`, 2)) |>
+#   dplyr::mutate(Estimate_95CI = paste0(round(Estimate, 2), " (", lower_95CI, ", ", upper_95CI, ")")) |>
+#   dplyr::select(-all_of(c("lower_95CI", "upper_95CI"))) |>
+#   dplyr::mutate(OddRatio = round(exp(Estimate), 2)) |>
+#   dplyr::arrange(`Pr(>|t|)`)
+
+mlm_cc <- coef(summary(mlm_fit)) |>
+  as.data.frame() |>
+  dplyr::mutate(lower_95CI = round(Value - 1.96 * Std.Error, 2),
+                upper_95CI = round(Value + 1.96 * Std.Error, 2)) |>
+  dplyr::mutate(Estimate_95CI = paste0(round(Value, 2), " (", lower_95CI, ", ", upper_95CI, ")")) |>
+  dplyr::select(-all_of(c("lower_95CI", "upper_95CI"))) |>
+  dplyr::mutate(OddRatio = round(exp(Value), 2)) |>
+  dplyr::arrange(`p-value`)
+
+DT::datatable(mlm_cc)
+```
+
+
++ *Value*：$\beta$相关系数，其中_Intercept_是截距估计值。提供了截距和预测变量的估计系数。
+
++ *Std.Error*：$\beta$相关系的标准误差。给出了与系数估计相关的标准误差。这些是参数估计的不确定性的度量。
+
++ *t-value*：$\beta$相关系的t检验统计量
+
++ *p-value*：$\beta$相关系的wald检验统计量对应pvalue。提供了与Wald检验相关的p值。它指示系数是否具有统计显著性。
+
++ *Estimate_95CI*：$\beta$置信区间提供可以合理确信真实总体参数位于其中的范围。Estimate 和 Std.err 值用于计算置信区间。例如，micro 变量的比值几率的95%置信区间可能是 [-25.04, -15.44]。该区间表示可以有95%的信心，真实的GFR比值几率位于-25.04和-15.44之间。
+
++ *OddRatio*：风险值，一般用于逻辑回归，可以通过对系数估计进行指数化来计算比值几率。比值几率表示单位预测变量变化时响应变量的几率的乘性变化。在本例中，不适合。
+
+
+**综上：GEE和MLM的结果较为接近**
+
+### python实现方式
+
++ python调用statsmodels包的gee函数
+```{python}
+import pandas as pd
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+```
+
++ 读取数据
+```{python}
+dataset = pd.read_csv("./InputData/TherapyData/data_dropout.csv")
+
+dataset = dataset.drop(columns = ['line', 'normo'])
+
+dataset.head()
+```
+
++ MLM实现
+```{python}
+mod_lme = smf.mixedlm(formula = "GFR ~ age + gender + micro + macro + time + micro:time + macro:time", 
+              groups = dataset["patient"], 
+              data = dataset) 
+
+modf_lme = mod_lme.fit()
+print(modf_lme.summary())
+```
+
+
+## Systemic information
+```{r}
+devtools::session_info()
+```
+
+
+## Reference
+
++ [线性混合效应模型入门之二 - 实例操作及结果解读（R、Python、SPSS实现）](https://zhuanlan.zhihu.com/p/483173133)
+
++ [混合线性模型介绍--Wiki](https://cloud.tencent.com/developer/article/1445645)
+
++ [广义估计方程中工作相关矩阵的选择及R语言代码](https://zhuanlan.zhihu.com/p/350086374)
+
++ [在Rstudio 中使用python](https://zhuanlan.zhihu.com/p/422629237)
+
++ [An Introduction to Linear Mixed Effects Models for the Social Sciences](https://rpubs.com/mlmcternan/BC-lme)

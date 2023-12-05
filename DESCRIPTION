@@ -1,0 +1,6 @@
+Package: Draft_Notes
+Type: Book
+Title: Draft Notes
+Version: 0.0.1
+Imports: bookdown
+Remotes: HuaZou/Draft_Notes

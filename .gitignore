@@ -1,0 +1,18 @@
+# files
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.rsconnect
+_book
+#_bookdown_files
+*.DS_Store
+*.RDS
+adjust_batch_diagnostic.pdf
+
+
+# folder
+InputData/result/
+InputData/KEGG/hsa_KEGG/
+InputData/KEGG/MMUPHin_lm_meta/
+InputData/FELLA/

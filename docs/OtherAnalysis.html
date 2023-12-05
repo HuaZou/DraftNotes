@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 11 Other Analysis | 生物信息随记</title>
+<meta name="author" content="Hua Zou">
+<meta name="description" content="除了常见的功能分析，还有其他的功能分析方法或R包。本章节主要介绍其他功能分析的方法以及结果解析。  11.1 FELLA: an R package to enrich metabolomics data FELLA（2）发表于2018年，现谷歌引用67次，它是一个专门用于代谢组通路分析的R包。...">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="Chapter 11 Other Analysis | 生物信息随记">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://zouhua.top/DraftNotes/OtherAnalysis.html">
+<meta property="og:description" content="除了常见的功能分析，还有其他的功能分析方法或R包。本章节主要介绍其他功能分析的方法以及结果解析。  11.1 FELLA: an R package to enrich metabolomics data FELLA（2）发表于2018年，现谷歌引用67次，它是一个专门用于代谢组通路分析的R包。...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 11 Other Analysis | 生物信息随记">
+<meta name="twitter:description" content="除了常见的功能分析，还有其他的功能分析方法或R包。本章节主要介绍其他功能分析的方法以及结果解析。  11.1 FELLA: an R package to enrich metabolomics data FELLA（2）发表于2018年，现谷歌引用67次，它是一个专门用于代谢组通路分析的R包。...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">生物信息随记</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> 介绍</a></li>
+<li class="book-part">Data Set</li>
+<li><a class="" href="ZeybelDataset.html"><span class="header-section-number">2</span> Zeybel Dataset</a></li>
+<li class="book-part">Statistical Methods</li>
+<li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
+<li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
+<li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li class="book-part">Metabolomics Data Analysis</li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">6</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">7</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">8</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">9</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">10</span> MetOrigin Analysis</a></li>
+<li><a class="active" href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></li>
+<li class="book-part">Machine Learning</li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">12</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></li>
+<li class="book-part">Knowledge</li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">14</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">15</span> Notes</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/HuaZou/DraftNotes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="OtherAnalysis" class="section level1" number="11">
+<h1>
+<span class="header-section-number">11</span> Other Analysis<a class="anchor" aria-label="anchor" href="#OtherAnalysis"><i class="fas fa-link"></i></a>
+</h1>
+<p>除了常见的功能分析，还有其他的功能分析方法或R包。本章节主要介绍其他功能分析的方法以及结果解析。</p>
+<div id="fella-an-r-package-to-enrich-metabolomics-data" class="section level2" number="11.1">
+<h2>
+<span class="header-section-number">11.1</span> FELLA: an R package to enrich metabolomics data<a class="anchor" aria-label="anchor" href="#fella-an-r-package-to-enrich-metabolomics-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>FELLA（<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Sergio Picart-Armada et al., &lt;span&gt;“FELLA: An r Package to Enrich Metabolomics Data,”&lt;/span&gt; &lt;em&gt;BMC Bioinformatics&lt;/em&gt; 19 (2018): 1–9.&lt;/p&gt;"><sup>2</sup></a></span>）发表于2018年，现谷歌引用67次，它是一个专门用于代谢组通路分析的R包。</p>
+<blockquote>
+<p>基于前期分析得到的差异代谢物来构建基于网络的富集分析。结果包括代谢通路、模块、酶、反应及代谢物。那么除了能够提供通路列表，FELLA还能够生成输入代谢物相关的中间物质（如模块、酶、反应）。可以反映特定研究条件下代谢通路之间的交集以及靶向潜在的酶和代谢物。</p>
+</blockquote>
+<p>它包含了以下三步：</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Block I</strong>: local database从数据库抓取数据后，将其处理转存在本地；</p></li>
+<li><p><strong>Block II</strong>: enrichment analysis将关心的代谢物作为输入，做富集分析；</p></li>
+<li><p><strong>Block III</strong>: exporting results导出数据。</p></li>
+</ol>
+<div id="加载r包-8" class="section level3" number="11.1.1">
+<h3>
+<span class="header-section-number">11.1.1</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-8"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">FELLA</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># rm(list = ls())</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>future.globals.maxSize <span class="op">=</span> <span class="fl">1000</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">grp_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"None"</span>, <span class="st">"Mild"</span>, <span class="st">"Moderate"</span>, <span class="st">"Severe"</span><span class="op">)</span></span>
+<span><span class="va">grp_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#7DD06F"</span>, <span class="st">"#844081"</span>, <span class="st">"#688EC1"</span>, <span class="st">"#C17E73"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="背景数据库生成" class="section level3" number="11.1.2">
+<h3>
+<span class="header-section-number">11.1.2</span> 背景数据库生成<a class="anchor" aria-label="anchor" href="#%E8%83%8C%E6%99%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%9F%E6%88%90"><i class="fas fa-link"></i></a>
+</h3>
+<p>代谢组测试数据是来自病人血清，但也提供构建小鼠的通路背景数据库（每次下载数据库可能会发生变化，因为官网可能更新过）</p>
+<ul>
+<li>人的KEGG背景数据库</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>从KEGG官网下载数据；</li>
+<li>构建背景数据库；</li>
+<li>导入内存环境.</li>
+</ol>
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">KEGGREST</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.igraph.org/">igraph</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="st">"./InputData/FELLA/hsa"</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="st">"./InputData/FELLA/hsa/keggdata.graph.RData"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span>  <span class="co"># 下载KEGG</span></span>
+<span>  <span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FELLA/man/data-funs.html">buildGraphFromKEGGREST</a></span><span class="op">(</span></span>
+<span>    organism <span class="op">=</span> <span class="st">"hsa"</span>, </span>
+<span>    filter.path <span class="op">=</span> <span class="st">"hsa01100"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="st">"./InputData/FELLA/hsa"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span><span class="op">(</span><span class="va">tmpdir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># 构建数据库</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/FELLA/man/data-funs.html">buildDataFromGraph</a></span><span class="op">(</span></span>
+<span>    keggdata.graph <span class="op">=</span> <span class="va">graph</span>,</span>
+<span>    databaseDir <span class="op">=</span> <span class="va">tmpdir</span>,</span>
+<span>    internalDir <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    matrices <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>    normality <span class="op">=</span> <span class="st">"diffusion"</span>,</span>
+<span>    niter <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>  </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># 导入数据库进内存</span></span>
+<span><span class="va">fella.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FELLA/man/data-funs.html">loadKEGGdata</a></span><span class="op">(</span></span>
+<span>  databaseDir <span class="op">=</span> <span class="va">tmpdir</span>,</span>
+<span>  internalDir <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  loadMatrix <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fella.data</span></span>
+<span><span class="co">#&gt; General data:</span></span>
+<span><span class="co">#&gt; - KEGG graph:</span></span>
+<span><span class="co">#&gt;   * Nodes:  11891 </span></span>
+<span><span class="co">#&gt;   * Edges:  38085 </span></span>
+<span><span class="co">#&gt;   * Density:  0.0002693728 </span></span>
+<span><span class="co">#&gt;   * Categories:</span></span>
+<span><span class="co">#&gt;     + pathway [349]</span></span>
+<span><span class="co">#&gt;     + module [193]</span></span>
+<span><span class="co">#&gt;     + enzyme [1195]</span></span>
+<span><span class="co">#&gt;     + reaction [5856]</span></span>
+<span><span class="co">#&gt;     + compound [4298]</span></span>
+<span><span class="co">#&gt;   * Size:  5.9 Mb </span></span>
+<span><span class="co">#&gt; - KEGG names are ready.</span></span>
+<span><span class="co">#&gt; -----------------------------</span></span>
+<span><span class="co">#&gt; Hypergeometric test:</span></span>
+<span><span class="co">#&gt; - Matrix not loaded.</span></span>
+<span><span class="co">#&gt; -----------------------------</span></span>
+<span><span class="co">#&gt; Heat diffusion:</span></span>
+<span><span class="co">#&gt; - Matrix not loaded.</span></span>
+<span><span class="co">#&gt; - RowSums are ready.</span></span>
+<span><span class="co">#&gt; -----------------------------</span></span>
+<span><span class="co">#&gt; PageRank:</span></span>
+<span><span class="co">#&gt; - Matrix not loaded.</span></span>
+<span><span class="co">#&gt; - RowSums not loaded.</span></span></code></pre></div>
+<ul>
+<li>小鼠的KEGG背景数据库</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>从KEGG官网下载数据；</li>
+<li>构建背景数据库；</li>
+<li>基因名字转换成entrez ID，酶转换成entrez ID；</li>
+<li>导入内存环境.</li>
+</ol>
+<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">KEGGREST</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r.igraph.org/">igraph</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">org.Mm.eg.db</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="st">"./InputData/FELLA/mmu"</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="st">"./InputData/FELLA/mmu/keggdata.graph.RData"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span>  <span class="co"># 下载KEGG</span></span>
+<span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FELLA/man/data-funs.html">buildGraphFromKEGGREST</a></span><span class="op">(</span></span>
+<span>  organism <span class="op">=</span> <span class="st">"mmu"</span>,</span>
+<span>  filter.path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"01100"</span>, <span class="st">"01200"</span>, <span class="st">"01210"</span>, <span class="st">"01212"</span>, <span class="st">"01230"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="st">"./InputData/FELLA/mmu"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span><span class="op">(</span><span class="va">tmpdir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># 构建数据库</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/FELLA/man/data-funs.html">buildDataFromGraph</a></span><span class="op">(</span></span>
+<span>    keggdata.graph <span class="op">=</span> <span class="va">graph</span>,</span>
+<span>    databaseDir <span class="op">=</span> <span class="va">tmpdir</span>,</span>
+<span>    internalDir <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    matrices <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>    normality <span class="op">=</span> <span class="st">"diffusion"</span>,</span>
+<span>    niter <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>  </span>
+<span>  </span>
+<span>  <span class="va">alias2entrez</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span><span class="op">(</span><span class="fu">org.Mm.eg.db</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/org.Mm.eg.db/man/org.Mm.egSYMBOL.html">org.Mm.egSYMBOL2EG</a></span><span class="op">)</span></span>
+<span>  <span class="va">entrez2ec</span> <span class="op">&lt;-</span> <span class="fu">KEGGREST</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/KEGGREST/man/keggLink.html">keggLink</a></span><span class="op">(</span><span class="st">"enzyme"</span>, <span class="st">"mmu"</span><span class="op">)</span></span>
+<span>  <span class="va">entrez2path</span> <span class="op">&lt;-</span> <span class="fu">KEGGREST</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/KEGGREST/man/keggLink.html">keggLink</a></span><span class="op">(</span><span class="st">"pathway"</span>, <span class="st">"mmu"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># 导入数据库进内存</span></span>
+<span><span class="va">fella.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FELLA/man/data-funs.html">loadKEGGdata</a></span><span class="op">(</span></span>
+<span>  databaseDir <span class="op">=</span> <span class="va">tmpdir</span>,</span>
+<span>  internalDir <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  loadMatrix <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fella.data</span></span></code></pre></div>
+</div>
+<div id="导入数据-7" class="section level3" number="11.1.3">
+<h3>
+<span class="header-section-number">11.1.3</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-7"><i class="fas fa-link"></i></a>
+</h3>
+<p>对数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel%20et%20al.%20-%202022.xlsx">OmicsDataSet-Zeybel et al. - 2022.xlsx</a>处理后生成的，可参考数据预处理等章节。</p>
+<blockquote>
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.table</a></span><span class="op">(</span><span class="va">final_res</span>, <span class="st">"./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv"</span>, </span>
+<span>row.names <span class="op">=</span> <span class="cn">F</span>, quote <span class="op">=</span> <span class="cn">F</span>, sep <span class="op">=</span> <span class="st">"\t"</span>, fileEncoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span></code></pre></div>
+</blockquote>
+<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datSignif</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># DT::datatable(datSignif)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">datSignif</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                                         FeatureID</span></span>
+<span><span class="co">#&gt; 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
+<span><span class="co">#&gt; 2:                 cysteine-glutathione disulfide</span></span>
+<span><span class="co">#&gt; 3:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*</span></span>
+<span><span class="co">#&gt; 4:                                         serine</span></span>
+<span><span class="co">#&gt; 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*</span></span>
+<span><span class="co">#&gt; 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*</span></span>
+<span><span class="co">#&gt;            Block2                Block FoldChange</span></span>
+<span><span class="co">#&gt; 1: None vs Severe 10_None vs 12_Severe  0.6444244</span></span>
+<span><span class="co">#&gt; 2: None vs Severe 10_None vs 12_Severe  1.7109000</span></span>
+<span><span class="co">#&gt; 3: None vs Severe 10_None vs 12_Severe  0.5199556</span></span>
+<span><span class="co">#&gt; 4: None vs Severe 10_None vs 12_Severe  1.2218596</span></span>
+<span><span class="co">#&gt; 5: None vs Severe 10_None vs 12_Severe  0.5667863</span></span>
+<span><span class="co">#&gt; 6: None vs Severe 10_None vs 12_Severe  0.5638085</span></span>
+<span><span class="co">#&gt;    Log2FoldChange      VIP    CorPvalue Statistic</span></span>
+<span><span class="co">#&gt; 1:     -0.6339170 2.680471 7.910566e-05 -4.875928</span></span>
+<span><span class="co">#&gt; 2:      0.7747554 2.615284 1.427798e-04  4.879864</span></span>
+<span><span class="co">#&gt; 3:     -0.9435396 2.535490 2.775095e-04 -4.333042</span></span>
+<span><span class="co">#&gt; 4:      0.2890785 2.490737 3.929470e-04  4.314434</span></span>
+<span><span class="co">#&gt; 5:     -0.8191231 2.489832 3.956533e-04 -4.144802</span></span>
+<span><span class="co">#&gt; 6:     -0.8267228 2.381443 8.605197e-04 -3.781278</span></span>
+<span><span class="co">#&gt;          Pvalue AdjustedPvalue Mean Abundance (All)</span></span>
+<span><span class="co">#&gt; 1: 0.0001197367     0.03975257              3841099</span></span>
+<span><span class="co">#&gt; 2: 0.0001073822     0.03975257              1246453</span></span>
+<span><span class="co">#&gt; 3: 0.0004066026     0.06749603              2243154</span></span>
+<span><span class="co">#&gt; 4: 0.0003379029     0.06749603             63358904</span></span>
+<span><span class="co">#&gt; 5: 0.0006948992     0.09228261              1817773</span></span>
+<span><span class="co">#&gt; 6: 0.0017211306     0.16326153              1192929</span></span>
+<span><span class="co">#&gt;    Mean Abundance None Mean Abundance Severe  metabolitesID</span></span>
+<span><span class="co">#&gt; 1:           2952496.1             4581602.1 Chem_100015755</span></span>
+<span><span class="co">#&gt; 2:           1611743.8              942044.4 Chem_100001437</span></span>
+<span><span class="co">#&gt; 3:           1491869.7             2869225.1 Chem_100009066</span></span>
+<span><span class="co">#&gt; 4:          70323857.2            57554776.3       Chem_503</span></span>
+<span><span class="co">#&gt; 5:           1282914.5             2263488.8 Chem_100009181</span></span>
+<span><span class="co">#&gt; 6:            838913.8             1487941.0 Chem_100010917</span></span>
+<span><span class="co">#&gt;                                       BIOCHEMICAL</span></span>
+<span><span class="co">#&gt; 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
+<span><span class="co">#&gt; 2:                 cysteine-glutathione disulfide</span></span>
+<span><span class="co">#&gt; 3:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*</span></span>
+<span><span class="co">#&gt; 4:                                         serine</span></span>
+<span><span class="co">#&gt; 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*</span></span>
+<span><span class="co">#&gt; 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*</span></span>
+<span><span class="co">#&gt;    SUPER.PATHWAY                              SUB.PATHWAY</span></span>
+<span><span class="co">#&gt; 1:         Lipid                                Ceramides</span></span>
+<span><span class="co">#&gt; 2:    Amino Acid                   Glutathione Metabolism</span></span>
+<span><span class="co">#&gt; 3:         Lipid                Phosphatidylinositol (PI)</span></span>
+<span><span class="co">#&gt; 4:    Amino Acid Glycine, Serine and Threonine Metabolism</span></span>
+<span><span class="co">#&gt; 5:         Lipid                Phosphatidylinositol (PI)</span></span>
+<span><span class="co">#&gt; 6:         Lipid                           Diacylglycerol</span></span>
+<span><span class="co">#&gt;    COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM</span></span>
+<span><span class="co">#&gt; 1:  57440  LC/MS Pos Late  100015755 3920 594.5820     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690</span></span>
+<span><span class="co">#&gt; 3:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232</span></span>
+<span><span class="co">#&gt; 4:   1648 LC/MS Pos Early        503 1239 106.0499     5951</span></span>
+<span><span class="co">#&gt; 5:  52726  LC/MS Pos Late  100009181 3711 882.6066     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6:  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283</span></span>
+<span><span class="co">#&gt;           CAS   KEGG SampleIDHMDBID</span></span>
+<span><span class="co">#&gt; 1:       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2: 13081-14-6 R00900    HMDB0000656</span></span>
+<span><span class="co">#&gt; 3:       &lt;NA&gt;   &lt;NA&gt;    HMDB0009783</span></span>
+<span><span class="co">#&gt; 4:    56-45-1 C00065    HMDB0000187</span></span>
+<span><span class="co">#&gt; 5:       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6:       &lt;NA&gt; C13861    HMDB0007102</span></span></code></pre></div>
+</div>
+<div id="准备输入代谢物" class="section level3" number="11.1.4">
+<h3>
+<span class="header-section-number">11.1.4</span> 准备输入代谢物<a class="anchor" aria-label="anchor" href="#%E5%87%86%E5%A4%87%E8%BE%93%E5%85%A5%E4%BB%A3%E8%B0%A2%E7%89%A9"><i class="fas fa-link"></i></a>
+</h3>
+<p>代谢物的ID要是KEGG ID，需要注意⚠️。随机挑选5个代谢物用于分析。</p>
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">datSignif</span><span class="op">$</span><span class="va">KEGG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">",\\S+"</span>, <span class="st">""</span>, <span class="va">datSignif</span><span class="op">$</span><span class="va">KEGG</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">datSignif_KEGG</span> <span class="op">&lt;-</span> <span class="va">datSignif</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">KEGG</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">SUPER.PATHWAY</span> <span class="op">==</span> <span class="st">"Amino Acid"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">BIOCHEMICAL</span>, <span class="va">KEGG</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">target_metabolites</span> <span class="op">&lt;-</span> <span class="va">datSignif_KEGG</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">datSignif_KEGG</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span>, ,<span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">target_metabolites</span><span class="op">)</span></span>
+<span><span class="co">#&gt;           BIOCHEMICAL   KEGG</span></span>
+<span><span class="co">#&gt; 1:         isoleucine C16424</span></span>
+<span><span class="co">#&gt; 2:    N-acetylalanine C02847</span></span>
+<span><span class="co">#&gt; 3:          aspartate C00049</span></span>
+<span><span class="co">#&gt; 4: O-acetylhomoserine C01077</span></span>
+<span><span class="co">#&gt; 5:           cysteine C00097</span></span></code></pre></div>
+</div>
+<div id="富集分析-1" class="section level3" number="11.1.5">
+<h3>
+<span class="header-section-number">11.1.5</span> 富集分析<a class="anchor" aria-label="anchor" href="#%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>富集分析的方法有三种</p>
+<ul>
+<li><p>超几何检验</p></li>
+<li><p>Diffusion（有意义子网络）</p></li>
+<li><p>PageRank（和Diffusion类似，对网络进行排序）</p></li>
+</ul>
+<p>统计分析：对Diffusion和PageRank提供了两种统计方法</p>
+<ul>
+<li><p>Normal approximation(approx = “normality”)，基于无效假设的分析的期望值和协方差矩阵的z-score计算得到得分值</p></li>
+<li><p>Monte Carlo trials(approx = “simulation”)，随机变量的蒙特卡罗实验计算得分值</p></li>
+<li><p>可通过method选择不同富集方法，本次运行选择<em>diffusion</em></p></li>
+</ul>
+<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">myAnalysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FELLA/man/enrich-funs.html">enrich</a></span><span class="op">(</span></span>
+<span>    compounds <span class="op">=</span> <span class="va">target_metabolites</span><span class="op">$</span><span class="va">KEGG</span>, </span>
+<span>    method <span class="op">=</span> <span class="st">"diffusion"</span>, <span class="co"># listMethods()</span></span>
+<span>    approx <span class="op">=</span> <span class="st">"normality"</span>, </span>
+<span>    data <span class="op">=</span> <span class="va">fella.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">myAnalysis</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Compounds in the input: 4</span></span>
+<span><span class="co">#&gt; [1] "C00049" "C00097" "C01077" "C16424"</span></span>
+<span><span class="co">#&gt; Background compounds: all available compounds (default)</span></span>
+<span><span class="co">#&gt; -----------------------------</span></span>
+<span><span class="co">#&gt; Hypergeometric test: not performed</span></span>
+<span><span class="co">#&gt; -----------------------------</span></span>
+<span><span class="co">#&gt; Heat diffusion: ready.</span></span>
+<span><span class="co">#&gt; P-scores under 0.05:  166</span></span>
+<span><span class="co">#&gt; -----------------------------</span></span>
+<span><span class="co">#&gt; PageRank: not performed</span></span></code></pre></div>
+<p>结果：展示了diffusion方法下富集的结果, 有104个节点。</p>
+<ul>
+<li>可视化结果</li>
+</ul>
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">myAnalysis</span>, </span>
+<span>    method <span class="op">=</span> <span class="st">"diffusion"</span>, </span>
+<span>    main <span class="op">=</span> <span class="st">"diffusion analysis in FELLA"</span>, </span>
+<span>    threshold <span class="op">=</span> <span class="fl">0.1</span>, </span>
+<span>    data <span class="op">=</span> <span class="va">fella.data</span>,</span>
+<span>    nlimit <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="25-Metabolome-OtherAnalysis_files/figure-html/unnamed-chunk-7-1.png" width="100%"></div>
+<ul>
+<li>输出富集分析结果表格</li>
+</ul>
+<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">myTable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FELLA/man/export-funs.html">generateResultsTable</a></span><span class="op">(</span></span>
+<span>    object <span class="op">=</span> <span class="va">myAnalysis</span>, </span>
+<span>    method <span class="op">=</span> <span class="st">"diffusion"</span>, </span>
+<span>    threshold <span class="op">=</span> <span class="fl">0.1</span>, </span>
+<span>    data <span class="op">=</span> <span class="va">fella.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">myTable</span>, <span class="fl">10</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"html"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
+<th style="text-align:left;">
+KEGG.id
+</th>
+<th style="text-align:left;">
+Entry.type
+</th>
+<th style="text-align:left;">
+KEGG.name
+</th>
+<th style="text-align:right;">
+p.score
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+hsa00250
+</td>
+<td style="text-align:left;">
+pathway
+</td>
+<td style="text-align:left;">
+Alanine, aspartate and glutamate metabolism -…
+</td>
+<td style="text-align:right;">
+0.0000029
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hsa00270
+</td>
+<td style="text-align:left;">
+pathway
+</td>
+<td style="text-align:left;">
+Cysteine and methionine metabolism - Homo sap…
+</td>
+<td style="text-align:right;">
+0.0000010
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hsa01230
+</td>
+<td style="text-align:left;">
+pathway
+</td>
+<td style="text-align:left;">
+Biosynthesis of amino acids - Homo sapiens (h…
+</td>
+<td style="text-align:right;">
+0.0972264
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hsa04614
+</td>
+<td style="text-align:left;">
+pathway
+</td>
+<td style="text-align:left;">
+Renin-angiotensin system - Homo sapiens (huma…
+</td>
+<td style="text-align:right;">
+0.0216791
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hsa04621
+</td>
+<td style="text-align:left;">
+pathway
+</td>
+<td style="text-align:left;">
+NOD-like receptor signaling pathway - Homo sa…
+</td>
+<td style="text-align:right;">
+0.0556380
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hsa04974
+</td>
+<td style="text-align:left;">
+pathway
+</td>
+<td style="text-align:left;">
+Protein digestion and absorption - Homo sapie…
+</td>
+<td style="text-align:right;">
+0.0272929
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hsa05230
+</td>
+<td style="text-align:left;">
+pathway
+</td>
+<td style="text-align:left;">
+Central carbon metabolism in cancer - Homo sa…
+</td>
+<td style="text-align:right;">
+0.0000095
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M00017
+</td>
+<td style="text-align:left;">
+module
+</td>
+<td style="text-align:left;">
+Methionine biosynthesis, aspartate =&gt; homoser…
+</td>
+<td style="text-align:right;">
+0.0018276
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M00027
+</td>
+<td style="text-align:left;">
+module
+</td>
+<td style="text-align:left;">
+GABA (gamma-Aminobutyrate) shunt
+</td>
+<td style="text-align:right;">
+0.0769332
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M00029
+</td>
+<td style="text-align:left;">
+module
+</td>
+<td style="text-align:left;">
+Urea cycle
+</td>
+<td style="text-align:right;">
+0.0704110
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="结果解析-1" class="section level3" number="11.1.6">
+<h3>
+<span class="header-section-number">11.1.6</span> 结果解析<a class="anchor" aria-label="anchor" href="#%E7%BB%93%E6%9E%9C%E8%A7%A3%E6%9E%90-1"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><p>筛选的5个代谢物富集在(<strong>diffusion</strong>)“hsa00250”和”hsa00270”等通路，并且这些通路大部分和氨基酸代谢相关；</p></li>
+<li><p>除了代谢通路外，还有代谢模块等其他更为具体的通路组成，比如酶和反应等；</p></li>
+<li><p>相比传统的富集分析，FELLA能将代谢通路各个层级混合在一起做成网络分析是其特点，比如<strong>p53 signaling pathway - Homo sapiens (human)</strong>相关的酶是<strong>ribonucleoside-diphosphate reductase</strong>，该酶又和反应<strong>5-fluorodeoxyuridine-diphosphate</strong>相关。</p></li>
+</ul>
+</div>
+</div>
+<div id="pathview-代谢物数据可视化kegg通路图" class="section level2" number="11.2">
+<h2>
+<span class="header-section-number">11.2</span> Pathview: 代谢物数据可视化KEGG通路图<a class="anchor" aria-label="anchor" href="#pathview-%E4%BB%A3%E8%B0%A2%E7%89%A9%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96kegg%E9%80%9A%E8%B7%AF%E5%9B%BE"><i class="fas fa-link"></i></a>
+</h2>
+<blockquote>
+<p>Pathview（Pathway based data integration and visualization，<a href="https://pathview.uncc.edu/%EF%BC%89%E6%98%AF%E4%B8%80%E4%B8%AA%E7%94%A8%E4%BA%8EKEGG%E9%80%9A%E8%B7%AF%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E5%B7%A5%E5%85%B7%E9%9B%86%EF%BC%8C%E8%83%BD%E5%A4%9F%E5%B0%86%E5%A4%9A%E7%A7%8D%E7%94%9F%E7%89%A9%E7%9A%84%E5%9F%BA%E5%9B%A0%E6%88%96%E4%BB%A3%E8%B0%A2%E7%89%A9%E6%98%A0%E5%B0%84%E5%88%B0%E8%AF%A5%E7%89%A9%E7%A7%8D%E7%9A%84KEGG%E9%80%9A%E8%B7%AF%E5%9B%BE%E4%B8%8A%EF%BC%8C%E4%BE%8B%E5%A6%82%E5%9C%A8%E8%BD%AC%E5%BD%95%E7%BB%84%E3%80%81%E8%9B%8B%E7%99%BD%E7%BB%84%E6%88%96%E4%BB%A3%E8%B0%A2%E7%BB%84%E4%B8%AD%E5%B1%95%E7%A4%BA%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E7%9A%84%E5%9F%BA%E5%9B%A0%E3%80%81%E8%9B%8B%E7%99%BD%E6%88%96%E4%BB%A3%E8%B0%A2%E7%89%A9%E7%AD%89" class="uri">https://pathview.uncc.edu/）是一个用于KEGG通路可视化的工具集，能够将多种生物的基因或代谢物映射到该物种的KEGG通路图上，例如在转录组、蛋白组或代谢组中展示差异表达的基因、蛋白或代谢物等</a>。</p>
+</blockquote>
+<p>本教程是基于代谢组数据，使用代谢组KEGGID (如<code>C00064</code>）等。</p>
+<div id="安装pathview包" class="section level3" number="11.2.1">
+<h3>
+<span class="header-section-number">11.2.1</span> 安装pathview包<a class="anchor" aria-label="anchor" href="#%E5%AE%89%E8%A3%85pathview%E5%8C%85"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"pathview"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html">install</a></span><span class="op">(</span><span class="st">'pathview'</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+<div id="准备输入数据" class="section level3" number="11.2.2">
+<h3>
+<span class="header-section-number">11.2.2</span> 准备输入数据<a class="anchor" aria-label="anchor" href="#%E5%87%86%E5%A4%87%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
+</h3>
+<p>筛选包含Log2FoldChange和KEGG的代谢物输入数据（pathview要求输入数据包含差异倍数以及代谢物的KEGGID）。</p>
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">datSignif</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">datSignif</span><span class="op">$</span><span class="va">KEGG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">",\\S+"</span>, <span class="st">""</span>, <span class="va">datSignif</span><span class="op">$</span><span class="va">KEGG</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">datSignif_KEGG</span> <span class="op">&lt;-</span> <span class="va">datSignif</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">KEGG</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">SUPER.PATHWAY</span> <span class="op">==</span> <span class="st">"Amino Acid"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">BIOCHEMICAL</span>, <span class="va">KEGG</span>, <span class="va">Log2FoldChange</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># head(datSignif_KEGG)</span></span>
+<span></span>
+<span><span class="va">compound_data</span> <span class="op">&lt;-</span> <span class="va">datSignif_KEGG</span><span class="op">$</span><span class="va">Log2FoldChange</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">compound_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">datSignif_KEGG</span><span class="op">$</span><span class="va">KEGG</span></span>
+<span></span>
+<span><span class="va">compound_data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span>
+<span><span class="co">#&gt;     R00900     C00065     C00135     C05568     C01188 </span></span>
+<span><span class="co">#&gt;  0.7747554  0.2890785  0.1947889  0.3253860 -0.4819788 </span></span>
+<span><span class="co">#&gt;     C00719 </span></span>
+<span><span class="co">#&gt;  0.2584803</span></span></code></pre></div>
+</div>
+<div id="运行pathview" class="section level3" number="11.2.3">
+<h3>
+<span class="header-section-number">11.2.3</span> 运行pathview<a class="anchor" aria-label="anchor" href="#%E8%BF%90%E8%A1%8Cpathview"><i class="fas fa-link"></i></a>
+</h3>
+<p>根据<em>myTable</em>可以看到富集在00250和00310等通路，最后选择00250通路展示。</p>
+<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/datapplab/pathview">pathview</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pathview/man/pathview.html">pathview</a></span><span class="op">(</span></span>
+<span>  cpd.data <span class="op">=</span> <span class="va">compound_data</span>,</span>
+<span>  cpd.idtype   <span class="op">=</span> <span class="st">"kegg"</span>,</span>
+<span>  species      <span class="op">=</span> <span class="st">"hsa"</span>, </span>
+<span>  kegg.native  <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  pathway.id   <span class="op">=</span> <span class="st">"hsa00250"</span>,</span>
+<span>  out.suffix   <span class="op">=</span> <span class="st">"compound"</span>,</span>
+<span>  limit        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>gene<span class="op">=</span><span class="fl">1</span>, cpd<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">datSignif_KEGG</span><span class="op">$</span><span class="va">Log2FoldChange</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>#&gt; [1] TRUE</code></pre>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:unnamed-chunk-11"></span>
+<img src="InputData/figures/hsa00250.compound.png" alt="KEGG of 00250 pathway" width="100%" height="100%"><p class="caption">
+Figure 11.1: KEGG of 00250 pathway
+</p>
+</div>
+<p>结果：</p>
+<ul>
+<li>蓝色和黄色表示富集方向，能看到3个颜色明显的代谢物在该通路中发挥的作用。</li>
+</ul>
+</div>
+</div>
+<div id="apear-an-r-package-for-autonomous-visualisation-of-pathway-enrichment-networks" class="section level2" number="11.3">
+<h2>
+<span class="header-section-number">11.3</span> aPEAR: an R package for autonomous visualisation of pathway enrichment networks<a class="anchor" aria-label="anchor" href="#apear-an-r-package-for-autonomous-visualisation-of-pathway-enrichment-networks"><i class="fas fa-link"></i></a>
+</h2>
+<blockquote>
+<p>The interpretation of pathway enrichment analysis results is frequently complicated by an overwhelming and redundant list of significantly affected pathways. Here, we present an R package aPEAR (Advanced Pathway Enrichment Analysis Representation) which leverages similarities between the pathway gene sets and represents them as a network of interconnected clusters. Each cluster is assigned a meaningful name that highlights the main biological themes in the experiment. Our approach enables an automated and objective overview of the data without manual and time-consuming parameter tweaking.</p>
+</blockquote>
+<p>aPEAR利用通路间的相似性将通路进行聚类，方便解释通路富集分析的结果。aPEAR提供一个enrichmentNetwork函数，将结果可视化成网络。其原理：</p>
+<blockquote>
+<ul>
+<li><p>The pairwise similarity between all pathway gene sets is evaluated using the Jaccard index (default), cosine similarity, or correlation similarity metrics.</p></li>
+<li><p>The similarity matrix is then used to detect clusters of redundant pathways using Markov (default) (Van Dongen 2008), hierarchical, or spectral (John et al. 2020) clustering algorithms.</p></li>
+</ul>
+</blockquote>
+<ul>
+<li><p>所有通路的基因计算成对相似性 (默认使用Jaccard距离)。</p></li>
+<li><p>将冗余的通路聚类在一起。</p></li>
+</ul>
+<div id="安装apear包" class="section level3" number="11.3.1">
+<h3>
+<span class="header-section-number">11.3.1</span> 安装aPEAR包<a class="anchor" aria-label="anchor" href="#%E5%AE%89%E8%A3%85apear%E5%8C%85"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"aPEAR"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html">install</a></span><span class="op">(</span><span class="st">'aPEAR'</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+<div id="准备输入数据-1" class="section level3" number="11.3.2">
+<h3>
+<span class="header-section-number">11.3.2</span> 准备输入数据<a class="anchor" aria-label="anchor" href="#%E5%87%86%E5%A4%87%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>筛选包含Log2FoldChange和KEGG的代谢物输入数据。</p>
+<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">datSignif</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv"</span><span class="op">)</span></span>
+<span><span class="va">datSignif</span><span class="op">$</span><span class="va">KEGG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">",\\S+"</span>, <span class="st">""</span>, <span class="va">datSignif</span><span class="op">$</span><span class="va">KEGG</span><span class="op">)</span></span>
+<span><span class="va">datSignif_KEGG</span> <span class="op">&lt;-</span> <span class="va">datSignif</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">KEGG</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">SUPER.PATHWAY</span> <span class="op">==</span> <span class="st">"Amino Acid"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">BIOCHEMICAL</span>, <span class="va">KEGG</span>, <span class="va">Log2FoldChange</span><span class="op">)</span> </span>
+<span></span>
+<span></span>
+<span><span class="va">hsa_kegg_compound</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"./InputData/result/KEGG/KEGG_COMPOUND_PATHWAY_hsa.csv"</span><span class="op">)</span> </span>
+<span><span class="va">ref_cln</span> <span class="op">&lt;-</span> <span class="va">hsa_kegg_compound</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">PATHWAY_MAP</span>, <span class="va">COMPOUND</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>Pathway <span class="op">=</span> <span class="va">PATHWAY_MAP</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="富集分析-2" class="section level3" number="11.3.3">
+<h3>
+<span class="header-section-number">11.3.3</span> 富集分析<a class="anchor" aria-label="anchor" href="#%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>采用ORA富集分析方法</p>
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ORA_fit</span> <span class="op">&lt;-</span> <span class="fu">clusterProfiler</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/clusterProfiler/man/enricher.html">enricher</a></span><span class="op">(</span></span>
+<span>  gene <span class="op">=</span> <span class="va">datSignif_KEGG</span><span class="op">$</span><span class="va">KEGG</span>,</span>
+<span>  pvalueCutoff <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  pAdjustMethod <span class="op">=</span> <span class="st">"BH"</span>,</span>
+<span>  minGSSize <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  maxGSSize <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>  qvalueCutoff <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  TERM2GENE <span class="op">=</span> <span class="va">ref_cln</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="apear网络图" class="section level3" number="11.3.4">
+<h3>
+<span class="header-section-number">11.3.4</span> aPEAR网络图<a class="anchor" aria-label="anchor" href="#apear%E7%BD%91%E7%BB%9C%E5%9B%BE"><i class="fas fa-link"></i></a>
+</h3>
+<p>aPEAR画网络图</p>
+<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gitlab.com/vugene/aPEAR">aPEAR</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/aPEAR/man/enrichmentNetwork.html">enrichmentNetwork</a></span><span class="op">(</span></span>
+<span>  <span class="va">ORA_fit</span><span class="op">@</span><span class="va">result</span>,</span>
+<span>  fontSize <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  outerCutoff <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  drawEllipses <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  repelLabels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="25-Metabolome-OtherAnalysis_files/figure-html/unnamed-chunk-14-1.png" width="100%"></div>
+<p>结果:</p>
+<ul>
+<li><p>节点表示显著通路，边表示相关性，颜色表示标准化后的富集得分；</p></li>
+<li><p>每个簇分类了一个具有生物学意义的名称；</p></li>
+<li><p>NES值表示聚类簇通路的重要性，NES越高通路越重要。</p></li>
+</ul>
+</div>
+</div>
+<div id="session-info-6" class="section level2" number="11.4">
+<h2>
+<span class="header-section-number">11.4</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-6"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  setting  value</span></span>
+<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
+<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  ui       X11</span></span>
+<span><span class="co">#&gt;  language (EN)</span></span>
+<span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
+<span><span class="co">#&gt;  date     2023-12-05</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  package          * version    date (UTC) lib source</span></span>
+<span><span class="co">#&gt;  AnnotationDbi      1.60.2     2023-03-10 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ape                5.7-1      2023-03-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  aPEAR            * 1.0.0      2023-06-12 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  aplot              0.1.10     2023-03-08 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  arules             1.7-6      2023-03-23 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bayesbio           1.0.0      2016-05-24 [1] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Biobase            2.54.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocGenerics       0.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocParallel       1.28.3     2021-12-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  Biostrings         2.62.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  bit                4.0.5      2022-11-15 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bit64              4.0.5      2020-08-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  bitops             1.0-7      2021-04-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  blob               1.2.4      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bookdown           0.34       2023-05-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bslib              0.6.0      2023-11-21 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  cachem             1.0.8      2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  callr              3.7.3      2022-11-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cli                3.6.1      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  clusterProfiler    4.2.2      2022-01-13 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  colorspace         2.1-0      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  crayon             1.5.2      2022-09-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  data.table         1.14.8     2023-02-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DBI                1.1.3      2022-06-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  devtools           2.4.5      2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  digest             0.6.33     2023-07-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  DO.db              2.9        2022-04-11 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  DOSE               3.20.1     2021-11-18 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  downlit            0.4.3      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  downloader         0.4        2015-07-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  dplyr            * 1.1.2      2023-04-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ellipsis           0.3.2      2021-04-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  enrichplot         1.14.2     2022-02-24 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  evaluate           0.21       2023-05-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  expm               0.999-7    2023-01-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fansi              1.0.4      2023-01-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  farver             2.1.1      2022-07-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmap            1.1.1      2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmatch          1.1-3      2021-07-23 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  FELLA            * 1.14.0     2021-10-26 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  fgsea              1.20.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  forcats          * 1.0.0      2023-01-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fs                 1.6.2      2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  generics           0.1.3      2022-07-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  GenomeInfoDb       1.30.1     2022-01-30 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomeInfoDbData   1.2.7      2022-03-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ggforce            0.4.1      2022-10-04 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggfun              0.1.1      2023-06-24 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  ggplot2          * 3.4.2      2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggplotify          0.1.1      2023-06-27 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  ggraph             2.1.0.9000 2023-07-11 [1] Github (thomasp85/ggraph@febab71)</span></span>
+<span><span class="co">#&gt;  ggrepel            0.9.3      2023-02-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggtree             3.2.1      2021-11-16 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  glue               1.6.2      2022-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  GO.db              3.14.0     2022-04-11 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GOSemSim           2.20.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  graph              1.72.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  graphlayouts       1.0.0      2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gridExtra          2.3        2017-09-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  gridGraphics       0.5-1      2020-12-13 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  gtable             0.3.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  highr              0.10       2022-12-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hms                1.1.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmltools          0.5.7      2023-11-03 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  htmlwidgets        1.6.2      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  httpuv             1.6.11     2023-05-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  httr               1.4.6      2023-05-08 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  igraph           * 1.5.0      2023-06-16 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  IRanges            2.28.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  jquerylib          0.1.4      2021-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  jsonlite           1.8.7      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  KEGGgraph          1.54.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  KEGGREST         * 1.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  knitr              1.43       2023-05-25 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  labeling           0.4.2      2020-10-20 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  later              1.3.1      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lattice            0.21-8     2023-04-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lazyeval           0.2.2      2019-03-15 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  lifecycle          1.0.3      2022-10-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lsa                0.73.3     2022-05-09 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lubridate        * 1.9.2      2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  magrittr           2.0.3      2022-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  MASS               7.3-60     2023-05-04 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Matrix             1.6-0      2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  MCL                1.0        2015-03-11 [1] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  memoise            2.0.1      2021-11-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mime               0.12       2021-09-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  miniUI             0.1.1.1    2018-05-18 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  munsell            0.5.0      2018-06-12 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  nlme               3.1-162    2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  org.Hs.eg.db       3.16.0     2023-03-22 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  patchwork          1.1.2      2022-08-19 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pathview         * 1.34.0     2021-10-26 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  pillar             1.9.0      2023-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pkgbuild           1.4.2      2023-06-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pkgconfig          2.0.3      2019-09-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pkgload            1.3.2.1    2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  plyr               1.8.8      2022-11-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  png                0.1-8      2022-11-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  polyclip           1.10-4     2022-10-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  prettyunits        1.1.1      2020-01-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  processx           3.8.2      2023-06-30 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  profvis            0.3.8      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  promises           1.2.0.1    2021-02-11 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ps                 1.7.5      2023-04-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr            * 1.0.1      2023-01-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  qvalue             2.26.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  R6                 2.5.1      2021-08-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  RColorBrewer       1.1-3      2022-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Rcpp               1.0.11     2023-07-06 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  RCurl              1.98-1.12  2023-03-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  readr            * 2.1.4      2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  remotes            2.4.2      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  reshape2           1.4.4      2020-04-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Rgraphviz          2.38.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rlang              1.1.1      2023-04-28 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rmarkdown          2.23       2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  RSQLite            2.3.1      2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rstudioapi         0.15.0     2023-07-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  S4Vectors          0.32.4     2022-03-29 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sass               0.4.6      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scales             1.2.1      2022-08-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scatterpie         0.2.1      2023-06-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  sessioninfo        1.2.2      2021-12-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shadowtext         0.1.2      2022-04-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  shiny              1.7.4.1    2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  SnowballC          0.7.1      2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringi            1.7.12     2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr          * 1.5.0      2022-12-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tibble           * 3.2.1      2023-03-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidygraph          1.2.3      2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr            * 1.3.0      2023-01-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyselect         1.2.0      2022-10-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidytree           0.4.2      2022-12-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyverse        * 2.0.0      2023-02-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timechange         0.2.0      2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  treeio             1.18.1     2021-11-14 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  tweenr             2.0.2      2022-09-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tzdb               0.4.0      2023-05-12 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  urlchecker         1.0.1      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  usethis            2.2.2      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  utf8               1.2.3      2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vctrs              0.6.3      2023-06-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  viridis            0.6.3      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  viridisLite        0.4.2      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  withr              2.5.0      2022-03-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xfun               0.40       2023-08-09 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  XML                3.99-0.14  2023-03-19 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xml2               1.3.5      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xtable             1.8-4      2019-04-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  XVector            0.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  yaml               2.3.7      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  yulab.utils        0.0.6      2022-12-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  zlibbioc           1.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
+<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
+</div>
+<div id="reference-9" class="section level2" number="11.5">
+<h2>
+<span class="header-section-number">11.5</span> Reference<a class="anchor" aria-label="anchor" href="#reference-9"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p><a href="https://github.com/b2slab/FELLA">FELLA github</a></p></li>
+<li><p><a href="https://rformassspectrometry.github.io/metaRbolomics-book/">The MetaRbolomics book</a></p></li>
+</ul>
+</div>
+</div>
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="MetOriginAnalysis.html"><span class="header-section-number">10</span> MetOrigin Analysis</a></div>
+<div class="next"><a href="randomforestalgorithm.html"><span class="header-section-number">12</span> Random Forest Algorithm</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#OtherAnalysis"><span class="header-section-number">11</span> Other Analysis</a></li>
+<li>
+<a class="nav-link" href="#fella-an-r-package-to-enrich-metabolomics-data"><span class="header-section-number">11.1</span> FELLA: an R package to enrich metabolomics data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-8"><span class="header-section-number">11.1.1</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%9F%E6%88%90"><span class="header-section-number">11.1.2</span> 背景数据库生成</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-7"><span class="header-section-number">11.1.3</span> 导入数据</a></li>
+<li><a class="nav-link" href="#%E5%87%86%E5%A4%87%E8%BE%93%E5%85%A5%E4%BB%A3%E8%B0%A2%E7%89%A9"><span class="header-section-number">11.1.4</span> 准备输入代谢物</a></li>
+<li><a class="nav-link" href="#%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90-1"><span class="header-section-number">11.1.5</span> 富集分析</a></li>
+<li><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E8%A7%A3%E6%9E%90-1"><span class="header-section-number">11.1.6</span> 结果解析</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#pathview-%E4%BB%A3%E8%B0%A2%E7%89%A9%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96kegg%E9%80%9A%E8%B7%AF%E5%9B%BE"><span class="header-section-number">11.2</span> Pathview: 代谢物数据可视化KEGG通路图</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%AE%89%E8%A3%85pathview%E5%8C%85"><span class="header-section-number">11.2.1</span> 安装pathview包</a></li>
+<li><a class="nav-link" href="#%E5%87%86%E5%A4%87%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="header-section-number">11.2.2</span> 准备输入数据</a></li>
+<li><a class="nav-link" href="#%E8%BF%90%E8%A1%8Cpathview"><span class="header-section-number">11.2.3</span> 运行pathview</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#apear-an-r-package-for-autonomous-visualisation-of-pathway-enrichment-networks"><span class="header-section-number">11.3</span> aPEAR: an R package for autonomous visualisation of pathway enrichment networks</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%AE%89%E8%A3%85apear%E5%8C%85"><span class="header-section-number">11.3.1</span> 安装aPEAR包</a></li>
+<li><a class="nav-link" href="#%E5%87%86%E5%A4%87%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE-1"><span class="header-section-number">11.3.2</span> 准备输入数据</a></li>
+<li><a class="nav-link" href="#%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90-2"><span class="header-section-number">11.3.3</span> 富集分析</a></li>
+<li><a class="nav-link" href="#apear%E7%BD%91%E7%BB%9C%E5%9B%BE"><span class="header-section-number">11.3.4</span> aPEAR网络图</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#session-info-6"><span class="header-section-number">11.4</span> Session info</a></li>
+<li><a class="nav-link" href="#reference-9"><span class="header-section-number">11.5</span> Reference</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/HuaZou/DraftNotes/blob/main/25-Metabolome-OtherAnalysis.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/HuaZou/DraftNotes/edit/main/25-Metabolome-OtherAnalysis.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-05.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

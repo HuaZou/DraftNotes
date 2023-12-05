@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 4 Hypothesis Testing Methods | 生物信息随记</title>
+<meta name="author" content="Hua Zou">
+<meta name="description" content="显著性检验方法也即是假设检验方法。一般假设检验方法使用需要根据三个条件判断： 数据分组数目也即是处理组数目，以2为阈值； 数据的分布是否符合正态分布，符合则选择参数检验方法，否则选择非参数检验方法； 数据是否是配对数据。  Figure 4.1: Hypothesis Testing Methods   4.1 输入数据 对数据OmicsDataSet-Zeybel et al. -...">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="Chapter 4 Hypothesis Testing Methods | 生物信息随记">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://zouhua.top/DraftNotes/HypothesisTestingMethods.html">
+<meta property="og:description" content="显著性检验方法也即是假设检验方法。一般假设检验方法使用需要根据三个条件判断： 数据分组数目也即是处理组数目，以2为阈值； 数据的分布是否符合正态分布，符合则选择参数检验方法，否则选择非参数检验方法； 数据是否是配对数据。  Figure 4.1: Hypothesis Testing Methods   4.1 输入数据 对数据OmicsDataSet-Zeybel et al. -...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 4 Hypothesis Testing Methods | 生物信息随记">
+<meta name="twitter:description" content="显著性检验方法也即是假设检验方法。一般假设检验方法使用需要根据三个条件判断： 数据分组数目也即是处理组数目，以2为阈值； 数据的分布是否符合正态分布，符合则选择参数检验方法，否则选择非参数检验方法； 数据是否是配对数据。  Figure 4.1: Hypothesis Testing Methods   4.1 输入数据 对数据OmicsDataSet-Zeybel et al. -...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">生物信息随记</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> 介绍</a></li>
+<li class="book-part">Data Set</li>
+<li><a class="" href="ZeybelDataset.html"><span class="header-section-number">2</span> Zeybel Dataset</a></li>
+<li class="book-part">Statistical Methods</li>
+<li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
+<li><a class="active" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
+<li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li class="book-part">Metabolomics Data Analysis</li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">6</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">7</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">8</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">9</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">10</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></li>
+<li class="book-part">Machine Learning</li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">12</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></li>
+<li class="book-part">Knowledge</li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">14</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">15</span> Notes</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/HuaZou/DraftNotes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="HypothesisTestingMethods" class="section level1" number="4">
+<h1>
+<span class="header-section-number">4</span> Hypothesis Testing Methods<a class="anchor" aria-label="anchor" href="#HypothesisTestingMethods"><i class="fas fa-link"></i></a>
+</h1>
+<p>显著性检验方法也即是假设检验方法。一般假设检验方法使用需要根据三个条件判断：</p>
+<ol style="list-style-type: decimal">
+<li><p>数据分组数目也即是处理组数目，以2为阈值；</p></li>
+<li><p>数据的分布是否符合正态分布，符合则选择参数检验方法，否则选择非参数检验方法；</p></li>
+<li><p>数据是否是配对数据。</p></li>
+</ol>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="InputData/figures/HypothesisTestingMethods/HypothesisTestingMethods.png" alt="Hypothesis Testing Methods" width="100%" height="100%"><p class="caption">
+Figure 4.1: Hypothesis Testing Methods
+</p>
+</div>
+<div id="输入数据-1" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> 输入数据<a class="anchor" aria-label="anchor" href="#%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>对数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel%20et%20al.%20-%202022.xlsx">OmicsDataSet-Zeybel et al. - 2022.xlsx</a>处理后生成的输入文件，详细情况可参考<strong>Data Set</strong>具体章节。</p>
+<blockquote>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">long_se_protein</span>, <span class="st">"./InputData/result/Zeybel_2022_plasma_protein_se_Paired.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</blockquote>
+<p>本次使用配对的血清蛋白质组学数据作为案例数据。</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment">SummarizedExperiment</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/ggpubr/">ggpubr</a></span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">long_se_protein</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"./InputData/result/Zeybel_2022_plasma_protein_se_Paired.RDS"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">long_se_protein</span></span>
+<span><span class="co">#&gt; class: SummarizedExperiment </span></span>
+<span><span class="co">#&gt; dim: 72 42 </span></span>
+<span><span class="co">#&gt; metadata(0):</span></span>
+<span><span class="co">#&gt; assays(1): ''</span></span>
+<span><span class="co">#&gt; rownames(72): IL8 VEGFA ... TNFB CSF_1</span></span>
+<span><span class="co">#&gt; rowData names(3): Protein ID LOD prop</span></span>
+<span><span class="co">#&gt; colnames(42): P101001_After P101001_Before ...</span></span>
+<span><span class="co">#&gt;   P101077_After P101077_Before</span></span>
+<span><span class="co">#&gt; colData names(49): SampleID PatientID ...</span></span>
+<span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
+<ul>
+<li>每组样本的数目 (配对分组：Mild， Moderate， Severe)</li>
+</ul>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">long_se_protein</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">Stage</span>, <span class="va">LiverFatClass</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         LiverFatClass</span></span>
+<span><span class="co">#&gt; Stage    Mild Moderate None Severe</span></span>
+<span><span class="co">#&gt;   After     5        7    2      7</span></span>
+<span><span class="co">#&gt;   Before    6        7    0      8</span></span></code></pre></div>
+<ul>
+<li>准备数据</li>
+</ul>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">profile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">long_se_protein</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">long_se_protein</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 两组不配对数据</span></span>
+<span><span class="va">metadata_2_unpaired</span> <span class="op">&lt;-</span> <span class="va">metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Stage</span> <span class="op">==</span> <span class="st">"Before"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">LiverFatClass</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Mild"</span>, <span class="st">"Moderate"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">profile_2_unpaired</span> <span class="op">&lt;-</span> <span class="va">profile</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">metadata_2_unpaired</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">profile</span><span class="op">)</span><span class="op">)</span>, <span class="cn">F</span><span class="op">]</span></span>
+<span><span class="va">merge_2_unpaired</span> <span class="op">&lt;-</span> <span class="va">metadata_2_unpaired</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SampleID</span>, <span class="va">LiverFatClass</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">profile_2_unpaired</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>                      <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"SampleID"</span><span class="op">)</span>,</span>
+<span>                    by <span class="op">=</span> <span class="st">"SampleID"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># 两组配对数据</span></span>
+<span><span class="va">metadata_2_paired</span> <span class="op">&lt;-</span> <span class="va">metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">LiverFatClass</span> <span class="op">==</span> <span class="st">"Moderate"</span><span class="op">)</span></span>
+<span><span class="va">profile_2_paired</span> <span class="op">&lt;-</span> <span class="va">profile</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">metadata_2_paired</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">profile</span><span class="op">)</span><span class="op">)</span>, <span class="cn">F</span><span class="op">]</span></span>
+<span><span class="va">merge_2_paired</span> <span class="op">&lt;-</span> <span class="va">metadata_2_paired</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SampleID</span>, <span class="va">PatientID</span>, <span class="va">Stage</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">profile_2_paired</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>                      <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"SampleID"</span><span class="op">)</span>,</span>
+<span>                    by <span class="op">=</span> <span class="st">"SampleID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">SampleID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"P101052_After"</span>, <span class="st">"P101052_Before"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 三组数据</span></span>
+<span><span class="va">metadata_3_unpaired</span> <span class="op">&lt;-</span> <span class="va">metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Stage</span> <span class="op">==</span> <span class="st">"Before"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">LiverFatClass</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Mild"</span>, <span class="st">"Moderate"</span>, <span class="st">"Severe"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">profile_3_unpaired</span> <span class="op">&lt;-</span> <span class="va">profile</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">metadata_3_unpaired</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">profile</span><span class="op">)</span><span class="op">)</span>, <span class="cn">F</span><span class="op">]</span></span>
+<span><span class="va">merge_3_unpaired</span> <span class="op">&lt;-</span> <span class="va">metadata_3_unpaired</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">SampleID</span>, <span class="va">LiverFatClass</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">profile_3_unpaired</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>                      <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"SampleID"</span><span class="op">)</span>,</span>
+<span>                    by <span class="op">=</span> <span class="st">"SampleID"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="正态性评估" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> 正态性评估<a class="anchor" aria-label="anchor" href="#%E6%AD%A3%E6%80%81%E6%80%A7%E8%AF%84%E4%BC%B0"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>可视化探索: density plot 密度图提供了一个关于分布是否呈钟形(正态分布)的直观判断</li>
+</ul>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggdensity.html">ggdensity</a></span><span class="op">(</span><span class="va">merge_2_unpaired</span><span class="op">$</span><span class="va">IL8</span>, </span>
+<span>          main <span class="op">=</span> <span class="st">"Density plot of IL8"</span>,</span>
+<span>          xlab <span class="op">=</span> <span class="st">"IL8"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-6-1.png" width="100%"></div>
+<ul>
+<li>可视化探索: histogram 如果直方图大致呈“钟形”，则假定数据为正态分布</li>
+</ul>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/gghistogram.html">gghistogram</a></span><span class="op">(</span><span class="va">merge_2_unpaired</span><span class="op">$</span><span class="va">IL8</span>, </span>
+<span>          main <span class="op">=</span> <span class="st">"Density plot of IL8"</span>,</span>
+<span>          xlab <span class="op">=</span> <span class="st">"IL8"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-7-1.png" width="100%"></div>
+<ul>
+<li>可视化探索: Q-Q plot Q-Q图描绘了给定样本与正态分布之间的相关性</li>
+</ul>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggqqplot.html">ggqqplot</a></span><span class="op">(</span><span class="va">merge_2_unpaired</span><span class="op">$</span><span class="va">IL8</span>, </span>
+<span>          main <span class="op">=</span> <span class="st">"Density plot of IL8"</span>,</span>
+<span>          xlab <span class="op">=</span> <span class="st">"IL8"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-8-1.png" width="100%"></div>
+<ul>
+<li>正态检验: <code>shapiro.test</code>提供单变量的正态分性检验方法（Shapiro-Wilk test）</li>
+</ul>
+<blockquote>
+<p>If the p-value of the test is greater than α = 0.05, then the data is assumed to be normally distributed.</p>
+</blockquote>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></span><span class="op">(</span><span class="va">merge_2_unpaired</span><span class="op">$</span><span class="va">IL8</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Shapiro-Wilk normality test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  merge_2_unpaired$IL8</span></span>
+<span><span class="co">#&gt; W = 0.93269, p-value = 0.3694</span></span></code></pre></div>
+<ul>
+<li>正态检验: <code>ks.test</code>提供单变量的正态分性检验方法（Kolmogorov-Smirnov test）</li>
+</ul>
+<blockquote>
+<p>If the p-value of the test is greater than α = 0.05, then the data is assumed to be normally distributed.</p>
+</blockquote>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/ks.test.html">ks.test</a></span><span class="op">(</span><span class="va">merge_2_unpaired</span><span class="op">$</span><span class="va">IL8</span>,</span>
+<span>        <span class="st">"pnorm"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  One-sample Kolmogorov-Smirnov test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  merge_2_unpaired$IL8</span></span>
+<span><span class="co">#&gt; D = 0.99996, p-value = 2.22e-16</span></span>
+<span><span class="co">#&gt; alternative hypothesis: two-sided</span></span></code></pre></div>
+<p>结果：</p>
+<ul>
+<li>第二次检验的p值小于0.05，说明<em>IL8</em>数据不是正态分布。</li>
+</ul>
+</div>
+<div id="非正态数据转换方法" class="section level2" number="4.3">
+<h2>
+<span class="header-section-number">4.3</span> 非正态数据转换方法<a class="anchor" aria-label="anchor" href="#%E9%9D%9E%E6%AD%A3%E6%80%81%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2%E6%96%B9%E6%B3%95"><i class="fas fa-link"></i></a>
+</h2>
+<p>如果给定的数据集不是正态分布，通常可以执行以下转换之一，使其更符合正态分布:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Log Transformation</strong>: 将<span class="math inline">\(x\)</span>做<span class="math inline">\(log(x)\)</span>转换</p></li>
+<li><p><strong>Square Root Transformation</strong>: 将<span class="math inline">\(x\)</span>做<span class="math inline">\(\sqrt{x}\)</span>开平方根转换</p></li>
+<li><p><strong>Cube Root Transformation</strong>: 将<span class="math inline">\(x\)</span>做<span class="math inline">\(x^{1/3}\)</span>开立方根转换</p></li>
+</ol>
+</div>
+<div id="paired-students-t-test" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> Paired student’s t-test<a class="anchor" aria-label="anchor" href="#paired-students-t-test"><i class="fas fa-link"></i></a>
+</h2>
+<p>配对T检验适合两组数据且它们是正态分布和配对，计算t统计量。</p>
+<div class="inline-figure"><img src="InputData/figures/HypothesisTestingMethods/t_statistics.jpg"></div>
+<ul>
+<li>R基础函数<code>t.test</code>
+</li>
+</ul>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">IL8</span> <span class="op">~</span> <span class="va">Stage</span>, data <span class="op">=</span> <span class="va">merge_2_paired</span>, paired <span class="op">=</span> <span class="cn">TRUE</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Paired t-test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  IL8 by Stage</span></span>
+<span><span class="co">#&gt; t = 0.13325, df = 5, p-value = 0.8992</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true difference in means is not equal to 0</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  -0.566393  0.628323</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; mean of the differences </span></span>
+<span><span class="co">#&gt;                0.030965</span></span></code></pre></div>
+<ul>
+<li>
+<code>rstatix</code>提供的<code><a href="https://rpkgs.datanovia.com/rstatix/reference/t_test.html">t_test()</a></code>
+</li>
+</ul>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/rstatix/">rstatix</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">stat.test</span> <span class="op">&lt;-</span> <span class="va">merge_2_paired</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/t_test.html">t_test</a></span><span class="op">(</span><span class="va">IL8</span> <span class="op">~</span> <span class="va">Stage</span>, paired <span class="op">=</span> <span class="cn">TRUE</span>, detailed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/add_significance.html">add_significance</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">stat.test</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 14</span></span>
+<span><span class="co">#&gt;   estimate .y.   group1 group2    n1    n2 statistic     p</span></span>
+<span><span class="co">#&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1   0.0310 IL8   After  Before     6     6     0.133 0.899</span></span>
+<span><span class="co">#&gt; # ℹ 6 more variables: df &lt;dbl&gt;, conf.low &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   p.signif &lt;chr&gt;</span></span></code></pre></div>
+<p>p-value = 0.899比alpha = 0.05要大，接受零假设。IL8在前后没有显著差异。另外也可以计算Effect size效应值 (平均值和方差的比值)。</p>
+<p><span class="math inline">\(d = \frac{mean_{D}}{SD_{D}}\)</span></p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">merge_2_paired</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/cohens_d.html">cohens_d</a></span><span class="op">(</span><span class="va">IL8</span> <span class="op">~</span> <span class="va">Stage</span>, paired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 7</span></span>
+<span><span class="co">#&gt;   .y.   group1 group2 effsize    n1    n2 magnitude </span></span>
+<span><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;ord&gt;     </span></span>
+<span><span class="co">#&gt; 1 IL8   After  Before  0.0544     6     6 negligible</span></span></code></pre></div>
+<ul>
+<li>可视化</li>
+</ul>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stat_label</span> <span class="op">&lt;-</span> <span class="va">stat.test</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_pvalue_position.html">add_xy_position</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Stage"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggpaired.html">ggpaired</a></span><span class="op">(</span><span class="va">merge_2_paired</span>, </span>
+<span>         x <span class="op">=</span> <span class="st">"Stage"</span>, </span>
+<span>         y <span class="op">=</span> <span class="st">"IL8"</span>, </span>
+<span>         order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Before"</span>, <span class="st">"After"</span><span class="op">)</span>,</span>
+<span>         ylab <span class="op">=</span> <span class="st">"IL8"</span>, </span>
+<span>         xlab <span class="op">=</span> <span class="st">"Stage"</span>,</span>
+<span>         fill <span class="op">=</span> <span class="st">"Stage"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span><span class="op">(</span><span class="va">stat_label</span>, tip.length <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_test_label.html">get_test_label</a></span><span class="op">(</span><span class="va">stat_label</span>, detailed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-14-1.png" width="100%"></div>
+</div>
+<div id="students-t-test" class="section level2" number="4.5">
+<h2>
+<span class="header-section-number">4.5</span> Student’s t-test<a class="anchor" aria-label="anchor" href="#students-t-test"><i class="fas fa-link"></i></a>
+</h2>
+<p>T检验适合两组数据且它们是正态分布，计算t统计量。</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">IL8</span> <span class="op">~</span> <span class="va">LiverFatClass</span>, data <span class="op">=</span> <span class="va">merge_2_unpaired</span>, paired <span class="op">=</span> <span class="cn">FALSE</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Welch Two Sample t-test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  IL8 by LiverFatClass</span></span>
+<span><span class="co">#&gt; t = -0.32904, df = 6.193, p-value = 0.753</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true difference in means between group Mild and group Moderate is not equal to 0</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  -1.0116344  0.7702116</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt;     mean in group Mild mean in group Moderate </span></span>
+<span><span class="co">#&gt;               4.716680               4.837391</span></span>
+<span></span>
+<span><span class="va">stat.test</span> <span class="op">&lt;-</span> <span class="va">merge_2_unpaired</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/t_test.html">t_test</a></span><span class="op">(</span><span class="va">IL8</span> <span class="op">~</span> <span class="va">LiverFatClass</span>, paired <span class="op">=</span> <span class="cn">FALSE</span>, detailed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/add_significance.html">add_significance</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># stat.test</span></span>
+<span></span>
+<span><span class="va">merge_2_unpaired</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/cohens_d.html">cohens_d</a></span><span class="op">(</span><span class="va">IL8</span> <span class="op">~</span> <span class="va">LiverFatClass</span>, paired <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 7</span></span>
+<span><span class="co">#&gt;   .y.   group1 group2   effsize    n1    n2 magnitude </span></span>
+<span><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;ord&gt;     </span></span>
+<span><span class="co">#&gt; 1 IL8   Mild   Moderate  -0.188     6     7 negligible</span></span></code></pre></div>
+<ul>
+<li>可视化</li>
+</ul>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stat_label</span> <span class="op">&lt;-</span> <span class="va">stat.test</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_pvalue_position.html">add_xy_position</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"LiverFatClass"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span><span class="op">(</span><span class="va">merge_2_unpaired</span>, </span>
+<span>         x <span class="op">=</span> <span class="st">"LiverFatClass"</span>, </span>
+<span>         y <span class="op">=</span> <span class="st">"IL8"</span>, </span>
+<span>         order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Mild"</span>, <span class="st">"Moderate"</span><span class="op">)</span>,</span>
+<span>         ylab <span class="op">=</span> <span class="st">"IL8"</span>, </span>
+<span>         xlab <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
+<span>         fill <span class="op">=</span> <span class="st">"LiverFatClass"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span><span class="op">(</span><span class="va">stat_label</span>, tip.length <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_test_label.html">get_test_label</a></span><span class="op">(</span><span class="va">stat_label</span>, detailed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-16-1.png" width="100%"></div>
+</div>
+<div id="wilcoxon-signed-rank-t-test" class="section level2" number="4.6">
+<h2>
+<span class="header-section-number">4.6</span> Wilcoxon signed rank t-test<a class="anchor" aria-label="anchor" href="#wilcoxon-signed-rank-t-test"><i class="fas fa-link"></i></a>
+</h2>
+<p>配对Wilcoxon检验适合两组数据且它们是配对，对数据分布没有正态分布要求。</p>
+<ul>
+<li>R基础函数<code>wilcox.test</code>
+</li>
+</ul>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span><span class="op">(</span><span class="va">IL8</span> <span class="op">~</span> <span class="va">Stage</span>, data <span class="op">=</span> <span class="va">merge_2_paired</span>, paired <span class="op">=</span> <span class="cn">TRUE</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Wilcoxon signed rank exact test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  IL8 by Stage</span></span>
+<span><span class="co">#&gt; V = 12, p-value = 0.8438</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></span></code></pre></div>
+<ul>
+<li>
+<code>rstatix</code>提供的<code><a href="https://rdrr.io/pkg/coin/man/LocationTests.html">wilcox_test()</a></code>
+</li>
+</ul>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/rstatix/">rstatix</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">stat.test</span> <span class="op">&lt;-</span> <span class="va">merge_2_paired</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/wilcox_test.html">wilcox_test</a></span><span class="op">(</span><span class="va">IL8</span> <span class="op">~</span> <span class="va">Stage</span>, paired <span class="op">=</span> <span class="cn">TRUE</span>, detailed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/add_significance.html">add_significance</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">stat.test</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 13</span></span>
+<span><span class="co">#&gt;   estimate .y.   group1 group2    n1    n2 statistic     p</span></span>
+<span><span class="co">#&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1   0.0401 IL8   After  Before     6     6        12 0.844</span></span>
+<span><span class="co">#&gt; # ℹ 5 more variables: conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   method &lt;chr&gt;, alternative &lt;chr&gt;, p.signif &lt;chr&gt;</span></span></code></pre></div>
+</div>
+<div id="mann-whitney-u-test" class="section level2" number="4.7">
+<h2>
+<span class="header-section-number">4.7</span> Mann-Whitney U test<a class="anchor" aria-label="anchor" href="#mann-whitney-u-test"><i class="fas fa-link"></i></a>
+</h2>
+<blockquote>
+<p>A Mann-Whitney U test (sometimes called the Wilcoxon rank-sum test) is used to compare the differences between two independent samples when the sample distributions are not normally distributed and the sample sizes are small (n &lt;30).</p>
+</blockquote>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html">wilcox.test</a></span><span class="op">(</span><span class="va">IL8</span> <span class="op">~</span> <span class="va">LiverFatClass</span>, data <span class="op">=</span> <span class="va">merge_2_unpaired</span>, paired <span class="op">=</span> <span class="cn">FALSE</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Wilcoxon rank sum exact test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  IL8 by LiverFatClass</span></span>
+<span><span class="co">#&gt; W = 13, p-value = 0.2949</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></span></code></pre></div>
+<ul>
+<li>可视化</li>
+</ul>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">merge_2_unpaired</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">LiverFatClass</span>, y <span class="op">=</span> <span class="va">IL8</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">mean</span>, geom <span class="op">=</span> <span class="st">"point"</span>, col <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">mean</span>, geom <span class="op">=</span> <span class="st">"text"</span>, col <span class="op">=</span> <span class="st">"black"</span>, size <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>               vjust <span class="op">=</span> <span class="fl">3</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Mean:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">after_stat</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"LiverFatClass"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"IL8"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-20-1.png" width="100%"></div>
+</div>
+<div id="repeated-measures-one-way-anova" class="section level2" number="4.8">
+<h2>
+<span class="header-section-number">4.8</span> Repeated measures One-way ANOVA<a class="anchor" aria-label="anchor" href="#repeated-measures-one-way-anova"><i class="fas fa-link"></i></a>
+</h2>
+<p>重复测量单因素方差分析需要满足以下假设：</p>
+<p>1.在设计的任何block中都没有显著的异常值 (<code><a href="https://rpkgs.datanovia.com/rstatix/reference/outliers.html">rstatix::identify_outliers()</a></code>可查看离群点)</p>
+<p>2.数据服从正态分布 (<code><a href="https://rpkgs.datanovia.com/rstatix/reference/shapiro_test.html">rstatix::shapiro_test()</a></code>可查看检验结果)</p>
+<p>3.方差齐性: 组间差异的方差应该相等 (<code><a href="https://rpkgs.datanovia.com/rstatix/reference/anova_test.html">rstatix::anova_test()</a></code>可查看检验结果)</p>
+<p>4.处理水平大于2</p>
+<ul>
+<li>输入数据</li>
+</ul>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"selfesteem"</span>, package <span class="op">=</span> <span class="st">"datarium"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">selfesteem</span> <span class="op">&lt;-</span> <span class="va">selfesteem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"time"</span>, value <span class="op">=</span> <span class="st">"score"</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">t3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/factors.html">convert_as_factor</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">time</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">selfesteem</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 3</span></span>
+<span><span class="co">#&gt;   id    time  score</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 1     t1     4.01</span></span>
+<span><span class="co">#&gt; 2 2     t1     2.56</span></span>
+<span><span class="co">#&gt; 3 3     t1     3.24</span></span></code></pre></div>
+<ul>
+<li>基本统计特征</li>
+</ul>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">selfesteem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_summary_stats.html">get_summary_stats</a></span><span class="op">(</span><span class="va">score</span>, type <span class="op">=</span> <span class="st">"mean_sd"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 5</span></span>
+<span><span class="co">#&gt;   time  variable     n  mean    sd</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 t1    score       10  3.14 0.552</span></span>
+<span><span class="co">#&gt; 2 t2    score       10  4.93 0.863</span></span>
+<span><span class="co">#&gt; 3 t3    score       10  7.64 1.14</span></span></code></pre></div>
+<ul>
+<li>可视化</li>
+</ul>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span><span class="op">(</span><span class="va">selfesteem</span>, x <span class="op">=</span> <span class="st">"time"</span>, y <span class="op">=</span> <span class="st">"score"</span>, add <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-23-1.png" width="100%"></div>
+<ul>
+<li>假设评估：离群点</li>
+</ul>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">selfesteem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/outliers.html">identify_outliers</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 5</span></span>
+<span><span class="co">#&gt;   time  id    score is.outlier is.extreme</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt; &lt;lgl&gt;      &lt;lgl&gt;     </span></span>
+<span><span class="co">#&gt; 1 t1    6      2.05 TRUE       FALSE     </span></span>
+<span><span class="co">#&gt; 2 t2    2      6.91 TRUE       FALSE</span></span></code></pre></div>
+<ul>
+<li>假设评估：正态分布</li>
+</ul>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">selfesteem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/shapiro_test.html">shapiro_test</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 4</span></span>
+<span><span class="co">#&gt;   time  variable statistic     p</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 t1    score        0.967 0.859</span></span>
+<span><span class="co">#&gt; 2 t2    score        0.876 0.117</span></span>
+<span><span class="co">#&gt; 3 t3    score        0.923 0.380</span></span>
+<span></span>
+<span><span class="co"># ggqqplot(selfesteem, "score", facet.by = "time")</span></span></code></pre></div>
+<ul>
+<li>统计检验：ANOVA整体评估变量在所有处理水平的显著性</li>
+</ul>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res.aov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/anova_test.html">anova_test</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">selfesteem</span>, dv <span class="op">=</span> <span class="va">score</span>, wid <span class="op">=</span> <span class="va">id</span>, within <span class="op">=</span> <span class="va">time</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/anova_test.html">get_anova_table</a></span><span class="op">(</span><span class="va">res.aov</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ANOVA Table (type III tests)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Effect DFn DFd      F        p p&lt;.05   ges</span></span>
+<span><span class="co">#&gt; 1   time   2  18 55.469 2.01e-08     * 0.829</span></span></code></pre></div>
+<p>结果：</p>
+<ol style="list-style-type: decimal">
+<li><p>p-value=2.01e-08，表明个人的score在不同时间点是统计学显著差异的。</p></li>
+<li><p>ges: 广义效应大小(由受试者内部因素引起的可变性量)。</p></li>
+</ol>
+<ul>
+<li>统计检验：后置检验评估具体组间两两差异结果并做了检验结果校正</li>
+</ul>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pwc</span> <span class="op">&lt;-</span> <span class="va">selfesteem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/t_test.html">pairwise_t_test</a></span><span class="op">(</span></span>
+<span>    <span class="va">score</span> <span class="op">~</span> <span class="va">time</span>, paired <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    p.adjust.method <span class="op">=</span> <span class="st">"bonferroni"</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="va">pwc</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 10</span></span>
+<span><span class="co">#&gt;   .y.   group1 group2    n1    n2 statistic    df          p</span></span>
+<span><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 score t1     t2        10    10     -4.97     9    7.72e-4</span></span>
+<span><span class="co">#&gt; 2 score t1     t3        10    10    -13.2      9    3.34e-7</span></span>
+<span><span class="co">#&gt; 3 score t2     t3        10    10     -4.87     9    8.86e-4</span></span>
+<span><span class="co">#&gt; # ℹ 2 more variables: p.adj &lt;dbl&gt;, p.adj.signif &lt;chr&gt;</span></span></code></pre></div>
+<p>结果：</p>
+<ol style="list-style-type: decimal">
+<li>任意两组间的pvalue均小于显著性水平alpha = 0.05。</li>
+</ol>
+<ul>
+<li>可视化：加上显著性标记</li>
+</ul>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pwc_label</span> <span class="op">&lt;-</span> <span class="va">pwc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_pvalue_position.html">add_xy_position</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span><span class="op">(</span><span class="va">selfesteem</span>, x <span class="op">=</span> <span class="st">"time"</span>, y <span class="op">=</span> <span class="st">"score"</span>, add <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span><span class="op">(</span><span class="va">pwc_label</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    subtitle <span class="op">=</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_test_label.html">get_test_label</a></span><span class="op">(</span><span class="va">res.aov</span>, detailed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    caption <span class="op">=</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_test_label.html">get_pwc_label</a></span><span class="op">(</span><span class="va">pwc_label</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-28-1.png" width="100%"></div>
+</div>
+<div id="one-way-anova" class="section level2" number="4.9">
+<h2>
+<span class="header-section-number">4.9</span> One-way ANOVA<a class="anchor" aria-label="anchor" href="#one-way-anova"><i class="fas fa-link"></i></a>
+</h2>
+<p>单因素方差分析需要满足以下假设：</p>
+<p>1.数据服从正态分布 (<code><a href="https://rpkgs.datanovia.com/rstatix/reference/shapiro_test.html">rstatix::shapiro_test()</a></code>可查看检验结果)</p>
+<p>2.方差齐性: 组间差异的方差应该相等 (<code><a href="https://rpkgs.datanovia.com/rstatix/reference/anova_test.html">rstatix::anova_test()</a></code>可查看检验结果)</p>
+<p>3.处理水平大于2</p>
+<ul>
+<li>数据探索</li>
+</ul>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span><span class="op">(</span><span class="va">PlantGrowth</span>, x <span class="op">=</span> <span class="st">"group"</span>, y <span class="op">=</span> <span class="st">"weight"</span>,</span>
+<span>          color <span class="op">=</span> <span class="st">"group"</span>, palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span><span class="op">)</span>,</span>
+<span>          order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ctrl"</span>, <span class="st">"trt1"</span>, <span class="st">"trt2"</span><span class="op">)</span>,</span>
+<span>          ylab <span class="op">=</span> <span class="st">"Weight"</span>, xlab <span class="op">=</span> <span class="st">"Treatment"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-29-1.png" width="100%"></div>
+<ul>
+<li>检验：评估植物的平均weight是否在三组处理间是显著差异的</li>
+</ul>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res.aov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html">aov</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">PlantGrowth</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res.aov</span><span class="op">)</span></span>
+<span><span class="co">#&gt;             Df Sum Sq Mean Sq F value Pr(&gt;F)  </span></span>
+<span><span class="co">#&gt; group        2  3.766  1.8832   4.846 0.0159 *</span></span>
+<span><span class="co">#&gt; Residuals   27 10.492  0.3886                 </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span></code></pre></div>
+<p>结果：由于p值小于0.05的显著性水平，可以得出模型中标注“*”的组之间存在显著性差异。</p>
+<ul>
+<li>后置检验：组均值之间的多重两两比较 by Tukey HSD (Tukey Honest Significant Differences)</li>
+</ul>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/TukeyHSD.html">TukeyHSD</a></span><span class="op">(</span><span class="va">res.aov</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   Tukey multiple comparisons of means</span></span>
+<span><span class="co">#&gt;     95% family-wise confidence level</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Fit: aov(formula = weight ~ group, data = PlantGrowth)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $group</span></span>
+<span><span class="co">#&gt;             diff        lwr       upr     p adj</span></span>
+<span><span class="co">#&gt; trt1-ctrl -0.371 -1.0622161 0.3202161 0.3908711</span></span>
+<span><span class="co">#&gt; trt2-ctrl  0.494 -0.1972161 1.1852161 0.1979960</span></span>
+<span><span class="co">#&gt; trt2-trt1  0.865  0.1737839 1.5562161 0.0120064</span></span></code></pre></div>
+<ul>
+<li>后置检验2: 采用<code><a href="https://rdrr.io/pkg/multcomp/man/glht.html">multcomp::glht</a></code>方法</li>
+</ul>
+<blockquote>
+<p>The function glht() [in the multcomp package] can be used to do multiple comparison processes for an ANOVA. General linear hypothesis tests are abbreviated as glht.</p>
+</blockquote>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://multcomp.R-forge.R-project.org">multcomp</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/multcomp/man/glht.html">glht</a></span><span class="op">(</span><span class="va">res.aov</span>, linfct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/multcomp/man/glht.html">mcp</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Tukey"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Simultaneous Tests for General Linear Hypotheses</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Multiple Comparisons of Means: Tukey Contrasts</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Fit: aov(formula = weight ~ group, data = PlantGrowth)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Linear Hypotheses:</span></span>
+<span><span class="co">#&gt;                  Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
+<span><span class="co">#&gt; trt1 - ctrl == 0  -0.3710     0.2788  -1.331    0.391  </span></span>
+<span><span class="co">#&gt; trt2 - ctrl == 0   0.4940     0.2788   1.772    0.198  </span></span>
+<span><span class="co">#&gt; trt2 - trt1 == 0   0.8650     0.2788   3.103    0.012 *</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; (Adjusted p values reported -- single-step method)</span></span></code></pre></div>
+<ul>
+<li>后置检验3: T-test with pairs</li>
+</ul>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/pairwise.t.test.html">pairwise.t.test</a></span><span class="op">(</span><span class="va">PlantGrowth</span><span class="op">$</span><span class="va">weight</span>, </span>
+<span>                <span class="va">PlantGrowth</span><span class="op">$</span><span class="va">group</span>,</span>
+<span>                p.adjust.method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Pairwise comparisons using t tests with pooled SD </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  PlantGrowth$weight and PlantGrowth$group </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      ctrl  trt1 </span></span>
+<span><span class="co">#&gt; trt1 0.194 -    </span></span>
+<span><span class="co">#&gt; trt2 0.132 0.013</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; P value adjustment method: BH</span></span></code></pre></div>
+<ul>
+<li>可视化：加上假设检验的结果</li>
+</ul>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pwc_label2</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/t_test.html">pairwise_t_test</a></span><span class="op">(</span></span>
+<span>    <span class="va">weight</span> <span class="op">~</span> <span class="va">group</span>,</span>
+<span>    p.adjust.method <span class="op">=</span> <span class="st">"BH"</span></span>
+<span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_pvalue_position.html">add_xy_position</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span><span class="op">(</span><span class="va">PlantGrowth</span>, x <span class="op">=</span> <span class="st">"group"</span>, y <span class="op">=</span> <span class="st">"weight"</span>, add <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span><span class="op">(</span><span class="va">pwc_label2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    <span class="co">#subtitle = get_test_label(res.aov, detailed = TRUE),</span></span>
+<span>    caption <span class="op">=</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_test_label.html">get_pwc_label</a></span><span class="op">(</span><span class="va">pwc_label2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-34-1.png" width="100%"></div>
+</div>
+<div id="friedman-test" class="section level2" number="4.10">
+<h2>
+<span class="header-section-number">4.10</span> Friedman test<a class="anchor" aria-label="anchor" href="#friedman-test"><i class="fas fa-link"></i></a>
+</h2>
+<p>Friedman test，是一种非参数检验的方法，用于评估三个或更多成对组的分布之间是否存在统计学上的显著差异。当不满足单向重复测量ANOVA检验的正态性假设或因变量在有序量表上测量时，建议使用该方法。</p>
+<ul>
+<li>输入数据</li>
+</ul>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"selfesteem"</span>, package <span class="op">=</span> <span class="st">"datarium"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">selfesteem</span> <span class="op">&lt;-</span> <span class="va">selfesteem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"time"</span>, value <span class="op">=</span> <span class="st">"score"</span>, <span class="va">t1</span>, <span class="va">t2</span>, <span class="va">t3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/factors.html">convert_as_factor</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">time</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">selfesteem</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 3</span></span>
+<span><span class="co">#&gt;   id    time  score</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 1     t1     4.01</span></span>
+<span><span class="co">#&gt; 2 2     t1     2.56</span></span>
+<span><span class="co">#&gt; 3 3     t1     3.24</span></span></code></pre></div>
+<ul>
+<li>统计检验：friedman test整体评估变量在所有处理水平的显著性</li>
+</ul>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res.fried</span> <span class="op">&lt;-</span> <span class="va">selfesteem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/friedman_test.html">friedman_test</a></span><span class="op">(</span><span class="va">score</span> <span class="op">~</span> <span class="va">time</span> <span class="op">|</span> <span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">res.fried</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 6</span></span>
+<span><span class="co">#&gt;   .y.       n statistic    df        p method       </span></span>
+<span><span class="co">#&gt; * &lt;chr&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;        </span></span>
+<span><span class="co">#&gt; 1 score    10      18.2     2 0.000112 Friedman test</span></span>
+<span></span>
+<span><span class="co"># selfesteem %&gt;% friedman_effsize(score ~ time | id)</span></span></code></pre></div>
+<ul>
+<li>统计检验：后置检验评估具体组间两两差异结果并做了检验结果校正</li>
+</ul>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pwc</span> <span class="op">&lt;-</span> <span class="va">selfesteem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/wilcox_test.html">wilcox_test</a></span><span class="op">(</span></span>
+<span>    <span class="va">score</span> <span class="op">~</span> <span class="va">time</span>, paired <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    p.adjust.method <span class="op">=</span> <span class="st">"bonferroni"</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="va">pwc</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 9</span></span>
+<span><span class="co">#&gt;   .y.   group1 group2    n1    n2 statistic     p p.adj</span></span>
+<span><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 score t1     t2        10    10         0 0.002 0.006</span></span>
+<span><span class="co">#&gt; 2 score t1     t3        10    10         0 0.002 0.006</span></span>
+<span><span class="co">#&gt; 3 score t2     t3        10    10         1 0.004 0.012</span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: p.adj.signif &lt;chr&gt;</span></span></code></pre></div>
+<ul>
+<li>可视化：加上假设检验的结果</li>
+</ul>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pwc_label</span> <span class="op">&lt;-</span> <span class="va">pwc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_pvalue_position.html">add_xy_position</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"time"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span><span class="op">(</span><span class="va">selfesteem</span>, x <span class="op">=</span> <span class="st">"time"</span>, y <span class="op">=</span> <span class="st">"score"</span>, add <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span><span class="op">(</span><span class="va">pwc_label</span>, hide.ns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    subtitle <span class="op">=</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_test_label.html">get_test_label</a></span><span class="op">(</span><span class="va">res.fried</span>, detailed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    caption <span class="op">=</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_test_label.html">get_pwc_label</a></span><span class="op">(</span><span class="va">pwc_label</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-38-1.png" width="100%"></div>
+</div>
+<div id="kruskal-wallis-test" class="section level2" number="4.11">
+<h2>
+<span class="header-section-number">4.11</span> Kruskal-Wallis test<a class="anchor" aria-label="anchor" href="#kruskal-wallis-test"><i class="fas fa-link"></i></a>
+</h2>
+<p>Kruskal-Wallis检验是单向方差分析检验的非参数替代检验。在有两个以上的组进行比较的情况下，它扩展了两样本Wilcoxon检验。当不满足单因素方差分析的假设时，建议使用。</p>
+<ul>
+<li>数据探索</li>
+</ul>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">PlantGrowth</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_summary_stats.html">get_summary_stats</a></span><span class="op">(</span><span class="va">weight</span>, type <span class="op">=</span> <span class="st">"common"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 11</span></span>
+<span><span class="co">#&gt;   group variable     n   min   max median   iqr  mean    sd</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 ctrl  weight      10  4.17  6.11   5.16 0.743  5.03 0.583</span></span>
+<span><span class="co">#&gt; 2 trt1  weight      10  3.59  6.03   4.55 0.662  4.66 0.794</span></span>
+<span><span class="co">#&gt; 3 trt2  weight      10  4.92  6.31   5.44 0.467  5.53 0.443</span></span>
+<span><span class="co">#&gt; # ℹ 2 more variables: se &lt;dbl&gt;, ci &lt;dbl&gt;</span></span></code></pre></div>
+<ul>
+<li>检验：评估植物的平均weight是否在三组处理间是显著差异的</li>
+</ul>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res.kruskal</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/kruskal_test.html">kruskal_test</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">group</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">res.kruskal</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 6</span></span>
+<span><span class="co">#&gt;   .y.        n statistic    df      p method        </span></span>
+<span><span class="co">#&gt; * &lt;chr&gt;  &lt;int&gt;     &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;chr&gt;         </span></span>
+<span><span class="co">#&gt; 1 weight    30      7.99     2 0.0184 Kruskal-Wallis</span></span>
+<span></span>
+<span><span class="co"># Effect size</span></span>
+<span><span class="co"># PlantGrowth %&gt;% kruskal_effsize(weight ~ group)</span></span></code></pre></div>
+<p>结果：由于p值小于0.05的显著性水平，可以得出模型中标注“*”的组之间存在显著性差异。</p>
+<ul>
+<li>后置检验：组均值之间的多重两两比较 by Dunn’s test</li>
+</ul>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pwc</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/dunn_test.html">dunn_test</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">group</span>, p.adjust.method <span class="op">=</span> <span class="st">"bonferroni"</span><span class="op">)</span> </span>
+<span><span class="va">pwc</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 9</span></span>
+<span><span class="co">#&gt;   .y.    group1 group2    n1    n2 statistic       p  p.adj</span></span>
+<span><span class="co">#&gt; * &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 weight ctrl   trt1      10    10     -1.12 0.264   0.791 </span></span>
+<span><span class="co">#&gt; 2 weight ctrl   trt2      10    10      1.69 0.0912  0.273 </span></span>
+<span><span class="co">#&gt; 3 weight trt1   trt2      10    10      2.81 0.00500 0.0150</span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: p.adj.signif &lt;chr&gt;</span></span></code></pre></div>
+<ul>
+<li>后置检验2: 采用<code>wilcox_test</code>方法</li>
+</ul>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pwc2</span> <span class="op">&lt;-</span> <span class="va">PlantGrowth</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/wilcox_test.html">wilcox_test</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">group</span>, p.adjust.method <span class="op">=</span> <span class="st">"bonferroni"</span><span class="op">)</span></span>
+<span><span class="va">pwc2</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 9</span></span>
+<span><span class="co">#&gt;   .y.    group1 group2    n1    n2 statistic     p p.adj</span></span>
+<span><span class="co">#&gt; * &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 weight ctrl   trt1      10    10      67.5 0.199 0.597</span></span>
+<span><span class="co">#&gt; 2 weight ctrl   trt2      10    10      25   0.063 0.189</span></span>
+<span><span class="co">#&gt; 3 weight trt1   trt2      10    10      16   0.009 0.027</span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: p.adj.signif &lt;chr&gt;</span></span></code></pre></div>
+<ul>
+<li>可视化：加上假设检验的结果</li>
+</ul>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pwc_label2</span> <span class="op">&lt;-</span> <span class="va">pwc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_pvalue_position.html">add_xy_position</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span><span class="op">(</span><span class="va">PlantGrowth</span>, x <span class="op">=</span> <span class="st">"group"</span>, y <span class="op">=</span> <span class="st">"weight"</span>, add <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span><span class="op">(</span><span class="va">pwc_label2</span>, hide.ns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    subtitle <span class="op">=</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_test_label.html">get_test_label</a></span><span class="op">(</span><span class="va">res.kruskal</span>, detailed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    caption <span class="op">=</span> <span class="fu"><a href="https://rpkgs.datanovia.com/rstatix/reference/get_test_label.html">get_pwc_label</a></span><span class="op">(</span><span class="va">pwc_label2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="11-Statistics_Test_files/figure-html/unnamed-chunk-43-1.png" width="100%"></div>
+</div>
+<div id="blocked-wilcoxon-rank-sum-test" class="section level2" number="4.12">
+<h2>
+<span class="header-section-number">4.12</span> Blocked Wilcoxon rank-sum test<a class="anchor" aria-label="anchor" href="#blocked-wilcoxon-rank-sum-test"><i class="fas fa-link"></i></a>
+</h2>
+<p><strong>Two-sided Wilcoxon tests blocked for ‘study’</strong>是Wilcoxon检验是在考虑不同研究来源（study）的影响下进行的差异检验。这不同于单纯地在每个研究内部分别进行Wilcoxon检验，因为它试图控制或调整来自不同研究的潜在影响，从而提供更准确和可靠的整体分析结果。</p>
+<ul>
+<li>
+<strong>formula</strong>: a formula of the form y ~ x | block where y is a numeric variable, x is a factor and block is an optional factor for stratification.</li>
+</ul>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># 安装并加载coin包</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://coin.r-forge.r-project.org">coin</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 示例数据，确保group和study列均为因子类型</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
+<span>  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  study <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Study1"</span>, <span class="st">"Study2"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 使用wilcox_test进行分组Wilcoxon检验</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">coin</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/coin/man/LocationTests.html">wilcox_test</a></span><span class="op">(</span><span class="va">variable</span> <span class="op">~</span> <span class="va">group</span> <span class="op">|</span> <span class="va">study</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Asymptotic Wilcoxon-Mann-Whitney Test</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  variable by</span></span>
+<span><span class="co">#&gt;   group (A, B) </span></span>
+<span><span class="co">#&gt;   stratified by study</span></span>
+<span><span class="co">#&gt; Z = -0.70796, p-value = 0.479</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true mu is not equal to 0</span></span></code></pre></div>
+</div>
+<div id="总结" class="section level2" number="4.13">
+<h2>
+<span class="header-section-number">4.13</span> 总结<a class="anchor" aria-label="anchor" href="#%E6%80%BB%E7%BB%93"><i class="fas fa-link"></i></a>
+</h2>
+<p>1.两组使用t-test或wilcox-test，前者适合正态分布数据后者为非参数检验方法。</p>
+<p>2.三组及以上使用ANOVA, friedman或KW检验，前者适合正态分布数据后者为非参数检验方法。</p>
+<p>3.三组数据的初步检验结果需要做后置检验才能解析出具体组间差异。</p>
+<p>4.在假设检验前，可以对数据进行探索，如正态性评估以及箱线图组间分布评估。</p>
+</div>
+<div id="systemic-information-1" class="section level2" number="4.14">
+<h2>
+<span class="header-section-number">4.14</span> Systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-1"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  setting  value</span></span>
+<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
+<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  ui       X11</span></span>
+<span><span class="co">#&gt;  language (EN)</span></span>
+<span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
+<span><span class="co">#&gt;  date     2023-12-05</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  package              * version   date (UTC) lib source</span></span>
+<span><span class="co">#&gt;  abind                  1.4-5     2016-07-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  backports              1.4.1     2021-12-13 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Biobase              * 2.54.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocGenerics         * 0.40.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  bitops                 1.0-7     2021-04-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  bookdown               0.34      2023-05-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  broom                  1.0.5     2023-06-09 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  bslib                  0.6.0     2023-11-21 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  cachem                 1.0.8     2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  callr                  3.7.3     2022-11-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  car                    3.1-2     2023-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  carData                3.0-5     2022-01-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cli                    3.6.1     2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  codetools              0.2-19    2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  coin                 * 1.4-2     2021-10-08 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  colorspace             2.1-0     2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  crayon                 1.5.2     2022-09-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DelayedArray           0.20.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  devtools               2.4.5     2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  digest                 0.6.33    2023-07-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  downlit                0.4.3     2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  dplyr                * 1.1.2     2023-04-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ellipsis               0.3.2     2021-04-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  evaluate               0.21      2023-05-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fansi                  1.0.4     2023-01-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  farver                 2.1.1     2022-07-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmap                1.1.1     2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  forcats              * 1.0.0     2023-01-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fs                     1.6.2     2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  generics               0.1.3     2022-07-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  GenomeInfoDb         * 1.30.1    2022-01-30 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomeInfoDbData       1.2.7     2022-03-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomicRanges        * 1.46.1    2021-11-18 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ggplot2              * 3.4.2     2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggpubr               * 0.6.0     2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggsignif               0.6.4     2022-10-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glue                   1.6.2     2022-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtable                 0.3.3     2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  highr                  0.10      2022-12-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hms                    1.1.3     2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmltools              0.5.7     2023-11-03 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  htmlwidgets            1.6.2     2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  httpuv                 1.6.11    2023-05-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  IRanges              * 2.28.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  jquerylib              0.1.4     2021-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  jsonlite               1.8.7     2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  knitr                  1.43      2023-05-25 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  labeling               0.4.2     2020-10-20 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  later                  1.3.1     2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lattice                0.21-8    2023-04-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  libcoin                1.0-9     2021-09-27 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  lifecycle              1.0.3     2022-10-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lubridate            * 1.9.2     2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  magrittr               2.0.3     2022-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  MASS                 * 7.3-60    2023-05-04 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Matrix                 1.6-0     2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  MatrixGenerics       * 1.6.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  matrixStats          * 1.0.0     2023-06-02 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  memoise                2.0.1     2021-11-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mime                   0.12      2021-09-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  miniUI                 0.1.1.1   2018-05-18 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  modeltools             0.2-23    2020-03-05 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  multcomp             * 1.4-25    2023-06-20 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  munsell                0.5.0     2018-06-12 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mvtnorm              * 1.2-2     2023-06-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pillar                 1.9.0     2023-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pkgbuild               1.4.2     2023-06-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pkgconfig              2.0.3     2019-09-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pkgload                1.3.2.1   2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  prettyunits            1.1.1     2020-01-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  processx               3.8.2     2023-06-30 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  profvis                0.3.8     2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  promises               1.2.0.1   2021-02-11 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ps                     1.7.5     2023-04-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr                * 1.0.1     2023-01-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  R6                     2.5.1     2021-08-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Rcpp                   1.0.11    2023-07-06 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  RCurl                  1.98-1.12 2023-03-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  readr                * 2.1.4     2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  remotes                2.4.2     2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rlang                  1.1.1     2023-04-28 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rmarkdown              2.23      2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  rstatix              * 0.7.2     2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rstudioapi             0.15.0    2023-07-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  S4Vectors            * 0.32.4    2022-03-29 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sandwich               3.0-2     2022-06-15 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sass                   0.4.6     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scales                 1.2.1     2022-08-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sessioninfo            1.2.2     2021-12-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shiny                  1.7.4.1   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  stringi                1.7.12    2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr              * 1.5.0     2022-12-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  SummarizedExperiment * 1.24.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  survival             * 3.5-5     2023-03-12 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  TH.data              * 1.1-2     2023-04-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tibble               * 3.2.1     2023-03-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr                * 1.3.0     2023-01-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyselect             1.2.0     2022-10-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyverse            * 2.0.0     2023-02-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timechange             0.2.0     2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tzdb                   0.4.0     2023-05-12 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  urlchecker             1.0.1     2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  usethis                2.2.2     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  utf8                   1.2.3     2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vctrs                  0.6.3     2023-06-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  withr                  2.5.0     2022-03-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xfun                   0.40      2023-08-09 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xml2                   1.3.5     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xtable                 1.8-4     2019-04-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  XVector                0.34.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  yaml                   2.3.7     2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  zlibbioc               1.40.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  zoo                    1.8-12    2023-04-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
+<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
+</div>
+<div id="reference-2" class="section level2" number="4.15">
+<h2>
+<span class="header-section-number">4.15</span> Reference<a class="anchor" aria-label="anchor" href="#reference-2"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://bookdown.org/BaktiSiregar/data-science-for-beginners-part-2/">data-science-for-beginners</a></li>
+</ul>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></div>
+<div class="next"><a href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#HypothesisTestingMethods"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
+<li><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%95%B0%E6%8D%AE-1"><span class="header-section-number">4.1</span> 输入数据</a></li>
+<li><a class="nav-link" href="#%E6%AD%A3%E6%80%81%E6%80%A7%E8%AF%84%E4%BC%B0"><span class="header-section-number">4.2</span> 正态性评估</a></li>
+<li><a class="nav-link" href="#%E9%9D%9E%E6%AD%A3%E6%80%81%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2%E6%96%B9%E6%B3%95"><span class="header-section-number">4.3</span> 非正态数据转换方法</a></li>
+<li><a class="nav-link" href="#paired-students-t-test"><span class="header-section-number">4.4</span> Paired student’s t-test</a></li>
+<li><a class="nav-link" href="#students-t-test"><span class="header-section-number">4.5</span> Student’s t-test</a></li>
+<li><a class="nav-link" href="#wilcoxon-signed-rank-t-test"><span class="header-section-number">4.6</span> Wilcoxon signed rank t-test</a></li>
+<li><a class="nav-link" href="#mann-whitney-u-test"><span class="header-section-number">4.7</span> Mann-Whitney U test</a></li>
+<li><a class="nav-link" href="#repeated-measures-one-way-anova"><span class="header-section-number">4.8</span> Repeated measures One-way ANOVA</a></li>
+<li><a class="nav-link" href="#one-way-anova"><span class="header-section-number">4.9</span> One-way ANOVA</a></li>
+<li><a class="nav-link" href="#friedman-test"><span class="header-section-number">4.10</span> Friedman test</a></li>
+<li><a class="nav-link" href="#kruskal-wallis-test"><span class="header-section-number">4.11</span> Kruskal-Wallis test</a></li>
+<li><a class="nav-link" href="#blocked-wilcoxon-rank-sum-test"><span class="header-section-number">4.12</span> Blocked Wilcoxon rank-sum test</a></li>
+<li><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="header-section-number">4.13</span> 总结</a></li>
+<li><a class="nav-link" href="#systemic-information-1"><span class="header-section-number">4.14</span> Systemic information</a></li>
+<li><a class="nav-link" href="#reference-2"><span class="header-section-number">4.15</span> Reference</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/HuaZou/DraftNotes/blob/main/11-Statistics_Test.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/HuaZou/DraftNotes/edit/main/11-Statistics_Test.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-05.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

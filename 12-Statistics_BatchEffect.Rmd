@@ -1,0 +1,236 @@
+```{r, include = FALSE}
+knitr::opts_chunk$set(out.width = "100%", message = FALSE, warning = FALSE)
+```
+
+
+# Batch Effect Correction {#BatchEffectCorrection}
+
+批次效应是除处理其他因素带来的影响实验结果的效应，比如在研究对照组和实验组时候，提取样本DNA时间不同、送测仪器不同等均可能引入批次效应。批次效应不能够消除，只可以降低，使得它对所研究的生物学问题有较小的影响。
+评估批次效应可以通过PCA或PCoA等降纬可视化技术观察样本的聚集情况是否与非研究问题存在视觉上的相关性，也可以通过一些统计方法如PERMANOVA等计算表达谱整体水平和因素之间的关系。
+
+
+## MMUPHin
+
+通常在做多个研究或多个平台的数据整合需要考虑到消除不同研究或平台数据差异，在微生物领域又因为微生物相对丰度数据是稀疏的，所以常在转录组领域使用的校正方法如`sva::ComBat`和`limma::removeBatchEffect`等均不适用。
+
+"MMUPHin"（Meta-analysis via Mixed Models Utilizing Public Health Information）是一个哈佛大学Huttenhover实验室开发的用于微生物组数据的统计分析包，特别是在研究与公共健康相关的多个研究的数据时使用。它在处理批次效应（batch effects）时的原理是基于混合模型（mixed models）。
+
+在微生物组学研究中，批次效应是一个常见的问题。它指的是由于样本处理和测序过程中的技术变异而导致的非生物学差异，这些差异可能会干扰真实的生物学信号。例如，不同的实验室使用不同的样本处理方法或测序平台，可能导致数据之间的系统性差异。
+
+
+MMUPHin处理批次效应的原理：
+
++ 混合模型：MMUPHin使用混合模型来纳入批次效应。在这种模型中，批次效应被视为随机效应，它们与研究中的固定效应（例如治疗组与对照组）分开处理。
+
++ 元分析方法：MMUPHin利用元分析的技术，允许来自不同研究的数据共同分析。元分析是一种统计方法，它综合并分析多个研究的结果，以获得更广泛、更全面的结论。
+
++ 数据整合：通过混合模型和元分析方法，MMUPHin能够在考虑批次效应的同时，整合多个研究的数据，提高分析的统计能力和结论的泛化性。
+
++ 校正批次效应：通过在模型中包括批次效应作为一个变量，MMUPHin可以校正这些非生物学差异，从而使研究结果更加可靠和准确。
+
+
+### 加载依赖包和数据
+
+
++ 数据来源是 `curatedMetagenomicData` R包
+
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+library(tidyverse)
+
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install("MMUPHin")
+
+library(MMUPHin)
+library(ggplot2)
+library(phyloseq)
+
+data("CRC_abd", "CRC_meta")
+CRC_abd[1:5, 1, drop = FALSE]
+# CRC_meta[1, 1:5]
+```
+
+
+### 数据探索
+
+使用`MicrobiomeAnalysis::run_ord`和`MicrobiomeAnalysis::plot_ord`可视化数据，选择PCoA的方法。
+
++ 安装MicrobiomeAnalysis包
+```R
+if (!requireNamespace(c("remotes", "devtools"), quietly=TRUE)) {
+  install.packages(c("devtools", "remotes"))
+}
+remotes::install_github("HuaZou/MicrobiomeAnalysis")
+```
+
+```{r, message = FALSE, warning = FALSE, fig.width=6, fig.height=4}
+# run_ord需要phyloseq object
+rownames(CRC_meta) <- make.names(rownames(CRC_meta))
+colnames(CRC_abd) <- make.names(colnames(CRC_abd))
+rownames(CRC_abd) <- make.names(rownames(CRC_abd))
+tax_tab <- data.frame(Species = rownames(CRC_abd))
+rownames(tax_tab) <- tax_tab$Species
+
+CRC_phy <- phyloseq::phyloseq(
+  sample_data(CRC_meta),
+  otu_table(CRC_abd, taxa_are_rows = TRUE),
+  tax_table(as.matrix(tax_tab))
+)
+
+# 选择两个研究
+CRC_phy_new <- CRC_phy
+phyloseq::sample_data(CRC_phy_new) <- phyloseq::sample_data(
+  CRC_phy@sam_data %>%
+    data.frame() %>%
+    dplyr::filter(studyID %in% c("FengQ_2015.metaphlan_bugs_list.stool",
+                                 "VogtmannE_2016.metaphlan_bugs_list.stool"))) 
+# 运行
+ord_result <- MicrobiomeAnalysis::run_ord(
+  object = CRC_phy_new,
+  variable = "study_condition",
+  method = "PCoA")
+MicrobiomeAnalysis::plot_ord(
+  reslist = ord_result,
+  variable = "study_condition",
+  variable_color = c("red", "blue"),
+  var_shape = "studyID",
+  ellipse_type = "none")
+```
+
+结果：能明显看到样本以`studyID`分散开来，研究之间的批次效应要远远大于control和CRC的生物学效应，接下来我们通过PERMANOVA做统计分析进一步评估显著性。
+
+```{r, message = FALSE, warning = FALSE}
+MicrobiomeAnalysis::run_PERMANOVA(
+  CRC_phy_new,
+  variables = c("study_condition", "studyID"),
+  mode = "one",
+  method = "bray")
+```
+结果：PERMANOVA的`Pr(>F)` < 0.05表明study_condition和studyID均与整体肠道微生物结构有显著差异，也说明studyID的批次效应(_对肠道结构解释9.1%的变异_)对后续study_condition的差异研究等具有非常大的影响，因此需要做批次校正。
+
+
+### 批次效应校正
+
+需要明确的一点是批次效应只能降低，不能完全消除，并且在做批次效应过程中可能会降低或提高所研究的生物学意义，这是因为使用线性模型校正所带来的结果。MMUPHin处理批次效应的原理：
+
++ 混合模型：MMUPHin使用混合模型来纳入批次效应。在这种模型中，批次效应被视为随机效应，它们与研究中的固定效应（例如治疗组与对照组）分开处理。
+
+混合模型可以参考[GEE and MLM](https://zouhua.top/DraftNotes/GEEandMLM.html)，它提供了常用的两种混合模型GEE和MLM。MMUPHin采用的是**Zero-inflated empirical Bayes adjustment of batch effect in compositional feature abundance data**。
+
+```{r, message = FALSE, warning = FALSE}
+fit_adjust_batch <- adjust_batch(
+  feature_abd = CRC_abd,
+  batch = "studyID",
+  covariates = "study_condition",
+  data = CRC_meta,
+  control = list(verbose = FALSE))
+
+CRC_abd_adj <- fit_adjust_batch$feature_abd_adj
+
+CRC_abd_adj[1:5, 1, drop = FALSE]
+```
+
+查看校正后的结果
+
+```{r, message = FALSE, warning = FALSE, fig.width=6, fig.height=4}
+# run_ord需要phyloseq object
+rownames(CRC_meta) <- make.names(rownames(CRC_meta))
+colnames(CRC_abd_adj) <- make.names(colnames(CRC_abd_adj))
+rownames(CRC_abd_adj) <- make.names(rownames(CRC_abd_adj))
+tax_tab_adj <- data.frame(Species = rownames(CRC_abd_adj))
+rownames(tax_tab_adj) <- tax_tab_adj$Species
+
+CRC_phy_adj <- phyloseq::phyloseq(
+  sample_data(CRC_meta),
+  otu_table(CRC_abd_adj, taxa_are_rows = TRUE),
+  tax_table(as.matrix(tax_tab_adj))
+)
+
+# 选择两个研究
+CRC_phy_adj_new <- CRC_phy_adj
+phyloseq::sample_data(CRC_phy_adj_new) <- phyloseq::sample_data(
+  CRC_phy_adj@sam_data %>%
+    data.frame() %>%
+    dplyr::filter(studyID %in% c("FengQ_2015.metaphlan_bugs_list.stool",
+                                 "VogtmannE_2016.metaphlan_bugs_list.stool"))) 
+# 运行
+ord_result <- MicrobiomeAnalysis::run_ord(
+  object = CRC_phy_adj_new,
+  variable = "study_condition",
+  method = "PCoA")
+MicrobiomeAnalysis::plot_ord(
+  reslist = ord_result,
+  variable = "study_condition",
+  variable_color = c("red", "blue"),
+  var_shape = "studyID",
+  ellipse_type = "none")
+```
+
+结果：相比校正前，studyID带来的效应明显降低。进一步通过PERMANOVA结果分析。
+
+```{r, message = FALSE, warning = FALSE}
+MicrobiomeAnalysis::run_PERMANOVA(
+  CRC_phy_adj_new,
+  variables = c("study_condition", "studyID"),
+  mode = "one",
+  method = "bray")
+```
+
+结果：相比校正前，studyID的解释肠道结构总体变异度从9.1%降低到了1.7%。与此同时，study_condition的总体变异则几乎没有太大变化。
+
+
+### 荟萃分析
+
+荟萃分析的目的是汇总各个研究的共同结果进而获得一个共有的效果，先前也有很多工具提供类似的研究，例如meta包。MMUPHin也提供了`lm_meta`函数用于分析。
+
++ 先用Maaslin2计算不同研究在control和CRC之间的差异物种；
+
++ 再使用混合模型汇总所有的结果。
+
+因为采用了线性回归方式，所以可以加入一些协变量如年龄、性别和BMI等人口统计变量作为校正因素。coef表示EffectSize也即是在Control和CRC组间的区别。
+
+```{r, message = FALSE, warning = FALSE, fig.width=6, fig.height=4}
+if(!dir.exists("./InputData/MMUPHin_lm_meta")) {
+  dir.create("./InputData/MMUPHin_lm_meta", recursive = TRUE)
+}
+
+fit_lm_meta <- lm_meta(
+  feature_abd = CRC_abd_adj,
+  batch = "studyID",
+  exposure = "study_condition",
+  covariates = c("gender", "age", "BMI"),
+  data = CRC_meta,
+  control = list(verbose = FALSE, 
+                 output = "./InputData/MMUPHin_lm_meta"))
+
+fit_lm_meta$meta_fits %>% 
+  filter(qval.fdr < 0.05) %>% 
+  arrange(coef) %>% 
+  mutate(feature = factor(feature, levels = feature)) %>% 
+  ggplot(aes(y = coef, x = feature)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  theme_bw()
+```
+
+
+### 总结
+
++ MMUPHin提供了可以校正多个数据来源的批次效应函数
+
++ MMUPHin在做荟萃分析的时提供了工具
+
+
+## Systemic information
+```{r}
+devtools::session_info()
+```
+
+
+## Reference
+
++ [MMUPHin](https://huttenhower.sph.harvard.edu/mmuphin)
+
++ [Doing Meta-Analysis with R: A Hands-On Guide](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/)

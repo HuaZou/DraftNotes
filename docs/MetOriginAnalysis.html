@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 10 MetOrigin Analysis | 生物信息随记</title>
+<meta name="author" content="Hua Zou">
+<meta name="description" content="微生物群及其代谢产物与人类健康和疾病密切相关。然而，理解微生物组和代谢物之间复杂的相互作用是具有挑战性的。 在研究肠道代谢物时，代谢物的来源是一个无法避免的问题即代谢物到底是来自肠道微生物的代谢还是宿主本身代谢产生的。2022年Yu, Gang et.al.发表的1提供了一个可以区分为微生物还是宿主代谢物的工具。 该工具的核心是一个人工检验过具有微生物和宿主等标签的代谢物数据库。...">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="Chapter 10 MetOrigin Analysis | 生物信息随记">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://zouhua.top/DraftNotes/MetOriginAnalysis.html">
+<meta property="og:description" content="微生物群及其代谢产物与人类健康和疾病密切相关。然而，理解微生物组和代谢物之间复杂的相互作用是具有挑战性的。 在研究肠道代谢物时，代谢物的来源是一个无法避免的问题即代谢物到底是来自肠道微生物的代谢还是宿主本身代谢产生的。2022年Yu, Gang et.al.发表的1提供了一个可以区分为微生物还是宿主代谢物的工具。 该工具的核心是一个人工检验过具有微生物和宿主等标签的代谢物数据库。...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 10 MetOrigin Analysis | 生物信息随记">
+<meta name="twitter:description" content="微生物群及其代谢产物与人类健康和疾病密切相关。然而，理解微生物组和代谢物之间复杂的相互作用是具有挑战性的。 在研究肠道代谢物时，代谢物的来源是一个无法避免的问题即代谢物到底是来自肠道微生物的代谢还是宿主本身代谢产生的。2022年Yu, Gang et.al.发表的1提供了一个可以区分为微生物还是宿主代谢物的工具。 该工具的核心是一个人工检验过具有微生物和宿主等标签的代谢物数据库。...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">生物信息随记</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> 介绍</a></li>
+<li class="book-part">Data Set</li>
+<li><a class="" href="ZeybelDataset.html"><span class="header-section-number">2</span> Zeybel Dataset</a></li>
+<li class="book-part">Statistical Methods</li>
+<li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
+<li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
+<li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li class="book-part">Metabolomics Data Analysis</li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">6</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">7</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">8</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">9</span> Functional Analysis</a></li>
+<li><a class="active" href="MetOriginAnalysis.html"><span class="header-section-number">10</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></li>
+<li class="book-part">Machine Learning</li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">12</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></li>
+<li class="book-part">Knowledge</li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">14</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">15</span> Notes</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/HuaZou/DraftNotes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="MetOriginAnalysis" class="section level1" number="10">
+<h1>
+<span class="header-section-number">10</span> MetOrigin Analysis<a class="anchor" aria-label="anchor" href="#MetOriginAnalysis"><i class="fas fa-link"></i></a>
+</h1>
+<p>微生物群及其代谢产物与人类健康和疾病密切相关。然而，理解微生物组和代谢物之间复杂的相互作用是具有挑战性的。</p>
+<p>在研究肠道代谢物时，代谢物的来源是一个无法避免的问题即代谢物到底是来自肠道微生物的代谢还是宿主本身代谢产生的。2022年Yu, Gang et.al.发表的<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Gang Yu et al., &lt;span&gt;“MetOrigin: Discriminating the Origins of Microbial Metabolites for Integrative Analysis of the Gut Microbiome and Metabolome,”&lt;/span&gt; &lt;em&gt;IMeta&lt;/em&gt; 1, no. 1 (2022): e10.&lt;/p&gt;"><sup>1</sup></a></span>提供了一个可以区分为微生物还是宿主代谢物的工具。</p>
+<p>该工具的核心是一个人工检验过具有微生物和宿主等标签的代谢物数据库。</p>
+<ul>
+<li><p>微生物独有的代谢物</p></li>
+<li><p>宿主独有代谢物</p></li>
+<li><p>两者都可以代谢的代谢物</p></li>
+<li><p>其他类型（未知）</p></li>
+</ul>
+<p>该工具没有提供R版本，需要到其网站使用。本教程只提供如何准备网站所需的输入文件。</p>
+<div id="加载r包-7" class="section level2" number="10.1">
+<h2>
+<span class="header-section-number">10.1</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-7"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># rm(list = ls())</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>future.globals.maxSize <span class="op">=</span> <span class="fl">1000</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">grp_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"None"</span>, <span class="st">"Mild"</span>, <span class="st">"Moderate"</span>, <span class="st">"Severe"</span><span class="op">)</span></span>
+<span><span class="va">grp_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#7DD06F"</span>, <span class="st">"#844081"</span>, <span class="st">"#688EC1"</span>, <span class="st">"#C17E73"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="导入数据-6" class="section level2" number="10.2">
+<h2>
+<span class="header-section-number">10.2</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-6"><i class="fas fa-link"></i></a>
+</h2>
+<p>对数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel%20et%20al.%20-%202022.xlsx">OmicsDataSet-Zeybel et al. - 2022.xlsx</a>处理后生成的，可参考数据预处理等章节。</p>
+<blockquote>
+<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.table</a></span><span class="op">(</span><span class="va">final_res</span>, <span class="st">"./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv"</span>, </span>
+<span>row.names <span class="op">=</span> <span class="cn">F</span>, quote <span class="op">=</span> <span class="cn">F</span>, sep <span class="op">=</span> <span class="st">"\t"</span>, fileEncoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span></code></pre></div>
+</blockquote>
+<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datSignif</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># DT::datatable(datSignif)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">datSignif</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                                         FeatureID</span></span>
+<span><span class="co">#&gt; 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
+<span><span class="co">#&gt; 2:                 cysteine-glutathione disulfide</span></span>
+<span><span class="co">#&gt; 3:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*</span></span>
+<span><span class="co">#&gt; 4:                                         serine</span></span>
+<span><span class="co">#&gt; 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*</span></span>
+<span><span class="co">#&gt; 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*</span></span>
+<span><span class="co">#&gt;            Block2                Block FoldChange</span></span>
+<span><span class="co">#&gt; 1: None vs Severe 10_None vs 12_Severe  0.6444244</span></span>
+<span><span class="co">#&gt; 2: None vs Severe 10_None vs 12_Severe  1.7109000</span></span>
+<span><span class="co">#&gt; 3: None vs Severe 10_None vs 12_Severe  0.5199556</span></span>
+<span><span class="co">#&gt; 4: None vs Severe 10_None vs 12_Severe  1.2218596</span></span>
+<span><span class="co">#&gt; 5: None vs Severe 10_None vs 12_Severe  0.5667863</span></span>
+<span><span class="co">#&gt; 6: None vs Severe 10_None vs 12_Severe  0.5638085</span></span>
+<span><span class="co">#&gt;    Log2FoldChange      VIP    CorPvalue Statistic</span></span>
+<span><span class="co">#&gt; 1:     -0.6339170 2.680471 7.910566e-05 -4.875928</span></span>
+<span><span class="co">#&gt; 2:      0.7747554 2.615284 1.427798e-04  4.879864</span></span>
+<span><span class="co">#&gt; 3:     -0.9435396 2.535490 2.775095e-04 -4.333042</span></span>
+<span><span class="co">#&gt; 4:      0.2890785 2.490737 3.929470e-04  4.314434</span></span>
+<span><span class="co">#&gt; 5:     -0.8191231 2.489832 3.956533e-04 -4.144802</span></span>
+<span><span class="co">#&gt; 6:     -0.8267228 2.381443 8.605197e-04 -3.781278</span></span>
+<span><span class="co">#&gt;          Pvalue AdjustedPvalue Mean Abundance (All)</span></span>
+<span><span class="co">#&gt; 1: 0.0001197367     0.03975257              3841099</span></span>
+<span><span class="co">#&gt; 2: 0.0001073822     0.03975257              1246453</span></span>
+<span><span class="co">#&gt; 3: 0.0004066026     0.06749603              2243154</span></span>
+<span><span class="co">#&gt; 4: 0.0003379029     0.06749603             63358904</span></span>
+<span><span class="co">#&gt; 5: 0.0006948992     0.09228261              1817773</span></span>
+<span><span class="co">#&gt; 6: 0.0017211306     0.16326153              1192929</span></span>
+<span><span class="co">#&gt;    Mean Abundance None Mean Abundance Severe  metabolitesID</span></span>
+<span><span class="co">#&gt; 1:           2952496.1             4581602.1 Chem_100015755</span></span>
+<span><span class="co">#&gt; 2:           1611743.8              942044.4 Chem_100001437</span></span>
+<span><span class="co">#&gt; 3:           1491869.7             2869225.1 Chem_100009066</span></span>
+<span><span class="co">#&gt; 4:          70323857.2            57554776.3       Chem_503</span></span>
+<span><span class="co">#&gt; 5:           1282914.5             2263488.8 Chem_100009181</span></span>
+<span><span class="co">#&gt; 6:            838913.8             1487941.0 Chem_100010917</span></span>
+<span><span class="co">#&gt;                                       BIOCHEMICAL</span></span>
+<span><span class="co">#&gt; 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
+<span><span class="co">#&gt; 2:                 cysteine-glutathione disulfide</span></span>
+<span><span class="co">#&gt; 3:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*</span></span>
+<span><span class="co">#&gt; 4:                                         serine</span></span>
+<span><span class="co">#&gt; 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*</span></span>
+<span><span class="co">#&gt; 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*</span></span>
+<span><span class="co">#&gt;    SUPER.PATHWAY                              SUB.PATHWAY</span></span>
+<span><span class="co">#&gt; 1:         Lipid                                Ceramides</span></span>
+<span><span class="co">#&gt; 2:    Amino Acid                   Glutathione Metabolism</span></span>
+<span><span class="co">#&gt; 3:         Lipid                Phosphatidylinositol (PI)</span></span>
+<span><span class="co">#&gt; 4:    Amino Acid Glycine, Serine and Threonine Metabolism</span></span>
+<span><span class="co">#&gt; 5:         Lipid                Phosphatidylinositol (PI)</span></span>
+<span><span class="co">#&gt; 6:         Lipid                           Diacylglycerol</span></span>
+<span><span class="co">#&gt;    COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM</span></span>
+<span><span class="co">#&gt; 1:  57440  LC/MS Pos Late  100015755 3920 594.5820     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690</span></span>
+<span><span class="co">#&gt; 3:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232</span></span>
+<span><span class="co">#&gt; 4:   1648 LC/MS Pos Early        503 1239 106.0499     5951</span></span>
+<span><span class="co">#&gt; 5:  52726  LC/MS Pos Late  100009181 3711 882.6066     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6:  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283</span></span>
+<span><span class="co">#&gt;           CAS   KEGG SampleIDHMDBID</span></span>
+<span><span class="co">#&gt; 1:       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2: 13081-14-6 R00900    HMDB0000656</span></span>
+<span><span class="co">#&gt; 3:       &lt;NA&gt;   &lt;NA&gt;    HMDB0009783</span></span>
+<span><span class="co">#&gt; 4:    56-45-1 C00065    HMDB0000187</span></span>
+<span><span class="co">#&gt; 5:       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6:       &lt;NA&gt; C13861    HMDB0007102</span></span></code></pre></div>
+</div>
+<div id="准备输入文件" class="section level2" number="10.3">
+<h2>
+<span class="header-section-number">10.3</span> 准备输入文件<a class="anchor" aria-label="anchor" href="#%E5%87%86%E5%A4%87%E8%BE%93%E5%85%A5%E6%96%87%E4%BB%B6"><i class="fas fa-link"></i></a>
+</h2>
+<p>网站需要的输入文件必须要以代谢物的名称如<strong>HMDBID</strong>等作为代谢物唯一标识，本文也将用<strong>HMDBID</strong>。除此之外，还需要设置表明代谢物差异富集方向的列<strong>Diff</strong>。</p>
+<blockquote>
+<p>The metabolite table must contain at least one column of “HMDBID”, “KEGGID” or “Name”, and a column of 0/1 values indicating statistical significance (1-significant, 0-nonsignificant). If the “Diff” column is missing, all metabolites will be considered as differential metabolites.</p>
+</blockquote>
+<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">get_metabolites</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
+<span>  <span class="va">dat</span>,</span>
+<span>  <span class="va">group_names</span>,</span>
+<span>  <span class="va">index_names</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"FoldChange"</span>, <span class="st">"Log2FoldChange"</span>, <span class="st">"VIP"</span>, <span class="st">"CorPvalue"</span>, <span class="st">"Pvalue"</span>, <span class="st">"AdjustedPvalue"</span><span class="op">)</span>,</span>
+<span>  <span class="va">index_cutoff</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">==</span> <span class="st">"SampleIDHMDBID"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"HMDB"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">==</span> <span class="st">"KEGG"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"cpd_ID"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">==</span> <span class="st">"BIOCHEMICAL"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Compounds"</span></span>
+<span>  <span class="va">dat</span><span class="op">$</span><span class="va">HMDB</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">",\\S+"</span>, <span class="st">""</span>, <span class="va">dat</span><span class="op">$</span><span class="va">HMDB</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">temp_dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Block2</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">group_names</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">HMDB</span> <span class="op">!=</span> <span class="st">"-"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">temp_dat</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">temp_dat</span><span class="op">)</span> <span class="op">==</span> <span class="va">index_names</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"DA_index1"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">temp_dat</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">temp_dat</span><span class="op">)</span> <span class="op">==</span> <span class="va">index_names</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"DA_index2"</span></span>
+<span>  </span>
+<span>  <span class="va">temp_dat_diff</span> <span class="op">&lt;-</span> <span class="va">temp_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">DA_index1</span><span class="op">)</span> <span class="op">&gt;</span> <span class="va">index_cutoff</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">DA_index2</span> <span class="op">&lt;</span> <span class="va">index_cutoff</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Diff <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">temp_dat_diff</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Beyond these thresholds, no significant metabolites were selected"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="va">temp_dat_nodiff</span> <span class="op">&lt;-</span> <span class="va">temp_dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">HMDB</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">temp_dat_diff</span><span class="op">$</span><span class="va">HMDB</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Diff <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">temp_dat_diff</span>, <span class="va">temp_dat_nodiff</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">HMDB</span>, <span class="va">cpd_ID</span>, <span class="va">Compounds</span>, <span class="va">DA_index1</span>, <span class="va">DA_index2</span>, <span class="va">Diff</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>HMDBID <span class="op">=</span> <span class="va">HMDB</span>,</span>
+<span>                  KEGGID <span class="op">=</span> <span class="va">cpd_ID</span>,</span>
+<span>                  Name <span class="op">=</span> <span class="va">Compounds</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">HMDBID</span>, <span class="va">KEGGID</span>, <span class="va">Name</span>, <span class="va">Diff</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">pre_data</span> <span class="op">&lt;-</span> <span class="fu">get_metabolites</span><span class="op">(</span></span>
+<span>  dat <span class="op">=</span> <span class="va">datSignif</span>,</span>
+<span>  group_names <span class="op">=</span> <span class="st">"None vs Severe"</span>,</span>
+<span>  index_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Log2FoldChange"</span>, <span class="st">"AdjustedPvalue"</span><span class="op">)</span>,</span>
+<span>  index_cutoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pre_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         HMDBID KEGGID</span></span>
+<span><span class="co">#&gt; 1: HMDB0000656 R00900</span></span>
+<span><span class="co">#&gt; 2: HMDB0009783   &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3: HMDB0000187 C00065</span></span>
+<span><span class="co">#&gt; 4: HMDB0007102 C13861</span></span>
+<span><span class="co">#&gt; 5: HMDB0004950   &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6: HMDB0007102 C13861</span></span>
+<span><span class="co">#&gt;                                          Name Diff</span></span>
+<span><span class="co">#&gt; 1:             cysteine-glutathione disulfide    1</span></span>
+<span><span class="co">#&gt; 2:      1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*    1</span></span>
+<span><span class="co">#&gt; 3:                                     serine    1</span></span>
+<span><span class="co">#&gt; 4: palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*    1</span></span>
+<span><span class="co">#&gt; 5:       N-stearoyl-sphingosine (d18:1/18:0)*    1</span></span>
+<span><span class="co">#&gt; 6: palmitoyl-oleoyl-glycerol (16:0/18:1) [1]*    1</span></span></code></pre></div>
+</div>
+<div id="输出结果文件" class="section level2" number="10.4">
+<h2>
+<span class="header-section-number">10.4</span> 输出结果文件<a class="anchor" aria-label="anchor" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%E6%96%87%E4%BB%B6"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>the csv file could be used as inputs in the MetOrigin website.</li>
+</ul>
+<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span><span class="op">(</span><span class="st">"./InputData/result/MetOrigin"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"./InputData/result/MetOrigin"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">pre_data</span>, <span class="st">"./InputData/result/MetOrigin/MetOrigin_inputs.csv"</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="metorigin-user-tutorial" class="section level2" number="10.5">
+<h2>
+<span class="header-section-number">10.5</span> MetOrigin User Tutorial<a class="anchor" aria-label="anchor" href="#metorigin-user-tutorial"><i class="fas fa-link"></i></a>
+</h2>
+<p>MetOrigin comprises five parts:</p>
+<ul>
+<li><strong>Load data</strong></li>
+</ul>
+<blockquote>
+<p>Please select the analysis mode at first “Simple MetOrigin Analysis” or “Deep MetOrigin Analysis”. Then you can try “Load Example Data” or upload your own data. Host information needs to be confirmed before moving to the next step.</p>
+</blockquote>
+<ul>
+<li><strong>Origin Analysis</strong></li>
+</ul>
+<blockquote>
+<p>This step is to identify where metabolites come from: host, bacteria, both, or unknown?</p>
+</blockquote>
+<ul>
+<li><strong>Function Analysis</strong></li>
+</ul>
+<blockquote>
+<p>This step is to perform the metabolic pathway enrichment analysis according to different categories of metabolites: metabolites belonging to the host, bacteria, or both.</p>
+</blockquote>
+<ul>
+<li><strong>Sankey Network</strong></li>
+</ul>
+<blockquote>
+<p>This step is to link all the possible bacteria that may participate in a specific metabolic reaction, helping you to identify important interplay between bacteria and metabolites.</p>
+</blockquote>
+<ul>
+<li><strong>Download Results</strong></li>
+</ul>
+<blockquote>
+<p>All the analysis results can be downloaded for your further data exploration.</p>
+</blockquote>
+<p><strong>See more details please go to the below tutorial (<a href="https://metorigin.met-bioinformatics.cn/">MetOrigin website</a>)</strong>:</p>
+<div class="float">
+<embed src="./InputData/Tutorial/MetOrigin_User_Tutorial.pdf" style="width:100.0%" height="800"></embed><div class="figcaption">MetOrigin User Tutorial</div>
+</div>
+</div>
+<div id="结果解析" class="section level2" number="10.6">
+<h2>
+<span class="header-section-number">10.6</span> 结果解析<a class="anchor" aria-label="anchor" href="#%E7%BB%93%E6%9E%9C%E8%A7%A3%E6%9E%90"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>溯源分析：条形图和韦恩图展示代谢物的来源</p></li>
+<li><p>功能分析：分别用不同来源的差异代谢物做超几何富集分析，判断它们富集在哪些通路</p></li>
+<li><p>桑基图网络分析：某个特定代谢通路的微生物对代谢物的贡献程度，不同颜色表明微生物对代谢物的上下调关系</p></li>
+</ul>
+</div>
+<div id="session-info-5" class="section level2" number="10.7">
+<h2>
+<span class="header-section-number">10.7</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-5"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  setting  value</span></span>
+<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
+<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  ui       X11</span></span>
+<span><span class="co">#&gt;  language (EN)</span></span>
+<span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
+<span><span class="co">#&gt;  date     2023-12-05</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  package     * version date (UTC) lib source</span></span>
+<span><span class="co">#&gt;  bookdown      0.34    2023-05-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bslib         0.6.0   2023-11-21 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  cachem        1.0.8   2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  callr         3.7.3   2022-11-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cli           3.6.1   2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  colorspace    2.1-0   2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  crayon        1.5.2   2022-09-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  data.table    1.14.8  2023-02-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  devtools      2.4.5   2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  digest        0.6.33  2023-07-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  downlit       0.4.3   2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  dplyr       * 1.1.2   2023-04-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ellipsis      0.3.2   2021-04-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  evaluate      0.21    2023-05-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fansi         1.0.4   2023-01-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmap       1.1.1   2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  forcats     * 1.0.0   2023-01-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fs            1.6.2   2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  generics      0.1.3   2022-07-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggplot2     * 3.4.2   2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glue          1.6.2   2022-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtable        0.3.3   2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hms           1.1.3   2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmltools     0.5.7   2023-11-03 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  htmlwidgets   1.6.2   2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  httpuv        1.6.11  2023-05-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  jquerylib     0.1.4   2021-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  jsonlite      1.8.7   2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  knitr         1.43    2023-05-25 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  later         1.3.1   2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lifecycle     1.0.3   2022-10-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lubridate   * 1.9.2   2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  magrittr      2.0.3   2022-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  memoise       2.0.1   2021-11-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mime          0.12    2021-09-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  miniUI        0.1.1.1 2018-05-18 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  munsell       0.5.0   2018-06-12 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pillar        1.9.0   2023-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pkgbuild      1.4.2   2023-06-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pkgconfig     2.0.3   2019-09-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pkgload       1.3.2.1 2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  prettyunits   1.1.1   2020-01-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  processx      3.8.2   2023-06-30 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  profvis       0.3.8   2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  promises      1.2.0.1 2021-02-11 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ps            1.7.5   2023-04-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr       * 1.0.1   2023-01-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  R6            2.5.1   2021-08-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Rcpp          1.0.11  2023-07-06 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  readr       * 2.1.4   2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  remotes       2.4.2   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rlang         1.1.1   2023-04-28 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rmarkdown     2.23    2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  rstudioapi    0.15.0  2023-07-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  sass          0.4.6   2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scales        1.2.1   2022-08-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sessioninfo   1.2.2   2021-12-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shiny         1.7.4.1 2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  stringi       1.7.12  2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr     * 1.5.0   2022-12-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tibble      * 3.2.1   2023-03-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr       * 1.3.0   2023-01-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyselect    1.2.0   2022-10-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyverse   * 2.0.0   2023-02-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timechange    0.2.0   2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tzdb          0.4.0   2023-05-12 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  urlchecker    1.0.1   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  usethis       2.2.2   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  utf8          1.2.3   2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vctrs         0.6.3   2023-06-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  withr         2.5.0   2022-03-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xfun          0.40    2023-08-09 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xml2          1.3.5   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xtable        1.8-4   2019-04-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  yaml          2.3.7   2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
+<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
+</div>
+<div id="reference-8" class="section level2" number="10.8">
+<h2>
+<span class="header-section-number">10.8</span> Reference<a class="anchor" aria-label="anchor" href="#reference-8"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://metorigin.met-bioinformatics.cn/home/">metorigin website</a></li>
+</ul>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="FunctionalAnalysis.html"><span class="header-section-number">9</span> Functional Analysis</a></div>
+<div class="next"><a href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#MetOriginAnalysis"><span class="header-section-number">10</span> MetOrigin Analysis</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-7"><span class="header-section-number">10.1</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-6"><span class="header-section-number">10.2</span> 导入数据</a></li>
+<li><a class="nav-link" href="#%E5%87%86%E5%A4%87%E8%BE%93%E5%85%A5%E6%96%87%E4%BB%B6"><span class="header-section-number">10.3</span> 准备输入文件</a></li>
+<li><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%E6%96%87%E4%BB%B6"><span class="header-section-number">10.4</span> 输出结果文件</a></li>
+<li><a class="nav-link" href="#metorigin-user-tutorial"><span class="header-section-number">10.5</span> MetOrigin User Tutorial</a></li>
+<li><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E8%A7%A3%E6%9E%90"><span class="header-section-number">10.6</span> 结果解析</a></li>
+<li><a class="nav-link" href="#session-info-5"><span class="header-section-number">10.7</span> Session info</a></li>
+<li><a class="nav-link" href="#reference-8"><span class="header-section-number">10.8</span> Reference</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/HuaZou/DraftNotes/blob/main/24-Metabolome-MetoriginAnalysis.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/HuaZou/DraftNotes/edit/main/24-Metabolome-MetoriginAnalysis.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-05.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+```{r, include = FALSE}
+knitr::opts_chunk$set(out.width = "100%", message = FALSE, warning = FALSE)
+```
+
+
+# MetOrigin Analysis {#MetOriginAnalysis}
+
+
+微生物群及其代谢产物与人类健康和疾病密切相关。然而，理解微生物组和代谢物之间复杂的相互作用是具有挑战性的。
+
+在研究肠道代谢物时，代谢物的来源是一个无法避免的问题即代谢物到底是来自肠道微生物的代谢还是宿主本身代谢产生的。2022年Yu, Gang et.al.发表的[@yu2022metorigin]提供了一个可以区分为微生物还是宿主代谢物的工具。
+
+该工具的核心是一个人工检验过具有微生物和宿主等标签的代谢物数据库。
+
++ 微生物独有的代谢物
+
++ 宿主独有代谢物
+
++ 两者都可以代谢的代谢物
+
++ 其他类型（未知）
+
+
+该工具没有提供R版本，需要到其网站使用。本教程只提供如何准备网站所需的输入文件。
+
+
+## 加载R包
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+
+
+# rm(list = ls())
+options(stringsAsFactors = F)
+options(future.globals.maxSize = 1000 * 1024^2)
+
+grp_names <- c("None", "Mild", "Moderate", "Severe")
+grp_colors <- c("#7DD06F", "#844081", "#688EC1", "#C17E73")
+```
+
+
+## 导入数据
+
+对数据[OmicsDataSet-Zeybel et al. - 2022.xlsx](https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel et al. - 2022.xlsx)处理后生成的，可参考数据预处理等章节。
+
+
+> ```R
+> write.table(final_res, "./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv", 
+            row.names = F, quote = F, sep = "\t", fileEncoding = "UTF-8")
+> ```
+
+```{r}
+datSignif <- data.table::fread("./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv")
+
+# DT::datatable(datSignif)
+
+head(datSignif)
+```
+
+
+
+## 准备输入文件
+
+网站需要的输入文件必须要以代谢物的名称如**HMDBID**等作为代谢物唯一标识，本文也将用**HMDBID**。除此之外，还需要设置表明代谢物差异富集方向的列**Diff**。
+
+> The metabolite table must contain at least one column of “HMDBID”, “KEGGID” or “Name”, and a column of 0/1 values indicating statistical significance (1-significant, 0-nonsignificant). If the “Diff” column is missing, all metabolites will be considered as differential metabolites.
+
+```{r}
+get_metabolites <- function(
+  dat,
+  group_names,
+  index_names = c("FoldChange", "Log2FoldChange", "VIP", "CorPvalue", "Pvalue", "AdjustedPvalue"),
+  index_cutoff = c(1, 1, 1, 0.05, 0.05, 0.2)) {
+  
+  
+  colnames(dat)[which(colnames(dat) == "SampleIDHMDBID")] <- "HMDB"
+  colnames(dat)[which(colnames(dat) == "KEGG")] <- "cpd_ID"
+  colnames(dat)[which(colnames(dat) == "BIOCHEMICAL")] <- "Compounds"
+  dat$HMDB <- gsub(",\\S+", "", dat$HMDB)
+  
+  temp_dat <- dat %>%
+    dplyr::filter(Block2 %in% group_names) %>%
+    dplyr::filter(HMDB != "-")
+  
+  colnames(temp_dat)[which(colnames(temp_dat) == index_names[1])] <- "DA_index1"
+  colnames(temp_dat)[which(colnames(temp_dat) == index_names[2])] <- "DA_index2"
+  
+  temp_dat_diff <- temp_dat %>%
+    dplyr::filter(abs(DA_index1) > index_cutoff[1]) %>%
+    dplyr::filter(DA_index2 < index_cutoff[2]) %>%
+    dplyr::mutate(Diff = 1)
+  
+  if (nrow(temp_dat_diff) == 0) {
+    stop("Beyond these thresholds, no significant metabolites were selected")
+  }
+  
+  temp_dat_nodiff <- temp_dat %>%
+    dplyr::filter(!HMDB %in% temp_dat_diff$HMDB) %>%
+    dplyr::mutate(Diff = 0)
+  
+  res <- rbind(temp_dat_diff, temp_dat_nodiff) %>%
+    dplyr::select(HMDB, cpd_ID, Compounds, DA_index1, DA_index2, Diff) %>%
+    dplyr::rename(HMDBID = HMDB,
+                  KEGGID = cpd_ID,
+                  Name = Compounds) %>%
+    dplyr::select(HMDBID, KEGGID, Name, Diff)
+
+  return(res)
+}
+
+pre_data <- get_metabolites(
+  dat = datSignif,
+  group_names = "None vs Severe",
+  index_names = c("Log2FoldChange", "AdjustedPvalue"),
+  index_cutoff = c(0, 0.9))
+  
+head(pre_data)
+```
+
+
+## 输出结果文件
+
++ the csv file could be used as inputs in the MetOrigin website.
+
+```{r}
+if(!dir.exists("./InputData/result/MetOrigin")) {
+  dir.create("./InputData/result/MetOrigin", recursive = TRUE)
+}
+
+write.csv(pre_data, "./InputData/result/MetOrigin/MetOrigin_inputs.csv", row.names = F)
+```
+
+
+## MetOrigin User Tutorial
+
+MetOrigin comprises five parts:
+
++ **Load data**
+
+> Please select the analysis mode at first "Simple MetOrigin Analysis" or "Deep MetOrigin Analysis". Then you can try "Load Example Data" or upload your own data. Host information needs to be confirmed before moving to the next step.
+
++ **Origin Analysis**
+
+> This step is to identify where metabolites come from: host, bacteria, both, or unknown?
+
++ **Function Analysis**
+
+> This step is to perform the metabolic pathway enrichment analysis according to different categories of metabolites: metabolites belonging to the host, bacteria, or both.
+
++ **Sankey Network**
+
+> This step is to link all the possible bacteria that may participate in a specific metabolic reaction, helping you to identify important interplay between bacteria and metabolites.
+
++ **Download Results**
+
+> All the analysis results can be downloaded for your further data exploration. 
+
+**See more details please go to the below tutorial ([MetOrigin website](https://metorigin.met-bioinformatics.cn/))**:
+
+![MetOrigin User Tutorial](./InputData/Tutorial/MetOrigin_User_Tutorial.pdf){width=100% height=800}
+
+
+
+## 结果解析
+
++ 溯源分析：条形图和韦恩图展示代谢物的来源
+
++ 功能分析：分别用不同来源的差异代谢物做超几何富集分析，判断它们富集在哪些通路
+
++ 桑基图网络分析：某个特定代谢通路的微生物对代谢物的贡献程度，不同颜色表明微生物对代谢物的上下调关系
+
+
+## Session info
+```{r}
+devtools::session_info()
+```
+
+
+## Reference
+
++ [metorigin website](https://metorigin.met-bioinformatics.cn/home/) 
+

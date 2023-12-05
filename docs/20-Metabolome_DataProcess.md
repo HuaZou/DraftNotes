@@ -1,0 +1,1510 @@
+
+
+
+# (PART) Metabolomics Data Analysis {.unnumbered}
+
+
+# Data Processing {#dataprocessing}
+
+
+代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。
+
+本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic Steatosis_的粪便代谢组学质谱数据。
+
+> 55份粪便代谢组，1032个代谢物
+
+## 处理流程
+
++ 数据检查：1.核查所有代谢物intensity value是数值型；2.缺失值的比例
+
++ 补充缺失值
+
++ 数据过滤（针对代谢物或样本）
+
++ 数据标准化（针对代谢物或样本）
+
+
+## 加载R包
+
+```r
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+library(SummarizedExperiment)
+
+# rm(list = ls())
+options(stringsAsFactors = F)
+options(future.globals.maxSize = 1000 * 1024^2)
+```
+
+
+## 导入数据
+
+对数据[OmicsDataSet-Zeybel et al. - 2022.xlsx](https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel et al. - 2022.xlsx)处理后生成的输入文件，详细情况可参考**Data Set**具体章节。
+
+> ```R
+> saveRDS(se_metabolite, "./InputData/result/Zeybel_2022_fecal_metabolite_se.RDS", compress = TRUE)
+> ```
+
+
+```r
+data_meta <- readRDS("./InputData/result/Zeybel_2022_fecal_metabolite_se.RDS")
+
+data_meta
+#> class: SummarizedExperiment 
+#> dim: 1032 55 
+#> metadata(0):
+#> assays(1): ''
+#> rownames(1032): Chem_100002945 Chem_100002356 ...
+#>   Chem_100015836 Chem_826
+#> rowData names(13): metabolitesID BIOCHEMICAL ... KEGG
+#>   SampleIDHMDBID
+#> colnames(55): P101001 P101003 ... P101095 P101096
+#> colData names(47): PatientID Gender ...
+#>   Right_leg_fat_free_mass Right_leg_total_body_water
+```
+
+
+```r
+# colData(data_meta)
+# assay(data_meta)
+# rowData(data_meta)
+```
+
+
+## 构建QC样本
+
+该数据集不存在QC样本，这导致不能做QC的变化范围的数据过滤，因此构建新的QC样本。以上述随机抽取6个样本作为QC样本。
+
+QC样本一般是送测样本混合后再分成N份样本（迈维非靶或广靶均是这样做）再测，它可以评估每次质谱的效果或做代谢物过滤。
+
+
+```r
+meta_tab <- colData(data_meta) |>
+  as.data.frame()
+feature_tab <- rowData(data_meta) 
+assay_tab <- assay(data_meta) |>
+  as.data.frame()
+
+rand_sample <- sample(colnames(assay_tab), 6)
+QC_assay <- assay_tab[, rand_sample]
+colnames(QC_assay) <- paste0("QC", 1:6)
+assay_tab_new <- cbind(assay_tab, QC_assay)
+
+QC_meta <- data.frame(matrix(NA, nrow = 6, ncol = ncol(meta_tab))) 
+colnames(QC_meta) <- colnames(meta_tab)
+rownames(QC_meta) <- colnames(QC_assay)
+QC_meta$LiverFatClass <- "QC"
+QC_meta$PatientID <- rownames(QC_meta)
+meta_tab_new <- rbind(meta_tab, QC_meta)
+
+data_meta_new <- SummarizedExperiment(
+  assays = assay_tab_new,
+  rowData = feature_tab,
+  colData = meta_tab_new,
+  checkDimnames = TRUE)
+
+data_meta_new
+#> class: SummarizedExperiment 
+#> dim: 1032 61 
+#> metadata(0):
+#> assays(1): ''
+#> rownames(1032): Chem_100002945 Chem_100002356 ...
+#>   Chem_100015836 Chem_826
+#> rowData names(13): metabolitesID BIOCHEMICAL ... KEGG
+#>   SampleIDHMDBID
+#> colnames(61): P101001 P101003 ... QC5 QC6
+#> colData names(47): PatientID Gender ...
+#>   Right_leg_fat_free_mass Right_leg_total_body_water
+```
+
+
+## 数据过滤
+
+
+```r
+CheckData <- function(object) {
+  
+  # object = data_meta_new
+  
+  # features are in rows and Samples in columns
+  DataAssay <- SummarizedExperiment::assay(object)
+  
+  # numeric & missing values
+  int_mat <- DataAssay
+  rowNms <- rownames(int_mat)
+  colNms <- colnames(int_mat)
+  naNms <- sum(is.na(int_mat))
+  for (i in 1:ncol(int_mat)) {
+    if (class(int_mat[, i]) == "integer64") {
+      int_mat[, i] <- as.double(int_mat[, i])
+    }
+  }
+  
+  num_mat <- apply(int_mat, 2, as.numeric)
+  if (sum(is.na(num_mat)) > naNms) {
+    num_mat <- apply(int_mat, 2, function(x) as.numeric(gsub(",",  "", x)))
+    if (sum(is.na(num_mat)) > naNms) {
+      message("<font color=\"red\">Non-numeric values were found and replaced by NA.</font>")
+    } else {
+      message("All data values are numeric.")
+    }
+  } else {
+    message("All data values are numeric.")
+  }
+  
+  int_mat <- num_mat
+  rownames(int_mat) <- rowNms
+  colnames(int_mat) <- colNms
+  varCol <- apply(int_mat, 2, var, na.rm = T)
+  constCol <- (varCol == 0 | is.na(varCol))
+  constNum <- sum(constCol, na.rm = T)
+  if (constNum > 0) {
+    print(paste("<font color=\"red\">", constNum, 
+      "features with a constant or single value across samples were found and deleted.</font>"))
+    int_mat <- int_mat[, !constCol, drop = FALSE]
+  }
+  
+  totalCount <- nrow(int_mat) * ncol(int_mat)
+  naCount <- sum(is.na(int_mat))
+  naPercent <- round(100 * naCount/totalCount, 1)
+
+  print(paste("A total of ", naCount, " (", naPercent, 
+    "%) missing values were detected.", sep = ""))  
+
+  DataMeta <- colData(object) |>
+    as.data.frame()
+  DataFeature <- rowData(object)
+  
+  res <- SummarizedExperiment(
+    assays = int_mat,
+    rowData = DataFeature,
+    colData = DataMeta,
+    checkDimnames = TRUE)
+  
+  return(object)
+}
+
+se_check <- CheckData(object = data_meta_new)
+#> [1] "A total of 7838 (12.5%) missing values were detected."
+se_check
+#> class: SummarizedExperiment 
+#> dim: 1032 61 
+#> metadata(0):
+#> assays(1): ''
+#> rownames(1032): Chem_100002945 Chem_100002356 ...
+#>   Chem_100015836 Chem_826
+#> rowData names(13): metabolitesID BIOCHEMICAL ... KEGG
+#>   SampleIDHMDBID
+#> colnames(61): P101001 P101003 ... QC5 QC6
+#> colData names(47): PatientID Gender ...
+#>   Right_leg_fat_free_mass Right_leg_total_body_water
+```
+
+结果：12.5%的缺失值存在，下面进行缺失值补充。
+
+
+## 补缺失值
+
+Missing Value 的产生原因主要有两个：1）一个代谢峰在某些生物样品中存在而在另外一些生物样品中不存在； 2）某些代谢物在生物样品中的浓度低于质谱的检测限。
+
+Missing Value 在数据中的表现形式为 NA值。对于大规模代谢组学来说，因为其长时间的数据采集，质谱灵敏度的漂移使MV的问题更加严重。一般来说，对一个代谢组学数据来说， Missing Value 会占到所有数据点的 20%左右 。首先需要对 Missing Value 进行过滤，对于 Missing Value超过一定比例的代谢峰来说，该代谢峰很有可能是一个偶然出现的噪声信号，因此将其从数据中删除。 比如，在代谢组学数据中，一般采用的标准为代谢峰需要在 80%的质量控制（quality control， QC） 样品中出现，否则删除。对于 Missing Value 超过一定比例的生物样品来说，该样品很有可能是在样品制备或者数据采集过程中出现了误差，如该样品稀释比例异常或者进样体积异常，这些样品需要被删除掉。
+
+删除掉异常的生物样品和代谢峰之后，剩余的 Missing Value 需要统计学方法进行补齐（MVimputation），不同的 Missing Value补齐方法对数据的结构影响非常大，最好的 Missing Value 补齐方法是那些可以最好的重构出数据原本结构的方法。 Gromski (The influence of scaling metabolomics data on model classification accuracy) 通过使用完整的代谢组学数据构建 Missing Value 数据，然后使用不同的 Missing Value补齐方法对数据进行补齐，然后对不同 Missing Value 补齐方法补齐的数据进行多元统计学分析， 最终发现 K 值临近方法（K-nearest neighbor，KNN）对代谢组学数据的补齐效果最好。
+
+缺失值补充方法有很多种，如下
+
++ “none”: all missing values will be replaced by zero.
+
++ “LOD”: specific Limit Of Detection which provides by user.
+
++ “half_min”: half minimal values across samples except zero.
+
++ “median”: median values across samples except zero.
+
++ “mean”: mean values across samples except zero.
+
++ “min”: minimal values across samples except zero.
+
++ “knn”: k-nearest neighbors samples.
+
++ “rf”: nonparametric missing value imputation using Random Forest.
+
++ “QRILC”: missing values imputation based quantile regression. (default: “none”).
+
+
+一般采用k近邻的方法，它的原理是离该缺失值样本最近的K个样本具有类似的属性，使用它们的平均值填补缺失值是相对可靠的方法，但是也需要注意该方法的阈值适用范围。
+
+这里使用**[MicrobiomeAnalysis](https://zouhua.top/MicrobiomeAnalysis/)**提供的[impute_abundance](https://zouhua.top/MicrobiomeAnalysis/reference/impute_abundance.html)函数，先安装此包。
+```R
+if (!requireNamespace(c("remotes", "devtools"), quietly=TRUE)) {
+  install.packages(c("devtools", "remotes"))
+}
+
+remotes::install_github("HuaZou/MicrobiomeAnalysis")
+
+# library(MicrobiomeAnalysis)
+```
+
+
+```r
+library(MicrobiomeAnalysis)
+
+se_impute <- impute_abundance(
+  object = se_check,
+  group = "LiverFatClass",
+  method = "knn",
+  cutoff = 50,
+  knum = 10)
+
+se_impute
+#> class: SummarizedExperiment 
+#> dim: 956 61 
+#> metadata(0):
+#> assays(1): ''
+#> rownames(956): Chem_100002945 Chem_100002356 ...
+#>   Chem_100015836 Chem_826
+#> rowData names(13): metabolitesID BIOCHEMICAL ... KEGG
+#>   SampleIDHMDBID
+#> colnames(61): P101001 P101003 ... QC5 QC6
+#> colData names(47): PatientID Gender ...
+#>   Right_leg_fat_free_mass Right_leg_total_body_water
+```
+
+结果：代谢物的缺失值在任何组大于50%会被移除，最后移除的代谢物表达矩阵用于缺失值补充。
+
+
+## 数据过滤
+
+在非靶向代谢组或蛋白质组经常会使用该方法，目的是过滤掉不太可能用于分析的代谢物或蛋白质。
+
+过滤会基于QC样本的相对丰度标准方差relative standard deviation (RSD = SD / mean)，可以理解为特征的数据波动范围。 LC-MS或GC-MS对不同样本可能存在不同偏好行，采用QC样本可以得到波动范围，那些具有高RSD的特征可能受到质谱操作的影响较大，因此它们的可靠性相对较低不需要用于后续下游分析。一般情况下，RSD阈值在LC-MS和GC-MS分别是20%和30%（*保留波动小于该阈值的代谢物*）。
+
+在通过QC的RSD过滤完后，还可以通过以下方法过滤噪声（过滤低丰度或高变化的特征）
+
++ 过滤方法
+
+  - Interquantile range (IQR)（过滤常数特征，即波动较小的特征，它们可能是常态表达）;
+  
+  - Standard deviation (SD) （过滤常数特征，即波动较小的特征，它们可能是常态表达）;
+  
+  - Median absolute deviation (MAD) （过滤常数特征，即波动较小的特征，它们可能是常态表达）;
+  
+  - Relative standard deviation (RSD = SD/mean) （过滤低重复性特征，它们可能受到质谱操作影响）;
+  
+  - Non-parametric relative standard deviation (MAD/median) （过滤低重复性特征，它们可能受到质谱操作影响）;
+  
+  - Mean intensity value （过滤低丰度特征，它们可能是噪声或仪器测量极限值）;
+  
+  - Median intensity value （过滤低丰度特征，它们可能是噪声或仪器测量极限值）;
+
+
++ 一般过滤的阈值设置
+
+  - 少于 250 个特征: 5%
+  
+  - 介于 250 到 500 个特征: 10%
+  
+  - 介于 500 到 1000 个特征: 25%
+  
+  - 超过 1000 个特征: 40%
+  
+
+
+```r
+FilterFeature <- function(
+    object,
+    group,    
+    qc_label,
+    method = c("none", "iqr", "rsd", 
+               "nrsd", "mean", "sd",
+               "mad", "median"),
+    rsd_cutoff = 25) {
+  
+  # object = se_impute
+  # group = "LiverFatClass"  
+  # qc_label = "QC"
+  # method = "iqr"
+  # rsd_cutoff = 25  
+  
+  # row->features; col->samples  
+  features_tab <- SummarizedExperiment::assay(object) 
+  metadata_tab <- SummarizedExperiment::colData(object) 
+  
+  # QC samples
+  colnames(metadata_tab)[which(colnames(metadata_tab) == group)] <- "TempGroup"
+  qc_samples <- metadata_tab %>% 
+    as.data.frame() %>%
+    dplyr::filter(TempGroup == qc_label)
+  if (dim(qc_samples)[1] == 0) {
+    stop("No qc samples have been chosen, please check your input")
+  }
+  
+  # QC samples' feature table
+  qc_feature <- features_tab[, colnames(features_tab) %in% 
+                               rownames(qc_samples)] %>%
+    t()
+  
+  # filter features by QC RSD
+  rsd <- rsd_cutoff / 100
+  sds <- apply(qc_feature, 2, sd, na.rm = T)
+  mns <- apply(qc_feature, 2, mean, na.rm = T)
+  rsd_vals <- abs(sds/mns) %>% na.omit()
+  gd_inx <- rsd_vals < rsd
+  int_mat <- features_tab[gd_inx, ]
+  print(paste("Removed ", (dim(qc_feature)[2] - dim(int_mat)[1]), 
+  " features based on QC RSD values. QC samples are excluded from downstream functional analysis."))
+  
+  # whether to filter features by percentage according to the number
+  PerformFeatureFilter <- function(datMatrix, 
+                                   qc_method = method,
+                                   remain_num = NULL) {
+    
+    dat <- datMatrix
+    feat_num <- ncol(dat)
+    feat_nms <- colnames(dat)
+    nm <- NULL
+    if (qc_method == "none" && feat_num < 5000) { # only allow for less than 4000
+      remain <- rep(TRUE, feat_num)
+      nm <- "No filtering was applied"
+    } else {
+      if (qc_method == "rsd"){
+        sds <- apply(dat, 2, sd, na.rm = T)
+        mns <- apply(dat, 2, mean, na.rm = T)
+        filter_val <- abs(sds/mns)
+        nm <- "Relative standard deviation"
+      } else if (qc_method == "nrsd" ) {
+        mads <- apply(dat, 2, mad, na.rm = T)
+        meds <- apply(dat, 2, median, na.rm = T)
+        filter_val <- abs(mads/meds)
+        nm <- "Non-paramatric relative standard deviation"
+      } else if (qc_method == "mean") {
+        filter_val <- apply(dat, 2, mean, na.rm = T)
+        nm <- "mean"
+      } else if (qc_method == "sd") {
+        filter_val <- apply(dat, 2, sd, na.rm = T)
+        nm <- "standard deviation"
+      } else if (qc_method == "mad") {
+        filter_val <- apply(dat, 2, mad, na.rm = T)
+        nm <- "Median absolute deviation"
+      } else if (qc_method == "median") {
+        filter_val <- apply(dat, 2, median, na.rm = T)
+        nm <- "median"
+      } else if (qc_method == "iqr") { # iqr
+        filter_val <- apply(dat, 2, IQR, na.rm = T)
+        nm <- "Interquantile Range"
+      }
+      
+      # get the rank of the filtered variables
+      rk <- rank(-filter_val, ties.method = "random")
+      
+      if (is.null(remain_num)) { # apply empirical filtering based on data size
+          if (feat_num < 250) { # reduce 5%
+            remain <- rk < feat_num * 0.95
+            message("Further feature filtering based on ", nm)
+          } else if (feat_num < 500) { # reduce 10%
+            remain <- rk < feat_num * 0.9
+            message("Further feature filtering based on ", nm)
+          } else if (feat_num < 1000) { # reduce 25%
+            remain <- rk < feat_num * 0.75
+            message("Further feature filtering based on ", nm)
+          } else { # reduce 40%, if still over 5000, then only use top 5000
+            remain <- rk < feat_num * 0.6
+            message("Further feature filtering based on ", nm)
+          }
+      } else {
+        remain <- rk < remain_num
+      }
+    }
+    
+    res <- datMatrix[, remain]
+    
+    return(res)
+  }  
+  
+  feature_res <- PerformFeatureFilter(t(int_mat))
+  
+  # remove QC samples 
+  feature_final <- feature_res[!rownames(feature_res) %in% rownames(qc_samples), ]
+  
+  # save int_mat into se object 
+  datarow <- object@elementMetadata %>% 
+    as.data.frame() 
+  rownames(datarow) <- datarow$metabolitesID
+  res <- import_SE(
+    object = t(feature_final),
+    rowdata = datarow,
+    coldata = object@colData)
+  
+  return(res) 
+}
+
+se_filter <- FilterFeature(
+  object = se_impute,
+  group = "LiverFatClass",
+  qc_label = "QC",
+  method = "iqr",
+  rsd_cutoff = 90)
+#> [1] "Removed  70  features based on QC RSD values. QC samples are excluded from downstream functional analysis."
+
+se_filter
+#> class: SummarizedExperiment 
+#> dim: 664 55 
+#> metadata(0):
+#> assays(1): ''
+#> rownames(664): Chem_100002945 Chem_100002356 ...
+#>   Chem_1004 Chem_100015836
+#> rowData names(13): metabolitesID BIOCHEMICAL ... KEGG
+#>   SampleIDHMDBID
+#> colnames(55): P101001 P101003 ... P101095 P101096
+#> colData names(47): PatientID Gender ...
+#>   Right_leg_fat_free_mass Right_leg_total_body_water
+```
+
+**结果**：过滤掉不符合要求的代谢物以及也过滤掉了QC样本 (25%过滤太多了，这里选择90%)
+
++ 根据QC样本的代谢物RSD过滤代谢物
+
++ 再根据代谢物波动范围过滤不符合的代谢物
+
+
+## 数据标准化
+
+数据标准化为了三部分：
+
++ 基于单个数值本身的数据转换，目的是将数据进行各种形式的转换从而提高数据的正态分布性，校正奇异值，达到减少分析误差的效果。代谢组学数据大都为偏倚分布，因此数据转换是非常常见的数据处理方式之一，常用的方法为对数变换（log）。经过数据转换之后的数据仍然没有处在同一个标准量度上，对于代谢组学数据来说，不同代谢峰的强度可以相差几个甚至十几个数量级，如此大的差别导致在多元统计分析时，强度大的代谢峰有可能掩盖强度小的代谢峰的贡献。因此，在统计分析前，尤其是多元统计分析，为了将所有代谢峰统一到同一个量度，需要对数据进行中心化和标度化。
+
+  - Log transformation (base 10)
+
+  - Square root transformation (square root of data values)
+
+  - Cube root transformation (cube root of data values)
+
+使用**MicrobiomeAnalysis**提供的`transform_abundances`，选择*log10p*，改变数据的偏态分布。
+
+```r
+se_tran <- MicrobiomeAnalysis::transform_abundances(
+  object = se_filter,
+  transform = "log10p")
+
+se_tran
+#> class: SummarizedExperiment 
+#> dim: 664 55 
+#> metadata(0):
+#> assays(1): ''
+#> rownames(664): Chem_100002945 Chem_100002356 ...
+#>   Chem_1004 Chem_100015836
+#> rowData names(13): metabolitesID BIOCHEMICAL ... KEGG
+#>   SampleIDHMDBID
+#> colnames(55): P101001 P101003 ... P101095 P101096
+#> colData names(47): PatientID Gender ...
+#>   Right_leg_fat_free_mass Right_leg_total_body_water
+```
+
+
++ 基于样本自身的标准化，目的是去除样本间的系统差异（比如不同测序深度），例如通过均值中心化处理， 代谢峰转变为与自己平均值之间的差值，且所有的变量都以零为中心变化，因此中心化的数据就能直接反应变量的变化情况，有利于观察组间差异和聚类分析。
+
+  - Sample-specific normalization (i.e. weight, volume)
+  
+  - Normalization by sum (relative abundance)
+  
+  - Normalization by median
+  
+  - Normalization by a reference sample (PQN)
+  
+  - Normalization by a pooled sample from group (group PQN)
+  
+  - Normalization by reference feature
+  
+  - Quantile normalization (suggested only for > 1000 features)
+
+
+```r
+NormalizeData <- function(
+    object,
+    rowNorm = c("Quantile", "GroupPQN", "SamplePQN",
+                "CompNorm", "SumNorm", "MedianNorm",
+                "SpecNorm", "None"),
+    ref = NULL,
+    SpeWeight = 1) {
+  
+  # object = se_tran
+  # rowNorm = "SumNorm"
+  # ref = NULL
+  # SpeWeight = 1
+  
+  # row->features; col->samples 
+  features_tab <- SummarizedExperiment::assay(object) 
+  metadata_tab <- SummarizedExperiment::colData(object)   
+  
+  # row->samples; col->features 
+  feaTab <- t(features_tab)
+  colNames <- colnames(feaTab)
+  rowNames <- rownames(feaTab)
+  
+  #############################################
+  # Sample normalization
+  # perform quantile normalization on the raw data (can be log transformed later by user)
+  QuantileNormalize <- function(data) {
+    return(t(preprocessCore::normalize.quantiles(t(data), copy=FALSE)));
+  }
+  # normalize by a reference sample (probability quotient normalization)
+  # ref should be the name of the reference sample
+  ProbNorm <- function(x, ref_smpl) {
+    return(x/median(as.numeric(x/ref_smpl), na.rm = T))
+  }
+  
+  # normalize by a reference reference (i.e. creatinine)
+  # ref should be the name of the cmpd
+  CompNorm <- function(x, ref) {
+    return(1000 * x/x[ref])
+  }
+  
+  # normalize by sum (relative abundance)
+  SumNorm <- function(x) {
+    #return(1000 * x/sum(x, na.rm = T))
+    return(x/sum(x, na.rm = T))
+  }
+  
+  # normalize by median
+  MedianNorm <- function(x) {
+    return(x/median(x, na.rm = T))
+  }  
+  
+  # row-wise normalization (samples)
+  if (rowNorm == "Quantile") {
+    datrowNorm <- QuantileNormalize(feaTab)
+    # this can introduce constant variables if a variable is 
+    # at the same rank across all samples (replaced by its average across all)
+    varCol <- apply(datrowNorm, 2, var, na.rm = T)
+    constCol <- (varCol == 0 | is.na(varCol))
+    constNum <- sum(constCol, na.rm = T)
+    if (constNum > 0) {
+      message(paste("After quantile normalization", constNum, 
+                    "features with a constant value were found and deleted."))
+      datrowNorm <- datrowNorm[, !constCol, drop = FALSE]
+      colNames <- colnames(datrowNorm)
+      rowNames <- rownames(datrowNorm)
+    }
+    rownm <- "Quantile Normalization"
+  } else if (rowNorm == "GroupPQN") {
+    grp_inx <- metadata_tab$group == ref
+    ref.smpl <- apply(feaTab[grp_inx, , drop = FALSE], 2, mean)
+    datrowNorm <- t(apply(feaTab, 1, ProbNorm, ref.smpl))
+    rownm <- "Probabilistic Quotient Normalization by a reference group"
+  } else if (rowNorm == "SamplePQN") {
+    ref.smpl <- feaTab[ref, , drop = FALSE]
+    datrowNorm <- t(apply(feaTab, 1, ProbNorm, ref.smpl))
+    rownm <- "Probabilistic Quotient Normalization by a reference sample"
+  } else if (rowNorm == "CompNorm") {
+    datrowNorm <- t(apply(t(feaTab), 1, CompNorm, ref))
+    rownm <- "Normalization by a reference feature";
+  } else if (rowNorm == "SumNorm") {
+    datrowNorm <- t(apply(feaTab, 1, SumNorm))
+    rownm <- "Normalization to constant sum"
+  } else if (rowNorm == "MedianNorm") {
+    datrowNorm <- t(apply(feaTab, 1, MedianNorm))
+    rownm <- "Normalization to sample median"
+  } else if(rowNorm == "SpecNorm") {
+    norm.vec <- rep(SpeWeight, nrow(feaTab)) # default all same weight vec to prevent error
+    datrowNorm <- feaTab / norm.vec
+    message("No sample specific information were given, all set to 1.0")
+    rownm <- "Normalization by sample-specific factor"
+  } else {
+    # nothing to do
+    rownm <- "N/A"
+    datrowNorm <- feaTab
+  }
+  ################################################ 
+  
+  # use apply will lose dimension info (i.e. row names and colnames)
+  # row->samples; col->features 
+  rownames(datrowNorm) <- rowNames
+  colnames(datrowNorm) <- colNames
+  
+  # if the reference by feature, the feature column should be removed, since it is all 1
+  if(rowNorm == "CompNorm" && !is.null(ref)){
+    inx <- match(ref, colnames(datrowNorm))
+    datrowNorm <- datrowNorm[, -inx, drop=FALSE]
+    colNames <- colNames[-inx]
+  }
+
+  DataMeta <- colData(object) |>
+    as.data.frame()
+  DataFeature <- rowData(object)
+  
+  datrowNorm[is.na(datrowNorm)] <- 0
+  
+  se <- SummarizedExperiment(
+    assays = t(datrowNorm),
+    rowData = DataFeature,
+    colData = DataMeta,
+    checkDimnames = TRUE)  
+  
+  # need to do some sanity check, for log there may be Inf values introduced
+  res <- CheckData(se)
+  
+  return(res)
+}
+
+se_norm <- NormalizeData(
+  object = se_tran,
+  rowNorm = "SumNorm")
+#> [1] "A total of 0 (0%) missing values were detected."
+
+se_norm
+#> class: SummarizedExperiment 
+#> dim: 664 55 
+#> metadata(0):
+#> assays(1): ''
+#> rownames(664): Chem_100002945 Chem_100002356 ...
+#>   Chem_1004 Chem_100015836
+#> rowData names(13): metabolitesID BIOCHEMICAL ... KEGG
+#>   SampleIDHMDBID
+#> colnames(55): P101001 P101003 ... P101095 P101096
+#> colData names(47): PatientID Gender ...
+#>   Right_leg_fat_free_mass Right_leg_total_body_water
+```
+
+
++ 基于特征的数据标准化，目的是增加各个变量在不同样品中的可比性
+
+  - Mean centering (mean-centered only)
+
+  - Auto scaling (mean-centered and divided by the standard deviation of each variable)
+
+  - Pareto scaling (mean-centered and divided by the square root of the standard deviation of each variable)
+
+  - Range scaling (mean-centered and divided by the range of each variable)
+
+
+```r
+se_scale <- scale_variables(
+  object = se_norm,
+  method = "zscore")
+
+se_scale
+#> class: SummarizedExperiment 
+#> dim: 664 55 
+#> metadata(0):
+#> assays(1): ''
+#> rownames(664): Chem_100002945 Chem_100002356 ...
+#>   Chem_1004 Chem_100015836
+#> rowData names(13): metabolitesID BIOCHEMICAL ... KEGG
+#>   SampleIDHMDBID
+#> colnames(55): P101001 P101003 ... P101095 P101096
+#> colData names(47): PatientID Gender ...
+#>   Right_leg_fat_free_mass Right_leg_total_body_water
+```
+
+查看数据状态
+
+```r
+SummarizedExperiment::assay(se_filter)  %>% data.frame() %>% head()
+#>                   P101001     P101003      P101004
+#> Chem_100002945 51127588.0  42040432.0  34940596.00
+#> Chem_100002356  5105020.5   4006120.2   3885477.00
+#> Chem_100021502   756686.2    983889.2    851026.50
+#> Chem_100003926 38365560.4  44188252.3    182262.34
+#> Chem_100006374   559069.1    596473.9     53293.76
+#> Chem_100008903 94392176.0 117463144.0 115155104.00
+#>                   P101007     P101009    P101010    P101011
+#> Chem_100002945 58518636.0  51118832.0 83783688.0 29017984.0
+#> Chem_100002356  4285129.5   6665653.5  9057441.0  2802655.2
+#> Chem_100021502   726593.9    232959.5   650261.1   541954.8
+#> Chem_100003926   251571.2  39200750.8 45395682.9   196669.6
+#> Chem_100006374   627140.5   7016015.0  1914246.9  2762589.2
+#> Chem_100008903 79582632.0 118408760.0 92508664.0 94076424.0
+#>                   P101012     P101013    P101016
+#> Chem_100002945 51222064.0 77550128.00 30949554.0
+#> Chem_100002356  5996555.0 11367511.00  3874736.8
+#> Chem_100021502   598491.0   438885.59  1625844.8
+#> Chem_100003926 41630497.4    73285.52   229256.6
+#> Chem_100006374   140576.5   723530.94   295995.2
+#> Chem_100008903 69473744.0 80567352.00 98766592.0
+#>                    P101017     P101018    P101019
+#> Chem_100002945  26923596.0  56720032.0 27956064.0
+#> Chem_100002356   2817151.0   8029728.0  3766663.8
+#> Chem_100021502    566466.9    427850.6   519559.0
+#> Chem_100003926  36396636.9    154247.0  4428990.0
+#> Chem_100006374   3321584.2   3489639.2   417727.6
+#> Chem_100008903 129547656.0 118271584.0 37880820.0
+#>                     P101021   P101022    P101024
+#> Chem_100002945  48723600.00  16282054 77028824.0
+#> Chem_100002356   5174967.00   1746183  5519105.5
+#> Chem_100021502   1301591.25   1474247   970475.8
+#> Chem_100003926  42311221.73  42101379   100979.5
+#> Chem_100006374     16078.62  24787876   550468.8
+#> Chem_100008903 163868720.00 106189520 71475920.0
+#>                    P101025     P101027     P101030
+#> Chem_100002945  32022342.0  22589448.0  38449788.0
+#> Chem_100002356   2557365.0   1882902.6   2860324.2
+#> Chem_100021502    628680.1    635516.6    367246.8
+#> Chem_100003926  45673206.9  34947895.5  43228309.9
+#> Chem_100006374   4724330.0    859336.9   1503947.2
+#> Chem_100008903 147776592.0 127571792.0 128319128.0
+#>                   P101031    P101038     P101041
+#> Chem_100002945 59134052.0 32038030.0  20833830.0
+#> Chem_100002356  4721201.0  4011627.5   2938779.0
+#> Chem_100021502   512037.9   852000.1    634488.6
+#> Chem_100003926 45824392.6   639949.8  37345967.8
+#> Chem_100006374   338791.1  1028211.6  16129281.0
+#> Chem_100008903 90447848.0 46622592.0 111919096.0
+#>                    P101042    P101047     P101050
+#> Chem_100002945 33809080.00 18637508.0  21978476.0
+#> Chem_100002356  3017260.50  1935144.1   2897211.0
+#> Chem_100021502  1680135.75   326005.6    316650.2
+#> Chem_100003926    93454.06 32577193.8    126754.1
+#> Chem_100006374    87286.19   307644.8     98800.9
+#> Chem_100008903 89762056.00 97617984.0 112900000.0
+#>                   P101051     P101052     P101054
+#> Chem_100002945 24265162.0 52203780.00  12836384.0
+#> Chem_100002356  2476279.5  5928454.00   1685760.6
+#> Chem_100021502   737202.9   459385.94    346176.6
+#> Chem_100003926   224399.9   160379.78  34193727.0
+#> Chem_100006374   342827.9    54885.02   4003695.2
+#> Chem_100008903 71779912.0 64008512.00 111279888.0
+#>                   P101056    P101057     P101059    P101061
+#> Chem_100002945 18546636.0 32301820.0  22645984.0 23683254.0
+#> Chem_100002356  1650011.0  3419157.8   2196044.2  3217499.2
+#> Chem_100021502   585470.2   417958.5    734586.3   337035.7
+#> Chem_100003926   247668.9   188845.6  36536202.5 34293865.6
+#> Chem_100006374  1786579.6   361630.7  10217042.0  7272486.0
+#> Chem_100008903 68771592.0 77140264.0 113564872.0 96143304.0
+#>                   P101062     P101064     P101065
+#> Chem_100002945 29027646.0  32629048.0 22950806.00
+#> Chem_100002356  4060367.8   3031529.5  2467147.25
+#> Chem_100021502   982299.4   1255148.0   637699.06
+#> Chem_100003926   310749.6    106510.3    75770.17
+#> Chem_100006374  4477679.0    395835.7   460618.81
+#> Chem_100008903 98940424.0 108473368.0 86418592.00
+#>                   P101067    P101068    P101069     P101071
+#> Chem_100002945 33555116.0 44283972.0 52685972.0  32415040.0
+#> Chem_100002356  3567913.2  6525382.0  3984333.5   3001414.5
+#> Chem_100021502   284516.1   664800.1   684813.6    596846.1
+#> Chem_100003926 36110812.5   181915.7 43167938.8  39401928.6
+#> Chem_100006374  8156659.0  3966085.0   552411.1    190455.1
+#> Chem_100008903 95236288.0 71289048.0 74526792.0 115519872.0
+#>                    P101072     P101074     P101075
+#> Chem_100002945  34170948.0  22550616.0 22058076.00
+#> Chem_100002356   4679519.0   2529255.5  2583265.50
+#> Chem_100021502    316855.0    646136.8   198381.73
+#> Chem_100003926    123465.7    100810.5 34178910.38
+#> Chem_100006374  46928844.0   3240584.5    91241.58
+#> Chem_100008903 127401592.0 108255040.0 83989120.00
+#>                   P101076     P101077    P101079
+#> Chem_100002945 24455466.0  25225170.0 15718590.0
+#> Chem_100002356  3515218.2   3272875.0  2449462.5
+#> Chem_100021502   255897.7    547243.4   508791.6
+#> Chem_100003926   180083.1    148478.0 34413781.2
+#> Chem_100006374  3088418.0   6992567.5  1325582.1
+#> Chem_100008903 77315256.0 158257952.0 78587928.0
+#>                    P101080     P101081     P101082
+#> Chem_100002945  29120336.0  65904836.0  22908578.0
+#> Chem_100002356   2695001.5   6474709.5   2110243.8
+#> Chem_100021502   1256550.2    339909.3    596292.2
+#> Chem_100003926  42626140.4  43419261.7  37345671.1
+#> Chem_100006374    600080.8    414158.4   1303324.6
+#> Chem_100008903 163246832.0 124678488.0 100435064.0
+#>                   P101084     P101085     P101088
+#> Chem_100002945 29140440.0  20427124.0  29199012.0
+#> Chem_100002356  3648091.2   3253531.8   4154170.8
+#> Chem_100021502   497300.8    309859.3    601515.1
+#> Chem_100003926   200805.3  31265093.3  33217027.3
+#> Chem_100006374   684199.1   2319273.2    854781.1
+#> Chem_100008903 86139200.0 103513520.0 101921248.0
+#>                     P101090    P101094  P101095     P101096
+#> Chem_100002945  24042020.00 36910084.0 35662068 66402192.00
+#> Chem_100002356   2396959.75  4759584.5  3452283  6374383.00
+#> Chem_100021502    794206.00   414972.8  3606340  1077637.50
+#> Chem_100003926    195750.56 37969402.1  2501828   138604.70
+#> Chem_100006374     92700.81  1132143.0 31216882    34001.17
+#> Chem_100008903 107571936.00 85426888.0 53107852 80095704.00
+```
+
+
+```r
+SummarizedExperiment::assay(se_scale) %>% as.data.frame() %>% head()
+#>                   P101001    P101003    P101004    P101007
+#> Chem_100002945  1.0352530  0.8022245  0.5287223  1.1345806
+#> Chem_100002356  0.7964867  0.4236518  0.5100969  0.1763034
+#> Chem_100021502  0.3667356  0.9963356  0.8381937  0.1603873
+#> Chem_100003926  0.9260238  1.0150047 -0.9829592 -0.9344836
+#> Chem_100006374 -0.3282765 -0.2477694 -1.5976231 -0.3033794
+#> Chem_100008903 -0.1340258  0.9524934  1.1566059 -1.0234336
+#>                   P101009   P101010     P101011     P101012
+#> Chem_100002945  1.2098781 2.4368530 -0.25932433  0.98301713
+#> Chem_100002356  1.5928115 2.3319697 -0.55871342  1.13741820
+#> Chem_100021502 -1.7072810 0.1820951 -0.18153413 -0.09553597
+#> Chem_100003926  0.9592142 1.0120521 -0.98836467  0.94760943
+#> Chem_100006374  1.1409513 0.4006082  0.59972966 -1.11939214
+#> Chem_100008903  0.8651826 0.0316684  0.01806948 -1.23088013
+#>                   P101013    P101016    P101017    P101018
+#> Chem_100002945  1.9773866  0.2445092 -0.7769678  0.9952247
+#> Chem_100002356  2.6520162  0.5209132 -0.8256078  1.6342299
+#> Chem_100021502 -0.6835305  2.0519972 -0.2892318 -0.8405736
+#> Chem_100003926 -1.3693811 -0.8961512  0.8743386 -1.1183248
+#> Chem_100006374 -0.1980384 -0.6125202  0.6382892  0.6523357
+#> Chem_100008903 -0.7868693  0.6700676  0.6021091  0.2009162
+#>                   P101019    P101021    P101022    P101024
+#> Chem_100002945 -0.1717822  1.0272959 -1.5783610  2.1992832
+#> Chem_100002356  0.3137503  0.9244495 -1.6039933  1.1055078
+#> Chem_100021502 -0.1569336  1.4287513  1.7387329  0.9048948
+#> Chem_100003926  0.1759829  0.9780753  0.9960638 -1.2302936
+#> Chem_100006374 -0.4428047 -2.3257551  1.8752270 -0.3130781
+#> Chem_100008903 -2.7701660  1.8606091  0.6037392 -0.8664880
+#>                   P101025     P101027    P101030    P101031
+#> Chem_100002945 -0.7170456 -1.02723233  0.1340611  1.1183430
+#> Chem_100002356 -1.3652899 -1.64290059 -0.7648004  0.3744017
+#> Chem_100021502 -0.3094714  0.02824752 -1.0654335 -0.5019067
+#> Chem_100003926  0.9015057  0.88730755  0.9411718  0.9505624
+#> Chem_100006374  0.7621170 -0.09027644  0.1969030 -0.6573763
+#> Chem_100008903  0.5002896  0.82258751  0.6123267 -0.6576676
+#>                     P101038    P101041    P101042
+#> Chem_100002945 -0.251949636 -1.0576377 -0.1585733
+#> Chem_100002356  0.106477016 -0.4195314 -0.6144386
+#> Chem_100021502  0.511930973  0.1252108  1.7311868
+#> Chem_100003926 -0.583439819  0.9374671 -1.2880657
+#> Chem_100006374 -0.005679167  1.6087779 -1.4055442
+#> Chem_100008903 -2.650637279  0.6385076 -0.5345505
+#>                   P101047    P101050    P101051    P101052
+#> Chem_100002945 -0.8317793 -0.7603178 -0.8123316  0.9788158
+#> Chem_100002356 -1.0101313 -0.3138140 -0.9492068  1.0659561
+#> Chem_100021502 -0.8198983 -1.0650921  0.3224270 -0.6086387
+#> Chem_100003926  0.9638655 -1.1296612 -0.9514294 -1.0854994
+#> Chem_100006374 -0.5562315 -1.2634400 -0.6044128 -1.6589676
+#> Chem_100008903  0.9227287  0.9079508 -1.0362060 -1.5725393
+#>                   P101054     P101056    P101057    P101059
+#> Chem_100002945 -2.3602500 -1.40933257  0.2802094 -0.8745733
+#> Chem_100002356 -1.8491937 -1.87229221  0.1541761 -1.1479955
+#> Chem_100021502 -1.0455350 -0.05900737 -0.5095793  0.3804228
+#> Chem_100003926  0.8905154 -0.90758443 -0.9751496  0.9256456
+#> Chem_100006374  0.7964633  0.34542775 -0.5099030  1.3436812
+#> Chem_100008903  0.4770848 -1.07544192 -0.2616146  0.6504943
+#>                    P101061    P101062     P101064
+#> Chem_100002945 -0.86302205 -0.1960373 -0.25176228
+#> Chem_100002356 -0.30709164  0.3946501 -0.60739755
+#> Chem_100021502 -1.11011506  0.9508551  1.19446253
+#> Chem_100003926  0.88741722 -0.8140633 -1.24098709
+#> Chem_100006374  1.12923126  0.8868701 -0.55282125
+#> Chem_100008903 -0.04996025  0.2756856  0.08547022
+#>                    P101065     P101067     P101068
+#> Chem_100002945 -1.00028716  0.04190753  0.55883981
+#> Chem_100002356 -0.99990897 -0.02463981  1.28738374
+#> Chem_100021502  0.02726064 -1.40107378  0.06200926
+#> Chem_100003926 -1.35289747  0.91188389 -1.04077263
+#> Chem_100006374 -0.44565574  1.20223576  0.75881926
+#> Chem_100008903 -0.49001843 -0.02765153 -1.23120607
+#>                   P101069    P101071    P101072    P101074
+#> Chem_100002945  1.1363847 -0.1539833 -0.1338330 -0.6032395
+#> Chem_100002356  0.2186497 -0.5357357  0.4421407 -0.5663643
+#> Chem_100021502  0.1981715 -0.1008186 -1.3222647  0.3085900
+#> Chem_100003926  0.9729458  0.9274769 -1.1868883 -1.2046560
+#> Chem_100006374 -0.3305847 -0.9475645  2.1439640  0.7479140
+#> Chem_100008903 -0.8839731  0.4577721  0.6234532  0.9026418
+#>                   P101075    P101076    P101077     P101079
+#> Chem_100002945 -0.6096986 -0.4646804 -0.9452529 -1.45554928
+#> Chem_100002356 -0.4731271  0.1817304 -0.4706079 -0.59814006
+#> Chem_100021502 -1.8548377 -1.4440338 -0.3563570 -0.10297538
+#> Chem_100003926  0.9510074 -0.9975207 -1.1258550  0.95443779
+#> Chem_100006374 -1.2870920  0.7073782  1.0565772  0.24691914
+#> Chem_100008903  0.1211337 -0.3204343  1.2541430 -0.09370249
+#>                   P101080    P101081    P101082     P101084
+#> Chem_100002945 -0.3943806  1.2536949 -0.1530308 -0.45600466
+#> Chem_100002356 -0.7743312  1.0215990 -0.6654876 -0.09619271
+#> Chem_100021502  1.2805276 -1.3190834  0.3977203 -0.45667728
+#> Chem_100003926  0.9600522  0.9119706  1.0383495 -1.00235797
+#> Chem_100006374 -0.2933687 -0.5659474  0.3045384 -0.23034883
+#> Chem_100008903  1.6446463  0.2196810  1.2479789 -0.57045075
+#>                   P101085     P101088    P101090    P101094
+#> Chem_100002945 -0.7419778 0.165250333 -0.7104031  0.4402078
+#> Chem_100002356  0.1437899 0.749122851 -0.9229583  0.8118784
+#> Chem_100021502 -0.9932958 0.244379221  0.5329977 -0.6186507
+#> Chem_100003926  0.9272692 0.950823246 -0.9881785  0.9539193
+#> Chem_100006374  0.5782744 0.007128626 -1.3266452  0.1109197
+#> Chem_100008903  0.9129208 0.872035828  0.4914493 -0.1640331
+#>                    P101095    P101096
+#> Chem_100002945 -0.01090871  1.5095675
+#> Chem_100002356 -0.27671101  1.1850421
+#> Chem_100021502  3.13878869  0.9160546
+#> Chem_100003926 -0.08993637 -1.1450579
+#> Chem_100006374  1.91765787 -1.9384430
+#> Chem_100008903 -2.25250840 -0.9179845
+```
+
+
+## 数据分布变化
+
++ 函数来自于**POMA**包
+
+```r
+POMABoxplots <- function(
+    data,
+    group,
+    feature_type = "samples",    
+    jitter = FALSE,
+    feature_name = NULL,
+    show_number = NULL,
+    label_size = 10,
+    legend_position = "bottom") {
+  
+  # data = se_impute
+  # group = "LiverFatClass"
+  # feature_type = "samples"
+  # jitter = FALSE
+  # feature_name = NULL
+  # show_number = 10
+  # label_size = 10
+  # legend_position = "bottom"
+  
+  if (missing(data)) {
+    stop("data argument is empty!")
+  }
+  
+  if(!is(data, "SummarizedExperiment")){
+    stop("data is not a SummarizedExperiment object. \nSee SummarizedExperiment::SummarizedExperiment")
+  }
+  
+  if (!(feature_type %in% c("samples", "features"))) {
+    stop("Incorrect value for group argument!")
+  }
+  
+  if (!is.null(feature_name)) {
+    if(!any(feature_name %in% rownames(SummarizedExperiment::assay(data)))) {
+      stop("None of the specified features found")
+    }
+    if(!all(feature_name %in% rownames(SummarizedExperiment::assay(data)))){
+      warning(paste0("Feature/s ",
+                     paste0(feature_name[!feature_name %in% rownames(SummarizedExperiment::assay(data))], collapse = ", "),
+                     " not found"))
+    }
+  }
+  
+  
+  if(!(legend_position %in% c("none", "top", "bottom", "left", "right"))) {
+    stop("Incorrect value for legend_position argument!")
+  }
+  
+  e <- t(SummarizedExperiment::assay(data))
+  target <- SummarizedExperiment::colData(data) %>%
+    as.data.frame() %>% 
+    tibble::rownames_to_column("ID") %>%
+    dplyr::select(c("ID", group))
+  colnames(target)[which(colnames(target) == group)] <- "TempGroup"
+  data <- cbind(target, e) %>%
+    dplyr::arrange(desc(ID))
+
+  if (feature_type == "samples") {
+    if (is.null(show_number)) {
+      plot_data <- data %>%
+        tidyr::pivot_longer(cols = -c(ID, TempGroup)) %>%
+        ggplot2::ggplot(ggplot2::aes(ID, value, color = TempGroup))      
+    } else {
+      selected_samples <- target$ID[1:show_number]
+      plot_data <- data %>%
+        tidyr::pivot_longer(cols = -c(ID, TempGroup)) %>%
+        dplyr::filter(ID %in% selected_samples) %>%
+        ggplot2::ggplot(ggplot2::aes(ID, value, color = TempGroup))       
+    }
+  } else {
+    if(all(is.null(feature_name), is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        ggplot2::ggplot(ggplot2::aes(name, value, color = TempGroup))
+      
+    } else if (all(!is.null(feature_name), is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% feature_name) %>%
+        ggplot2::ggplot(ggplot2::aes(name, value, color = TempGroup))
+    } else if (all(is.null(feature_name), !is.null(show_number))) {
+      selected_features <- colnames(e)[1:show_number]
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% selected_features) %>%
+        ggplot2::ggplot(ggplot2::aes(name, value, color = TempGroup))
+    } else if (all(!is.null(feature_name), !is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% feature_name) %>%
+        ggplot2::ggplot(ggplot2::aes(name, value, color = TempGroup))
+    }
+  }
+  
+  plot_complete <- plot_data +
+    ggplot2::geom_boxplot() +
+    {if(jitter)ggplot2::geom_jitter(alpha = 0.5, position = ggplot2::position_jitterdodge())} +
+    ggplot2::theme_bw() +
+    ggplot2::labs(x = "", 
+                  y = "Value") +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = label_size),
+                   legend.title = ggplot2::element_blank(),
+                   legend.position = legend_position) +
+    ggplot2::scale_colour_viridis_d(begin = 0, end = 0.8)
+  
+  return(plot_complete)
+}
+
+
+POMADensity <- function(
+    data,
+    group,
+    feature_type = "features",    
+    feature_name = NULL,
+    show_number = NULL,
+    legend_position = "bottom") {
+  
+  # data = se_impute
+  # group = "LiverFatClass"
+  # feature_type = "features"
+  # feature_name = NULL
+  # show_number = 10
+  # legend_position = "bottom"
+
+  if (missing(data)) {
+    stop("data argument is empty!")
+  }
+  
+  if(!is(data, "SummarizedExperiment")){
+    stop("data is not a SummarizedExperiment object. \nSee SummarizedExperiment::SummarizedExperiment")
+  }
+  
+  if (!(feature_type %in% c("samples", "features"))) {
+    stop("Incorrect value for group argument!")
+  }
+  
+  if (!is.null(feature_name)) {
+    if(!any(feature_name %in% rownames(SummarizedExperiment::assay(data)))) {
+      stop("None of the specified features found")
+    }
+    if(!all(feature_name %in% rownames(SummarizedExperiment::assay(data)))){
+      warning(paste0("Feature/s ",
+                     paste0(feature_name[!feature_name %in% rownames(SummarizedExperiment::assay(data))], collapse = ", "),
+                     " not found"))
+    }
+  }
+  
+  if(!(legend_position %in% c("none", "top", "bottom", "left", "right"))) {
+    stop("Incorrect value for legend_position argument!")
+  }
+  
+  e <- t(SummarizedExperiment::assay(data))
+  target <- SummarizedExperiment::colData(data) %>%
+    as.data.frame() %>% 
+    tibble::rownames_to_column("ID") %>%
+    dplyr::select(c("ID", group))
+  colnames(target)[which(colnames(target) == group)] <- "TempGroup"
+  data <- cbind(target, e)
+  
+  if (feature_type == "samples") {
+    if (is.null(show_number)) {
+      plot_data <- data %>%
+        tidyr::pivot_longer(cols = -c(ID, TempGroup)) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))      
+    } else {
+      selected_samples <- target$ID[1:show_number]      
+      plot_data <- data %>%
+        tidyr::pivot_longer(cols = -c(ID, TempGroup)) %>%
+        dplyr::filter(ID %in% selected_samples) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))       
+    }
+  } else {
+    if(all(is.null(feature_name), is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))
+      
+    } else if (all(!is.null(feature_name), is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% feature_name) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))
+    } else if (all(is.null(feature_name), !is.null(show_number))) {
+      selected_features <- colnames(e)[1:show_number]      
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% selected_features) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))
+    } else if (all(!is.null(feature_name), !is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% feature_name) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))
+    }
+  }  
+  
+  plot_complete <- plot_data +
+    ggplot2::geom_density(alpha = 0.4) +
+    ggplot2::theme_bw() +
+    ggplot2::labs(x = "Value",
+                  y = "Density") +
+    ggplot2::theme(legend.title = ggplot2::element_blank(),
+                   legend.position = legend_position) +
+    ggplot2::scale_fill_viridis_d(begin = 0, end = 0.8)
+  
+  return(plot_complete)
+  
+}
+
+
+get_distribution <- function(
+    datset,
+    Type = c("raw", "check", "filter", 
+             "impute", "norm_relative", "norm_log10",
+             "norm_scale")) {
+  
+  # datset = se
+  # Type = "raw"
+  
+  dat <- SummarizedExperiment::assay(datset) %>% 
+      data.frame() %>%
+      rownames_to_column("name") %>%
+      tidyr::gather(key = "sample", value = "value", -name)    
+  
+  if (Type == "raw") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white") +
+            labs(title = "Distribution of Raw \n Metabolites Intensity", 
+                 x = "Raw Intensity", y = "Frequency") +
+            theme_bw()    
+  } else if (Type == "check") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white") +
+            labs(title = "Distribution of check \n Metabolites Intensity", 
+                 x = "checked Intensity", y = "Frequency") +
+            theme_bw()    
+  } else if (Type == "filter") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of filter\n Metabolites Intensity", 
+                 x = "filtered Intensity", y = "Frequency")+
+            theme_bw()    
+  } else if (Type == "impute") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of impute\n Metabolites Intensity", 
+                 x = "imputed Intensity", y = "Frequency")+
+            theme_bw()    
+  } else if (Type == "norm_relative") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of norm\n Metabolites Intensity", 
+                 x = "norm \n relative abundance", y="Frequency")+
+            theme_bw()    
+  } else if (Type == "norm_log10") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of norm\n Metabolites Intensity", 
+                 x = "norm \n log10(Intensity)", y = "Frequency")+
+            theme_bw()    
+  } else if (Type == "norm_scale") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of norm\n Metabolites Intensity", 
+                 x = "norm \n Scale(Intensity)", y = "Frequency")+
+            theme_bw()    
+  }
+  
+  return(pl)
+}
+```
+
++ 以样本为基点的代谢物数据分布情况（组间箱线图）
+
+```r
+pl_unnor <- POMABoxplots(data = se_impute, group = "LiverFatClass", 
+                         feature_type = "samples", jitter = FALSE, show_number = 10) +
+  ggtitle("Not Normalized (imputation)") +
+  theme(legend.position = "none") 
+
+pl_nor_log <- POMABoxplots(data = se_tran, group = "LiverFatClass", 
+                          feature_type = "samples", jitter = FALSE, show_number = 10) +
+  ggtitle("Normalized (log10)")
+
+pl_nor_rb <- POMABoxplots(data = se_norm, group = "LiverFatClass", 
+                          feature_type = "samples", jitter = FALSE, show_number = 10) +
+  ggtitle("Normalized (relative abundance)")
+
+pl_nor_zscore <- POMABoxplots(data = se_scale, group = "LiverFatClass", 
+                          feature_type = "samples", jitter = FALSE, show_number = 10) +
+  ggtitle("Normalized (Zscore)")
+
+cowplot::plot_grid(pl_unnor, pl_nor_log, 
+                   pl_nor_rb, pl_nor_zscore, 
+                   ncol = 1, align = "v",
+                   labels = LETTERS[1:4])
+```
+
+<img src="20-Metabolome_DataProcess_files/figure-html/unnamed-chunk-15-1.png" width="100%" />
+
++ 以代谢物为基点的代谢物数据分布情况（组间箱线图）
+
+```r
+pl_unnor <- POMADensity(data = se_impute, group = "LiverFatClass", feature_type = "features") +
+  ggtitle("Not Normalized") +
+  theme(legend.position = "none") # data before normalization
+
+pl_nor_log <- POMADensity(data = se_tran, group = "LiverFatClass", feature_type = "features") +
+  ggtitle("Normalized (log10)") # data after normalization
+
+pl_nor_rb <- POMADensity(data = se_norm, group = "LiverFatClass", feature_type = "features") +
+  ggtitle("Normalized (relative abundance)") # data after normalization
+
+pl_nor_zscore <- POMADensity(data = se_scale, group = "LiverFatClass", feature_type = "features") +
+  ggtitle("Normalized (Zscore)") # data after normalization
+
+cowplot::plot_grid(pl_unnor, pl_nor_log, 
+                   pl_nor_rb, pl_nor_zscore, 
+                   ncol = 1, align = "v",
+                   labels = LETTERS[1:4])
+```
+
+<img src="20-Metabolome_DataProcess_files/figure-html/unnamed-chunk-16-1.png" width="100%" />
+
++ 所有以代谢物为基点的数据分布
+
+
+```r
+raw_pl <- get_distribution(datset = data_meta_new, Type = "raw")
+check_pl <- get_distribution(datset = se_check, Type = "check")
+filter_pl <- get_distribution(datset = se_filter, Type = "filter")
+impute_pl <- get_distribution(datset = se_impute, Type = "impute")
+norm_log10_pl <- get_distribution(datset = se_tran, Type = "norm_log10")
+norm_relative_pl <- get_distribution(datset = se_norm, Type = "norm_relative")
+norm_scale_pl <- get_distribution(datset = se_scale, Type = "norm_scale")
+
+cowplot::plot_grid(raw_pl, check_pl, 
+                   filter_pl, impute_pl, 
+                   norm_log10_pl, norm_relative_pl,
+                   norm_scale_pl,
+                   align = "hv", nrow = 2,
+                   labels = LETTERS[1:7])
+```
+
+<img src="20-Metabolome_DataProcess_files/figure-html/unnamed-chunk-17-1.png" width="100%" />
+
+
+结果：
+
++ 补缺失值没有改变数据分布状态，仍然是偏态分布
+
++ log10单个数据转换将偏态分布转成偏向正态分布，而在该基础上的相对丰度则由偏向了正态分布
+
++ relative abundance在样本内部归一化其所有的特征，数据分布没有发生任何变化
+
++ Zscore是跨样本针对特征归一化其，数据分布呈现标准正态分布
+
+
+## 保存数据
+
+```r
+if (!dir.exists("./InputData/result/QC")) {
+  dir.create("./InputData/result/QC", recursive = TRUE)
+}
+
+saveRDS(data_meta_new, "./InputData/result/QC/se_raw.RDS", compress = TRUE)
+saveRDS(se_check, "./InputData/result/QC/se_check.RDS", compress = TRUE)
+saveRDS(se_impute, "./InputData/result/QC/se_impute.RDS", compress = TRUE)
+saveRDS(se_filter, "./InputData/result/QC/se_filter.RDS", compress = TRUE)
+
+saveRDS(se_tran, "./InputData/result/QC/se_tran.RDS", compress = TRUE)
+saveRDS(se_norm, "./InputData/result/QC/se_norm.RDS", compress = TRUE)
+saveRDS(se_scale, "./InputData/result/QC/se_scale.RDS", compress = TRUE)
+```
+
+
+
+## 总结
+
+数据预处理是代谢组分析较为重要的步骤，通常建议使用log+zscore的方法对数据归一化处理，用于后续的统计分析，但看到有关文章在计算Log2FoldChange的时候使用原始intensity值计算。
+
+
+## Session info
+
+```r
+devtools::session_info()
+#> ─ Session info ───────────────────────────────────────────
+#>  setting  value
+#>  version  R version 4.1.3 (2022-03-10)
+#>  os       macOS Big Sur/Monterey 10.16
+#>  system   x86_64, darwin17.0
+#>  ui       X11
+#>  language (EN)
+#>  collate  en_US.UTF-8
+#>  ctype    en_US.UTF-8
+#>  tz       Asia/Shanghai
+#>  date     2023-12-05
+#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
+#> 
+#> ─ Packages ───────────────────────────────────────────────
+#>  package              * version   date (UTC) lib source
+#>  ade4                   1.7-22    2023-02-06 [2] CRAN (R 4.1.2)
+#>  ANCOMBC                1.4.0     2021-10-26 [2] Bioconductor
+#>  annotate               1.72.0    2021-10-26 [2] Bioconductor
+#>  AnnotationDbi          1.60.2    2023-03-10 [2] Bioconductor
+#>  ape                    5.7-1     2023-03-13 [2] CRAN (R 4.1.2)
+#>  Biobase              * 2.54.0    2021-10-26 [2] Bioconductor
+#>  BiocGenerics         * 0.40.0    2021-10-26 [2] Bioconductor
+#>  BiocParallel           1.28.3    2021-12-09 [2] Bioconductor
+#>  biomformat             1.22.0    2021-10-26 [2] Bioconductor
+#>  Biostrings             2.62.0    2021-10-26 [2] Bioconductor
+#>  bit                    4.0.5     2022-11-15 [2] CRAN (R 4.1.2)
+#>  bit64                  4.0.5     2020-08-30 [2] CRAN (R 4.1.0)
+#>  bitops                 1.0-7     2021-04-24 [2] CRAN (R 4.1.0)
+#>  blob                   1.2.4     2023-03-17 [2] CRAN (R 4.1.2)
+#>  bookdown               0.34      2023-05-09 [2] CRAN (R 4.1.2)
+#>  bslib                  0.6.0     2023-11-21 [1] CRAN (R 4.1.3)
+#>  cachem                 1.0.8     2023-05-01 [2] CRAN (R 4.1.2)
+#>  callr                  3.7.3     2022-11-02 [2] CRAN (R 4.1.2)
+#>  caTools                1.18.2    2021-03-28 [2] CRAN (R 4.1.0)
+#>  cli                    3.6.1     2023-03-23 [2] CRAN (R 4.1.2)
+#>  cluster                2.1.4     2022-08-22 [2] CRAN (R 4.1.2)
+#>  codetools              0.2-19    2023-02-01 [2] CRAN (R 4.1.2)
+#>  colorspace             2.1-0     2023-01-23 [2] CRAN (R 4.1.2)
+#>  cowplot                1.1.1     2020-12-30 [2] CRAN (R 4.1.0)
+#>  crayon                 1.5.2     2022-09-29 [2] CRAN (R 4.1.2)
+#>  data.table             1.14.8    2023-02-17 [2] CRAN (R 4.1.2)
+#>  DBI                    1.1.3     2022-06-18 [2] CRAN (R 4.1.2)
+#>  DelayedArray           0.20.0    2021-10-26 [2] Bioconductor
+#>  DESeq2                 1.34.0    2021-10-26 [2] Bioconductor
+#>  devtools               2.4.5     2022-10-11 [2] CRAN (R 4.1.2)
+#>  digest                 0.6.33    2023-07-07 [1] CRAN (R 4.1.3)
+#>  downlit                0.4.3     2023-06-29 [2] CRAN (R 4.1.3)
+#>  dplyr                * 1.1.2     2023-04-20 [2] CRAN (R 4.1.2)
+#>  ellipsis               0.3.2     2021-04-29 [2] CRAN (R 4.1.0)
+#>  evaluate               0.21      2023-05-05 [2] CRAN (R 4.1.2)
+#>  fansi                  1.0.4     2023-01-22 [2] CRAN (R 4.1.2)
+#>  farver                 2.1.1     2022-07-06 [2] CRAN (R 4.1.2)
+#>  fastmap                1.1.1     2023-02-24 [2] CRAN (R 4.1.2)
+#>  forcats              * 1.0.0     2023-01-29 [2] CRAN (R 4.1.2)
+#>  foreach                1.5.2     2022-02-02 [2] CRAN (R 4.1.2)
+#>  fs                     1.6.2     2023-04-25 [2] CRAN (R 4.1.2)
+#>  genefilter             1.76.0    2021-10-26 [2] Bioconductor
+#>  geneplotter            1.72.0    2021-10-26 [2] Bioconductor
+#>  generics               0.1.3     2022-07-05 [2] CRAN (R 4.1.2)
+#>  GenomeInfoDb         * 1.30.1    2022-01-30 [2] Bioconductor
+#>  GenomeInfoDbData       1.2.7     2022-03-09 [2] Bioconductor
+#>  GenomicRanges        * 1.46.1    2021-11-18 [2] Bioconductor
+#>  ggplot2              * 3.4.2     2023-04-03 [2] CRAN (R 4.1.2)
+#>  glmnet                 4.1-7     2023-03-23 [2] CRAN (R 4.1.2)
+#>  glue                   1.6.2     2022-02-24 [2] CRAN (R 4.1.2)
+#>  gplots                 3.1.3     2022-04-25 [2] CRAN (R 4.1.2)
+#>  gtable                 0.3.3     2023-03-21 [2] CRAN (R 4.1.2)
+#>  gtools                 3.9.4     2022-11-27 [2] CRAN (R 4.1.2)
+#>  highr                  0.10      2022-12-22 [2] CRAN (R 4.1.2)
+#>  hms                    1.1.3     2023-03-21 [2] CRAN (R 4.1.2)
+#>  htmltools              0.5.7     2023-11-03 [1] CRAN (R 4.1.3)
+#>  htmlwidgets            1.6.2     2023-03-17 [2] CRAN (R 4.1.2)
+#>  httpuv                 1.6.11    2023-05-11 [2] CRAN (R 4.1.3)
+#>  httr                   1.4.6     2023-05-08 [2] CRAN (R 4.1.2)
+#>  igraph                 1.5.0     2023-06-16 [1] CRAN (R 4.1.3)
+#>  impute                 1.68.0    2021-10-26 [2] Bioconductor
+#>  IRanges              * 2.28.0    2021-10-26 [2] Bioconductor
+#>  iterators              1.0.14    2022-02-05 [2] CRAN (R 4.1.2)
+#>  jquerylib              0.1.4     2021-04-26 [2] CRAN (R 4.1.0)
+#>  jsonlite               1.8.7     2023-06-29 [2] CRAN (R 4.1.3)
+#>  KEGGREST               1.34.0    2021-10-26 [2] Bioconductor
+#>  KernSmooth             2.23-22   2023-07-10 [2] CRAN (R 4.1.3)
+#>  knitr                  1.43      2023-05-25 [2] CRAN (R 4.1.3)
+#>  labeling               0.4.2     2020-10-20 [2] CRAN (R 4.1.0)
+#>  later                  1.3.1     2023-05-02 [2] CRAN (R 4.1.2)
+#>  lattice                0.21-8    2023-04-05 [2] CRAN (R 4.1.2)
+#>  lifecycle              1.0.3     2022-10-07 [2] CRAN (R 4.1.2)
+#>  limma                  3.50.3    2022-04-07 [2] Bioconductor
+#>  locfit                 1.5-9.8   2023-06-11 [2] CRAN (R 4.1.3)
+#>  lubridate            * 1.9.2     2023-02-10 [2] CRAN (R 4.1.2)
+#>  magrittr               2.0.3     2022-03-30 [2] CRAN (R 4.1.2)
+#>  MASS                   7.3-60    2023-05-04 [2] CRAN (R 4.1.2)
+#>  Matrix                 1.6-0     2023-07-08 [2] CRAN (R 4.1.3)
+#>  MatrixGenerics       * 1.6.0     2021-10-26 [2] Bioconductor
+#>  matrixStats          * 1.0.0     2023-06-02 [2] CRAN (R 4.1.3)
+#>  memoise                2.0.1     2021-11-26 [2] CRAN (R 4.1.0)
+#>  metagenomeSeq          1.36.0    2021-10-26 [2] Bioconductor
+#>  mgcv                   1.8-42    2023-03-02 [2] CRAN (R 4.1.2)
+#>  microbiome             1.16.0    2021-10-26 [2] Bioconductor
+#>  MicrobiomeAnalysis   * 1.0.3     2023-12-02 [1] Bioconductor
+#>  mime                   0.12      2021-09-28 [2] CRAN (R 4.1.0)
+#>  miniUI                 0.1.1.1   2018-05-18 [2] CRAN (R 4.1.0)
+#>  multtest               2.50.0    2021-10-26 [2] Bioconductor
+#>  munsell                0.5.0     2018-06-12 [2] CRAN (R 4.1.0)
+#>  nlme                   3.1-162   2023-01-31 [2] CRAN (R 4.1.2)
+#>  nloptr                 2.0.3     2022-05-26 [2] CRAN (R 4.1.2)
+#>  permute                0.9-7     2022-01-27 [2] CRAN (R 4.1.2)
+#>  phyloseq               1.38.0    2021-10-26 [2] Bioconductor
+#>  pillar                 1.9.0     2023-03-22 [2] CRAN (R 4.1.2)
+#>  pkgbuild               1.4.2     2023-06-26 [2] CRAN (R 4.1.3)
+#>  pkgconfig              2.0.3     2019-09-22 [2] CRAN (R 4.1.0)
+#>  pkgload                1.3.2.1   2023-07-08 [2] CRAN (R 4.1.3)
+#>  plyr                   1.8.8     2022-11-11 [2] CRAN (R 4.1.2)
+#>  png                    0.1-8     2022-11-29 [2] CRAN (R 4.1.2)
+#>  prettyunits            1.1.1     2020-01-24 [2] CRAN (R 4.1.0)
+#>  processx               3.8.2     2023-06-30 [2] CRAN (R 4.1.3)
+#>  profvis                0.3.8     2023-05-02 [2] CRAN (R 4.1.2)
+#>  promises               1.2.0.1   2021-02-11 [2] CRAN (R 4.1.0)
+#>  ps                     1.7.5     2023-04-18 [2] CRAN (R 4.1.2)
+#>  purrr                * 1.0.1     2023-01-10 [2] CRAN (R 4.1.2)
+#>  R6                     2.5.1     2021-08-19 [2] CRAN (R 4.1.0)
+#>  rbibutils              2.2.13    2023-01-13 [2] CRAN (R 4.1.2)
+#>  RColorBrewer           1.1-3     2022-04-03 [2] CRAN (R 4.1.2)
+#>  Rcpp                   1.0.11    2023-07-06 [1] CRAN (R 4.1.3)
+#>  RCurl                  1.98-1.12 2023-03-27 [2] CRAN (R 4.1.2)
+#>  Rdpack                 2.4       2022-07-20 [2] CRAN (R 4.1.2)
+#>  readr                * 2.1.4     2023-02-10 [2] CRAN (R 4.1.2)
+#>  remotes                2.4.2     2021-11-30 [2] CRAN (R 4.1.0)
+#>  reshape2               1.4.4     2020-04-09 [2] CRAN (R 4.1.0)
+#>  rhdf5                  2.38.1    2022-03-10 [2] Bioconductor
+#>  rhdf5filters           1.6.0     2021-10-26 [2] Bioconductor
+#>  Rhdf5lib               1.16.0    2021-10-26 [2] Bioconductor
+#>  rlang                  1.1.1     2023-04-28 [1] CRAN (R 4.1.2)
+#>  rmarkdown              2.23      2023-07-01 [2] CRAN (R 4.1.3)
+#>  RSQLite                2.3.1     2023-04-03 [2] CRAN (R 4.1.2)
+#>  rstudioapi             0.15.0    2023-07-07 [2] CRAN (R 4.1.3)
+#>  Rtsne                  0.16      2022-04-17 [2] CRAN (R 4.1.2)
+#>  S4Vectors            * 0.32.4    2022-03-29 [2] Bioconductor
+#>  sass                   0.4.6     2023-05-03 [2] CRAN (R 4.1.2)
+#>  scales                 1.2.1     2022-08-20 [2] CRAN (R 4.1.2)
+#>  sessioninfo            1.2.2     2021-12-06 [2] CRAN (R 4.1.0)
+#>  shape                  1.4.6     2021-05-19 [2] CRAN (R 4.1.0)
+#>  shiny                  1.7.4.1   2023-07-06 [2] CRAN (R 4.1.3)
+#>  stringi                1.7.12    2023-01-11 [2] CRAN (R 4.1.2)
+#>  stringr              * 1.5.0     2022-12-02 [2] CRAN (R 4.1.2)
+#>  SummarizedExperiment * 1.24.0    2021-10-26 [2] Bioconductor
+#>  survival               3.5-5     2023-03-12 [2] CRAN (R 4.1.2)
+#>  tibble               * 3.2.1     2023-03-20 [2] CRAN (R 4.1.2)
+#>  tidyr                * 1.3.0     2023-01-24 [2] CRAN (R 4.1.2)
+#>  tidyselect             1.2.0     2022-10-10 [2] CRAN (R 4.1.2)
+#>  tidyverse            * 2.0.0     2023-02-22 [1] CRAN (R 4.1.2)
+#>  timechange             0.2.0     2023-01-11 [2] CRAN (R 4.1.2)
+#>  tzdb                   0.4.0     2023-05-12 [2] CRAN (R 4.1.3)
+#>  urlchecker             1.0.1     2021-11-30 [2] CRAN (R 4.1.0)
+#>  usethis                2.2.2     2023-07-06 [2] CRAN (R 4.1.3)
+#>  utf8                   1.2.3     2023-01-31 [2] CRAN (R 4.1.2)
+#>  vctrs                  0.6.3     2023-06-14 [1] CRAN (R 4.1.3)
+#>  vegan                  2.6-4     2022-10-11 [2] CRAN (R 4.1.2)
+#>  viridisLite            0.4.2     2023-05-02 [2] CRAN (R 4.1.2)
+#>  withr                  2.5.0     2022-03-03 [2] CRAN (R 4.1.2)
+#>  Wrench                 1.12.0    2021-10-26 [2] Bioconductor
+#>  xfun                   0.40      2023-08-09 [1] CRAN (R 4.1.3)
+#>  XML                    3.99-0.14 2023-03-19 [2] CRAN (R 4.1.2)
+#>  xml2                   1.3.5     2023-07-06 [2] CRAN (R 4.1.3)
+#>  xtable                 1.8-4     2019-04-21 [2] CRAN (R 4.1.0)
+#>  XVector                0.34.0    2021-10-26 [2] Bioconductor
+#>  yaml                   2.3.7     2023-01-23 [2] CRAN (R 4.1.2)
+#>  zlibbioc               1.40.0    2021-10-26 [2] Bioconductor
+#> 
+#>  [1] /Users/zouhua/Library/R/x86_64/4.1/library
+#>  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library
+#> 
+#> ──────────────────────────────────────────────────────────
+```
+
+
+## Reference
+

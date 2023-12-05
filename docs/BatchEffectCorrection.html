@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 5 Batch Effect Correction | 生物信息随记</title>
+<meta name="author" content="Hua Zou">
+<meta name="description" content="批次效应是除处理其他因素带来的影响实验结果的效应，比如在研究对照组和实验组时候，提取样本DNA时间不同、送测仪器不同等均可能引入批次效应。批次效应不能够消除，只可以降低，使得它对所研究的生物学问题有较小的影响。...">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="Chapter 5 Batch Effect Correction | 生物信息随记">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://zouhua.top/DraftNotes/BatchEffectCorrection.html">
+<meta property="og:description" content="批次效应是除处理其他因素带来的影响实验结果的效应，比如在研究对照组和实验组时候，提取样本DNA时间不同、送测仪器不同等均可能引入批次效应。批次效应不能够消除，只可以降低，使得它对所研究的生物学问题有较小的影响。...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 5 Batch Effect Correction | 生物信息随记">
+<meta name="twitter:description" content="批次效应是除处理其他因素带来的影响实验结果的效应，比如在研究对照组和实验组时候，提取样本DNA时间不同、送测仪器不同等均可能引入批次效应。批次效应不能够消除，只可以降低，使得它对所研究的生物学问题有较小的影响。...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">生物信息随记</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> 介绍</a></li>
+<li class="book-part">Data Set</li>
+<li><a class="" href="ZeybelDataset.html"><span class="header-section-number">2</span> Zeybel Dataset</a></li>
+<li class="book-part">Statistical Methods</li>
+<li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
+<li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
+<li><a class="active" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li class="book-part">Metabolomics Data Analysis</li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">6</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">7</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">8</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">9</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">10</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></li>
+<li class="book-part">Machine Learning</li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">12</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></li>
+<li class="book-part">Knowledge</li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">14</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">15</span> Notes</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/HuaZou/DraftNotes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="BatchEffectCorrection" class="section level1" number="5">
+<h1>
+<span class="header-section-number">5</span> Batch Effect Correction<a class="anchor" aria-label="anchor" href="#BatchEffectCorrection"><i class="fas fa-link"></i></a>
+</h1>
+<p>批次效应是除处理其他因素带来的影响实验结果的效应，比如在研究对照组和实验组时候，提取样本DNA时间不同、送测仪器不同等均可能引入批次效应。批次效应不能够消除，只可以降低，使得它对所研究的生物学问题有较小的影响。
+评估批次效应可以通过PCA或PCoA等降纬可视化技术观察样本的聚集情况是否与非研究问题存在视觉上的相关性，也可以通过一些统计方法如PERMANOVA等计算表达谱整体水平和因素之间的关系。</p>
+<div id="mmuphin" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> MMUPHin<a class="anchor" aria-label="anchor" href="#mmuphin"><i class="fas fa-link"></i></a>
+</h2>
+<p>通常在做多个研究或多个平台的数据整合需要考虑到消除不同研究或平台数据差异，在微生物领域又因为微生物相对丰度数据是稀疏的，所以常在转录组领域使用的校正方法如<code><a href="https://rdrr.io/pkg/sva/man/ComBat.html">sva::ComBat</a></code>和<code><a href="https://rdrr.io/pkg/limma/man/removeBatchEffect.html">limma::removeBatchEffect</a></code>等均不适用。</p>
+<p>“MMUPHin”（Meta-analysis via Mixed Models Utilizing Public Health Information）是一个哈佛大学Huttenhover实验室开发的用于微生物组数据的统计分析包，特别是在研究与公共健康相关的多个研究的数据时使用。它在处理批次效应（batch effects）时的原理是基于混合模型（mixed models）。</p>
+<p>在微生物组学研究中，批次效应是一个常见的问题。它指的是由于样本处理和测序过程中的技术变异而导致的非生物学差异，这些差异可能会干扰真实的生物学信号。例如，不同的实验室使用不同的样本处理方法或测序平台，可能导致数据之间的系统性差异。</p>
+<p>MMUPHin处理批次效应的原理：</p>
+<ul>
+<li><p>混合模型：MMUPHin使用混合模型来纳入批次效应。在这种模型中，批次效应被视为随机效应，它们与研究中的固定效应（例如治疗组与对照组）分开处理。</p></li>
+<li><p>元分析方法：MMUPHin利用元分析的技术，允许来自不同研究的数据共同分析。元分析是一种统计方法，它综合并分析多个研究的结果，以获得更广泛、更全面的结论。</p></li>
+<li><p>数据整合：通过混合模型和元分析方法，MMUPHin能够在考虑批次效应的同时，整合多个研究的数据，提高分析的统计能力和结论的泛化性。</p></li>
+<li><p>校正批次效应：通过在模型中包括批次效应作为一个变量，MMUPHin可以校正这些非生物学差异，从而使研究结果更加可靠和准确。</p></li>
+</ul>
+<div id="加载依赖包和数据" class="section level3" number="5.1.1">
+<h3>
+<span class="header-section-number">5.1.1</span> 加载依赖包和数据<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BD%E4%BE%9D%E8%B5%96%E5%8C%85%E5%92%8C%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>数据来源是 <code>curatedMetagenomicData</code> R包</li>
+</ul>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># if (!requireNamespace("BiocManager", quietly = TRUE))</span></span>
+<span><span class="co">#     install.packages("BiocManager")</span></span>
+<span><span class="co"># BiocManager::install("MMUPHin")</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">MMUPHin</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://dx.plos.org/10.1371/journal.pone.0061217">phyloseq</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"CRC_abd"</span>, <span class="st">"CRC_meta"</span><span class="op">)</span></span>
+<span><span class="va">CRC_abd</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
+<span><span class="co">#&gt;                                 FengQ_2015.metaphlan_bugs_list.stool:SID31004</span></span>
+<span><span class="co">#&gt; s__Faecalibacterium_prausnitzii                                    0.11110668</span></span>
+<span><span class="co">#&gt; s__Streptococcus_salivarius                                        0.09660736</span></span>
+<span><span class="co">#&gt; s__Ruminococcus_sp_5_1_39BFAA                                      0.09115385</span></span>
+<span><span class="co">#&gt; s__Subdoligranulum_unclassified                                    0.05806767</span></span>
+<span><span class="co">#&gt; s__Bacteroides_stercoris                                           0.05685503</span></span>
+<span><span class="co"># CRC_meta[1, 1:5]</span></span></code></pre></div>
+</div>
+<div id="数据探索" class="section level3" number="5.1.2">
+<h3>
+<span class="header-section-number">5.1.2</span> 数据探索<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E6%8E%A2%E7%B4%A2"><i class="fas fa-link"></i></a>
+</h3>
+<p>使用<code><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_ord.html">MicrobiomeAnalysis::run_ord</a></code>和<code><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/plot_ord.html">MicrobiomeAnalysis::plot_ord</a></code>可视化数据，选择PCoA的方法。</p>
+<ul>
+<li>安装MicrobiomeAnalysis包</li>
+</ul>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"remotes"</span>, <span class="st">"devtools"</span><span class="op">)</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"remotes"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"HuaZou/MicrobiomeAnalysis"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># run_ord需要phyloseq object</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_meta</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_meta</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">CRC_abd</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">CRC_abd</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_abd</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_abd</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">tax_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_abd</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">tax_tab</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">tax_tab</span><span class="op">$</span><span class="va">Species</span></span>
+<span></span>
+<span><span class="va">CRC_phy</span> <span class="op">&lt;-</span> <span class="fu">phyloseq</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/phyloseq.html">phyloseq</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html">sample_data</a></span><span class="op">(</span><span class="va">CRC_meta</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/otu_table-methods.html">otu_table</a></span><span class="op">(</span><span class="va">CRC_abd</span>, taxa_are_rows <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html">tax_table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">tax_tab</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 选择两个研究</span></span>
+<span><span class="va">CRC_phy_new</span> <span class="op">&lt;-</span> <span class="va">CRC_phy</span></span>
+<span><span class="fu">phyloseq</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html">sample_data</a></span><span class="op">(</span><span class="va">CRC_phy_new</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">phyloseq</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html">sample_data</a></span><span class="op">(</span></span>
+<span>  <span class="va">CRC_phy</span><span class="op">@</span><span class="va">sam_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">studyID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"FengQ_2015.metaphlan_bugs_list.stool"</span>,</span>
+<span>                                 <span class="st">"VogtmannE_2016.metaphlan_bugs_list.stool"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co"># 运行</span></span>
+<span><span class="va">ord_result</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_ord.html">run_ord</a></span><span class="op">(</span></span>
+<span>  object <span class="op">=</span> <span class="va">CRC_phy_new</span>,</span>
+<span>  variable <span class="op">=</span> <span class="st">"study_condition"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"PCoA"</span><span class="op">)</span></span>
+<span><span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/plot_ord.html">plot_ord</a></span><span class="op">(</span></span>
+<span>  reslist <span class="op">=</span> <span class="va">ord_result</span>,</span>
+<span>  variable <span class="op">=</span> <span class="st">"study_condition"</span>,</span>
+<span>  variable_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span>,</span>
+<span>  var_shape <span class="op">=</span> <span class="st">"studyID"</span>,</span>
+<span>  ellipse_type <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="12-Statistics_BatchEffect_files/figure-html/unnamed-chunk-3-1.png" width="100%"></div>
+<p>结果：能明显看到样本以<code>studyID</code>分散开来，研究之间的批次效应要远远大于control和CRC的生物学效应，接下来我们通过PERMANOVA做统计分析进一步评估显著性。</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_PERMANOVA.html">run_PERMANOVA</a></span><span class="op">(</span></span>
+<span>  <span class="va">CRC_phy_new</span>,</span>
+<span>  variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"study_condition"</span>, <span class="st">"studyID"</span><span class="op">)</span>,</span>
+<span>  mode <span class="op">=</span> <span class="st">"one"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"bray"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                 SumsOfSample Df SumsOfSqs   MeanSqs</span></span>
+<span><span class="co">#&gt; study_condition          211  1 0.6756486 0.6756486</span></span>
+<span><span class="co">#&gt; studyID                  211  1 5.6815343 5.6815343</span></span>
+<span><span class="co">#&gt;                   F.Model         R2 Pr(&gt;F) AdjustedPvalue</span></span>
+<span><span class="co">#&gt; study_condition  2.295539 0.01086411  0.004          0.004</span></span>
+<span><span class="co">#&gt; studyID         21.013183 0.09135643  0.001          0.002</span></span></code></pre></div>
+<p>结果：PERMANOVA的<code>Pr(&gt;F)</code> &lt; 0.05表明study_condition和studyID均与整体肠道微生物结构有显著差异，也说明studyID的批次效应(<em>对肠道结构解释9.1%的变异</em>)对后续study_condition的差异研究等具有非常大的影响，因此需要做批次校正。</p>
+</div>
+<div id="批次效应校正" class="section level3" number="5.1.3">
+<h3>
+<span class="header-section-number">5.1.3</span> 批次效应校正<a class="anchor" aria-label="anchor" href="#%E6%89%B9%E6%AC%A1%E6%95%88%E5%BA%94%E6%A0%A1%E6%AD%A3"><i class="fas fa-link"></i></a>
+</h3>
+<p>需要明确的一点是批次效应只能降低，不能完全消除，并且在做批次效应过程中可能会降低或提高所研究的生物学意义，这是因为使用线性模型校正所带来的结果。MMUPHin处理批次效应的原理：</p>
+<ul>
+<li>混合模型：MMUPHin使用混合模型来纳入批次效应。在这种模型中，批次效应被视为随机效应，它们与研究中的固定效应（例如治疗组与对照组）分开处理。</li>
+</ul>
+<p>混合模型可以参考<a href="https://zouhua.top/DraftNotes/GEEandMLM.html">GEE and MLM</a>，它提供了常用的两种混合模型GEE和MLM。MMUPHin采用的是<strong>Zero-inflated empirical Bayes adjustment of batch effect in compositional feature abundance data</strong>。</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit_adjust_batch</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MMUPHin/man/adjust_batch.html">adjust_batch</a></span><span class="op">(</span></span>
+<span>  feature_abd <span class="op">=</span> <span class="va">CRC_abd</span>,</span>
+<span>  batch <span class="op">=</span> <span class="st">"studyID"</span>,</span>
+<span>  covariates <span class="op">=</span> <span class="st">"study_condition"</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">CRC_meta</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">CRC_abd_adj</span> <span class="op">&lt;-</span> <span class="va">fit_adjust_batch</span><span class="op">$</span><span class="va">feature_abd_adj</span></span>
+<span></span>
+<span><span class="va">CRC_abd_adj</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
+<span><span class="co">#&gt;                                 FengQ_2015.metaphlan_bugs_list.stool.SID31004</span></span>
+<span><span class="co">#&gt; s__Faecalibacterium_prausnitzii                                    0.10120482</span></span>
+<span><span class="co">#&gt; s__Streptococcus_salivarius                                        0.06044265</span></span>
+<span><span class="co">#&gt; s__Ruminococcus_sp_5_1_39BFAA                                      0.02374596</span></span>
+<span><span class="co">#&gt; s__Subdoligranulum_unclassified                                    0.03265566</span></span>
+<span><span class="co">#&gt; s__Bacteroides_stercoris                                           0.31510103</span></span></code></pre></div>
+<p>查看校正后的结果</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># run_ord需要phyloseq object</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_meta</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_meta</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">CRC_abd_adj</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">CRC_abd_adj</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_abd_adj</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_abd_adj</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">tax_tab_adj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">CRC_abd_adj</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">tax_tab_adj</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">tax_tab_adj</span><span class="op">$</span><span class="va">Species</span></span>
+<span></span>
+<span><span class="va">CRC_phy_adj</span> <span class="op">&lt;-</span> <span class="fu">phyloseq</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/phyloseq.html">phyloseq</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html">sample_data</a></span><span class="op">(</span><span class="va">CRC_meta</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/otu_table-methods.html">otu_table</a></span><span class="op">(</span><span class="va">CRC_abd_adj</span>, taxa_are_rows <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html">tax_table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">tax_tab_adj</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 选择两个研究</span></span>
+<span><span class="va">CRC_phy_adj_new</span> <span class="op">&lt;-</span> <span class="va">CRC_phy_adj</span></span>
+<span><span class="fu">phyloseq</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html">sample_data</a></span><span class="op">(</span><span class="va">CRC_phy_adj_new</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">phyloseq</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/sample_data-methods.html">sample_data</a></span><span class="op">(</span></span>
+<span>  <span class="va">CRC_phy_adj</span><span class="op">@</span><span class="va">sam_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">studyID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"FengQ_2015.metaphlan_bugs_list.stool"</span>,</span>
+<span>                                 <span class="st">"VogtmannE_2016.metaphlan_bugs_list.stool"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co"># 运行</span></span>
+<span><span class="va">ord_result</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_ord.html">run_ord</a></span><span class="op">(</span></span>
+<span>  object <span class="op">=</span> <span class="va">CRC_phy_adj_new</span>,</span>
+<span>  variable <span class="op">=</span> <span class="st">"study_condition"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"PCoA"</span><span class="op">)</span></span>
+<span><span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/plot_ord.html">plot_ord</a></span><span class="op">(</span></span>
+<span>  reslist <span class="op">=</span> <span class="va">ord_result</span>,</span>
+<span>  variable <span class="op">=</span> <span class="st">"study_condition"</span>,</span>
+<span>  variable_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span>,</span>
+<span>  var_shape <span class="op">=</span> <span class="st">"studyID"</span>,</span>
+<span>  ellipse_type <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="12-Statistics_BatchEffect_files/figure-html/unnamed-chunk-6-1.png" width="100%"></div>
+<p>结果：相比校正前，studyID带来的效应明显降低。进一步通过PERMANOVA结果分析。</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_PERMANOVA.html">run_PERMANOVA</a></span><span class="op">(</span></span>
+<span>  <span class="va">CRC_phy_adj_new</span>,</span>
+<span>  variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"study_condition"</span>, <span class="st">"studyID"</span><span class="op">)</span>,</span>
+<span>  mode <span class="op">=</span> <span class="st">"one"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"bray"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                 SumsOfSample Df SumsOfSqs   MeanSqs</span></span>
+<span><span class="co">#&gt; study_condition          211  1 0.7256598 0.7256598</span></span>
+<span><span class="co">#&gt; studyID                  211  1 1.0133205 1.0133205</span></span>
+<span><span class="co">#&gt;                  F.Model         R2 Pr(&gt;F) AdjustedPvalue</span></span>
+<span><span class="co">#&gt; study_condition 2.511293 0.01187309  0.002          0.002</span></span>
+<span><span class="co">#&gt; studyID         3.523584 0.01657973  0.001          0.002</span></span></code></pre></div>
+<p>结果：相比校正前，studyID的解释肠道结构总体变异度从9.1%降低到了1.7%。与此同时，study_condition的总体变异则几乎没有太大变化。</p>
+</div>
+<div id="荟萃分析" class="section level3" number="5.1.4">
+<h3>
+<span class="header-section-number">5.1.4</span> 荟萃分析<a class="anchor" aria-label="anchor" href="#%E8%8D%9F%E8%90%83%E5%88%86%E6%9E%90"><i class="fas fa-link"></i></a>
+</h3>
+<p>荟萃分析的目的是汇总各个研究的共同结果进而获得一个共有的效果，先前也有很多工具提供类似的研究，例如meta包。MMUPHin也提供了<code>lm_meta</code>函数用于分析。</p>
+<ul>
+<li><p>先用Maaslin2计算不同研究在control和CRC之间的差异物种；</p></li>
+<li><p>再使用混合模型汇总所有的结果。</p></li>
+</ul>
+<p>因为采用了线性回归方式，所以可以加入一些协变量如年龄、性别和BMI等人口统计变量作为校正因素。coef表示EffectSize也即是在Control和CRC组间的区别。</p>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span><span class="op">(</span><span class="st">"./InputData/MMUPHin_lm_meta"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"./InputData/MMUPHin_lm_meta"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">fit_lm_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MMUPHin/man/lm_meta.html">lm_meta</a></span><span class="op">(</span></span>
+<span>  feature_abd <span class="op">=</span> <span class="va">CRC_abd_adj</span>,</span>
+<span>  batch <span class="op">=</span> <span class="st">"studyID"</span>,</span>
+<span>  exposure <span class="op">=</span> <span class="st">"study_condition"</span>,</span>
+<span>  covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"age"</span>, <span class="st">"BMI"</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">CRC_meta</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>                 output <span class="op">=</span> <span class="st">"./InputData/MMUPHin_lm_meta"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit_lm_meta</span><span class="op">$</span><span class="va">meta_fits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">qval.fdr</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">coef</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>feature <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">feature</span>, levels <span class="op">=</span> <span class="va">feature</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">coef</span>, x <span class="op">=</span> <span class="va">feature</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="12-Statistics_BatchEffect_files/figure-html/unnamed-chunk-8-1.png" width="100%"></div>
+</div>
+<div id="总结-1" class="section level3" number="5.1.5">
+<h3>
+<span class="header-section-number">5.1.5</span> 总结<a class="anchor" aria-label="anchor" href="#%E6%80%BB%E7%BB%93-1"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><p>MMUPHin提供了可以校正多个数据来源的批次效应函数</p></li>
+<li><p>MMUPHin在做荟萃分析的时提供了工具</p></li>
+</ul>
+</div>
+</div>
+<div id="systemic-information-2" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-2"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  setting  value</span></span>
+<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
+<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  ui       X11</span></span>
+<span><span class="co">#&gt;  language (EN)</span></span>
+<span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
+<span><span class="co">#&gt;  date     2023-12-05</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  package              * version    date (UTC) lib source</span></span>
+<span><span class="co">#&gt;  ade4                   1.7-22     2023-02-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ANCOMBC                1.4.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  annotate               1.72.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  AnnotationDbi          1.60.2     2023-03-10 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ape                    5.7-1      2023-03-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  biglm                  0.9-2.1    2020-11-27 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Biobase                2.54.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocGenerics           0.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocParallel           1.28.3     2021-12-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  biomformat             1.22.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  Biostrings             2.62.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  bit                    4.0.5      2022-11-15 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bit64                  4.0.5      2020-08-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  bitops                 1.0-7      2021-04-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  blob                   1.2.4      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bookdown               0.34       2023-05-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bslib                  0.6.0      2023-11-21 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  cachem                 1.0.8      2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  callr                  3.7.3      2022-11-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  caTools                1.18.2     2021-03-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  cli                    3.6.1      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cluster                2.1.4      2022-08-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  codetools              0.2-19     2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  colorspace             2.1-0      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cowplot                1.1.1      2020-12-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  crayon                 1.5.2      2022-09-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  data.table             1.14.8     2023-02-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DBI                    1.1.3      2022-06-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DelayedArray           0.20.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  DEoptimR               1.0-14     2023-06-09 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  DESeq2                 1.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  devtools               2.4.5      2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  digest                 0.6.33     2023-07-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  downlit                0.4.3      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  dplyr                * 1.1.2      2023-04-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ellipsis               0.3.2      2021-04-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  evaluate               0.21       2023-05-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fansi                  1.0.4      2023-01-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  farver                 2.1.1      2022-07-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmap                1.1.1      2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  forcats              * 1.0.0      2023-01-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  foreach                1.5.2      2022-02-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fs                     1.6.2      2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  genefilter             1.76.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  geneplotter            1.72.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  generics               0.1.3      2022-07-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  GenomeInfoDb           1.30.1     2022-01-30 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomeInfoDbData       1.2.7      2022-03-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomicRanges          1.46.1     2021-11-18 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  getopt                 1.20.3     2019-03-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ggplot2              * 3.4.2      2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glmnet                 4.1-7      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glue                   1.6.2      2022-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gplots                 3.1.3      2022-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtable                 0.3.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtools                 3.9.4      2022-11-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hash                   2.2.6.2    2022-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  highr                  0.10       2022-12-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hms                    1.1.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmltools              0.5.7      2023-11-03 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  htmlwidgets            1.6.2      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  httpuv                 1.6.11     2023-05-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  httr                   1.4.6      2023-05-08 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  igraph                 1.5.0      2023-06-16 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  IRanges                2.28.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  iterators              1.0.14     2022-02-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  jquerylib              0.1.4      2021-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  jsonlite               1.8.7      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  KEGGREST               1.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  KernSmooth             2.23-22    2023-07-10 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  knitr                  1.43       2023-05-25 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  labeling               0.4.2      2020-10-20 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  later                  1.3.1      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lattice                0.21-8     2023-04-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lifecycle              1.0.3      2022-10-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  limma                  3.50.3     2022-04-07 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  locfit                 1.5-9.8    2023-06-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  logging                0.10-108   2019-07-14 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  lpsymphony             1.22.0     2021-10-26 [2] Bioconductor (R 4.1.1)</span></span>
+<span><span class="co">#&gt;  lubridate            * 1.9.2      2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Maaslin2               1.8.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  magrittr               2.0.3      2022-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  MASS                   7.3-60     2023-05-04 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  mathjaxr               1.6-0      2022-02-28 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Matrix                 1.6-0      2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  MatrixGenerics         1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  matrixStats            1.0.0      2023-06-02 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  memoise                2.0.1      2021-11-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  metadat                1.2-0      2022-04-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  metafor                4.2-0      2023-05-08 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  metagenomeSeq          1.36.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  mgcv                   1.8-42     2023-03-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  microbiome             1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  MicrobiomeAnalysis     1.0.3      2023-12-02 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  mime                   0.12       2021-09-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  miniUI                 0.1.1.1    2018-05-18 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  MMUPHin              * 1.8.2      2022-04-03 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  multtest               2.50.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  munsell                0.5.0      2018-06-12 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mvtnorm                1.2-2      2023-06-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  nlme                   3.1-162    2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  nloptr                 2.0.3      2022-05-26 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  numDeriv               2016.8-1.1 2019-06-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  optparse               1.7.3      2022-07-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pbapply                1.7-2      2023-06-27 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pcaPP                  2.0-3      2022-10-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  permute                0.9-7      2022-01-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  phyloseq             * 1.38.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  pillar                 1.9.0      2023-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pkgbuild               1.4.2      2023-06-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pkgconfig              2.0.3      2019-09-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pkgload                1.3.2.1    2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  plyr                   1.8.8      2022-11-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  png                    0.1-8      2022-11-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  prettyunits            1.1.1      2020-01-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  processx               3.8.2      2023-06-30 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  profvis                0.3.8      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  promises               1.2.0.1    2021-02-11 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ps                     1.7.5      2023-04-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr                * 1.0.1      2023-01-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  R6                     2.5.1      2021-08-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ragg                   1.2.5      2023-01-12 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rbibutils              2.2.13     2023-01-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  RColorBrewer           1.1-3      2022-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Rcpp                   1.0.11     2023-07-06 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  RCurl                  1.98-1.12  2023-03-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Rdpack                 2.4        2022-07-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  readr                * 2.1.4      2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  remotes                2.4.2      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  reshape2               1.4.4      2020-04-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rhdf5                  2.38.1     2022-03-10 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rhdf5filters           1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  Rhdf5lib               1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rlang                  1.1.1      2023-04-28 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rmarkdown              2.23       2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  robustbase             0.99-0     2023-06-16 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  RSQLite                2.3.1      2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rstudioapi             0.15.0     2023-07-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  Rtsne                  0.16       2022-04-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  S4Vectors              0.32.4     2022-03-29 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sass                   0.4.6      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scales                 1.2.1      2022-08-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sessioninfo            1.2.2      2021-12-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shape                  1.4.6      2021-05-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shiny                  1.7.4.1    2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  stringi                1.7.12     2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr              * 1.5.0      2022-12-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  SummarizedExperiment   1.24.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  survival               3.5-5      2023-03-12 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  systemfonts            1.0.4      2022-02-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  textshaping            0.3.6      2021-10-13 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  tibble               * 3.2.1      2023-03-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr                * 1.3.0      2023-01-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyselect             1.2.0      2022-10-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyverse            * 2.0.0      2023-02-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timechange             0.2.0      2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tzdb                   0.4.0      2023-05-12 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  urlchecker             1.0.1      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  usethis                2.2.2      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  utf8                   1.2.3      2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vctrs                  0.6.3      2023-06-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  vegan                  2.6-4      2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  withr                  2.5.0      2022-03-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Wrench                 1.12.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  xfun                   0.40       2023-08-09 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  XML                    3.99-0.14  2023-03-19 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xml2                   1.3.5      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xtable                 1.8-4      2019-04-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  XVector                0.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  yaml                   2.3.7      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  zlibbioc               1.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
+<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
+</div>
+<div id="reference-3" class="section level2" number="5.3">
+<h2>
+<span class="header-section-number">5.3</span> Reference<a class="anchor" aria-label="anchor" href="#reference-3"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p><a href="https://huttenhower.sph.harvard.edu/mmuphin">MMUPHin</a></p></li>
+<li><p><a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/">Doing Meta-Analysis with R: A Hands-On Guide</a></p></li>
+</ul>
+</div>
+</div>
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></div>
+<div class="next"><a href="dataprocessing.html"><span class="header-section-number">6</span> Data Processing</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#BatchEffectCorrection"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li>
+<a class="nav-link" href="#mmuphin"><span class="header-section-number">5.1</span> MMUPHin</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E4%BE%9D%E8%B5%96%E5%8C%85%E5%92%8C%E6%95%B0%E6%8D%AE"><span class="header-section-number">5.1.1</span> 加载依赖包和数据</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8E%A2%E7%B4%A2"><span class="header-section-number">5.1.2</span> 数据探索</a></li>
+<li><a class="nav-link" href="#%E6%89%B9%E6%AC%A1%E6%95%88%E5%BA%94%E6%A0%A1%E6%AD%A3"><span class="header-section-number">5.1.3</span> 批次效应校正</a></li>
+<li><a class="nav-link" href="#%E8%8D%9F%E8%90%83%E5%88%86%E6%9E%90"><span class="header-section-number">5.1.4</span> 荟萃分析</a></li>
+<li><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="header-section-number">5.1.5</span> 总结</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#systemic-information-2"><span class="header-section-number">5.2</span> Systemic information</a></li>
+<li><a class="nav-link" href="#reference-3"><span class="header-section-number">5.3</span> Reference</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/HuaZou/DraftNotes/blob/main/12-Statistics_BatchEffect.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/HuaZou/DraftNotes/edit/main/12-Statistics_BatchEffect.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-05.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

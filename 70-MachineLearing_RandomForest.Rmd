@@ -1,0 +1,668 @@
+```{r, include = FALSE}
+knitr::opts_chunk$set(out.width = "100%", message = FALSE, warning = FALSE)
+```
+
+
+# (PART) Machine Learning {.unnumbered}
+
+# Random Forest Algorithm {#randomforestalgorithm}
+
+
+
+随机森林是常用的非线性用于构建分类器的算法，它是由数目众多的弱决策树构建成森林进而对结果进行投票判断标签的方法。随机森林用于分类器的算法过程，
+
++ 随机切分样本，然后选择2/3用于建模，剩余1/3用于验证袋外误差；
+
++ 随机选择特征构建决策树，每个叶子节点分成二类；
+
++ 根据GINI系数判断分类内部纯度程度，进行裁剪树枝；
+
++ 1/3数据预测，根据每个决策树的结果投票确定标签；
+
++ 输出标签结果，并给出OOB rate；
+
++ 随机的含义在于样本和特征是随机选择去构建决策树，这可以有效避免偏差，另外弱分类器组成强分类器也即是多棵决策树组成森林能提升模型效果。
+
+**本文旨在通过R实现随机森林的应用，总共包含：**
+
++ 下载数据
++ 加载R包
++ 数据切割
++ 调参（选择最佳决策树数目）
++ 建模（重要性得分）
++ 多次建模选择最佳特征数目（基于OOB rate）
++ 多元回归分析筛选相关特征
++ 风险得分
++ 重新建模
++ 模型效能评估
+
+
+## 下载数据
+
+可以点击此处下载数据[clean_data.csv](https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv)或使用`wget`
+
+```bash
+wget https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv
+```
+
+> 该数据集包含569份恶性和良性肿瘤的样本的32类指标，通过这些特征构建区分恶性和良性肿瘤的随机森林分类器.
+
+> The Breast Cancer datasets is available machine learning repository maintained by the University of California, Irvine. The dataset contains 569 samples of malignant and benign tumor cells.
+
+
+## 加载R包
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(dplyr)
+library(tibble)
+library(randomForest)
+library(ggplot2)
+library(data.table)
+library(caret)
+library(pROC)
+
+# rm(list = ls())
+options(stringsAsFactors = F)
+options(future.globals.maxSize = 1000 * 1024^2)
+
+group_names <- c("M", "B")
+```
+
+
+## 加载数据
+```{r, message = FALSE, warning = FALSE}
+datset <- data.table::fread("./InputData/Breast_cancer/clean_data.csv")
+
+head(datset)
+```
+
+
+## 数据切割
+
+对数据集按照70%的比例划分成训练集和测试集，其中训练集用于构建模型，测试集用于评估模型效能。另外，在这一步前也有教程对特征进行选择，筛选组间差异大的特征用于建模。这里使用 caret::createDataPartition函数进行划分数据集，它能够根据组间比例合理分割数据。
+
+```{r}
+mdat <- datset %>%
+  dplyr::select(-V1) %>%
+  dplyr::rename(Group = diagnosis) %>%
+  dplyr::mutate(Group = factor(Group, levels = group_names)) %>%
+  data.frame()
+colnames(mdat) <- make.names(colnames(mdat))
+
+
+set.seed(123)
+trainIndex <- caret::createDataPartition(
+          mdat$Group, 
+          p = 0.7, 
+          list = FALSE, 
+          times = 1)
+
+trainData <- mdat[trainIndex, ]
+X_train <- trainData[, -1]
+y_train <- trainData[, 1]
+
+testData <- mdat[-trainIndex, ]
+X_test <- testData[, -1]
+y_test <- testData[, 1]
+```
+
+
+## 调参（选择最佳决策树数目）
+
+随机森林算法的参数众多，本文选择对mtry和ntree两个参数进行调参，其他均使用默认参数。
+
++ *mtry*：随机选择特征数目
++ *ntree*：构成森林的决策树数目
+
+```{r}
+
+RUN <- F
+
+if (RUN) {
+  # N-repeat K-fold cross-validation
+  myControl <- trainControl(
+    method = "repeatedcv",
+    number = 10,
+    repeats = 3,
+    search = "random",
+    classProbs = TRUE,
+    verboseIter = TRUE,
+    allowParallel = TRUE)
+  
+  # customRF
+  # https://machinelearningmastery.com/tune-machine-learning-algorithms-in-r/
+  customRF <- list(type = "Classification",
+                   library = "randomForest",
+                   loop = NULL)
+  
+  customRF$parameters <- data.frame(
+    parameter = c("mtry", "ntree"),
+    class = rep("numeric", 2),
+    label = c("mtry", "ntree"))
+  
+  customRF$grid <- function(x, y, len = NULL, search = "grid") {}
+  customRF$fit <- function(x, y, wts, param, lev, last, weights, classProbs, ...) {
+    randomForest(x, y, mtry = param$mtry, ntree=param$ntree, ...)
+  }
+  
+  customRF$predict <- function(modelFit, newdata, preProc = NULL, submodels = NULL) {
+    predict(modelFit, newdata)
+  }
+  
+  customRF$prob <- function(modelFit, newdata, preProc = NULL, submodels = NULL) {
+    predict(modelFit, newdata, type = "prob")
+  }
+  
+  customRF$sort <- function(x) {x[order(x[, 1]), ]}
+  customRF$levels <- function(x) {x$classes}
+  
+  # tuning parameters
+  tuneGrid <- expand.grid(
+    .mtry = c(12:15), # sqrt(ncol(X_train))
+    .ntree = seq(1000, 2000, 500))
+  
+  # Register parallel cores
+  doParallel::registerDoParallel(4)
+  
+  # train model
+  set.seed(123)
+  tune_fit <- train(
+    Group ~.,
+    data = trainData,
+    method = customRF, #"rf",
+    trControl = myControl,
+    tuneGrid = tuneGrid,
+    metric = "Accuracy",
+    verbose = FALSE)
+  
+  ## Plot model accuracy vs different values of Cost
+  print(plot(tune_fit))
+  
+  ## Print the best tuning parameter that maximizes model accuracy
+  optimalVar <- data.frame(tune_fit$results[which.max(tune_fit$results[, 3]), ])
+  print(optimalVar)  
+} 
+
+optimalVar <- list(mtry = 10, ntree = 1000)
+```
+
+
++ 结果：
+
+  - 最佳随机特征数目（使用32个特征用于建模，从中随机抽取7个特征构建决策树）：7
+  - 最佳决策树数目：1000
+
+
+## 建模
+
+使用上述最佳参数建模
+
+```{r}
+set.seed(123)
+rf_fit <- randomForest(
+  Group ~ .,
+  data = trainData,
+  importance = TRUE,
+  proximity = TRUE,
+  mtry = optimalVar$mtry,
+  ntree = optimalVar$ntree)
+
+rf_fit
+```
+
++ 结果：
+
+  - 该模型的袋外误差OOB仅为4.01%，也即是准确率高达95.99%。
+
+
+## 特征的重要性得分
+
+获取所有特征的重要性得分，此处使用MeanDecreaseAccuracy。
+
+```{r}
+imp_biomarker <- tibble::as_tibble(round(importance(rf_fit), 2), rownames = "Features") %>% 
+  dplyr::arrange(desc(MeanDecreaseAccuracy))
+imp_biomarker
+```
+
+
+## 多次建模选择最佳特征数目（基于OOB rate）
+
+上述模型选了所有32个特征用于建模，这是单次建模的结果，为了更好确定最佳特征数目，采用五次建模的结果寻找最小OOB rate对应的特征数目作为最佳特征数目。
+
+另外，最佳决策树数目参考第一次模型的 1000，也作为本次最佳决策树数目。
+
+
+
+```{r}
+error.cv <- c()
+for (i in 1:5){
+  print(i)
+  set.seed(i)
+  fit <- rfcv(trainx = X_train, 
+              trainy = y_train, 
+              cv.fold = 5, 
+              scale = "log", 
+              step = 0.9,
+              ntree = optimalVar$ntree)
+  error.cv <- cbind(error.cv, fit$error.cv)
+}
+
+n.var <- as.numeric(rownames(error.cv))
+colnames(error.cv) <- paste('error', 1:5, sep = '.')
+err.mean <- apply(error.cv, 1, mean)
+err.df <- data.frame(num = n.var, 
+                     err.mean = err.mean,
+                     error.cv) 
+head(err.df[, 1:6])
+```
+
++ optimal number of biomarkers chosen by min cv.error
+```{r}
+optimal <- err.df$num[which(err.df$err.mean == min(err.df$err.mean))]
+main_theme <- 
+  theme(
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.line.x = element_line(linewidth = 0.5, color = "black"),
+    axis.line.y = element_line(linewidth = 0.5, color = "black"),
+    axis.ticks = element_line(color = "black"),
+    axis.text = element_text(color = "black", size = 12),
+    legend.position = "right",
+    legend.background = element_blank(),
+    legend.key = element_blank(),
+    legend.text = element_text(size = 12),
+    text = element_text(family = "sans", size = 12))
+
+pl <- 
+  ggplot(data = err.df, aes(x = err.df$num)) + 
+    geom_line(aes(y = err.df$error.1), color = 'grey', linewidth = 0.5) + 
+    geom_line(aes(y = err.df$error.2), color = 'grey', linewidth = 0.5) +
+    geom_line(aes(y = err.df$error.3), color = 'grey', linewidth = 0.5) +
+    geom_line(aes(y = err.df$error.4), color = 'grey', linewidth = 0.5) +
+    geom_line(aes(y = err.df$error.5), color = 'grey', linewidth = 0.5) +
+    geom_line(aes(y = err.df$err.mean), color = 'black', linewidth = 0.5) + 
+    geom_vline(xintercept = optimal, color = 'red', lwd = 0.36, linetype = 2) + 
+    coord_trans(x = "log2") +
+    scale_x_continuous(breaks = c(1, 5, 10, 20, 30)) +
+    labs(x = 'Number of Features ', y = 'Cross-validation error rate') + 
+    annotate("text", 
+             x = optimal, 
+             y = max(err.df$err.mean), 
+             label = paste("Optimal = ", optimal, sep = ""),
+             color = "red") +
+    main_theme
+pl
+```
+
+
++ 结果：
+
+  - 袋外误差OOB rate从特征数目为1到特征数目为20呈快速下降趋势，虽然下降数目仅在小数点二位上；
+  
+  - 最佳特征数目是22，也即是选择重要性得分最高的22个特征即可（原本是32个特征，剔除10个特征用于建模）。
+
+
++ importance of optimal biomarker
+```{r}
+imp_biomarker[1:optimal, ] %>%
+  dplyr::select(Features, MeanDecreaseAccuracy) %>%
+  dplyr::arrange(MeanDecreaseAccuracy) %>%
+  dplyr::mutate(Features = forcats::fct_inorder(Features)) %>%
+  ggplot(aes(x = Features, y = MeanDecreaseAccuracy))+
+    geom_bar(stat = "identity", fill = "white", color = "blue") +
+    labs(x = "", y = "Mean decrease accuracy") +
+    coord_flip() +
+    main_theme
+```
+
+
++ 结果：
+
+  - MeanDecreaseAccuracy得分最高的是area_worst（MDA = 24.52%）
+
+
+## 多元回归分析筛选相关特征
+
+上述22个特征在建模过程还是偏多，可以通过多元回归分析筛选与响应变量（分类变量）最相关的自变量。
+
++ 转换字符型标签成数值型
++ 标准化自变量，降低不同单位的影响
++ 采用logist regression算法
+
+该步骤可选择也可不选择，因为后续分析发现如果严格按照pvalue < 0.05则仅能筛选到2-3个特征。
+
+
+```{r}
+mdat_mulvar <- mdat |>
+  dplyr::select(all_of(c("Group", imp_biomarker[1:optimal, ]$Features))) |>
+  dplyr::mutate(Group = ifelse(Group == group_names[1], 1, 0))
+
+mdat_mulvar[, -1] <- scale(mdat_mulvar[, -1], center = TRUE, scale = TRUE)
+
+fma <- formula(paste0(colnames(mdat_mulvar)[1], " ~ ", 
+              paste(colnames(mdat_mulvar)[2:ncol(mdat_mulvar)], collapse = " + ")))
+
+fit <- glm(fma, data = mdat_mulvar, family = "binomial")
+
+dat_coef <- coef(summary(fit)) |> 
+  as.data.frame() |>
+  dplyr::slice(-1) |>
+  dplyr::filter(`Pr(>|z|)` < 0.2) |>
+  tibble::rownames_to_column("FeatureID")
+
+head(dat_coef)
+``` 
+
+
++ 结果：
+
+  - 在选择Pr(>|z|) < 0.05后，结果不好，后将阈值设置为Pr(>|z|) < 0.2，最终5个特征符合要求。
+
+
+## 疾病风险得分
+
+nomogram是一类可以可视化上述5个特征对恶性肿瘤贡献的图形，它也是通过多元线性回归对疾病贡献得到打分，然后分别累加各个特征对疾病的得分得到一个总分，最后总分对应疾病分享百分比。
+
+该处没有对自变量进行标准化，本来是要做的，但考虑到每个指标所含有的临床学意义，就使用了原始值。
+
+```{r, fig.height=6, fig.width=12}
+library(rms)
+
+selected_columns <- c("Group", dat_coef$FeatureID)
+nom_optimal <- trainData %>%
+  dplyr::select(all_of(selected_columns)) |>
+  dplyr::mutate(Group = ifelse(Group == "B", 0, 1))
+
+ddist <- datadist(nom_optimal[, -1])
+options(datadist = "ddist")
+fit_nom <- lrm(formula(paste0(colnames(nom_optimal)[1], " ~ ", 
+              paste(colnames(nom_optimal)[2:ncol(nom_optimal)], collapse = " + "))),
+         data = nom_optimal)
+nom <- nomogram(fit_nom, fun = plogis, funlabel = "Risk of Disease")
+plot(nom)
+```
+
+
++ 结果：
+
+concave points_mean(凹点), concavity_worst(凹度), texture_worst(质地) 和 symmetry_worst(对称) 都随着数值增大获得更高的疾病得分， 而 compactness_mean(紧密) 则是数值越高，疾病得分越低。综合这五个指标的疾病得分即可获得疾病总得分，然后再对应到疾病风险概率上。
+
+Notice: 上述四个指标均与乳腺癌发生正相关，而最后一个指标则是负相关，这在临床上也是符合要求的
+
+比如:
+
+  - concave points_mean_= 0.04 (20 points)
+  - concavity_worst = 1.2 (20 points)
+  - texture_worst = 25 (10 points)
+  - symmetry_worst = 0.4 (10 points)
+  - compactness_mean = 0.25 (20 points)
+
+计算得分总和:
+
+20 + 20 + 10 + 10 + 20 = 80
+80分对应疾病风险概率是100%，也即是说某位检查者的上述五类指标符合该要求，意味着她有100%的概率患有恶性乳腺癌。
+
+
+## 重新建模
+
+使用上述五个指标重新建模
+
+```{r}
+selected_columns <- c("Group", dat_coef$FeatureID)
+
+trainData_optimal <- trainData %>%
+  dplyr::select(all_of(selected_columns))
+
+testData_optimal <- testData %>%
+  dplyr::select(all_of(selected_columns))
+
+set.seed(123)
+rf_fit_optimal <- randomForest(
+  Group ~ ., 
+  data = trainData_optimal, 
+  importance = TRUE, 
+  proximity = TRUE,
+  ntree = optimalVar$ntree)
+
+rf_fit_optimal
+```
+
++ ConfusionMatrix
+```{r}
+group_names <- c("B", "M")
+pred_raw <- predict(rf_fit_optimal, newdata = testData_optimal, type = "response")
+print(caret::confusionMatrix(pred_raw, testData_optimal$Group))
+pred_prob <- predict(rf_fit_optimal, newdata = testData_optimal, type = "prob")  
+```
+
+
++ performance of classifier
+```{r}
+Evaluate_index <- function(
+    DataTest, 
+    PredProb = pred_prob, 
+    label = group_names[1], 
+    PredRaw = pred_raw) {
+  
+  # DataTest = testData
+  # PredProb = pred_prob
+  # label = group_names[1]
+  # PredRaw = pred_raw
+  
+  # ROC object
+  rocobj <- roc(DataTest$Group, PredProb[, 1])
+  
+  # confusionMatrix
+  con_matrix <- table(PredRaw, DataTest$Group)
+  
+  # index
+  TP <- con_matrix[1, 1]
+  FN <- con_matrix[2, 1]
+  FP <- con_matrix[1, 2]
+  TN <- con_matrix[2, 2]
+  
+  rocbj_df <- data.frame(threshold = round(rocobj$thresholds, 3),
+                         sensitivities = round(rocobj$sensitivities, 3),
+                         specificities = round(rocobj$specificities, 3),
+                         value = rocobj$sensitivities + 
+                           rocobj$specificities)
+  max_value_row <- which(max(rocbj_df$value) == rocbj_df$value)[1]
+  
+  threshold <- rocbj_df$threshold[max_value_row]
+  sen <- round(TP / (TP + FN), 3) # caret::sensitivity(con_matrix)
+  spe <- round(TN / (TN + FP), 3) # caret::specificity(con_matrix)
+  acc <- round((TP + TN) / (TP + TN + FP + FN), 3) # Accuracy
+  pre <- round(TP / (TP + FP), 3) # precision
+  rec <- round(TP / (TP + FN), 3) # recall
+  #F1S <- round(2 * TP / (TP + TN + FP + FN + TP - TN), 3)# F1-Score
+  F1S <- round(2 * TP / (2 * TP + FP + FN), 3)# F1-Score
+  youden <- sen + spe - 1 # youden index
+  
+  index_df <- data.frame(Index = c("Threshold", "Sensitivity",
+                                   "Specificity", "Accuracy",
+                                   "Precision", "Recall",
+                                   "F1 Score", "Youden index"),
+                         Value = c(threshold, sen, spe,
+                                   acc, pre, rec, F1S, youden)) %>%
+    stats::setNames(c("Index", label))
+  
+  return(index_df)
+}
+
+Evaluate_index(
+    DataTest = testData, 
+    PredProb = pred_prob, 
+    label = group_names[1], 
+    PredRaw = pred_raw)
+```
+
++ AUROC
+```{r}
+AUROC <- function(
+    DataTest, 
+    PredProb = pred_prob, 
+    label = group_names[1], 
+    DataProf = profile) {
+  
+  # DataTest = testData
+  # PredProb = pred_prob
+  # label = group_names[1]
+  # DataProf = profile
+  
+  # ROC object
+  rocobj <- roc(DataTest$Group, PredProb[, 1])
+  
+  # Youden index: cutoff point
+  # plot(rocobj,
+  #      legacy.axes = TRUE,
+  #      of = "thresholds", 
+  #      thresholds = "best", 
+  #      print.thres="best")
+  
+  # AUROC data
+  roc <- data.frame(tpr = rocobj$sensitivities,
+                    fpr = 1 - rocobj$specificities)
+  
+  # AUC 95% CI
+  rocobj_CI <- roc(DataTest$Group, PredProb[, 1], 
+                   ci = TRUE, percent = TRUE)
+  roc_CI <- round(as.numeric(rocobj_CI$ci)/100, 3)
+  roc_CI_lab <- paste0(label, 
+                       " (", "AUC=", roc_CI[2], 
+                       ", 95%CI ", roc_CI[1], "-", roc_CI[3], 
+                       ")")
+  # ROC dataframe
+  rocbj_df <- data.frame(threshold = round(rocobj$thresholds, 3),
+                         sensitivities = round(rocobj$sensitivities, 3),
+                         specificities = round(rocobj$specificities, 3),
+                         value = rocobj$sensitivities + 
+                           rocobj$specificities)
+  max_value_row <- which(max(rocbj_df$value) == rocbj_df$value)
+  threshold <- rocbj_df$threshold[max_value_row]
+  
+  # plot
+  pl <- ggplot(data = roc, aes(x = fpr, y = tpr)) +
+    geom_path(color = "red", size = 1) +
+    geom_abline(intercept = 0, slope = 1, 
+                color = "grey", linewidth = 1, linetype = 2) +
+    labs(x = "False Positive Rate (1 - Specificity)",
+         y = "True Positive Rate",
+         title = paste0("AUROC (", DataProf, " Features)")) +
+    annotate("text", 
+             x = 1 - rocbj_df$specificities[max_value_row] + 0.15, 
+             y = rocbj_df$sensitivities[max_value_row] - 0.05, 
+             label = paste0(threshold, " (", 
+                            rocbj_df$specificities[max_value_row], ",",
+                            rocbj_df$sensitivities[max_value_row], ")"),
+             size=5, family="serif") +
+    annotate("point", 
+             x = 1 - rocbj_df$specificities[max_value_row], 
+             y = rocbj_df$sensitivities[max_value_row], 
+             color = "black", size = 2) +    
+    annotate("text", 
+             x = .75, y = .25, 
+             label = roc_CI_lab,
+             size = 5, family = "serif") +
+    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1)) +
+    theme_bw() +
+    theme(panel.background = element_rect(fill = "transparent"),
+          plot.title = element_text(color = "black", size = 14, face = "bold"),
+          axis.ticks.length = unit(0.4, "lines"),
+          axis.ticks = element_line(color = "black"),
+          axis.line = element_line(size = .5, color = "black"),
+          axis.title = element_text(color = "black", size = 12, face = "bold"),
+          axis.text = element_text(color = "black", size = 10),
+          text = element_text(size = 8, color = "black", family = "serif"))
+  
+  res <- list(rocobj = rocobj,
+              roc_CI = roc_CI_lab,
+              roc_pl = pl)
+  
+  return(res)
+}
+
+AUROC_res <- AUROC(
+    DataTest = testData, 
+    PredProb = pred_prob, 
+    label = group_names[1], 
+    DataProf = optimal)
+
+AUROC_res$roc_pl
+```
+
++ AUPRC
+```{r}
+AUPRC <- function(
+    DataTest, 
+    PredProb = pred_prob, 
+    DataProf = optimal) {
+  
+  # DataTest = testData
+  # PredProb = pred_prob
+  # DataProf = optimal
+  
+  # ROC object
+  rocobj <- roc(DataTest$Group, PredProb[, 1])
+  
+  # p-r value 
+  dat_PR <- coords(rocobj, "all", ret = c("precision", "recall"))
+  
+  # AUPRC data
+  prc <- data.frame(precision = dat_PR$precision,
+                    recall = dat_PR$recall)
+  
+  # plot
+  pl <- ggplot(data = prc, aes(x = recall, y = precision)) +
+    geom_path(color = "red", size = 1) +
+    labs(x = "Recall",
+         y = "Precision",
+         title = paste0("AUPRC (", DataProf, " Features)")) +
+    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1)) +
+    theme_bw() +
+    theme(panel.background = element_rect(fill = "transparent"),
+          plot.title = element_text(color = "black", size = 14, face = "bold"),
+          axis.ticks.length = unit(0.4, "lines"),
+          axis.ticks = element_line(color = "black"),
+          axis.line = element_line(size = .5, color = "black"),
+          axis.title = element_text(color = "black", size = 12, face = "bold"),
+          axis.text = element_text(color = "black", size = 10),
+          text = element_text(size = 8, color = "black", family = "serif"))
+  
+  res <- list(dat_PR = dat_PR,
+              PC_pl = pl)
+  
+  return(res)
+}
+
+AUPRC_res <- AUPRC(
+    DataTest = testData, 
+    PredProb = pred_prob, 
+    DataProf = optimal)
+
+AUPRC_res$PC_pl
+```
+
+
+## Final biomarkers
+
++ importance score
+```{r}
+imp_biomarker |> 
+  dplyr::filter(Features %in% dat_coef$FeatureID) |>
+  dplyr::select(Features, MeanDecreaseAccuracy) |>
+  dplyr::arrange(MeanDecreaseAccuracy) |>
+  dplyr::mutate(Features = forcats::fct_inorder(Features)) |>
+  ggplot(aes(x = Features, y = MeanDecreaseAccuracy))+
+    geom_bar(stat = "identity", fill = "white", color = "blue") +
+    labs(x = "", y = "Mean decrease accuracy") +
+    coord_flip() +
+    main_theme
+```
+
+
+
+## systemic information
+```{r}
+devtools::session_info()
+```

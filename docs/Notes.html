@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 15 Notes | 生物信息随记</title>
+<meta name="author" content="Hua Zou">
+<meta name="description" content="Put daily work records on microbiota into this repository  15.1 Review A practical guide to amplicon and metagenomic analysis of microbiome data Current challenges and best-practice protocols for...">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="Chapter 15 Notes | 生物信息随记">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://zouhua.top/DraftNotes/Notes.html">
+<meta property="og:description" content="Put daily work records on microbiota into this repository  15.1 Review A practical guide to amplicon and metagenomic analysis of microbiome data Current challenges and best-practice protocols for...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 15 Notes | 生物信息随记">
+<meta name="twitter:description" content="Put daily work records on microbiota into this repository  15.1 Review A practical guide to amplicon and metagenomic analysis of microbiome data Current challenges and best-practice protocols for...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">生物信息随记</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> 介绍</a></li>
+<li class="book-part">Data Set</li>
+<li><a class="" href="ZeybelDataset.html"><span class="header-section-number">2</span> Zeybel Dataset</a></li>
+<li class="book-part">Statistical Methods</li>
+<li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
+<li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
+<li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li class="book-part">Metabolomics Data Analysis</li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">6</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">7</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">8</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">9</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">10</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></li>
+<li class="book-part">Machine Learning</li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">12</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></li>
+<li class="book-part">Knowledge</li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">14</span> Metageomics</a></li>
+<li><a class="active" href="Notes.html"><span class="header-section-number">15</span> Notes</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/HuaZou/DraftNotes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="Notes" class="section level1" number="15">
+<h1>
+<span class="header-section-number">15</span> Notes<a class="anchor" aria-label="anchor" href="#Notes"><i class="fas fa-link"></i></a>
+</h1>
+<p>Put daily work records on microbiota into this repository</p>
+<div id="review" class="section level2" number="15.1">
+<h2>
+<span class="header-section-number">15.1</span> Review<a class="anchor" aria-label="anchor" href="#review"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://link.springer.com/article/10.1007/s13238-020-00724-8">A practical guide to amplicon and metagenomic analysis of microbiome data</a></li>
+<li><a href="https://academic.oup.com/bib/article/22/1/178/5678919?login=false">Current challenges and best-practice protocols for microbiome analysis</a></li>
+<li><a href="https://www.nature.com/articles/nbt.3935">Shotgun metagenomics, from sampling to analysis</a></li>
+<li><a href="https://www.nature.com/articles/s41591-022-01779-2">Targeting the gut and tumor microbiota in cancer</a></li>
+<li><a href="https://www.nature.com/articles/s41392-022-00974-4">Microbiota in health and diseases</a></li>
+<li><a href="https://www.nature.com/articles/s41579-020-00460-0">The gut microbiota–brain axis in behaviour and brain disorders</a></li>
+<li><a href="https://www.nature.com/articles/s41579-020-0433-9">Gut microbiota in human metabolic health and disease</a></li>
+<li><a href="https://www.nature.com/articles/s41575-020-0269-9">Gut microbiota and human NAFLD: disentangling microbial signatures from metabolic disorders</a></li>
+<li><a href="https://www.frontiersin.org/articles/10.3389/fmicb.2017.02224/full">Microbiome datasets are compositional: And this is not optional</a></li>
+<li><a href="https://www.nature.com/articles/s41592-022-01431-4">Critical Assessment of Metagenome Interpretation: the second round of challenges</a></li>
+<li><a href="https://sfamjournals.onlinelibrary.wiley.com/doi/full/10.1111/1751-7915.13970">Next steps after 15 stimulating years of human gut microbiome research</a></li>
+<li><a href="https://www.cell.com/cell-host-microbe/fulltext/S1931-3128(22)00222-0">Rethinking healthy eating in light of the gut microbiome</a></li>
+<li><a href="https://environmentalmicrobiome.biomedcentral.com/articles/10.1186/s40793-022-00433-1">Ecosystem-specific microbiota and microbiome databases in the era of big data</a></li>
+<li><a href="https://www.cell.com/trends/microbiology/fulltext/S0966-842X(23)00030-6?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0966842X23000306%3Fshowall%3Dtrue">Computational methods and challenges inanalyzing intratumoral microbiome data</a></li>
+<li><a href="https://www.nature.com/articles/s41577-022-00727-y">The impact of the gut microbiome on extra-intestinal autoimmune diseases</a></li>
+</ul>
+</div>
+<div id="method" class="section level2" number="15.2">
+<h2>
+<span class="header-section-number">15.2</span> Method<a class="anchor" aria-label="anchor" href="#method"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://www.nature.com/articles/s41522-020-00160-w">Analysis of microbial compositions: a review of normalization and differential abundance analysis</a></li>
+<li><a href="https://www.nature.com/articles/s41467-022-28034-z">Microbiome differential abundance methods produce different results across 38 datasets</a></li>
+<li><a href="https://www.nature.com/articles/s41467-022-34405-3">Faecal microbiome-based machine learning for multi-class disease diagnosis</a></li>
+<li><a href="https://www.nature.com/articles/s41467-022-31535-6">Network-based machine learning approach topredict immunotherapy response in cancer patients</a></li>
+<li><a href="https://academic.oup.com/bib/article/22/4/bbaa290/6017455?login=false">NetCoMi: network construction and comparison for microbiome data in R</a></li>
+<li><a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-022-02753-4">Population structure discovery in meta-analyzed microbial communities and inflammatory bowel disease using MMUPHin</a></li>
+</ul>
+</div>
+<div id="research-article" class="section level2" number="15.3">
+<h2>
+<span class="header-section-number">15.3</span> Research article<a class="anchor" aria-label="anchor" href="#research-article"><i class="fas fa-link"></i></a>
+</h2>
+<div id="longitudinal-study" class="section level3" number="15.3.1">
+<h3>
+<span class="header-section-number">15.3.1</span> Longitudinal study<a class="anchor" aria-label="anchor" href="#longitudinal-study"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S2211124722004016#:~:text=In%20conclusion%2C%20our%20findings%20indicate,in%20AR%20in%20healthy%20microbiomes.">Acute and persistent effects of commonly used antibiotics on the gut microbiome and resistome in healthy adults</a></li>
+</ul>
+</div>
+<div id="nafld-non-alcoholic-fatty-liver-disease" class="section level3" number="15.3.2">
+<h3>
+<span class="header-section-number">15.3.2</span> NAFLD: non-alcoholic fatty liver disease<a class="anchor" aria-label="anchor" href="#nafld-non-alcoholic-fatty-liver-disease"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><a href="https://www.nature.com/articles/s41575-020-0269-9">Gut microbiota and human NAFLD: disentangling microbial signatures from metabolic disorders</a></li>
+<li><a href="https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-022-02526-w">Characterization of microbiome and metabolite analyses in patients with metabolic associated fatty liver disease and type II diabetes mellitus</a></li>
+<li><a href="https://onlinelibrary.wiley.com/doi/10.1002/advs.202104373">Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic Steatosis</a></li>
+</ul>
+</div>
+<div id="mechanism" class="section level3" number="15.3.3">
+<h3>
+<span class="header-section-number">15.3.3</span> Mechanism<a class="anchor" aria-label="anchor" href="#mechanism"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><a href="https://www.cell.com/cell-metabolism/fulltext/S1550-4131(22)00128-0?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS1550413122001280%3Fshowall%3Dtrue">Microbiota alterations in proline metabolism impact depression</a></li>
+</ul>
+</div>
+<div id="ici" class="section level3" number="15.3.4">
+<h3>
+<span class="header-section-number">15.3.4</span> ICI<a class="anchor" aria-label="anchor" href="#ici"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><a href="https://www.nature.com/articles/s41591-021-01655-5">Intestinal Akkermansia muciniphila predicts clinical response to PD-1 blockade in patients with advanced non-small-cell lung cancer</a></li>
+<li><a href="https://www.nature.com/articles/s41467-023-42997-7">Gut microbial structural variation associates with immune checkpoint inhibitor response</a></li>
+<li><a href="https://www.cell.com/cell-host-microbe/pdfExtended/S1931-3128(23)00409-2">Multi-kingdom gut microbiota analyses define bacterial-fungal interplay and microbial markers of pan-cancer immunotherapy across cohorts</a></li>
+</ul>
+</div>
+<div id="blood-microbiota" class="section level3" number="15.3.5">
+<h3>
+<span class="header-section-number">15.3.5</span> Blood microbiota<a class="anchor" aria-label="anchor" href="#blood-microbiota"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li><a href="https://www.nature.com/articles/s41586-020-2095-1">Microbiome analyses of blood and tissues suggest cancer diagnostic approach</a></li>
+</ul>
+</div>
+</div>
+<div id="database" class="section level2" number="15.4">
+<h2>
+<span class="header-section-number">15.4</span> Database<a class="anchor" aria-label="anchor" href="#database"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://img.jgi.doe.gov/">Integrated Microbial Genomes and Microbiomes (JGI-IMG/M)</a></li>
+<li><a href="https://figshare.com/articles/dataset/16S_rRNA_Microbiome_Datasets/14531724">16S_rRNA_Microbiome_Datasets</a></li>
+<li><a href="https://earthmicrobiome.org/">Earth Microbiome Project (EMP)</a></li>
+<li><a href="https://www.homd.org/">Human Oral Microbiome Database (HOMD)</a></li>
+<li><a href="https://commonfund.nih.gov/hmp/databases">Integrative Human Microbiome Project (HMP)</a></li>
+<li><a href="https://www.ebi.ac.uk/metagenomics/genome-catalogues/human-gut-v2-0">Unifed Human Gastrointestinal Genome (UHGG)</a></li>
+<li><a href="https://gmgc.embl.de/">Global Microbial Gene Catalog (GMGC)</a></li>
+<li><a href="https://card.mcmaster.ca/">The Comprehensive Antibiotic Resistance Database</a></li>
+<li><a href="http://bio-annotation.cn/microbiota/">microbioTA: an atlas of the microbiome in multiple disease tissues of Homo sapiens and Mus musculus</a></li>
+<li><a href="https://github.com/borenstein-lab/microbiome-metabolome-curated-data">microbiome-metabolome data</a></li>
+<li><a href="https://github.com/waldronlab/curatedMetagenomicData">Metagenomic Data</a></li>
+</ul>
+</div>
+<div id="benchmark" class="section level2" number="15.5">
+<h2>
+<span class="header-section-number">15.5</span> Benchmark<a class="anchor" aria-label="anchor" href="#benchmark"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-017-1299-7?gclid=Cj0KCQjwnNyUBhCZARIsAI9AYlHQvfX8NY5nSog986R76_fs-HJvZaBpf9eTRRN7vy-UZyJwkfDFbbsaAtRvEALw_wcB">Comprehensive benchmarking and ensemble approaches for metagenomic classifiers</a></li>
+</ul>
+</div>
+<div id="pipeline" class="section level2" number="15.6">
+<h2>
+<span class="header-section-number">15.6</span> Pipeline<a class="anchor" aria-label="anchor" href="#pipeline"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>Humann2: <a href="https://www.nature.com/articles/s41592-018-0176-y">Species-level functional profiling of metagenomes and metatranscriptomes</a>
+</li>
+<li>binny: <a href="https://academic.oup.com/bib/advance-article/doi/10.1093/bib/bbac431/6760137">binny: an automated binning algorithm to recover high-quality genomes from complex metagenomic datasets</a>
+</li>
+</ul>
+</div>
+<div id="data-analysis-materials" class="section level2" number="15.7">
+<h2>
+<span class="header-section-number">15.7</span> Data Analysis Materials<a class="anchor" aria-label="anchor" href="#data-analysis-materials"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://david-barnett.github.io/microViz/index.html">microViz</a></li>
+<li><a href="https://mixomicsteam.github.io/Bookdown/intro.html">mixOmics</a></li>
+<li><a href="https://bookdown.org/chua/ber642_advanced_regression/">Advanced Regression Methods</a></li>
+<li><a href="https://microbiome.github.io/OMA/">Orchestrating Microbiome Analysis</a></li>
+<li><a href="http://r.qcbs.ca/workshop10/book-en/index.html#preface">Advanced Multivariate Analyses in R</a></li>
+<li><a href="http://www.sthda.com/english/">Statistical tools for high-throughput data analysis: STHDA</a></li>
+<li><a href="https://link.springer.com/book/10.1007/978-981-13-1534-3">Statistical Analysis of Microbiome Data with R</a></li>
+<li><a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/">Doing Meta-Analysis with R: A Hands-On Guide</a></li>
+<li><a href="https://fukamilab.github.io/BIO202/06-B-constrained-ordination.html">Constrained ordination</a></li>
+<li><a href="https://speech.ee.ntu.edu.tw/~hylee/ml/2021-spring.php">MACHINE LEARNING 2021 SPRING</a></li>
+<li><a href="https://lgatto.github.io/RforProteomics/articles/RProtVis.html">Visualisation of proteomics data using R and Bioconductor</a></li>
+<li><a href="https://lightgbm.readthedocs.io/en/latest/R/index.html">LightGBM R-package</a></li>
+<li><a href="https://bookdown.org/rdpeng/RProgDA/">Mastering Software Development in R</a></li>
+</ul>
+</div>
+<div id="lab" class="section level2" number="15.8">
+<h2>
+<span class="header-section-number">15.8</span> Lab<a class="anchor" aria-label="anchor" href="#lab"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>
+<a href="https://www.embl.org/groups/zeller/">Zeller Team</a>: The Zeller team develops analysis strategies and tools to investigate how the microbiome contributes to human health, disease progression and treatment success, and how it is shaped by host factors such as nutrition and drug intake.</li>
+<li>
+<a href="https://huttenhower.sph.harvard.edu/">Huttenhower lab</a>: The lab try to learn to use the microbiome to predict disease onset, progression, and outcomes, as well as developing ways to modify it for health maintenance and therapy.</li>
+<li>
+<a href="https://www.kostlab.com/christian-kost.html">KOST LAB</a>: My working group uses tractable, laboratory-based model systems to address fundamental biological questions on different levels of biological organization.</li>
+<li>
+<a href="https://pathogen-genomics.org/">Daniel Croll lab</a>: The lab of Daniel Croll wants to understand how pathogens evolve to cause disease.</li>
+<li>
+<a href="http://www.microbiolimmunol.med.keio.ac.jp/">Honda Lab</a>: We aim to identify specific intestinal bacterial species that influence the host immune cells by inducing their functions and differentiation.</li>
+<li>
+<a href="http://borensteinlab.com/">Borenstein lab</a>: computational study of the human microbiome and of other complex microbial ecosystems.</li>
+<li>
+<a href="http://www.gorelab.org/index.html">Gore Lab</a>: The Gore Lab studies how interactions between individuals determine the evolutionary and ecological dynamics of multi-species microbial communities. Of particular focus are alternative stables states, community assembly, cross-feeding, and the emergence of “cheater” strategies. The laboratory is composed of an interdisciplinary group of scientists interested in learning from each other to effectively combine experiments, theory, and modeling.</li>
+<li>
+<a href="https://www.bhattlab.com/">bhattlab</a>: human gut microbiota in STANFORD MEDICAL SCHOOL.</li>
+</ul>
+</div>
+<div id="job-view" class="section level2" number="15.9">
+<h2>
+<span class="header-section-number">15.9</span> Job view<a class="anchor" aria-label="anchor" href="#job-view"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://jobrxiv.org/">Science Jobs hunter</a></li>
+</ul>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="Metageomics.html"><span class="header-section-number">14</span> Metageomics</a></div>
+<div class="next"><a href="references.html">References</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#Notes"><span class="header-section-number">15</span> Notes</a></li>
+<li><a class="nav-link" href="#review"><span class="header-section-number">15.1</span> Review</a></li>
+<li><a class="nav-link" href="#method"><span class="header-section-number">15.2</span> Method</a></li>
+<li>
+<a class="nav-link" href="#research-article"><span class="header-section-number">15.3</span> Research article</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#longitudinal-study"><span class="header-section-number">15.3.1</span> Longitudinal study</a></li>
+<li><a class="nav-link" href="#nafld-non-alcoholic-fatty-liver-disease"><span class="header-section-number">15.3.2</span> NAFLD: non-alcoholic fatty liver disease</a></li>
+<li><a class="nav-link" href="#mechanism"><span class="header-section-number">15.3.3</span> Mechanism</a></li>
+<li><a class="nav-link" href="#ici"><span class="header-section-number">15.3.4</span> ICI</a></li>
+<li><a class="nav-link" href="#blood-microbiota"><span class="header-section-number">15.3.5</span> Blood microbiota</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#database"><span class="header-section-number">15.4</span> Database</a></li>
+<li><a class="nav-link" href="#benchmark"><span class="header-section-number">15.5</span> Benchmark</a></li>
+<li><a class="nav-link" href="#pipeline"><span class="header-section-number">15.6</span> Pipeline</a></li>
+<li><a class="nav-link" href="#data-analysis-materials"><span class="header-section-number">15.7</span> Data Analysis Materials</a></li>
+<li><a class="nav-link" href="#lab"><span class="header-section-number">15.8</span> Lab</a></li>
+<li><a class="nav-link" href="#job-view"><span class="header-section-number">15.9</span> Job view</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/HuaZou/DraftNotes/blob/main/98-KW-others.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/HuaZou/DraftNotes/edit/main/98-KW-others.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-05.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

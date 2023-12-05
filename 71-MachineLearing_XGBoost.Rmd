@@ -1,0 +1,771 @@
+```{r, include = FALSE}
+knitr::opts_chunk$set(out.width = "100%", message = FALSE, warning = FALSE)
+```
+
+
+# XGBoost Algorithm {#XGBoostalgorithm}
+
+
+> The XGBoost or Extreme Gradient Boosting algorithm is a decision tree based machine learning algorithm which uses a process called boosting to help improve performance.
+>
+> The basic classification modeling process involves obtaining a dataset, creating features of independent variables, and using them to predict a dependent variable or target class. Most classification datasets require some preparation before they can be used by classifiers, and also usually require the creation of additional features through a process called feature engineering. 
+>
+> “Gradient boosting is a machine learning technique for regression, classification and other tasks, which produces a prediction model in the form of an ensemble of weak prediction models, typically decision trees. When a decision tree is the weak learner, the resulting algorithm is called gradient boosted trees, which usually outperforms random forest. It builds the model in a stage-wise fashion like other boosting methods do, and it generalizes them by allowing optimization of an arbitrary differentiable loss function” Note: XGBoost is ditinguished from other gradient boosting techniques by its regularization mechanism to prevent overfitting.
+
+
+
+### Data Preparation
+
++ **data table**: `clean_data.csv` with group information (Row->samples;Column->features)
+
+可以点击此处下载数据[clean_data.csv](https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv)或使用`wget`
+
+```bash
+wget https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv
+```
+
+> 该数据集包含569份恶性和良性肿瘤的样本的32类指标，通过这些特征构建区分恶性和良性肿瘤的随机森林分类器.
+
+> The Breast Cancer datasets is available machine learning repository maintained by the University of California, Irvine. The dataset contains 569 samples of malignant and benign tumor cells.
+
+
+### Data Description
+
++ **Feature table**:
+
+    - M samples x N Features
+
++ **metadata**
+
+    - main response/independent variable: `diagnosis: M vs B`
+
+
+### Data Preprocessing
+
+
++ **Prevalence filtering**: reducing the sparsity of data (default: 10%)
+
+
+### Data Partition
+
+
++ train dataset: 80% or 70% (default 70%);
++ test dataset: 20% or 30% (default 30%).
+
+
+### Feature Selection
+
++ Importance of features by random forest;
+
+Feature selection should be taken only in training set, which avoiding overfitting.
+
+
+### Model training 
+
++ Base model construction with higher performance
++ Tuning the hyperparameters
++ Best model building and evaluations
+
+
+### python environment 
+```{r, message = FALSE, warning = FALSE}
+library(reticulate)
+
+# myenvs <- conda_list()
+# 
+# envname <- myenvs$name[2]
+# use_condaenv(envname, required = TRUE)
+# # or
+use_condaenv("base", required = TRUE)
+```
+
+
+
+## Loading required packages
+
+```{python}
+import warnings
+warnings.filterwarnings('ignore')
+
+import pandas as pd
+import numpy as np
+import time
+import random
+
+# machine learning
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+
+#from xgboost import XGBClassifier
+import xgboost as xgb
+
+#classes for grid search and cross-validation, function for splitting data and evaluating models
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import confusion_matrix 
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from skopt import BayesSearchCV
+
+# plotting 
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.style.use('fivethirtyeight')
+sns.set_style("darkgrid")
+
+plt.rcParams['figure.figsize'] = (8, 4)
+plt.rcParams["axes.linewidth"] = 1
+```
+
+## Data Preparation
+
+> The Breast Cancer datasets is available machine learning repository maintained by the University of California, Irvine. The dataset contains 569 samples of malignant and benign tumor cells.
+> The first two columns in the dataset store the unique ID numbers of the samples and the corresponding diagnosis (M=malignant, B=benign), respectively.
+> The columns 3-32 contain 30 real-value features that have been computed from digitized images of the cell nuclei, which can be used to build a model to predict whether a tumor is benign or malignant.
+
+```{python}
+dat = pd.read_csv("InputData/Breast_cancer/clean_data.csv", index_col=0)
+
+dat.head()
+```
+
+## XGBoost classification
+
++ Transforming group label
+
++ Principal component analysis
+
++ Data partition
+
++ Feaeture selection
+
++ Base model
+
++ Tuning hyperparameters
+
++ Building final model
+
++ Evaluating model performance
+
+
+### Transforming label
+
+Machine learning does not accept string labels for categorical variables
+
++ B -> 0
++ M -> 1
+```{python}
+#creating deepcopy of model instances
+from copy import deepcopy
+
+group_names = ['B', "M"]
+
+dat_copy = deepcopy(dat)
+dat_copy['diagnosis'] = dat_copy['diagnosis'].map({'B':0, 'M':1})
+dat_copy.head(n=6)
+```
+
+### Principal component analysis
+
+```{python}
+from sklearn.decomposition import PCA
+#from sklearn.preprocessing import StandardScaler
+
+data_remove = dat_copy.drop(['diagnosis'], axis = 1)
+
+#sc = StandardScaler()
+#sc.fit_transform(data_remove)
+
+pca = PCA(n_components=2)
+pca.fit(data_remove)
+data_remove_pca = pca.transform(data_remove)
+
+PCA_df = pd.DataFrame()
+PCA_df['PCA_1'] = data_remove_pca[:, 0]
+PCA_df['PCA_2'] = data_remove_pca[:, 1]
+PCA_df['diagnosis'] = dat['diagnosis'].tolist()
+
+plt.figure(figsize=(4, 4))
+sns.scatterplot(data = PCA_df,
+                x = 'PCA_1', 
+                y = 'PCA_2',
+                hue = 'diagnosis')
+
+plt.title("PCA")
+plt.xlabel("First Principal Component")
+plt.ylabel("Second Principal Component")
+plt.legend(loc='lower right', fontsize="8")
+plt.show()
+```
+
+
+### Data partition
+
+Creating train and test dataset under probability 0.7
+
+```{python}
+X = data_remove
+Y = dat_copy.diagnosis
+
+x_train, x_test, y_train, y_test = train_test_split(
+    X,
+    Y,
+    test_size = 0.30,
+    random_state = 123)
+
+# Cleaning test sets to avoid future warning messages
+y_train = y_train.values.ravel() 
+y_test = y_test.values.ravel() 
+
+print("training dataset:", x_train.shape[0], "sampels;", x_train.shape[1], "features")
+print("test dataset:", x_test.shape[0], "sampels;", x_test.shape[1], "features")
+```
+
+
+### Feature selection
+
+We use the **importance of random forest** to select features by `selectFromModel`, selecting thoese features which importance is greater than the mean importance of all features by default. The following parameters:
+
++ **estimator**: The base estimator from which the transformer is built
++ **threshold**: The threshold value to use for feature selection (mean default)
+
+```{python}
+from sklearn.feature_selection import SelectFromModel
+from sklearn.ensemble import RandomForestClassifier
+
+sel = SelectFromModel(estimator=RandomForestClassifier(n_estimators = 1000),
+                      threshold="mean")
+sel.fit(x_train, y_train)
+
+# estimator parameters
+print("the parameters of estimator", sel.get_params())
+
+# selected features
+selected_features = x_train.columns[(sel.get_support())]
+x_train_select = x_train[selected_features]
+
+
+print("training dataset:", x_train_select.shape[0], "sampels;", x_train_select.shape[1], "features")
+```
+
+
++ Remained features
+
+```{python}
+x_train_select = x_train[selected_features]
+x_test_select = x_test[selected_features]
+
+print("training dataset:", x_train_select.shape[0], "sampels;", x_train_select.shape[1], "features")
+print("test dataset:", x_test_select.shape[0], "sampels;", x_test_select.shape[1], "features")
+```
+
+
+### Base model 
+
+base model for feature importance and AUC, Confusion Matrix 
+
+```{python}
+base_fit = xgb.XGBClassifier(
+    objective='binary:logistic',
+    booster='gbtree',
+    eval_metric='auc',
+    tree_method='hist',
+    grow_policy='lossguide',
+    use_label_encoder=False)
+
+
+base_fit.fit(x_train_select, y_train)
+
+y_pred = base_fit.predict(x_test_select)
+accuracy = accuracy_score(y_test, y_pred)
+
+print("Accuracy of base XBGoost model: {:.2f}".format(accuracy))
+```
+
+
+### K cross validataion for n_estimators
+
+The relationship between loss and number of tree
+
+```{python}
+def estimate_num_trees(X, y):
+    num_trees = range(10, 200, 10)
+    cv_errors = []
+
+    for n in num_trees:
+        xgb_classifier = xgb.XGBClassifier(n_estimators=n, objective='binary:logistic', eval_metric='logloss', random_state=42)
+        cv_scores = cross_val_score(xgb_classifier, X, y, cv=5, scoring='neg_log_loss')
+        cv_errors.append(-np.mean(cv_scores))
+
+    return num_trees, cv_errors
+
+def plot_error_vs_trees(num_trees, cv_errors):
+    plt.figure(figsize=(10, 6))
+    plt.plot(num_trees, cv_errors, marker='o', linestyle='-')
+    plt.xlabel('No. of estimators')
+    plt.ylabel('Loss')
+    plt.grid(True)
+    plt.show()
+
+num_trees, cv_errors = estimate_num_trees(x_train_select, y_train)
+plot_error_vs_trees(num_trees, cv_errors)
+```
+
+
+
+### Tuning parameters
+
+
+> Before executing grid search algorithms, a benchmark model has to be fitted. By calling the fit() method, default parameters are obtained and stored for later use. Since GridSearchCV take inputs in lists, single parameter values also have to be wrapped. By calling fit() on the GridSearchCV instance, the cross-validation is performed, results are extracted, scores are computed and stored in a dictionary.
+
+
+It takes much time to iterate over the whole parameter grid, so setting the verbosity to 1 help to monitor the process. However, wall time does not equal the printed fitting time, hence the loop cycle time is also tracked and printed.
+
+- **learning_rate/eta**: Step size shrinkage used in update to prevents overfitting. After each boosting step, we can directly get the weights of new features(typical values: 0.01-0.2).
+- **max_depth**: Maximum depth of a tree. Increasing this value will make the model more complex and more likely to overfit (typical values: 1-10).
+- ~~**n_estimators**: The number of decision tree.~~
+- **colsample_bytree**: fraction of the features that can be used to train each tree. A large value means almost all features can be used to build the decision tree (typical values: 0.5-0.9).
+- **min_child_weight**: It defines the minimum sum of weights of all observations required in a child. The larger min_child_weight is, the more conservative the algorithm will be.
+- **gamma**: Minimum loss reduction required to make a further partition on a leaf node of the tree (typical values: 0-0.5).
+- **alpha/reg_alpha**: L1 regularization term on weights. Increasing this value will make model more conservative (typical values: 0-1).
+- **lambda/reg_lambda**: L2 regularization term on weights. Increasing this value will make model more conservative (typical values: 0-1).
+
+```{python}
+#extracting default parameters from benchmark model
+default_params = {}
+gparams = base_fit.get_params()
+
+#default parameters have to be wrapped in lists - even single values - so GridSearchCV can take them as inputs
+for key in gparams.keys():
+    gp = gparams[key]
+    default_params[key] = [gp]
+
+#benchmark model. Grid search is not performed, since only single values are provided as parameter grid.
+#However, cross-validation is still executed
+clf0 = GridSearchCV(estimator=base_fit, 
+                    scoring='accuracy', 
+                    param_grid=default_params, 
+                    return_train_score=True, 
+                    verbose=1, 
+                    cv=3)
+clf0.fit(x_train_select, y_train)
+
+#results dataframe
+df = pd.DataFrame(clf0.cv_results_)
+
+#predictions - inputs to confusion matrix
+test_predictions = clf0.predict(x_test_select)
+
+#confusion matrices
+cfm_test = confusion_matrix(y_test, test_predictions)
+
+#best parameters
+bp0 = clf0.best_params_
+
+df.head()
+```
+
+
+```{python}
+# tuning parameters
+param_grid = {
+    'learning_rate': [0.01, 0.03, 0.06, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7],
+    'max_depth': [x for x in range(5, 15, 1)],
+    'n_estimators': [x for x in range(10, 150, 30)],
+    'colsample_bytree': [np.round(x, 2) for x in np.arange(0.5, 1, 0.1)],
+    'min_child_weight': [x for x in range(0, 11, 1)],    
+    'gamma': [0, 0.1 ,0.2 ,0.4, 0.8, 1.6, 3.2, 6.4, 12.8, 25.6, 51.2, 102.4, 200],          
+    'reg_alpha': [0, 0.1, 0.2, 0.4, 0.8, 1.6, 3.2, 6.4, 12.8, 25.6, 51.2, 102.4, 200],
+    'reg_lambda': [0, 0.1, 0.2, 0.4, 0.8, 1.6, 3.2, 6.4, 12.8, 25.6, 51.2, 102.4, 200]
+    }
+    
+param_grid
+```
+
+
++ Grid search
+
+> “Grid search is a process that searches exhaustively through a manually specified subset of the hyperparameter space of the targeted algorithm…and evaluate(s) the cost function based on the generated hyperparameter sets”
+
+```{python}
+#creating deepcopy of default parameters before manipulations
+params = deepcopy(default_params)
+
+#No. of jobs
+gcvj = np.cumsum([len(x) for x in param_grid.values()])[-1]
+
+#iteration loop. Each selected parameter iterated separately
+for i, grid_key in enumerate(param_grid.keys()):
+    
+    print(i)
+    #variable for measuring iteration time
+    loop_start = time.time()
+       
+    #creating param_grid argument for GridSearchCV:
+    #listing grid values of current iterable parameter and wrapping non-iterable parameter single values in list
+    for param_key in params.keys():
+        if param_key == grid_key:
+            params[param_key] = param_grid[grid_key]
+        else:
+            # use best parameters of last iteration
+            try:
+                param_value = [clf.best_params_[param_key]]
+                params[param_key] = param_value
+            #use benchmark model parameters for first iteration
+            except:
+                param_value = [clf0.best_params_[param_key]]
+                params[param_key] = param_value
+    
+    #classifier instance of current iteration
+    xgbc = xgb.XGBClassifier(**default_params)
+    
+    #GridSearch instance of current iteration
+    clf = GridSearchCV(estimator=xgbc, 
+                    param_grid=params,
+                    scoring='accuracy', 
+                    return_train_score=True, 
+                    verbose=1, 
+                    cv=3)
+    clf.fit(x_train_select, y_train)
+
+    #predictions - inputs to confusion matrix
+    train_predictions = clf.predict(x_train_select)
+    test_predictions = clf.predict(x_test_select)
+        
+    #confusion matrices
+    cfm_train = confusion_matrix(y_train, train_predictions)
+    cfm_test = confusion_matrix(y_test, test_predictions)
+    print(cfm_train)
+    print(cfm_test)
+    
+    #best parameters
+    bp_gs = clf.best_params_
+bp_gs
+```
+
+
++ Randomized search
+
+> “Random search…selects a value for each hyperparameter independently using a probability distribution…and evaluate(s) the cost function based on the generated hyperparameter sets”
+
+```{python}
+'''
+#No. of jobs
+rcvj = gcvj
+
+#unwrapping list values of default parameters
+default_params_xgb = {}
+
+for key in default_params.keys():
+    default_params_xgb[key] = default_params[key][0]
+
+#providing default parameters to xgbc model, before randomized search cross-validation
+xgbc = xgb.XGBClassifier(**default_params_xgb)
+
+#Executing Randomized Search
+clf1 = RandomizedSearchCV(
+    estimator=xgbc,
+    param_distributions=param_grid, 
+    scoring='accuracy',
+    return_train_score=True, 
+    verbose=1, 
+    cv=3, 
+    n_iter=rcvj)
+clf1.fit(x_train_select, y_train)
+    
+#results dataframe
+df1 = pd.DataFrame(clf1.cv_results_)
+
+#predictions - inputs to confusion matrix
+train_predictions = clf1.predict(x_train_select)
+test_predictions = clf1.predict(x_test_select)
+    
+#confusion matrices
+cfm_train = confusion_matrix(y_train, train_predictions)
+cfm_test = confusion_matrix(y_test, test_predictions)
+print(cfm_train)
+print(cfm_test)
+
+#accuracy scores
+accs_train = accuracy_score(y_train, train_predictions)
+accs_test = accuracy_score(y_test, test_predictions)
+    
+#F1 scores for each train/test label
+f1s_train_p1 = f1_score(y_train, train_predictions, pos_label=1)
+f1s_train_p0 = f1_score(y_train, train_predictions, pos_label=0)
+f1s_test_p1 = f1_score(y_test, test_predictions, pos_label=1)
+f1s_test_p0 = f1_score(y_test, test_predictions, pos_label=0)
+    
+#Area Under the Receiver Operating Characteristic Curve
+test_ras = roc_auc_score(y_test, clf1.predict_proba(x_test_select)[:,1])
+
+#best parameters
+bp_rs = clf1.best_params_
+
+bp_rs
+
+'''
+```
+
+
++ Bayesian search
+
+> “…build a probability model of the objective function and use it to select the most promising hyperparameters to evaluate in the true objective function”
+
+```{python}
+'''
+
+#No. of jobs
+bcvj = int(gcvj)
+
+#unwrapping list values of default parameters
+default_params_xgb = {}
+
+for key in default_params.keys():
+    default_params_xgb[key] = default_params[key][0]
+
+#providing default parameters to xgbc model, before randomized search cross-validation
+xgbc = xgb.XGBClassifier(**default_params_xgb)
+
+clf2 = BayesSearchCV(
+    estimator=xgbc, 
+    search_spaces=param_grid, 
+    n_iter=bcvj, 
+    scoring='accuracy', 
+    cv=3, 
+    return_train_score=True, 
+    verbose=3)
+clf2.fit(x_train_select, y_train)
+    
+#results dataframe
+df2 = pd.DataFrame(clf2.cv_results_)
+
+#predictions - inputs to confusion matrix
+train_predictions = clf2.predict(x_train_select)
+test_predictions = clf2.predict(x_test_select)
+    
+#confusion matrices
+cfm_train = confusion_matrix(y_train, train_predictions)
+cfm_test = confusion_matrix(y_test, test_predictions)
+print(cfm_train)
+print(cfm_test)
+
+
+#accuracy scores
+accs_train = accuracy_score(y_train, train_predictions)
+accs_test = accuracy_score(y_test, test_predictions)
+    
+#F1 scores for each train/test label
+f1s_train_p1 = f1_score(y_train, train_predictions, pos_label=1)
+f1s_train_p0 = f1_score(y_train, train_predictions, pos_label=0)
+f1s_test_p1 = f1_score(y_test, test_predictions, pos_label=1)
+f1s_test_p0 = f1_score(y_test, test_predictions, pos_label=0)
+    
+#Area Under the Receiver Operating Characteristic Curve
+test_ras = roc_auc_score(y_test, clf2.predict_proba(x_test_select)[:,1])
+
+
+#best parameters
+bp_bs = clf2.best_params_
+
+bp_bs
+
+'''
+```
+
+
+### Build final classifier
+
+The optimal parameters to build classifier
+
+```{python}
+final_params = bp_gs
+#final_params = bp_rs
+#final_params = bp_bs
+
+xgb_final = xgb.XGBClassifier(**final_params)
+
+xgb_final.fit(x_train_select, y_train)
+
+classifier_score = xgb_final.score(x_train_select, y_train)
+
+print('\nThe classifier accuracy score is {:03.2f}\n'.format(classifier_score))
+```
+
+### Evaluating model performance
+
++ confusion matrix to display the performance
+
+```{python}
+import matplotlib.pyplot as plt
+from IPython.display import Image, display
+from sklearn import metrics, preprocessing
+
+predicted = xgb_final.predict(x_test_select)
+accuracy = accuracy_score(y_test, predicted)
+
+cm = metrics.confusion_matrix(y_test, predicted)
+
+fig, ax = plt.subplots(figsize=(3, 3))
+ax.matshow(cm, cmap=plt.cm.Reds, alpha=0.3)
+for i in range(cm.shape[0]):
+     for j in range(cm.shape[1]):
+         ax.text(x=j, y=i,
+                s=cm[i, j], 
+                va='center', ha='center')
+plt.xlabel('Predicted Values', )
+plt.ylabel('Actual Values')
+
+ax.set_xticklabels([''] + group_names)
+ax.set_yticklabels([''] + group_names)
+
+plt.show()
+
+```
+
+
+```{python}
+y_pred = xgb_final.predict(x_test_select)
+
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+classification_rep = classification_report(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+
+tn, fp, fn, tp = conf_matrix.ravel()
+specificity = tn / (tn + fp)
+sensitivity = tn / (tn + fn)
+false_positive_rate = fp / (fp + tn)
+
+index_df = pd.DataFrame([['Accuracy', accuracy], 
+                         ['Specificity', specificity],
+                         ['Sensitivity', sensitivity],
+                         ['Precision', precision], 
+                         ['Recall', recall],
+                         ['F1 score', f1],
+                         ['False Positive Rate', false_positive_rate]], 
+    columns=['Index', 'Value'])
+
+index_df
+```
+
+
++ ROC Metrics
+
+ROC shows the AUC of sensitivity and specificity
+
+```{python}
+predictions_prob = xgb_final.predict_proba(x_test_select)[:, 1]
+
+fpr2, tpr2, _ = roc_curve(y_test,
+                          predictions_prob,
+                          pos_label = 1)
+
+auc_rf = auc(fpr2, tpr2)
+
+def plot_roc_curve(fpr, tpr, auc, estimator, xlim=None, ylim=None):
+
+    my_estimators = {
+        'knn': ['Kth Nearest Neighbor', 'deeppink'],
+        'rf': ['Random Forest', 'red'],
+        'XGBoost': ['XGBoost', 'purple']}
+
+    plot_title = my_estimators[estimator][0]
+    color_value = my_estimators[estimator][1]
+
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_facecolor('#fafafa')
+
+    plt.plot(fpr, tpr, color=color_value, linewidth=1)
+    plt.title('ROC Curve For {0} (AUC = {1: 0.3f})'.format(plot_title, auc))
+
+    plt.plot([0, 1], [0, 1], 'k--', linewidth=1) # Add Diagonal line
+    plt.plot([0, 0], [1, 0], 'k--', linewidth=1, color = 'grey')
+    plt.plot([1, 0], [1, 1], 'k--', linewidth=1, color = 'grey')
+    if xlim is not None:
+        plt.xlim(*xlim)
+    if ylim is not None:
+        plt.ylim(*ylim)
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.show()
+
+plot_roc_curve(fpr2, tpr2, auc_rf, 'XGBoost',
+               xlim=(-0.01, 1.05), 
+               ylim=(0.001, 1.05))
+```
+
+
++ classification report
+
+```{python}
+def print_class_report(predictions, alg_name):
+
+    print('Classification Report for {0}:'.format(alg_name))
+    print(classification_report(predictions, 
+            y_test, 
+            target_names = group_names))
+
+class_report = print_class_report(predicted, 'XGBoost')
+```
+
+
+### Feature Importance
+
+```{python}
+plt.figure(figsize = (16, 12))
+
+xgb.plot_importance(xgb_final)
+
+plt.show()
+```
+
+
+
+### Save model
+
+save a machine learning model using Python's pickle module
+
+```{python}
+import pickle
+
+''' 
+# save classification model as a pickle file
+model_pkl_file = "XGBoost.pkl"  
+
+with open(model_pkl_file, 'wb') as file:  
+    pickle.dump(xgb_final, file)
+
+
+# load model from pickle file
+with open(model_pkl_file, 'rb') as file:  
+    rfc_final = pickle.load(file)
+'''
+```
+
+
+
+## Session info
+```{python}
+import session_info
+
+
+session_info.show()
+```
+
+
+
+## Reference
+
++ [Binary Classification: XGBoost Hyperparameter Tuning Scenarios by Non-exhaustive Grid Search and Cross-Validation](https://towardsdatascience.com/binary-classification-xgboost-hyperparameter-tuning-scenarios-by-non-exhaustive-grid-search-and-c261f4ce098d)
+
++ [Feature Selection Using Random forest](https://towardsdatascience.com/feature-selection-using-random-forest-26d7b747597f)
+

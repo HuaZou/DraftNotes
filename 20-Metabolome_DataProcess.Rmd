@@ -1,0 +1,1000 @@
+```{r, include = FALSE}
+knitr::opts_chunk$set(out.width = "100%", message = FALSE, warning = FALSE)
+```
+
+
+# (PART) Metabolomics Data Analysis {.unnumbered}
+
+
+# Data Processing {#dataprocessing}
+
+
+代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。
+
+本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic Steatosis_的粪便代谢组学质谱数据。
+
+> 55份粪便代谢组，1032个代谢物
+
+## 处理流程
+
++ 数据检查：1.核查所有代谢物intensity value是数值型；2.缺失值的比例
+
++ 补充缺失值
+
++ 数据过滤（针对代谢物或样本）
+
++ 数据标准化（针对代谢物或样本）
+
+
+## 加载R包
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+library(SummarizedExperiment)
+
+# rm(list = ls())
+options(stringsAsFactors = F)
+options(future.globals.maxSize = 1000 * 1024^2)
+```
+
+
+## 导入数据
+
+对数据[OmicsDataSet-Zeybel et al. - 2022.xlsx](https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel et al. - 2022.xlsx)处理后生成的输入文件，详细情况可参考**Data Set**具体章节。
+
+> ```R
+> saveRDS(se_metabolite, "./InputData/result/Zeybel_2022_fecal_metabolite_se.RDS", compress = TRUE)
+> ```
+
+```{r}
+data_meta <- readRDS("./InputData/result/Zeybel_2022_fecal_metabolite_se.RDS")
+
+data_meta
+```
+
+```{r}
+# colData(data_meta)
+# assay(data_meta)
+# rowData(data_meta)
+```
+
+
+## 构建QC样本
+
+该数据集不存在QC样本，这导致不能做QC的变化范围的数据过滤，因此构建新的QC样本。以上述随机抽取6个样本作为QC样本。
+
+QC样本一般是送测样本混合后再分成N份样本（迈维非靶或广靶均是这样做）再测，它可以评估每次质谱的效果或做代谢物过滤。
+
+```{r}
+meta_tab <- colData(data_meta) |>
+  as.data.frame()
+feature_tab <- rowData(data_meta) 
+assay_tab <- assay(data_meta) |>
+  as.data.frame()
+
+rand_sample <- sample(colnames(assay_tab), 6)
+QC_assay <- assay_tab[, rand_sample]
+colnames(QC_assay) <- paste0("QC", 1:6)
+assay_tab_new <- cbind(assay_tab, QC_assay)
+
+QC_meta <- data.frame(matrix(NA, nrow = 6, ncol = ncol(meta_tab))) 
+colnames(QC_meta) <- colnames(meta_tab)
+rownames(QC_meta) <- colnames(QC_assay)
+QC_meta$LiverFatClass <- "QC"
+QC_meta$PatientID <- rownames(QC_meta)
+meta_tab_new <- rbind(meta_tab, QC_meta)
+
+data_meta_new <- SummarizedExperiment(
+  assays = assay_tab_new,
+  rowData = feature_tab,
+  colData = meta_tab_new,
+  checkDimnames = TRUE)
+
+data_meta_new
+```
+
+
+## 数据过滤
+
+```{r}
+CheckData <- function(object) {
+  
+  # object = data_meta_new
+  
+  # features are in rows and Samples in columns
+  DataAssay <- SummarizedExperiment::assay(object)
+  
+  # numeric & missing values
+  int_mat <- DataAssay
+  rowNms <- rownames(int_mat)
+  colNms <- colnames(int_mat)
+  naNms <- sum(is.na(int_mat))
+  for (i in 1:ncol(int_mat)) {
+    if (class(int_mat[, i]) == "integer64") {
+      int_mat[, i] <- as.double(int_mat[, i])
+    }
+  }
+  
+  num_mat <- apply(int_mat, 2, as.numeric)
+  if (sum(is.na(num_mat)) > naNms) {
+    num_mat <- apply(int_mat, 2, function(x) as.numeric(gsub(",",  "", x)))
+    if (sum(is.na(num_mat)) > naNms) {
+      message("<font color=\"red\">Non-numeric values were found and replaced by NA.</font>")
+    } else {
+      message("All data values are numeric.")
+    }
+  } else {
+    message("All data values are numeric.")
+  }
+  
+  int_mat <- num_mat
+  rownames(int_mat) <- rowNms
+  colnames(int_mat) <- colNms
+  varCol <- apply(int_mat, 2, var, na.rm = T)
+  constCol <- (varCol == 0 | is.na(varCol))
+  constNum <- sum(constCol, na.rm = T)
+  if (constNum > 0) {
+    print(paste("<font color=\"red\">", constNum, 
+      "features with a constant or single value across samples were found and deleted.</font>"))
+    int_mat <- int_mat[, !constCol, drop = FALSE]
+  }
+  
+  totalCount <- nrow(int_mat) * ncol(int_mat)
+  naCount <- sum(is.na(int_mat))
+  naPercent <- round(100 * naCount/totalCount, 1)
+
+  print(paste("A total of ", naCount, " (", naPercent, 
+    "%) missing values were detected.", sep = ""))  
+
+  DataMeta <- colData(object) |>
+    as.data.frame()
+  DataFeature <- rowData(object)
+  
+  res <- SummarizedExperiment(
+    assays = int_mat,
+    rowData = DataFeature,
+    colData = DataMeta,
+    checkDimnames = TRUE)
+  
+  return(object)
+}
+
+se_check <- CheckData(object = data_meta_new)
+se_check
+```
+
+结果：12.5%的缺失值存在，下面进行缺失值补充。
+
+
+## 补缺失值
+
+Missing Value 的产生原因主要有两个：1）一个代谢峰在某些生物样品中存在而在另外一些生物样品中不存在； 2）某些代谢物在生物样品中的浓度低于质谱的检测限。
+
+Missing Value 在数据中的表现形式为 NA值。对于大规模代谢组学来说，因为其长时间的数据采集，质谱灵敏度的漂移使MV的问题更加严重。一般来说，对一个代谢组学数据来说， Missing Value 会占到所有数据点的 20%左右 。首先需要对 Missing Value 进行过滤，对于 Missing Value超过一定比例的代谢峰来说，该代谢峰很有可能是一个偶然出现的噪声信号，因此将其从数据中删除。 比如，在代谢组学数据中，一般采用的标准为代谢峰需要在 80%的质量控制（quality control， QC） 样品中出现，否则删除。对于 Missing Value 超过一定比例的生物样品来说，该样品很有可能是在样品制备或者数据采集过程中出现了误差，如该样品稀释比例异常或者进样体积异常，这些样品需要被删除掉。
+
+删除掉异常的生物样品和代谢峰之后，剩余的 Missing Value 需要统计学方法进行补齐（MVimputation），不同的 Missing Value补齐方法对数据的结构影响非常大，最好的 Missing Value 补齐方法是那些可以最好的重构出数据原本结构的方法。 Gromski (The influence of scaling metabolomics data on model classification accuracy) 通过使用完整的代谢组学数据构建 Missing Value 数据，然后使用不同的 Missing Value补齐方法对数据进行补齐，然后对不同 Missing Value 补齐方法补齐的数据进行多元统计学分析， 最终发现 K 值临近方法（K-nearest neighbor，KNN）对代谢组学数据的补齐效果最好。
+
+缺失值补充方法有很多种，如下
+
++ “none”: all missing values will be replaced by zero.
+
++ “LOD”: specific Limit Of Detection which provides by user.
+
++ “half_min”: half minimal values across samples except zero.
+
++ “median”: median values across samples except zero.
+
++ “mean”: mean values across samples except zero.
+
++ “min”: minimal values across samples except zero.
+
++ “knn”: k-nearest neighbors samples.
+
++ “rf”: nonparametric missing value imputation using Random Forest.
+
++ “QRILC”: missing values imputation based quantile regression. (default: “none”).
+
+
+一般采用k近邻的方法，它的原理是离该缺失值样本最近的K个样本具有类似的属性，使用它们的平均值填补缺失值是相对可靠的方法，但是也需要注意该方法的阈值适用范围。
+
+这里使用**[MicrobiomeAnalysis](https://zouhua.top/MicrobiomeAnalysis/)**提供的[impute_abundance](https://zouhua.top/MicrobiomeAnalysis/reference/impute_abundance.html)函数，先安装此包。
+```R
+if (!requireNamespace(c("remotes", "devtools"), quietly=TRUE)) {
+  install.packages(c("devtools", "remotes"))
+}
+
+remotes::install_github("HuaZou/MicrobiomeAnalysis")
+
+# library(MicrobiomeAnalysis)
+```
+
+```{r}
+library(MicrobiomeAnalysis)
+
+se_impute <- impute_abundance(
+  object = se_check,
+  group = "LiverFatClass",
+  method = "knn",
+  cutoff = 50,
+  knum = 10)
+
+se_impute
+```
+
+结果：代谢物的缺失值在任何组大于50%会被移除，最后移除的代谢物表达矩阵用于缺失值补充。
+
+
+## 数据过滤
+
+在非靶向代谢组或蛋白质组经常会使用该方法，目的是过滤掉不太可能用于分析的代谢物或蛋白质。
+
+过滤会基于QC样本的相对丰度标准方差relative standard deviation (RSD = SD / mean)，可以理解为特征的数据波动范围。 LC-MS或GC-MS对不同样本可能存在不同偏好行，采用QC样本可以得到波动范围，那些具有高RSD的特征可能受到质谱操作的影响较大，因此它们的可靠性相对较低不需要用于后续下游分析。一般情况下，RSD阈值在LC-MS和GC-MS分别是20%和30%（*保留波动小于该阈值的代谢物*）。
+
+在通过QC的RSD过滤完后，还可以通过以下方法过滤噪声（过滤低丰度或高变化的特征）
+
++ 过滤方法
+
+  - Interquantile range (IQR)（过滤常数特征，即波动较小的特征，它们可能是常态表达）;
+  
+  - Standard deviation (SD) （过滤常数特征，即波动较小的特征，它们可能是常态表达）;
+  
+  - Median absolute deviation (MAD) （过滤常数特征，即波动较小的特征，它们可能是常态表达）;
+  
+  - Relative standard deviation (RSD = SD/mean) （过滤低重复性特征，它们可能受到质谱操作影响）;
+  
+  - Non-parametric relative standard deviation (MAD/median) （过滤低重复性特征，它们可能受到质谱操作影响）;
+  
+  - Mean intensity value （过滤低丰度特征，它们可能是噪声或仪器测量极限值）;
+  
+  - Median intensity value （过滤低丰度特征，它们可能是噪声或仪器测量极限值）;
+
+
++ 一般过滤的阈值设置
+
+  - 少于 250 个特征: 5%
+  
+  - 介于 250 到 500 个特征: 10%
+  
+  - 介于 500 到 1000 个特征: 25%
+  
+  - 超过 1000 个特征: 40%
+  
+
+```{r}
+FilterFeature <- function(
+    object,
+    group,    
+    qc_label,
+    method = c("none", "iqr", "rsd", 
+               "nrsd", "mean", "sd",
+               "mad", "median"),
+    rsd_cutoff = 25) {
+  
+  # object = se_impute
+  # group = "LiverFatClass"  
+  # qc_label = "QC"
+  # method = "iqr"
+  # rsd_cutoff = 25  
+  
+  # row->features; col->samples  
+  features_tab <- SummarizedExperiment::assay(object) 
+  metadata_tab <- SummarizedExperiment::colData(object) 
+  
+  # QC samples
+  colnames(metadata_tab)[which(colnames(metadata_tab) == group)] <- "TempGroup"
+  qc_samples <- metadata_tab %>% 
+    as.data.frame() %>%
+    dplyr::filter(TempGroup == qc_label)
+  if (dim(qc_samples)[1] == 0) {
+    stop("No qc samples have been chosen, please check your input")
+  }
+  
+  # QC samples' feature table
+  qc_feature <- features_tab[, colnames(features_tab) %in% 
+                               rownames(qc_samples)] %>%
+    t()
+  
+  # filter features by QC RSD
+  rsd <- rsd_cutoff / 100
+  sds <- apply(qc_feature, 2, sd, na.rm = T)
+  mns <- apply(qc_feature, 2, mean, na.rm = T)
+  rsd_vals <- abs(sds/mns) %>% na.omit()
+  gd_inx <- rsd_vals < rsd
+  int_mat <- features_tab[gd_inx, ]
+  print(paste("Removed ", (dim(qc_feature)[2] - dim(int_mat)[1]), 
+  " features based on QC RSD values. QC samples are excluded from downstream functional analysis."))
+  
+  # whether to filter features by percentage according to the number
+  PerformFeatureFilter <- function(datMatrix, 
+                                   qc_method = method,
+                                   remain_num = NULL) {
+    
+    dat <- datMatrix
+    feat_num <- ncol(dat)
+    feat_nms <- colnames(dat)
+    nm <- NULL
+    if (qc_method == "none" && feat_num < 5000) { # only allow for less than 4000
+      remain <- rep(TRUE, feat_num)
+      nm <- "No filtering was applied"
+    } else {
+      if (qc_method == "rsd"){
+        sds <- apply(dat, 2, sd, na.rm = T)
+        mns <- apply(dat, 2, mean, na.rm = T)
+        filter_val <- abs(sds/mns)
+        nm <- "Relative standard deviation"
+      } else if (qc_method == "nrsd" ) {
+        mads <- apply(dat, 2, mad, na.rm = T)
+        meds <- apply(dat, 2, median, na.rm = T)
+        filter_val <- abs(mads/meds)
+        nm <- "Non-paramatric relative standard deviation"
+      } else if (qc_method == "mean") {
+        filter_val <- apply(dat, 2, mean, na.rm = T)
+        nm <- "mean"
+      } else if (qc_method == "sd") {
+        filter_val <- apply(dat, 2, sd, na.rm = T)
+        nm <- "standard deviation"
+      } else if (qc_method == "mad") {
+        filter_val <- apply(dat, 2, mad, na.rm = T)
+        nm <- "Median absolute deviation"
+      } else if (qc_method == "median") {
+        filter_val <- apply(dat, 2, median, na.rm = T)
+        nm <- "median"
+      } else if (qc_method == "iqr") { # iqr
+        filter_val <- apply(dat, 2, IQR, na.rm = T)
+        nm <- "Interquantile Range"
+      }
+      
+      # get the rank of the filtered variables
+      rk <- rank(-filter_val, ties.method = "random")
+      
+      if (is.null(remain_num)) { # apply empirical filtering based on data size
+          if (feat_num < 250) { # reduce 5%
+            remain <- rk < feat_num * 0.95
+            message("Further feature filtering based on ", nm)
+          } else if (feat_num < 500) { # reduce 10%
+            remain <- rk < feat_num * 0.9
+            message("Further feature filtering based on ", nm)
+          } else if (feat_num < 1000) { # reduce 25%
+            remain <- rk < feat_num * 0.75
+            message("Further feature filtering based on ", nm)
+          } else { # reduce 40%, if still over 5000, then only use top 5000
+            remain <- rk < feat_num * 0.6
+            message("Further feature filtering based on ", nm)
+          }
+      } else {
+        remain <- rk < remain_num
+      }
+    }
+    
+    res <- datMatrix[, remain]
+    
+    return(res)
+  }  
+  
+  feature_res <- PerformFeatureFilter(t(int_mat))
+  
+  # remove QC samples 
+  feature_final <- feature_res[!rownames(feature_res) %in% rownames(qc_samples), ]
+  
+  # save int_mat into se object 
+  datarow <- object@elementMetadata %>% 
+    as.data.frame() 
+  rownames(datarow) <- datarow$metabolitesID
+  res <- import_SE(
+    object = t(feature_final),
+    rowdata = datarow,
+    coldata = object@colData)
+  
+  return(res) 
+}
+
+se_filter <- FilterFeature(
+  object = se_impute,
+  group = "LiverFatClass",
+  qc_label = "QC",
+  method = "iqr",
+  rsd_cutoff = 90)
+
+se_filter
+```
+
+**结果**：过滤掉不符合要求的代谢物以及也过滤掉了QC样本 (25%过滤太多了，这里选择90%)
+
++ 根据QC样本的代谢物RSD过滤代谢物
+
++ 再根据代谢物波动范围过滤不符合的代谢物
+
+
+## 数据标准化
+
+数据标准化为了三部分：
+
++ 基于单个数值本身的数据转换，目的是将数据进行各种形式的转换从而提高数据的正态分布性，校正奇异值，达到减少分析误差的效果。代谢组学数据大都为偏倚分布，因此数据转换是非常常见的数据处理方式之一，常用的方法为对数变换（log）。经过数据转换之后的数据仍然没有处在同一个标准量度上，对于代谢组学数据来说，不同代谢峰的强度可以相差几个甚至十几个数量级，如此大的差别导致在多元统计分析时，强度大的代谢峰有可能掩盖强度小的代谢峰的贡献。因此，在统计分析前，尤其是多元统计分析，为了将所有代谢峰统一到同一个量度，需要对数据进行中心化和标度化。
+
+  - Log transformation (base 10)
+
+  - Square root transformation (square root of data values)
+
+  - Cube root transformation (cube root of data values)
+
+使用**MicrobiomeAnalysis**提供的`transform_abundances`，选择*log10p*，改变数据的偏态分布。
+```{r}
+se_tran <- MicrobiomeAnalysis::transform_abundances(
+  object = se_filter,
+  transform = "log10p")
+
+se_tran
+```
+
+
++ 基于样本自身的标准化，目的是去除样本间的系统差异（比如不同测序深度），例如通过均值中心化处理， 代谢峰转变为与自己平均值之间的差值，且所有的变量都以零为中心变化，因此中心化的数据就能直接反应变量的变化情况，有利于观察组间差异和聚类分析。
+
+  - Sample-specific normalization (i.e. weight, volume)
+  
+  - Normalization by sum (relative abundance)
+  
+  - Normalization by median
+  
+  - Normalization by a reference sample (PQN)
+  
+  - Normalization by a pooled sample from group (group PQN)
+  
+  - Normalization by reference feature
+  
+  - Quantile normalization (suggested only for > 1000 features)
+
+```{r}
+NormalizeData <- function(
+    object,
+    rowNorm = c("Quantile", "GroupPQN", "SamplePQN",
+                "CompNorm", "SumNorm", "MedianNorm",
+                "SpecNorm", "None"),
+    ref = NULL,
+    SpeWeight = 1) {
+  
+  # object = se_tran
+  # rowNorm = "SumNorm"
+  # ref = NULL
+  # SpeWeight = 1
+  
+  # row->features; col->samples 
+  features_tab <- SummarizedExperiment::assay(object) 
+  metadata_tab <- SummarizedExperiment::colData(object)   
+  
+  # row->samples; col->features 
+  feaTab <- t(features_tab)
+  colNames <- colnames(feaTab)
+  rowNames <- rownames(feaTab)
+  
+  #############################################
+  # Sample normalization
+  # perform quantile normalization on the raw data (can be log transformed later by user)
+  QuantileNormalize <- function(data) {
+    return(t(preprocessCore::normalize.quantiles(t(data), copy=FALSE)));
+  }
+  # normalize by a reference sample (probability quotient normalization)
+  # ref should be the name of the reference sample
+  ProbNorm <- function(x, ref_smpl) {
+    return(x/median(as.numeric(x/ref_smpl), na.rm = T))
+  }
+  
+  # normalize by a reference reference (i.e. creatinine)
+  # ref should be the name of the cmpd
+  CompNorm <- function(x, ref) {
+    return(1000 * x/x[ref])
+  }
+  
+  # normalize by sum (relative abundance)
+  SumNorm <- function(x) {
+    #return(1000 * x/sum(x, na.rm = T))
+    return(x/sum(x, na.rm = T))
+  }
+  
+  # normalize by median
+  MedianNorm <- function(x) {
+    return(x/median(x, na.rm = T))
+  }  
+  
+  # row-wise normalization (samples)
+  if (rowNorm == "Quantile") {
+    datrowNorm <- QuantileNormalize(feaTab)
+    # this can introduce constant variables if a variable is 
+    # at the same rank across all samples (replaced by its average across all)
+    varCol <- apply(datrowNorm, 2, var, na.rm = T)
+    constCol <- (varCol == 0 | is.na(varCol))
+    constNum <- sum(constCol, na.rm = T)
+    if (constNum > 0) {
+      message(paste("After quantile normalization", constNum, 
+                    "features with a constant value were found and deleted."))
+      datrowNorm <- datrowNorm[, !constCol, drop = FALSE]
+      colNames <- colnames(datrowNorm)
+      rowNames <- rownames(datrowNorm)
+    }
+    rownm <- "Quantile Normalization"
+  } else if (rowNorm == "GroupPQN") {
+    grp_inx <- metadata_tab$group == ref
+    ref.smpl <- apply(feaTab[grp_inx, , drop = FALSE], 2, mean)
+    datrowNorm <- t(apply(feaTab, 1, ProbNorm, ref.smpl))
+    rownm <- "Probabilistic Quotient Normalization by a reference group"
+  } else if (rowNorm == "SamplePQN") {
+    ref.smpl <- feaTab[ref, , drop = FALSE]
+    datrowNorm <- t(apply(feaTab, 1, ProbNorm, ref.smpl))
+    rownm <- "Probabilistic Quotient Normalization by a reference sample"
+  } else if (rowNorm == "CompNorm") {
+    datrowNorm <- t(apply(t(feaTab), 1, CompNorm, ref))
+    rownm <- "Normalization by a reference feature";
+  } else if (rowNorm == "SumNorm") {
+    datrowNorm <- t(apply(feaTab, 1, SumNorm))
+    rownm <- "Normalization to constant sum"
+  } else if (rowNorm == "MedianNorm") {
+    datrowNorm <- t(apply(feaTab, 1, MedianNorm))
+    rownm <- "Normalization to sample median"
+  } else if(rowNorm == "SpecNorm") {
+    norm.vec <- rep(SpeWeight, nrow(feaTab)) # default all same weight vec to prevent error
+    datrowNorm <- feaTab / norm.vec
+    message("No sample specific information were given, all set to 1.0")
+    rownm <- "Normalization by sample-specific factor"
+  } else {
+    # nothing to do
+    rownm <- "N/A"
+    datrowNorm <- feaTab
+  }
+  ################################################ 
+  
+  # use apply will lose dimension info (i.e. row names and colnames)
+  # row->samples; col->features 
+  rownames(datrowNorm) <- rowNames
+  colnames(datrowNorm) <- colNames
+  
+  # if the reference by feature, the feature column should be removed, since it is all 1
+  if(rowNorm == "CompNorm" && !is.null(ref)){
+    inx <- match(ref, colnames(datrowNorm))
+    datrowNorm <- datrowNorm[, -inx, drop=FALSE]
+    colNames <- colNames[-inx]
+  }
+
+  DataMeta <- colData(object) |>
+    as.data.frame()
+  DataFeature <- rowData(object)
+  
+  datrowNorm[is.na(datrowNorm)] <- 0
+  
+  se <- SummarizedExperiment(
+    assays = t(datrowNorm),
+    rowData = DataFeature,
+    colData = DataMeta,
+    checkDimnames = TRUE)  
+  
+  # need to do some sanity check, for log there may be Inf values introduced
+  res <- CheckData(se)
+  
+  return(res)
+}
+
+se_norm <- NormalizeData(
+  object = se_tran,
+  rowNorm = "SumNorm")
+
+se_norm
+```
+
+
++ 基于特征的数据标准化，目的是增加各个变量在不同样品中的可比性
+
+  - Mean centering (mean-centered only)
+
+  - Auto scaling (mean-centered and divided by the standard deviation of each variable)
+
+  - Pareto scaling (mean-centered and divided by the square root of the standard deviation of each variable)
+
+  - Range scaling (mean-centered and divided by the range of each variable)
+
+```{r}
+se_scale <- scale_variables(
+  object = se_norm,
+  method = "zscore")
+
+se_scale
+```
+
+查看数据状态
+```{r}
+SummarizedExperiment::assay(se_filter)  %>% data.frame() %>% head()
+```
+
+```{r}
+SummarizedExperiment::assay(se_scale) %>% as.data.frame() %>% head()
+```
+
+
+## 数据分布变化
+
++ 函数来自于**POMA**包
+```{r}
+POMABoxplots <- function(
+    data,
+    group,
+    feature_type = "samples",    
+    jitter = FALSE,
+    feature_name = NULL,
+    show_number = NULL,
+    label_size = 10,
+    legend_position = "bottom") {
+  
+  # data = se_impute
+  # group = "LiverFatClass"
+  # feature_type = "samples"
+  # jitter = FALSE
+  # feature_name = NULL
+  # show_number = 10
+  # label_size = 10
+  # legend_position = "bottom"
+  
+  if (missing(data)) {
+    stop("data argument is empty!")
+  }
+  
+  if(!is(data, "SummarizedExperiment")){
+    stop("data is not a SummarizedExperiment object. \nSee SummarizedExperiment::SummarizedExperiment")
+  }
+  
+  if (!(feature_type %in% c("samples", "features"))) {
+    stop("Incorrect value for group argument!")
+  }
+  
+  if (!is.null(feature_name)) {
+    if(!any(feature_name %in% rownames(SummarizedExperiment::assay(data)))) {
+      stop("None of the specified features found")
+    }
+    if(!all(feature_name %in% rownames(SummarizedExperiment::assay(data)))){
+      warning(paste0("Feature/s ",
+                     paste0(feature_name[!feature_name %in% rownames(SummarizedExperiment::assay(data))], collapse = ", "),
+                     " not found"))
+    }
+  }
+  
+  
+  if(!(legend_position %in% c("none", "top", "bottom", "left", "right"))) {
+    stop("Incorrect value for legend_position argument!")
+  }
+  
+  e <- t(SummarizedExperiment::assay(data))
+  target <- SummarizedExperiment::colData(data) %>%
+    as.data.frame() %>% 
+    tibble::rownames_to_column("ID") %>%
+    dplyr::select(c("ID", group))
+  colnames(target)[which(colnames(target) == group)] <- "TempGroup"
+  data <- cbind(target, e) %>%
+    dplyr::arrange(desc(ID))
+
+  if (feature_type == "samples") {
+    if (is.null(show_number)) {
+      plot_data <- data %>%
+        tidyr::pivot_longer(cols = -c(ID, TempGroup)) %>%
+        ggplot2::ggplot(ggplot2::aes(ID, value, color = TempGroup))      
+    } else {
+      selected_samples <- target$ID[1:show_number]
+      plot_data <- data %>%
+        tidyr::pivot_longer(cols = -c(ID, TempGroup)) %>%
+        dplyr::filter(ID %in% selected_samples) %>%
+        ggplot2::ggplot(ggplot2::aes(ID, value, color = TempGroup))       
+    }
+  } else {
+    if(all(is.null(feature_name), is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        ggplot2::ggplot(ggplot2::aes(name, value, color = TempGroup))
+      
+    } else if (all(!is.null(feature_name), is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% feature_name) %>%
+        ggplot2::ggplot(ggplot2::aes(name, value, color = TempGroup))
+    } else if (all(is.null(feature_name), !is.null(show_number))) {
+      selected_features <- colnames(e)[1:show_number]
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% selected_features) %>%
+        ggplot2::ggplot(ggplot2::aes(name, value, color = TempGroup))
+    } else if (all(!is.null(feature_name), !is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% feature_name) %>%
+        ggplot2::ggplot(ggplot2::aes(name, value, color = TempGroup))
+    }
+  }
+  
+  plot_complete <- plot_data +
+    ggplot2::geom_boxplot() +
+    {if(jitter)ggplot2::geom_jitter(alpha = 0.5, position = ggplot2::position_jitterdodge())} +
+    ggplot2::theme_bw() +
+    ggplot2::labs(x = "", 
+                  y = "Value") +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = label_size),
+                   legend.title = ggplot2::element_blank(),
+                   legend.position = legend_position) +
+    ggplot2::scale_colour_viridis_d(begin = 0, end = 0.8)
+  
+  return(plot_complete)
+}
+
+
+POMADensity <- function(
+    data,
+    group,
+    feature_type = "features",    
+    feature_name = NULL,
+    show_number = NULL,
+    legend_position = "bottom") {
+  
+  # data = se_impute
+  # group = "LiverFatClass"
+  # feature_type = "features"
+  # feature_name = NULL
+  # show_number = 10
+  # legend_position = "bottom"
+
+  if (missing(data)) {
+    stop("data argument is empty!")
+  }
+  
+  if(!is(data, "SummarizedExperiment")){
+    stop("data is not a SummarizedExperiment object. \nSee SummarizedExperiment::SummarizedExperiment")
+  }
+  
+  if (!(feature_type %in% c("samples", "features"))) {
+    stop("Incorrect value for group argument!")
+  }
+  
+  if (!is.null(feature_name)) {
+    if(!any(feature_name %in% rownames(SummarizedExperiment::assay(data)))) {
+      stop("None of the specified features found")
+    }
+    if(!all(feature_name %in% rownames(SummarizedExperiment::assay(data)))){
+      warning(paste0("Feature/s ",
+                     paste0(feature_name[!feature_name %in% rownames(SummarizedExperiment::assay(data))], collapse = ", "),
+                     " not found"))
+    }
+  }
+  
+  if(!(legend_position %in% c("none", "top", "bottom", "left", "right"))) {
+    stop("Incorrect value for legend_position argument!")
+  }
+  
+  e <- t(SummarizedExperiment::assay(data))
+  target <- SummarizedExperiment::colData(data) %>%
+    as.data.frame() %>% 
+    tibble::rownames_to_column("ID") %>%
+    dplyr::select(c("ID", group))
+  colnames(target)[which(colnames(target) == group)] <- "TempGroup"
+  data <- cbind(target, e)
+  
+  if (feature_type == "samples") {
+    if (is.null(show_number)) {
+      plot_data <- data %>%
+        tidyr::pivot_longer(cols = -c(ID, TempGroup)) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))      
+    } else {
+      selected_samples <- target$ID[1:show_number]      
+      plot_data <- data %>%
+        tidyr::pivot_longer(cols = -c(ID, TempGroup)) %>%
+        dplyr::filter(ID %in% selected_samples) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))       
+    }
+  } else {
+    if(all(is.null(feature_name), is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))
+      
+    } else if (all(!is.null(feature_name), is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% feature_name) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))
+    } else if (all(is.null(feature_name), !is.null(show_number))) {
+      selected_features <- colnames(e)[1:show_number]      
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% selected_features) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))
+    } else if (all(!is.null(feature_name), !is.null(show_number))) {
+      plot_data <- data %>%
+        dplyr::select(-ID) %>%
+        tidyr::pivot_longer(cols = -TempGroup) %>%
+        dplyr::filter(name %in% feature_name) %>%
+        ggplot2::ggplot(ggplot2::aes(value, fill = TempGroup))
+    }
+  }  
+  
+  plot_complete <- plot_data +
+    ggplot2::geom_density(alpha = 0.4) +
+    ggplot2::theme_bw() +
+    ggplot2::labs(x = "Value",
+                  y = "Density") +
+    ggplot2::theme(legend.title = ggplot2::element_blank(),
+                   legend.position = legend_position) +
+    ggplot2::scale_fill_viridis_d(begin = 0, end = 0.8)
+  
+  return(plot_complete)
+  
+}
+
+
+get_distribution <- function(
+    datset,
+    Type = c("raw", "check", "filter", 
+             "impute", "norm_relative", "norm_log10",
+             "norm_scale")) {
+  
+  # datset = se
+  # Type = "raw"
+  
+  dat <- SummarizedExperiment::assay(datset) %>% 
+      data.frame() %>%
+      rownames_to_column("name") %>%
+      tidyr::gather(key = "sample", value = "value", -name)    
+  
+  if (Type == "raw") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white") +
+            labs(title = "Distribution of Raw \n Metabolites Intensity", 
+                 x = "Raw Intensity", y = "Frequency") +
+            theme_bw()    
+  } else if (Type == "check") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white") +
+            labs(title = "Distribution of check \n Metabolites Intensity", 
+                 x = "checked Intensity", y = "Frequency") +
+            theme_bw()    
+  } else if (Type == "filter") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of filter\n Metabolites Intensity", 
+                 x = "filtered Intensity", y = "Frequency")+
+            theme_bw()    
+  } else if (Type == "impute") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of impute\n Metabolites Intensity", 
+                 x = "imputed Intensity", y = "Frequency")+
+            theme_bw()    
+  } else if (Type == "norm_relative") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of norm\n Metabolites Intensity", 
+                 x = "norm \n relative abundance", y="Frequency")+
+            theme_bw()    
+  } else if (Type == "norm_log10") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of norm\n Metabolites Intensity", 
+                 x = "norm \n log10(Intensity)", y = "Frequency")+
+            theme_bw()    
+  } else if (Type == "norm_scale") {
+    pl <- ggplot(dat, aes(x = value)) + 
+            geom_histogram(color = "black", fill = "white")+
+            labs(title = "Distribution of norm\n Metabolites Intensity", 
+                 x = "norm \n Scale(Intensity)", y = "Frequency")+
+            theme_bw()    
+  }
+  
+  return(pl)
+}
+```
+
++ 以样本为基点的代谢物数据分布情况（组间箱线图）
+```{r, fig.height=15, fig.width=10}
+pl_unnor <- POMABoxplots(data = se_impute, group = "LiverFatClass", 
+                         feature_type = "samples", jitter = FALSE, show_number = 10) +
+  ggtitle("Not Normalized (imputation)") +
+  theme(legend.position = "none") 
+
+pl_nor_log <- POMABoxplots(data = se_tran, group = "LiverFatClass", 
+                          feature_type = "samples", jitter = FALSE, show_number = 10) +
+  ggtitle("Normalized (log10)")
+
+pl_nor_rb <- POMABoxplots(data = se_norm, group = "LiverFatClass", 
+                          feature_type = "samples", jitter = FALSE, show_number = 10) +
+  ggtitle("Normalized (relative abundance)")
+
+pl_nor_zscore <- POMABoxplots(data = se_scale, group = "LiverFatClass", 
+                          feature_type = "samples", jitter = FALSE, show_number = 10) +
+  ggtitle("Normalized (Zscore)")
+
+cowplot::plot_grid(pl_unnor, pl_nor_log, 
+                   pl_nor_rb, pl_nor_zscore, 
+                   ncol = 1, align = "v",
+                   labels = LETTERS[1:4])
+```
+
++ 以代谢物为基点的代谢物数据分布情况（组间箱线图）
+```{r, fig.height=15, fig.width=10}
+pl_unnor <- POMADensity(data = se_impute, group = "LiverFatClass", feature_type = "features") +
+  ggtitle("Not Normalized") +
+  theme(legend.position = "none") # data before normalization
+
+pl_nor_log <- POMADensity(data = se_tran, group = "LiverFatClass", feature_type = "features") +
+  ggtitle("Normalized (log10)") # data after normalization
+
+pl_nor_rb <- POMADensity(data = se_norm, group = "LiverFatClass", feature_type = "features") +
+  ggtitle("Normalized (relative abundance)") # data after normalization
+
+pl_nor_zscore <- POMADensity(data = se_scale, group = "LiverFatClass", feature_type = "features") +
+  ggtitle("Normalized (Zscore)") # data after normalization
+
+cowplot::plot_grid(pl_unnor, pl_nor_log, 
+                   pl_nor_rb, pl_nor_zscore, 
+                   ncol = 1, align = "v",
+                   labels = LETTERS[1:4])
+```
+
++ 所有以代谢物为基点的数据分布
+
+```{r, fig.height=7, fig.width=12}
+raw_pl <- get_distribution(datset = data_meta_new, Type = "raw")
+check_pl <- get_distribution(datset = se_check, Type = "check")
+filter_pl <- get_distribution(datset = se_filter, Type = "filter")
+impute_pl <- get_distribution(datset = se_impute, Type = "impute")
+norm_log10_pl <- get_distribution(datset = se_tran, Type = "norm_log10")
+norm_relative_pl <- get_distribution(datset = se_norm, Type = "norm_relative")
+norm_scale_pl <- get_distribution(datset = se_scale, Type = "norm_scale")
+
+cowplot::plot_grid(raw_pl, check_pl, 
+                   filter_pl, impute_pl, 
+                   norm_log10_pl, norm_relative_pl,
+                   norm_scale_pl,
+                   align = "hv", nrow = 2,
+                   labels = LETTERS[1:7])
+```
+
+
+结果：
+
++ 补缺失值没有改变数据分布状态，仍然是偏态分布
+
++ log10单个数据转换将偏态分布转成偏向正态分布，而在该基础上的相对丰度则由偏向了正态分布
+
++ relative abundance在样本内部归一化其所有的特征，数据分布没有发生任何变化
+
++ Zscore是跨样本针对特征归一化其，数据分布呈现标准正态分布
+
+
+## 保存数据
+```{r}
+if (!dir.exists("./InputData/result/QC")) {
+  dir.create("./InputData/result/QC", recursive = TRUE)
+}
+
+saveRDS(data_meta_new, "./InputData/result/QC/se_raw.RDS", compress = TRUE)
+saveRDS(se_check, "./InputData/result/QC/se_check.RDS", compress = TRUE)
+saveRDS(se_impute, "./InputData/result/QC/se_impute.RDS", compress = TRUE)
+saveRDS(se_filter, "./InputData/result/QC/se_filter.RDS", compress = TRUE)
+
+saveRDS(se_tran, "./InputData/result/QC/se_tran.RDS", compress = TRUE)
+saveRDS(se_norm, "./InputData/result/QC/se_norm.RDS", compress = TRUE)
+saveRDS(se_scale, "./InputData/result/QC/se_scale.RDS", compress = TRUE)
+```
+
+
+
+## 总结
+
+数据预处理是代谢组分析较为重要的步骤，通常建议使用log+zscore的方法对数据归一化处理，用于后续的统计分析，但看到有关文章在计算Log2FoldChange的时候使用原始intensity值计算。
+
+
+## Session info
+```{r}
+devtools::session_info()
+```
+
+
+## Reference
+

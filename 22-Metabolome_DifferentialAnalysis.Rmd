@@ -1,0 +1,449 @@
+```{r, include = FALSE}
+knitr::opts_chunk$set(out.width = "100%", message = FALSE, warning = FALSE)
+```
+
+
+# Differetial Analysis {#DifferetialAnalysis}
+
+
+差异分析的目的是为了筛选代谢物标记物，常用的方法有以下几种
+
++ 倍数变化法 (Fold Change)，也有基于log2的Fold change，计算组间倍数变化
+
++ T检验，计算组间均值的t统计量差别
+
++ PLS-DA或OPLS-DA的VIP(Variable Importance for the Projection，变量投影重要度)，计算代谢物在投影平面坐标的重要度打分，个人理解有点类似主成分的特征系数
+
+
+## 安装MicrobiomeAnalysis包
+
++ MicrobiomeAnalysis可提供下面分析使用的函数
+
+```R
+if (!requireNamespace(c("remotes", "devtools"), quietly=TRUE)) {
+  install.packages(c("devtools", "remotes"))
+}
+remotes::install_github("HuaZou/MicrobiomeAnalysis")
+```
+
+
+
+## 加载R包
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+library(ropls)
+library(SummarizedExperiment)
+library(MicrobiomeAnalysis)
+library(ggplot2)
+library(ggrepel)
+
+# rm(list = ls())
+options(stringsAsFactors = F)
+options(future.globals.maxSize = 1000 * 1024^2)
+
+grp_names <- c("None", "Mild", "Moderate", "Severe")
+grp_colors <- c("#7DD06F", "#844081", "#688EC1", "#C17E73")
+```
+
+
+## 导入数据
+
+对数据[OmicsDataSet-Zeybel et al. - 2022.xlsx](https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel et al. - 2022.xlsx)处理后生成的，可参考数据预处理章节。
+
+> ```R
+> saveRDS(se_filter, "./InputData/result/QC/se_filter.RDS", compress = TRUE)
+> saveRDS(se_scale, "./InputData/result/QC/se_scale.RDS", compress = TRUE)
+> ```
+
++ se_filter.RDS用于计算倍数变化
+
++ se_scale.RDS用于T检验和PLS-DA
+
+```{r}
+se_filter <- readRDS("./InputData/result/QC/se_filter.RDS")
+se_scale <- readRDS("./InputData/result/QC/se_scale.RDS")
+```
+
+
+## 平均值和方差 (mean +/- sd)
+
+根据代谢物的相对定量或绝对定量结果，计算某个代谢物在两组间表达量的平均值和方差
+
+这里选择"None"和"Severe"两组计算
+
+```{r}
+meansd_fun <- function(
+    x,
+    group,
+    group_names,
+    occ_cutoff = 0.5) {
+  
+  # x = se_filter
+  # group = "LiverFatClass"
+  # group_names = grp_names[c(1, 4)]
+  # occ_cutoff = 0.5
+  
+  # dataseat
+  metadata <- SummarizedExperiment::colData(x) %>%
+      as.data.frame()
+  profile <- SummarizedExperiment::assay(x) %>%
+      as.data.frame()
+  feature <- SummarizedExperiment::rowData(x) %>%
+      as.data.frame() 
+
+  colnames(metadata)[which(colnames(metadata) == group)] <- "CompVar"
+  phenotype <- metadata %>%
+    dplyr::filter(CompVar %in% group_names) %>%
+    dplyr::mutate(CompVar = as.character(CompVar)) %>%
+    dplyr::mutate(CompVar = factor(CompVar, levels = group_names))
+  
+  sid <- intersect(rownames(phenotype), colnames(profile))
+  phen <- phenotype[pmatch(sid, rownames(phenotype)), , ]
+  prof <- profile %>%
+    dplyr::select(all_of(sid))
+  
+  if (!all(colnames(prof) == rownames(phen))) {
+    stop("Wrong Order")
+  }
+  
+  trim_FeatureOrSample <- function(x, nRow, threshold) {
+  
+    df_occ <- apply(x, nRow, function(x) {
+      length(x[c(which(!is.na(x) & x!=0))]) / length(x)
+    }) %>%
+      data.frame() %>% stats::setNames("Occ") %>%
+      tibble::rownames_to_column("type")
+    if (nRow == 1) {
+      rownames(df_occ) <- rownames(x)
+    } else {
+      rownames(df_occ) <- colnames(x)
+    }
+    df_KEEP <- apply(df_occ > threshold, 1, all) %>%
+      data.frame() %>% stats::setNames("Status") %>%
+      dplyr::filter(Status)
+  
+    res <- x %>%
+      tibble::rownames_to_column("featureid") %>%
+      dplyr::filter(featureid %in% rownames(df_KEEP)) %>%
+      tibble::column_to_rownames("featureid")
+    
+    return(res)
+  }
+
+  prof_cln <- trim_FeatureOrSample(prof, 1, occ_cutoff)
+  mean_res <- apply(prof_cln, 1, function(x1, y1) {
+    dat <- data.frame(value = as.numeric(x1), group = y1)
+    
+    mn <- tapply(dat$value, dat$group, function(x){mean(x, na.rm = TRUE)}) %>%
+      data.frame() %>% stats::setNames("value") %>%
+      tibble::rownames_to_column("Group")
+    mn1 <- with(mn, mn[Group %in% group_names[1], "value"])
+    mn2 <- with(mn, mn[Group %in% group_names[2], "value"])
+    mn3 <- with(mn, mn[Group %in% group_names[3], "value"])
+    mnall <- mean(dat$value, na.rm = TRUE)
+    
+    SD <- tapply(dat$value, dat$group, function(x){sd(x, na.rm = TRUE)}) %>%
+      data.frame() %>% stats::setNames("value") %>%
+      tibble::rownames_to_column("Group")
+    SD1 <- with(SD, SD[Group %in% group_names[1], "value"])
+    SD2 <- with(SD, SD[Group %in% group_names[2], "value"])
+    SD3 <- with(SD, SD[Group %in% group_names[3], "value"])
+    SDall <- sd(dat$value, na.rm = TRUE)
+    
+    mean_sd_all <- paste(round(mnall, 8), round(SDall, 8), sep = "+/-")
+    mean_sd_1 <- paste(round(mn1, 8), round(SD1, 8), sep = "+/-")
+    mean_sd_2 <- paste(round(mn2, 8), round(SD2, 8), sep = "+/-")
+    mean_sd_3 <- paste(round(mn3, 8), round(SD3, 8), sep = "+/-")
+    
+    res <- c(mean_sd_all, mean_sd_1, mean_sd_2, mean_sd_3)
+    return(res)
+  }, phen$CompVar) %>%
+    t() %>% as.data.frame() %>%
+    tibble::rownames_to_column("Feature")
+  
+  colnames(mean_res) <- c("FeatureID", 
+                        "Mean+/-SD Abundance(All)",
+                     paste0("Mean Abundance ", group_names)) 
+  
+  if (!is.null(feature)) {
+    res <- mean_res %>%
+      dplyr::inner_join(feature %>%
+                          tibble::rownames_to_column("FeatureID"),
+                        by = "FeatureID")    
+  } else {
+    res <- mean_res    
+  }  
+
+  return(res)
+}
+
+meansd_result <- meansd_fun(
+  x = se_filter,
+  group = "LiverFatClass",
+  group_names = grp_names[c(1, 4)],
+  occ_cutoff = 0.5)
+
+head(meansd_result)
+```
+
+
+## 倍数变化法 (Fold Change)
+
+> 倍数变化法即根据代谢物的相对定量或绝对定量结果，计算某个代谢物在两组间表达量的差异倍数（Fold Change），简称FC值。假设A物质在对照组中定量结果为1，在疾病组中定量结果为3，那么此物质的FC值即为3。由于代谢物定量结果肯定是非负数，那么FC的取值就是(0, +∞)。为筛选到差异更为显著的代谢物，小迈提供给各位老师的结果中默认选择的是FC值≥2或≤0.5的物质，此标准设置的较为严格，若因此筛到的差异代谢物较少，可根据需求将差异倍数标准调整为1.5倍或者1.2倍，这两种阈值在代谢组研究相关文章中也是较为常见的。
+
+```{r}
+fc_result <- MicrobiomeAnalysis::run_metabolomeDA(
+  object_raw = se_filter,
+  variable = "LiverFatClass",
+  variable_name = grp_names[c(1, 4)],
+  DA_method = "fc",
+  cutoff_prev = 0.5)
+
+head(fc_result)
+```
+
+
+结果：
+
++ FoldChange是组间倍数变化
+
++ Log2FoldChange是组间倍数变化的log2对数值
+
+
+## T检验
+
+> T检验，又叫student t 检验（Student’s t test）,是一种常用的假设检验方法，也是差异代谢物筛选中常见的统计策略之一。假设检验首先必须要有假设，我们假设某代谢物在A组和B组的含量没有差异（H0，零假设），然后基于此假设，通过t test计算出统计量t值和其对应的p值，如果P-value<0.05，那么说明小概率事件出现了，我们应该拒绝零假设，即A组和B组的含量不一样，即有显著差异。
+
+```{r}
+t_result <- MicrobiomeAnalysis::run_metabolomeDA(
+  object_norm = se_scale,
+  variable = "LiverFatClass",
+  variable_name = grp_names[c(1, 4)],
+  DA_method = "t")
+
+head(t_result)
+```
+
+结果：
+
++ Pvalue是组间t检验结果
+
++ AdjustedPvalue是组间t检验结果pvalue的FDR校正结果，多次假设检验需要做FDR校正
+
+
+## 变量投影重要度 (VIP) 正交偏最小二乘判别分析（OPLS-DA）
+
+> 由于代谢组数据具有“高维、高噪音、高变异”的特点，因此一般采用多元统计分析方法，可以在最大程度保留原始信息的基础上将高维复杂的数据进行“简化和降维”，建立可靠的数学模型对研究对象的代谢谱特点进行归纳和总结。常见的多元统计分析方法包括PLS-DA或OPLS-DA。
+
+> 偏最小二乘判别分析（PLS-DA）是一种有监督模式识别的多元统计分析方法，将多维数据在压缩前先按需要寻找的差异因素分组（预先设定Y值来进行目标分类和判别），这样可以找到与用于分组的因素最相关的变量，而减少一些其它因素的影响。PLS-DA常用于区分各组间代谢轮廓的总体差异，筛选组间的差异代谢物。
+
+> 正交偏最小二乘判别分析（OPLS-DA）结合了正交信号矫正（OSC）和PLS-DA方法，能够将X矩阵信息分解成与Y相关和不相关的两类信息，通过去除不相关的差异来筛选差异变量。
+
+> VIP（Variable important in projection）是(O)PLS-DA模型变量的变量权重值，可用于衡量各代谢物积累差异对各组样本分类判别的影响强度和解释能力，VIP≥1为常见的差异代谢物筛选标准。
+
+```{r}
+VIP_result <- MicrobiomeAnalysis::run_metabolomeDA(
+  object_norm = se_scale,
+  variable = "LiverFatClass",
+  variable_name = grp_names[c(1, 4)],
+  DA_method = "vip")
+
+head(VIP_result)
+```
+
+结果：
+
++ **VIP**是每个代谢物和投影平面向量的投影重要度
+
++ **CorPvalue**是每个代谢物和投影平面向量的相关系数
+
+
+## 合并所有结果
+
+合并上述六个指标，用于后续判断差异代谢物
+
+```{r}
+mergedResults <- function(
+    fc_result,
+    vip_result,
+    test_result,
+    group_names,
+    group_labels) {
+  
+  overlap_cols <- intersect(
+    intersect(colnames(fc_result),
+              colnames(vip_result)),
+    colnames(test_result))
+  
+  overlap_cols <- overlap_cols[overlap_cols != "FeatureID"]
+  
+  mdat <- fc_result %>%
+    dplyr::mutate(Block2 = paste(group_labels, collapse = " vs ")) %>%
+    dplyr::mutate(FeatureID = make.names(FeatureID)) %>%
+    dplyr::inner_join(vip_result %>%
+                        # dplyr::select(-Block) %>%
+                        dplyr::select(-dplyr::all_of(overlap_cols)) %>%
+                        dplyr::mutate(FeatureID = make.names(FeatureID)),
+                      by = "FeatureID") %>%
+    dplyr::inner_join(test_result %>%
+                        # dplyr::select(-Block) %>%
+                        dplyr::select(-dplyr::all_of(overlap_cols)) %>%                        
+                        dplyr::mutate(FeatureID = make.names(FeatureID)),
+                      by = "FeatureID") 
+  
+  res <- mdat %>%
+    dplyr::select(FeatureID, Block2, Block,
+                  FoldChange, Log2FoldChange,
+                  VIP, CorPvalue,
+                  Statistic, Pvalue, AdjustedPvalue,
+                  everything()) %>%
+    dplyr::arrange(AdjustedPvalue, Log2FoldChange)
+    
+  return(res)
+}
+
+final_result <- mergedResults(
+  fc_result = fc_result,
+  vip_result = VIP_result,
+  test_result = t_result,
+  group_names = grp_names[c(1, 4)],
+  group_labels = grp_names[c(1, 4)])
+
+head(final_result)
+```
+
+
+## 一键生成差异结果
+
+`MicrobiomeAnalysis::run_metabolomeDA`函数提供一键式生成差异结果。
+
+```{r}
+final_result <- MicrobiomeAnalysis::run_metabolomeDA(
+  object_raw = se_filter,
+  object_norm = se_scale,
+  variable = "LiverFatClass",
+  variable_name = grp_names[c(1, 4)],
+  DA_method = "all")
+
+head(final_result)
+```
+
+
+
+## 可视化结果
+
+以火山图展示差异结果，使用`MicrobiomeAnalysis::plot_volcano`画图。
+
+```{r, fig.width=8, fig.height=6}
+get_volcano <- function(
+    inputdata,
+    group_names,
+    group_labels,
+    group_colors,
+    x_index,
+    x_cutoff,
+    y_index,
+    y_cutoff,
+    topN_features,
+    plot = TRUE) {
+  
+  # inputdata = final_result
+  # group_names = c("None", "Severe")
+  # group_labels = c("None", "Severe")
+  # group_colors = c("red", "blue")
+  # x_index = "Log2FoldChange"
+  # x_cutoff = 0.5
+  # y_index = "AdjustedPvalue"
+  # y_cutoff = 0.5
+  # plot = FALSE
+  
+  selected_group2 <- paste(group_labels, collapse = " vs ") 
+  dat <- inputdata %>%
+    dplyr::filter(Block2 %in% selected_group2) 
+  plotdata <- dat %>%
+    dplyr::mutate(FeatureID = paste(FeatureID, sep = ":")) %>%
+    dplyr::select(all_of(c("FeatureID", "Block2", x_index, y_index)))
+  
+  if (!any(colnames(plotdata) %in% "TaxaID")) {
+    colnames(plotdata)[1] <- "TaxaID"
+  }
+  if (y_index == "CorPvalue") {
+    colnames(plotdata)[which(colnames(plotdata) == y_index)] <- "Pvalue"
+    y_index <- "Pvalue"
+  }
+ 
+  
+  pl <- MicrobiomeAnalysis::plot_volcano(
+      da_res = plotdata,
+      group_names = group_labels,
+      x_index = x_index,
+      x_index_cutoff = x_cutoff,
+      y_index = y_index,
+      y_index_cutoff = y_cutoff,
+      group_colors = c(group_colors[1], "grey", group_colors[2]),
+      topN = topN_features,
+      add_enrich_arrow = TRUE)
+  
+  if (plot) {
+    res <- pl
+  } else {
+    colnames(plotdata)[which(colnames(plotdata) == x_index)] <- "Xindex"
+    colnames(plotdata)[which(colnames(plotdata) == y_index)] <- "Yindex"
+    
+    datsignif <- plotdata %>%
+      dplyr::filter(abs(Xindex) > x_cutoff) %>%
+      dplyr::filter(Yindex < y_cutoff)
+    
+    colnames(datsignif)[which(colnames(datsignif) == "Xindex")] <- x_index
+    colnames(datsignif)[which(colnames(datsignif) == "Yindex")] <- y_index
+        
+    res <- list(figure = pl,
+                data = datsignif)
+    
+  }
+  
+  return(res)
+}
+
+final_result$FeatureID <- final_result$BIOCHEMICAL
+
+lgfc_FDR_vol <- get_volcano(
+  inputdata = final_result,
+  group_names = c("None", "Severe"),
+  group_labels = c("None", "Severe"),
+  group_colors = c("red", "blue"),
+  x_index = "Log2FoldChange",
+  x_cutoff = 0.5,
+  y_index = "AdjustedPvalue",
+  y_cutoff = 0.5,
+  topN_features = 10,
+  plot = FALSE)
+
+lgfc_FDR_vol$figure
+```
+
+
+
+
+## 输出结果
+
+```{r}
+if(!dir.exists("./InputData/result/DA/")) {
+  dir.create("./InputData/result/DA/", recursive = TRUE)
+}
+
+write.table(final_result, "./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv", 
+            row.names = F, quote = F, sep = "\t", fileEncoding = "UTF-8")
+```
+
+
+## Session info
+```{r}
+devtools::session_info()
+```
+
+
+## Reference
+
++ [FC/T检验/PLS-DA筛选差异代谢物方法介绍](https://zhuanlan.zhihu.com/p/354562604)
