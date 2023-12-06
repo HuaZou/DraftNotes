@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 6 Data Processing | 生物信息随记</title>
+<title>Chapter 7 Data Processing | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
 <meta name="description" content="代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。 本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic...">
 <meta name="generator" content="bookdown 0.34 with bs4_book()">
-<meta property="og:title" content="Chapter 6 Data Processing | 生物信息随记">
+<meta property="og:title" content="Chapter 7 Data Processing | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/dataprocessing.html">
 <meta property="og:description" content="代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。 本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 6 Data Processing | 生物信息随记">
+<meta name="twitter:title" content="Chapter 7 Data Processing | 生物信息随记">
 <meta name="twitter:description" content="代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。 本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -78,19 +78,20 @@
 <li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
 <li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
 <li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
 <li class="book-part">Metabolomics Data Analysis</li>
-<li><a class="active" href="dataprocessing.html"><span class="header-section-number">6</span> Data Processing</a></li>
-<li><a class="" href="DimensionReduction.html"><span class="header-section-number">7</span> Dimension Reduction</a></li>
-<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">8</span> Differetial Analysis</a></li>
-<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">9</span> Functional Analysis</a></li>
-<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">10</span> MetOrigin Analysis</a></li>
-<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></li>
+<li><a class="active" href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">8</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">9</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">10</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">11</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">12</span> Other Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">12</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">13</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">14</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">14</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">15</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">15</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">16</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -99,18 +100,18 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="dataprocessing" class="section level1" number="6">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="dataprocessing" class="section level1" number="7">
 <h1>
-<span class="header-section-number">6</span> Data Processing<a class="anchor" aria-label="anchor" href="#dataprocessing"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7</span> Data Processing<a class="anchor" aria-label="anchor" href="#dataprocessing"><i class="fas fa-link"></i></a>
 </h1>
 <p>代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。</p>
 <p>本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic Steatosis_的粪便代谢组学质谱数据。</p>
 <blockquote>
 <p>55份粪便代谢组，1032个代谢物</p>
 </blockquote>
-<div id="处理流程" class="section level2" number="6.1">
+<div id="处理流程" class="section level2" number="7.1">
 <h2>
-<span class="header-section-number">6.1</span> 处理流程<a class="anchor" aria-label="anchor" href="#%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.1</span> 处理流程<a class="anchor" aria-label="anchor" href="#%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li><p>数据检查：1.核查所有代谢物intensity value是数值型；2.缺失值的比例</p></li>
@@ -119,11 +120,11 @@
 <li><p>数据标准化（针对代谢物或样本）</p></li>
 </ul>
 </div>
-<div id="加载r包-2" class="section level2" number="6.2">
+<div id="加载r包-3" class="section level2" number="7.2">
 <h2>
-<span class="header-section-number">6.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-3"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment">SummarizedExperiment</a></span><span class="op">)</span></span>
@@ -132,16 +133,16 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>future.globals.maxSize <span class="op">=</span> <span class="fl">1000</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="导入数据-1" class="section level2" number="6.3">
+<div id="导入数据-2" class="section level2" number="7.3">
 <h2>
-<span class="header-section-number">6.3</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.3</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-2"><i class="fas fa-link"></i></a>
 </h2>
 <p>对数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel%20et%20al.%20-%202022.xlsx">OmicsDataSet-Zeybel et al. - 2022.xlsx</a>处理后生成的输入文件，详细情况可参考<strong>Data Set</strong>具体章节。</p>
 <blockquote>
-<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_metabolite</span>, <span class="st">"./InputData/result/Zeybel_2022_fecal_metabolite_se.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </blockquote>
-<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"./InputData/result/Zeybel_2022_fecal_metabolite_se.RDS"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data_meta</span></span>
@@ -156,18 +157,18 @@
 <span><span class="co">#&gt; colnames(55): P101001 P101003 ... P101095 P101096</span></span>
 <span><span class="co">#&gt; colData names(47): PatientID Gender ...</span></span>
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># colData(data_meta)</span></span>
 <span><span class="co"># assay(data_meta)</span></span>
 <span><span class="co"># rowData(data_meta)</span></span></code></pre></div>
 </div>
-<div id="构建qc样本" class="section level2" number="6.4">
+<div id="构建qc样本" class="section level2" number="7.4">
 <h2>
-<span class="header-section-number">6.4</span> 构建QC样本<a class="anchor" aria-label="anchor" href="#%E6%9E%84%E5%BB%BAqc%E6%A0%B7%E6%9C%AC"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.4</span> 构建QC样本<a class="anchor" aria-label="anchor" href="#%E6%9E%84%E5%BB%BAqc%E6%A0%B7%E6%9C%AC"><i class="fas fa-link"></i></a>
 </h2>
 <p>该数据集不存在QC样本，这导致不能做QC的变化范围的数据过滤，因此构建新的QC样本。以上述随机抽取6个样本作为QC样本。</p>
 <p>QC样本一般是送测样本混合后再分成N份样本（迈维非靶或广靶均是这样做）再测，它可以评估每次质谱的效果或做代谢物过滤。</p>
-<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">meta_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">data_meta</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">feature_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">rowData</a></span><span class="op">(</span><span class="va">data_meta</span><span class="op">)</span> </span>
@@ -205,11 +206,11 @@
 <span><span class="co">#&gt; colData names(47): PatientID Gender ...</span></span>
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
 </div>
-<div id="数据过滤" class="section level2" number="6.5">
+<div id="数据过滤" class="section level2" number="7.5">
 <h2>
-<span class="header-section-number">6.5</span> 数据过滤<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.5</span> 数据过滤<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">CheckData</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  </span>
 <span>  <span class="co"># object = data_meta_new</span></span>
@@ -273,7 +274,7 @@
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">se_check</span> <span class="op">&lt;-</span> <span class="fu">CheckData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">data_meta_new</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "A total of 7838 (12.5%) missing values were detected."</span></span>
+<span><span class="co">#&gt; [1] "A total of 7829 (12.4%) missing values were detected."</span></span>
 <span><span class="va">se_check</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
 <span><span class="co">#&gt; dim: 1032 61 </span></span>
@@ -288,9 +289,9 @@
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
 <p>结果：12.5%的缺失值存在，下面进行缺失值补充。</p>
 </div>
-<div id="补缺失值" class="section level2" number="6.6">
+<div id="补缺失值" class="section level2" number="7.6">
 <h2>
-<span class="header-section-number">6.6</span> 补缺失值<a class="anchor" aria-label="anchor" href="#%E8%A1%A5%E7%BC%BA%E5%A4%B1%E5%80%BC"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.6</span> 补缺失值<a class="anchor" aria-label="anchor" href="#%E8%A1%A5%E7%BC%BA%E5%A4%B1%E5%80%BC"><i class="fas fa-link"></i></a>
 </h2>
 <p>Missing Value 的产生原因主要有两个：1）一个代谢峰在某些生物样品中存在而在另外一些生物样品中不存在； 2）某些代谢物在生物样品中的浓度低于质谱的检测限。</p>
 <p>Missing Value 在数据中的表现形式为 NA值。对于大规模代谢组学来说，因为其长时间的数据采集，质谱灵敏度的漂移使MV的问题更加严重。一般来说，对一个代谢组学数据来说， Missing Value 会占到所有数据点的 20%左右 。首先需要对 Missing Value 进行过滤，对于 Missing Value超过一定比例的代谢峰来说，该代谢峰很有可能是一个偶然出现的噪声信号，因此将其从数据中删除。 比如，在代谢组学数据中，一般采用的标准为代谢峰需要在 80%的质量控制（quality control， QC） 样品中出现，否则删除。对于 Missing Value 超过一定比例的生物样品来说，该样品很有可能是在样品制备或者数据采集过程中出现了误差，如该样品稀释比例异常或者进样体积异常，这些样品需要被删除掉。</p>
@@ -309,7 +310,7 @@
 </ul>
 <p>一般采用k近邻的方法，它的原理是离该缺失值样本最近的K个样本具有类似的属性，使用它们的平均值填补缺失值是相对可靠的方法，但是也需要注意该方法的阈值适用范围。</p>
 <p>这里使用<strong><a href="https://zouhua.top/MicrobiomeAnalysis/">MicrobiomeAnalysis</a></strong>提供的<a href="https://zouhua.top/MicrobiomeAnalysis/reference/impute_abundance.html">impute_abundance</a>函数，先安装此包。</p>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"remotes"</span>, <span class="st">"devtools"</span><span class="op">)</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"remotes"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -317,7 +318,7 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"HuaZou/MicrobiomeAnalysis"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># library(MicrobiomeAnalysis)</span></span></code></pre></div>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/HuaZou/MicrobiomeAnalysis">MicrobiomeAnalysis</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">se_impute</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/impute_abundance.html">impute_abundance</a></span><span class="op">(</span></span>
@@ -329,10 +330,10 @@
 <span></span>
 <span><span class="va">se_impute</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 956 61 </span></span>
+<span><span class="co">#&gt; dim: 955 61 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(956): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(955): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_100015836 Chem_826</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -341,9 +342,9 @@
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
 <p>结果：代谢物的缺失值在任何组大于50%会被移除，最后移除的代谢物表达矩阵用于缺失值补充。</p>
 </div>
-<div id="数据过滤-1" class="section level2" number="6.7">
+<div id="数据过滤-1" class="section level2" number="7.7">
 <h2>
-<span class="header-section-number">6.7</span> 数据过滤<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.7</span> 数据过滤<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4-1"><i class="fas fa-link"></i></a>
 </h2>
 <p>在非靶向代谢组或蛋白质组经常会使用该方法，目的是过滤掉不太可能用于分析的代谢物或蛋白质。</p>
 <p>过滤会基于QC样本的相对丰度标准方差relative standard deviation (RSD = SD / mean)，可以理解为特征的数据波动范围。 LC-MS或GC-MS对不同样本可能存在不同偏好行，采用QC样本可以得到波动范围，那些具有高RSD的特征可能受到质谱操作的影响较大，因此它们的可靠性相对较低不需要用于后续下游分析。一般情况下，RSD阈值在LC-MS和GC-MS分别是20%和30%（<em>保留波动小于该阈值的代谢物</em>）。</p>
@@ -371,7 +372,7 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">FilterFeature</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">object</span>,</span>
 <span>    <span class="va">group</span>,    </span>
@@ -505,14 +506,14 @@
 <span>  qc_label <span class="op">=</span> <span class="st">"QC"</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"iqr"</span>,</span>
 <span>  rsd_cutoff <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Removed  70  features based on QC RSD values. QC samples are excluded from downstream functional analysis."</span></span>
+<span><span class="co">#&gt; [1] "Removed  76  features based on QC RSD values. QC samples are excluded from downstream functional analysis."</span></span>
 <span></span>
 <span><span class="va">se_filter</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 664 55 </span></span>
+<span><span class="co">#&gt; dim: 659 55 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(664): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(659): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_1004 Chem_100015836</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -525,9 +526,9 @@
 <li><p>再根据代谢物波动范围过滤不符合的代谢物</p></li>
 </ul>
 </div>
-<div id="数据标准化" class="section level2" number="6.8">
+<div id="数据标准化" class="section level2" number="7.8">
 <h2>
-<span class="header-section-number">6.8</span> 数据标准化<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.8</span> 数据标准化<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96"><i class="fas fa-link"></i></a>
 </h2>
 <p>数据标准化为了三部分：</p>
 <ul>
@@ -541,17 +542,17 @@
 </li>
 </ul>
 <p>使用<strong>MicrobiomeAnalysis</strong>提供的<code>transform_abundances</code>，选择<em>log10p</em>，改变数据的偏态分布。</p>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">se_tran</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/transform_abundances.html">transform_abundances</a></span><span class="op">(</span></span>
 <span>  object <span class="op">=</span> <span class="va">se_filter</span>,</span>
 <span>  transform <span class="op">=</span> <span class="st">"log10p"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">se_tran</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 664 55 </span></span>
+<span><span class="co">#&gt; dim: 659 55 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(664): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(659): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_1004 Chem_100015836</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -572,7 +573,7 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NormalizeData</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">object</span>,</span>
 <span>    <span class="va">rowNorm</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Quantile"</span>, <span class="st">"GroupPQN"</span>, <span class="st">"SamplePQN"</span>,</span>
@@ -707,10 +708,10 @@
 <span></span>
 <span><span class="va">se_norm</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 664 55 </span></span>
+<span><span class="co">#&gt; dim: 659 55 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(664): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(659): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_1004 Chem_100015836</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -728,17 +729,17 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">se_scale</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/scale_variables.html">scale_variables</a></span><span class="op">(</span></span>
 <span>  object <span class="op">=</span> <span class="va">se_norm</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"zscore"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">se_scale</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 664 55 </span></span>
+<span><span class="co">#&gt; dim: 659 55 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(664): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(659): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_1004 Chem_100015836</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -746,243 +747,243 @@
 <span><span class="co">#&gt; colData names(47): PatientID Gender ...</span></span>
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
 <p>查看数据状态</p>
-<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">se_filter</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   P101001     P101003      P101004</span></span>
-<span><span class="co">#&gt; Chem_100002945 51127588.0  42040432.0  34940596.00</span></span>
-<span><span class="co">#&gt; Chem_100002356  5105020.5   4006120.2   3885477.00</span></span>
-<span><span class="co">#&gt; Chem_100021502   756686.2    983889.2    851026.50</span></span>
-<span><span class="co">#&gt; Chem_100003926 38365560.4  44188252.3    182262.34</span></span>
-<span><span class="co">#&gt; Chem_100006374   559069.1    596473.9     53293.76</span></span>
-<span><span class="co">#&gt; Chem_100008903 94392176.0 117463144.0 115155104.00</span></span>
+<span><span class="co">#&gt;                   P101001     P101003     P101004</span></span>
+<span><span class="co">#&gt; Chem_100002945 51127588.0  42040432.0  34940596.0</span></span>
+<span><span class="co">#&gt; Chem_100002356  5105020.5   4006120.2   3885477.0</span></span>
+<span><span class="co">#&gt; Chem_100021502   756686.2    983889.2    851026.5</span></span>
+<span><span class="co">#&gt; Chem_100020519 38408582.9  44188252.3  39088708.9</span></span>
+<span><span class="co">#&gt; Chem_100008903 94392176.0 117463144.0 115155104.0</span></span>
+<span><span class="co">#&gt; Chem_100009217   144048.2    246049.9    217577.4</span></span>
 <span><span class="co">#&gt;                   P101007     P101009    P101010    P101011</span></span>
 <span><span class="co">#&gt; Chem_100002945 58518636.0  51118832.0 83783688.0 29017984.0</span></span>
 <span><span class="co">#&gt; Chem_100002356  4285129.5   6665653.5  9057441.0  2802655.2</span></span>
 <span><span class="co">#&gt; Chem_100021502   726593.9    232959.5   650261.1   541954.8</span></span>
-<span><span class="co">#&gt; Chem_100003926   251571.2  39200750.8 45395682.9   196669.6</span></span>
-<span><span class="co">#&gt; Chem_100006374   627140.5   7016015.0  1914246.9  2762589.2</span></span>
+<span><span class="co">#&gt; Chem_100020519 45557146.2    421584.8 45395682.9 37810261.1</span></span>
 <span><span class="co">#&gt; Chem_100008903 79582632.0 118408760.0 92508664.0 94076424.0</span></span>
-<span><span class="co">#&gt;                   P101012     P101013    P101016</span></span>
-<span><span class="co">#&gt; Chem_100002945 51222064.0 77550128.00 30949554.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  5996555.0 11367511.00  3874736.8</span></span>
-<span><span class="co">#&gt; Chem_100021502   598491.0   438885.59  1625844.8</span></span>
-<span><span class="co">#&gt; Chem_100003926 41630497.4    73285.52   229256.6</span></span>
-<span><span class="co">#&gt; Chem_100006374   140576.5   723530.94   295995.2</span></span>
-<span><span class="co">#&gt; Chem_100008903 69473744.0 80567352.00 98766592.0</span></span>
-<span><span class="co">#&gt;                    P101017     P101018    P101019</span></span>
-<span><span class="co">#&gt; Chem_100002945  26923596.0  56720032.0 27956064.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   2817151.0   8029728.0  3766663.8</span></span>
-<span><span class="co">#&gt; Chem_100021502    566466.9    427850.6   519559.0</span></span>
-<span><span class="co">#&gt; Chem_100003926  36396636.9    154247.0  4428990.0</span></span>
-<span><span class="co">#&gt; Chem_100006374   3321584.2   3489639.2   417727.6</span></span>
-<span><span class="co">#&gt; Chem_100008903 129547656.0 118271584.0 37880820.0</span></span>
-<span><span class="co">#&gt;                     P101021   P101022    P101024</span></span>
-<span><span class="co">#&gt; Chem_100002945  48723600.00  16282054 77028824.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   5174967.00   1746183  5519105.5</span></span>
-<span><span class="co">#&gt; Chem_100021502   1301591.25   1474247   970475.8</span></span>
-<span><span class="co">#&gt; Chem_100003926  42311221.73  42101379   100979.5</span></span>
-<span><span class="co">#&gt; Chem_100006374     16078.62  24787876   550468.8</span></span>
-<span><span class="co">#&gt; Chem_100008903 163868720.00 106189520 71475920.0</span></span>
-<span><span class="co">#&gt;                    P101025     P101027     P101030</span></span>
-<span><span class="co">#&gt; Chem_100002945  32022342.0  22589448.0  38449788.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   2557365.0   1882902.6   2860324.2</span></span>
-<span><span class="co">#&gt; Chem_100021502    628680.1    635516.6    367246.8</span></span>
-<span><span class="co">#&gt; Chem_100003926  45673206.9  34947895.5  43228309.9</span></span>
-<span><span class="co">#&gt; Chem_100006374   4724330.0    859336.9   1503947.2</span></span>
-<span><span class="co">#&gt; Chem_100008903 147776592.0 127571792.0 128319128.0</span></span>
-<span><span class="co">#&gt;                   P101031    P101038     P101041</span></span>
-<span><span class="co">#&gt; Chem_100002945 59134052.0 32038030.0  20833830.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  4721201.0  4011627.5   2938779.0</span></span>
-<span><span class="co">#&gt; Chem_100021502   512037.9   852000.1    634488.6</span></span>
-<span><span class="co">#&gt; Chem_100003926 45824392.6   639949.8  37345967.8</span></span>
-<span><span class="co">#&gt; Chem_100006374   338791.1  1028211.6  16129281.0</span></span>
-<span><span class="co">#&gt; Chem_100008903 90447848.0 46622592.0 111919096.0</span></span>
-<span><span class="co">#&gt;                    P101042    P101047     P101050</span></span>
-<span><span class="co">#&gt; Chem_100002945 33809080.00 18637508.0  21978476.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  3017260.50  1935144.1   2897211.0</span></span>
-<span><span class="co">#&gt; Chem_100021502  1680135.75   326005.6    316650.2</span></span>
-<span><span class="co">#&gt; Chem_100003926    93454.06 32577193.8    126754.1</span></span>
-<span><span class="co">#&gt; Chem_100006374    87286.19   307644.8     98800.9</span></span>
-<span><span class="co">#&gt; Chem_100008903 89762056.00 97617984.0 112900000.0</span></span>
-<span><span class="co">#&gt;                   P101051     P101052     P101054</span></span>
-<span><span class="co">#&gt; Chem_100002945 24265162.0 52203780.00  12836384.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  2476279.5  5928454.00   1685760.6</span></span>
-<span><span class="co">#&gt; Chem_100021502   737202.9   459385.94    346176.6</span></span>
-<span><span class="co">#&gt; Chem_100003926   224399.9   160379.78  34193727.0</span></span>
-<span><span class="co">#&gt; Chem_100006374   342827.9    54885.02   4003695.2</span></span>
-<span><span class="co">#&gt; Chem_100008903 71779912.0 64008512.00 111279888.0</span></span>
-<span><span class="co">#&gt;                   P101056    P101057     P101059    P101061</span></span>
-<span><span class="co">#&gt; Chem_100002945 18546636.0 32301820.0  22645984.0 23683254.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  1650011.0  3419157.8   2196044.2  3217499.2</span></span>
-<span><span class="co">#&gt; Chem_100021502   585470.2   417958.5    734586.3   337035.7</span></span>
-<span><span class="co">#&gt; Chem_100003926   247668.9   188845.6  36536202.5 34293865.6</span></span>
-<span><span class="co">#&gt; Chem_100006374  1786579.6   361630.7  10217042.0  7272486.0</span></span>
-<span><span class="co">#&gt; Chem_100008903 68771592.0 77140264.0 113564872.0 96143304.0</span></span>
-<span><span class="co">#&gt;                   P101062     P101064     P101065</span></span>
-<span><span class="co">#&gt; Chem_100002945 29027646.0  32629048.0 22950806.00</span></span>
-<span><span class="co">#&gt; Chem_100002356  4060367.8   3031529.5  2467147.25</span></span>
-<span><span class="co">#&gt; Chem_100021502   982299.4   1255148.0   637699.06</span></span>
-<span><span class="co">#&gt; Chem_100003926   310749.6    106510.3    75770.17</span></span>
-<span><span class="co">#&gt; Chem_100006374  4477679.0    395835.7   460618.81</span></span>
-<span><span class="co">#&gt; Chem_100008903 98940424.0 108473368.0 86418592.00</span></span>
-<span><span class="co">#&gt;                   P101067    P101068    P101069     P101071</span></span>
-<span><span class="co">#&gt; Chem_100002945 33555116.0 44283972.0 52685972.0  32415040.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  3567913.2  6525382.0  3984333.5   3001414.5</span></span>
-<span><span class="co">#&gt; Chem_100021502   284516.1   664800.1   684813.6    596846.1</span></span>
-<span><span class="co">#&gt; Chem_100003926 36110812.5   181915.7 43167938.8  39401928.6</span></span>
-<span><span class="co">#&gt; Chem_100006374  8156659.0  3966085.0   552411.1    190455.1</span></span>
-<span><span class="co">#&gt; Chem_100008903 95236288.0 71289048.0 74526792.0 115519872.0</span></span>
-<span><span class="co">#&gt;                    P101072     P101074     P101075</span></span>
-<span><span class="co">#&gt; Chem_100002945  34170948.0  22550616.0 22058076.00</span></span>
-<span><span class="co">#&gt; Chem_100002356   4679519.0   2529255.5  2583265.50</span></span>
-<span><span class="co">#&gt; Chem_100021502    316855.0    646136.8   198381.73</span></span>
-<span><span class="co">#&gt; Chem_100003926    123465.7    100810.5 34178910.38</span></span>
-<span><span class="co">#&gt; Chem_100006374  46928844.0   3240584.5    91241.58</span></span>
-<span><span class="co">#&gt; Chem_100008903 127401592.0 108255040.0 83989120.00</span></span>
-<span><span class="co">#&gt;                   P101076     P101077    P101079</span></span>
-<span><span class="co">#&gt; Chem_100002945 24455466.0  25225170.0 15718590.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  3515218.2   3272875.0  2449462.5</span></span>
-<span><span class="co">#&gt; Chem_100021502   255897.7    547243.4   508791.6</span></span>
-<span><span class="co">#&gt; Chem_100003926   180083.1    148478.0 34413781.2</span></span>
-<span><span class="co">#&gt; Chem_100006374  3088418.0   6992567.5  1325582.1</span></span>
-<span><span class="co">#&gt; Chem_100008903 77315256.0 158257952.0 78587928.0</span></span>
-<span><span class="co">#&gt;                    P101080     P101081     P101082</span></span>
-<span><span class="co">#&gt; Chem_100002945  29120336.0  65904836.0  22908578.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   2695001.5   6474709.5   2110243.8</span></span>
-<span><span class="co">#&gt; Chem_100021502   1256550.2    339909.3    596292.2</span></span>
-<span><span class="co">#&gt; Chem_100003926  42626140.4  43419261.7  37345671.1</span></span>
-<span><span class="co">#&gt; Chem_100006374    600080.8    414158.4   1303324.6</span></span>
-<span><span class="co">#&gt; Chem_100008903 163246832.0 124678488.0 100435064.0</span></span>
-<span><span class="co">#&gt;                   P101084     P101085     P101088</span></span>
-<span><span class="co">#&gt; Chem_100002945 29140440.0  20427124.0  29199012.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  3648091.2   3253531.8   4154170.8</span></span>
-<span><span class="co">#&gt; Chem_100021502   497300.8    309859.3    601515.1</span></span>
-<span><span class="co">#&gt; Chem_100003926   200805.3  31265093.3  33217027.3</span></span>
-<span><span class="co">#&gt; Chem_100006374   684199.1   2319273.2    854781.1</span></span>
-<span><span class="co">#&gt; Chem_100008903 86139200.0 103513520.0 101921248.0</span></span>
-<span><span class="co">#&gt;                     P101090    P101094  P101095     P101096</span></span>
-<span><span class="co">#&gt; Chem_100002945  24042020.00 36910084.0 35662068 66402192.00</span></span>
-<span><span class="co">#&gt; Chem_100002356   2396959.75  4759584.5  3452283  6374383.00</span></span>
-<span><span class="co">#&gt; Chem_100021502    794206.00   414972.8  3606340  1077637.50</span></span>
-<span><span class="co">#&gt; Chem_100003926    195750.56 37969402.1  2501828   138604.70</span></span>
-<span><span class="co">#&gt; Chem_100006374     92700.81  1132143.0 31216882    34001.17</span></span>
-<span><span class="co">#&gt; Chem_100008903 107571936.00 85426888.0 53107852 80095704.00</span></span></code></pre></div>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; Chem_100009217   211262.5    431295.3   135226.5   230266.2</span></span>
+<span><span class="co">#&gt;                   P101012    P101013    P101016     P101017</span></span>
+<span><span class="co">#&gt; Chem_100002945 51222064.0 77550128.0 30949554.0  26923596.0</span></span>
+<span><span class="co">#&gt; Chem_100002356  5996555.0 11367511.0  3874736.8   2817151.0</span></span>
+<span><span class="co">#&gt; Chem_100021502   598491.0   438885.6  1625844.8    566466.9</span></span>
+<span><span class="co">#&gt; Chem_100020519 41630497.4 38062663.5 37906237.4    134190.9</span></span>
+<span><span class="co">#&gt; Chem_100008903 69473744.0 80567352.0 98766592.0 129547656.0</span></span>
+<span><span class="co">#&gt; Chem_100009217   163974.4   162897.1   276264.6    375196.6</span></span>
+<span><span class="co">#&gt;                    P101018     P101019     P101021</span></span>
+<span><span class="co">#&gt; Chem_100002945  56720032.0 27956064.00  48723600.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   8029728.0  3766663.75   5174967.0</span></span>
+<span><span class="co">#&gt; Chem_100021502    427850.6   519559.00   1301591.2</span></span>
+<span><span class="co">#&gt; Chem_100020519  42499104.2    76295.75  42311221.7</span></span>
+<span><span class="co">#&gt; Chem_100008903 118271584.0 37880820.00 163868720.0</span></span>
+<span><span class="co">#&gt; Chem_100009217    538405.4   197953.11    242844.1</span></span>
+<span><span class="co">#&gt;                    P101022    P101024     P101025</span></span>
+<span><span class="co">#&gt; Chem_100002945  16282054.0 77028824.0  32022342.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   1746182.9  5519105.5   2557365.0</span></span>
+<span><span class="co">#&gt; Chem_100021502   1474247.4   970475.8    628680.1</span></span>
+<span><span class="co">#&gt; Chem_100020519    227035.0 46791052.6    105729.3</span></span>
+<span><span class="co">#&gt; Chem_100008903 106189520.0 71475920.0 147776592.0</span></span>
+<span><span class="co">#&gt; Chem_100009217    447587.9   145823.4   1936915.5</span></span>
+<span><span class="co">#&gt;                    P101027     P101030     P101031</span></span>
+<span><span class="co">#&gt; Chem_100002945  22589448.0  38449788.0 59134052.00</span></span>
+<span><span class="co">#&gt; Chem_100002356   1882902.6   2860324.2  4721201.00</span></span>
+<span><span class="co">#&gt; Chem_100021502    635516.6    367246.8   512037.88</span></span>
+<span><span class="co">#&gt; Chem_100020519  34947895.5    563855.2    73751.73</span></span>
+<span><span class="co">#&gt; Chem_100008903 127571792.0 128319128.0 90447848.00</span></span>
+<span><span class="co">#&gt; Chem_100009217    322639.6    381134.2   180923.18</span></span>
+<span><span class="co">#&gt;                   P101038      P101041     P101042</span></span>
+<span><span class="co">#&gt; Chem_100002945 32038030.0  20833830.00 33809080.00</span></span>
+<span><span class="co">#&gt; Chem_100002356  4011627.5   2938779.00  3017260.50</span></span>
+<span><span class="co">#&gt; Chem_100021502   852000.1    634488.56  1680135.75</span></span>
+<span><span class="co">#&gt; Chem_100020519 39731812.0     69179.21    54615.88</span></span>
+<span><span class="co">#&gt; Chem_100008903 46622592.0 111919096.00 89762056.00</span></span>
+<span><span class="co">#&gt; Chem_100009217   165989.5    288088.38   143925.16</span></span>
+<span><span class="co">#&gt;                   P101047     P101050    P101051    P101052</span></span>
+<span><span class="co">#&gt; Chem_100002945 18637508.0  21978476.0 24265162.0 52203780.0</span></span>
+<span><span class="co">#&gt; Chem_100002356  1935144.1   2897211.0  2476279.5  5928454.0</span></span>
+<span><span class="co">#&gt; Chem_100021502   326005.6    316650.2   737202.9   459385.9</span></span>
+<span><span class="co">#&gt; Chem_100020519 32613708.2    114410.1 37838221.5    46874.5</span></span>
+<span><span class="co">#&gt; Chem_100008903 97617984.0 112900000.0 71779912.0 64008512.0</span></span>
+<span><span class="co">#&gt; Chem_100009217   112179.6    222175.4   171262.0   247185.3</span></span>
+<span><span class="co">#&gt;                     P101054    P101056     P101057</span></span>
+<span><span class="co">#&gt; Chem_100002945  12836384.00 18546636.0 32301820.00</span></span>
+<span><span class="co">#&gt; Chem_100002356   1685760.62  1650011.0  3419157.75</span></span>
+<span><span class="co">#&gt; Chem_100021502    346176.59   585470.2   417958.47</span></span>
+<span><span class="co">#&gt; Chem_100020519     30365.21 38736455.6    71663.52</span></span>
+<span><span class="co">#&gt; Chem_100008903 111279888.00 68771592.0 77140264.00</span></span>
+<span><span class="co">#&gt; Chem_100009217    371306.81   208351.8   254912.39</span></span>
+<span><span class="co">#&gt;                    P101059    P101061    P101062</span></span>
+<span><span class="co">#&gt; Chem_100002945  22645984.0 23683254.0 29027646.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   2196044.2  3217499.2  4060367.8</span></span>
+<span><span class="co">#&gt; Chem_100021502    734586.3   337035.7   982299.4</span></span>
+<span><span class="co">#&gt; Chem_100020519  36536202.5    76462.0   381492.1</span></span>
+<span><span class="co">#&gt; Chem_100008903 113564872.0 96143304.0 98940424.0</span></span>
+<span><span class="co">#&gt; Chem_100009217    416259.6   210019.8   325386.6</span></span>
+<span><span class="co">#&gt;                    P101064    P101065    P101067    P101068</span></span>
+<span><span class="co">#&gt; Chem_100002945  32629048.0 22950806.0 33555116.0 44283972.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   3031529.5  2467147.2  3567913.2  6525382.0</span></span>
+<span><span class="co">#&gt; Chem_100021502   1255148.0   637699.1   284516.1   664800.1</span></span>
+<span><span class="co">#&gt; Chem_100020519  45286478.1   284125.7 36110812.5    62530.2</span></span>
+<span><span class="co">#&gt; Chem_100008903 108473368.0 86418592.0 95236288.0 71289048.0</span></span>
+<span><span class="co">#&gt; Chem_100009217    380257.6   217008.5   149385.6   121522.4</span></span>
+<span><span class="co">#&gt;                    P101069     P101071     P101072</span></span>
+<span><span class="co">#&gt; Chem_100002945 52685972.00  32415040.0  34170948.0</span></span>
+<span><span class="co">#&gt; Chem_100002356  3984333.50   3001414.5   4679519.0</span></span>
+<span><span class="co">#&gt; Chem_100021502   684813.56    596846.1    316855.0</span></span>
+<span><span class="co">#&gt; Chem_100020519 43167938.82  39401928.6    679952.5</span></span>
+<span><span class="co">#&gt; Chem_100008903 74526792.00 115519872.0 127401592.0</span></span>
+<span><span class="co">#&gt; Chem_100009217    99392.66    301355.7    590274.3</span></span>
+<span><span class="co">#&gt;                    P101074    P101075    P101076</span></span>
+<span><span class="co">#&gt; Chem_100002945  22550616.0 22058076.0 24455466.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   2529255.5  2583265.5  3515218.2</span></span>
+<span><span class="co">#&gt; Chem_100021502    646136.8   198381.7   255897.7</span></span>
+<span><span class="co">#&gt; Chem_100020519    794265.5 34178910.4 34191985.0</span></span>
+<span><span class="co">#&gt; Chem_100008903 108255040.0 83989120.0 77315256.0</span></span>
+<span><span class="co">#&gt; Chem_100009217    199429.7   179174.6   204990.0</span></span>
+<span><span class="co">#&gt;                    P101077    P101079      P101080</span></span>
+<span><span class="co">#&gt; Chem_100002945  25225170.0 15718590.0  29120336.00</span></span>
+<span><span class="co">#&gt; Chem_100002356   3272875.0  2449462.5   2695001.50</span></span>
+<span><span class="co">#&gt; Chem_100021502    547243.4   508791.6   1256550.25</span></span>
+<span><span class="co">#&gt; Chem_100020519  36872901.0 34413781.2     21754.81</span></span>
+<span><span class="co">#&gt; Chem_100008903 158257952.0 78587928.0 163246832.00</span></span>
+<span><span class="co">#&gt; Chem_100009217    767403.1   375777.7    514687.62</span></span>
+<span><span class="co">#&gt;                    P101081     P101082    P101084</span></span>
+<span><span class="co">#&gt; Chem_100002945  65904836.0  22908578.0 29140440.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   6474709.5   2110243.8  3648091.2</span></span>
+<span><span class="co">#&gt; Chem_100021502    339909.3    596292.2   497300.8</span></span>
+<span><span class="co">#&gt; Chem_100020519  43467600.3  37345671.1 41948877.2</span></span>
+<span><span class="co">#&gt; Chem_100008903 124678488.0 100435064.0 86139200.0</span></span>
+<span><span class="co">#&gt; Chem_100009217    360975.7    197618.8   293438.9</span></span>
+<span><span class="co">#&gt;                     P101085     P101088     P101090</span></span>
+<span><span class="co">#&gt; Chem_100002945  20427124.00  29199012.0  24042020.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   3253531.75   4154170.8   2396959.8</span></span>
+<span><span class="co">#&gt; Chem_100021502    309859.31    601515.1    794206.0</span></span>
+<span><span class="co">#&gt; Chem_100020519     33125.69  33254196.5  44136149.0</span></span>
+<span><span class="co">#&gt; Chem_100008903 103513520.00 101921248.0 107571936.0</span></span>
+<span><span class="co">#&gt; Chem_100009217    238898.77    347081.2    352560.8</span></span>
+<span><span class="co">#&gt;                    P101094    P101095    P101096</span></span>
+<span><span class="co">#&gt; Chem_100002945 36910084.00 35662068.0 66402192.0</span></span>
+<span><span class="co">#&gt; Chem_100002356  4759584.50  3452283.2  6374383.0</span></span>
+<span><span class="co">#&gt; Chem_100021502   414972.84  3606340.5  1077637.5</span></span>
+<span><span class="co">#&gt; Chem_100020519    62620.58 53485540.7   118264.1</span></span>
+<span><span class="co">#&gt; Chem_100008903 85426888.00 53107852.0 80095704.0</span></span>
+<span><span class="co">#&gt; Chem_100009217   168247.59   202723.2   121388.2</span></span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">se_scale</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   P101001    P101003    P101004    P101007</span></span>
-<span><span class="co">#&gt; Chem_100002945  1.0352530  0.8022245  0.5287223  1.1345806</span></span>
-<span><span class="co">#&gt; Chem_100002356  0.7964867  0.4236518  0.5100969  0.1763034</span></span>
-<span><span class="co">#&gt; Chem_100021502  0.3667356  0.9963356  0.8381937  0.1603873</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.9260238  1.0150047 -0.9829592 -0.9344836</span></span>
-<span><span class="co">#&gt; Chem_100006374 -0.3282765 -0.2477694 -1.5976231 -0.3033794</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.1340258  0.9524934  1.1566059 -1.0234336</span></span>
-<span><span class="co">#&gt;                   P101009   P101010     P101011     P101012</span></span>
-<span><span class="co">#&gt; Chem_100002945  1.2098781 2.4368530 -0.25932433  0.98301713</span></span>
-<span><span class="co">#&gt; Chem_100002356  1.5928115 2.3319697 -0.55871342  1.13741820</span></span>
-<span><span class="co">#&gt; Chem_100021502 -1.7072810 0.1820951 -0.18153413 -0.09553597</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.9592142 1.0120521 -0.98836467  0.94760943</span></span>
-<span><span class="co">#&gt; Chem_100006374  1.1409513 0.4006082  0.59972966 -1.11939214</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.8651826 0.0316684  0.01806948 -1.23088013</span></span>
-<span><span class="co">#&gt;                   P101013    P101016    P101017    P101018</span></span>
-<span><span class="co">#&gt; Chem_100002945  1.9773866  0.2445092 -0.7769678  0.9952247</span></span>
-<span><span class="co">#&gt; Chem_100002356  2.6520162  0.5209132 -0.8256078  1.6342299</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.6835305  2.0519972 -0.2892318 -0.8405736</span></span>
-<span><span class="co">#&gt; Chem_100003926 -1.3693811 -0.8961512  0.8743386 -1.1183248</span></span>
-<span><span class="co">#&gt; Chem_100006374 -0.1980384 -0.6125202  0.6382892  0.6523357</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.7868693  0.6700676  0.6021091  0.2009162</span></span>
-<span><span class="co">#&gt;                   P101019    P101021    P101022    P101024</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.1717822  1.0272959 -1.5783610  2.1992832</span></span>
-<span><span class="co">#&gt; Chem_100002356  0.3137503  0.9244495 -1.6039933  1.1055078</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.1569336  1.4287513  1.7387329  0.9048948</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.1759829  0.9780753  0.9960638 -1.2302936</span></span>
-<span><span class="co">#&gt; Chem_100006374 -0.4428047 -2.3257551  1.8752270 -0.3130781</span></span>
-<span><span class="co">#&gt; Chem_100008903 -2.7701660  1.8606091  0.6037392 -0.8664880</span></span>
+<span><span class="co">#&gt;                   P101001    P101003     P101004    P101007</span></span>
+<span><span class="co">#&gt; Chem_100002945  0.9740839 0.82722490  0.54069810  1.1175501</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.7439622 0.44514843  0.51923062  0.1652189</span></span>
+<span><span class="co">#&gt; Chem_100021502  0.3361192 1.01685867  0.84981529  0.1543976</span></span>
+<span><span class="co">#&gt; Chem_100020519  0.7893243 0.88185674  0.86429248  0.8209906</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.2105015 0.98249373  1.16462691 -1.0289293</span></span>
+<span><span class="co">#&gt; Chem_100009217 -1.1744384 0.06486435 -0.08030014 -0.5267971</span></span>
+<span><span class="co">#&gt;                   P101009    P101010     P101011    P101012</span></span>
+<span><span class="co">#&gt; Chem_100002945  1.2517217  2.5022363 -0.28512240  0.8697232</span></span>
+<span><span class="co">#&gt; Chem_100002356  1.6241547  2.3834181 -0.57819186  1.0377191</span></span>
+<span><span class="co">#&gt; Chem_100021502 -1.6888736  0.2245079 -0.19740765 -0.1564859</span></span>
+<span><span class="co">#&gt; Chem_100020519 -0.6911756  0.8852215  0.80351023  0.8016976</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.9216155  0.1329464 -0.02040594 -1.3652088</span></span>
+<span><span class="co">#&gt; Chem_100009217  1.1379632 -1.1409168 -0.17355537 -0.9787262</span></span>
+<span><span class="co">#&gt;                   P101013   P101016    P101017     P101018</span></span>
+<span><span class="co">#&gt; Chem_100002945  1.9415628 0.2610296 -0.8222773  0.90659183</span></span>
+<span><span class="co">#&gt; Chem_100002356  2.6131314 0.5328864 -0.8620340  1.55186452</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.7002836 2.0705424 -0.3181740 -0.88900692</span></span>
+<span><span class="co">#&gt; Chem_100020519  0.7781403 0.8571664 -1.1207790  0.78004318</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.8147331 0.6878912  0.5250066  0.08215168</span></span>
+<span><span class="co">#&gt; Chem_100009217 -0.9661504 0.4074253  0.5783060  1.22180054</span></span>
+<span><span class="co">#&gt;                   P101019     P101021    P101022    P101024</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.1269545  1.02297061 -1.5436069  2.1684949</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.3496964  0.91922524 -1.5714541  1.0815305</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.1321241  1.43426900  1.7629970  0.8964457</span></span>
+<span><span class="co">#&gt; Chem_100020519 -1.2551448  0.84418578 -0.8940949  0.8790548</span></span>
+<span><span class="co">#&gt; Chem_100008903 -2.6812613  1.84113102  0.6384746 -0.8853314</span></span>
+<span><span class="co">#&gt; Chem_100009217 -0.3297283 -0.05660497  1.2435672 -1.0565396</span></span>
 <span><span class="co">#&gt;                   P101025     P101027    P101030    P101031</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.7170456 -1.02723233  0.1340611  1.1183430</span></span>
-<span><span class="co">#&gt; Chem_100002356 -1.3652899 -1.64290059 -0.7648004  0.3744017</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.3094714  0.02824752 -1.0654335 -0.5019067</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.9015057  0.88730755  0.9411718  0.9505624</span></span>
-<span><span class="co">#&gt; Chem_100006374  0.7621170 -0.09027644  0.1969030 -0.6573763</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.5002896  0.82258751  0.6123267 -0.6576676</span></span>
-<span><span class="co">#&gt;                     P101038    P101041    P101042</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.251949636 -1.0576377 -0.1585733</span></span>
-<span><span class="co">#&gt; Chem_100002356  0.106477016 -0.4195314 -0.6144386</span></span>
-<span><span class="co">#&gt; Chem_100021502  0.511930973  0.1252108  1.7311868</span></span>
-<span><span class="co">#&gt; Chem_100003926 -0.583439819  0.9374671 -1.2880657</span></span>
-<span><span class="co">#&gt; Chem_100006374 -0.005679167  1.6087779 -1.4055442</span></span>
-<span><span class="co">#&gt; Chem_100008903 -2.650637279  0.6385076 -0.5345505</span></span>
-<span><span class="co">#&gt;                   P101047    P101050    P101051    P101052</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.8317793 -0.7603178 -0.8123316  0.9788158</span></span>
-<span><span class="co">#&gt; Chem_100002356 -1.0101313 -0.3138140 -0.9492068  1.0659561</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.8198983 -1.0650921  0.3224270 -0.6086387</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.9638655 -1.1296612 -0.9514294 -1.0854994</span></span>
-<span><span class="co">#&gt; Chem_100006374 -0.5562315 -1.2634400 -0.6044128 -1.6589676</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.9227287  0.9079508 -1.0362060 -1.5725393</span></span>
-<span><span class="co">#&gt;                   P101054     P101056    P101057    P101059</span></span>
-<span><span class="co">#&gt; Chem_100002945 -2.3602500 -1.40933257  0.2802094 -0.8745733</span></span>
-<span><span class="co">#&gt; Chem_100002356 -1.8491937 -1.87229221  0.1541761 -1.1479955</span></span>
-<span><span class="co">#&gt; Chem_100021502 -1.0455350 -0.05900737 -0.5095793  0.3804228</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.8905154 -0.90758443 -0.9751496  0.9256456</span></span>
-<span><span class="co">#&gt; Chem_100006374  0.7964633  0.34542775 -0.5099030  1.3436812</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.4770848 -1.07544192 -0.2616146  0.6504943</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.7234522 -1.10562698  0.2685369  1.1747137</span></span>
+<span><span class="co">#&gt; Chem_100002356 -1.3654510 -1.70227674 -0.6487716  0.4233108</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.3158979 -0.02015547 -0.9953508 -0.4700293</span></span>
+<span><span class="co">#&gt; Chem_100020519 -1.2297176  0.74951972 -0.6214934 -1.3146825</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.4811386  0.69240294  0.7976943 -0.5673706</span></span>
+<span><span class="co">#&gt; Chem_100009217  3.5641930  0.37202357  0.7337713 -0.8127458</span></span>
+<span><span class="co">#&gt;                   P101038    P101041   P101042    P101047</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.2533704 -1.0361957 -0.117191 -0.7863007</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.1036342 -0.4027670 -0.576961 -0.9692608</span></span>
+<span><span class="co">#&gt; Chem_100021502  0.5125100  0.1357819  1.762747 -0.7990787</span></span>
+<span><span class="co">#&gt; Chem_100020519  0.7908642 -1.3038330 -1.407411  0.8373662</span></span>
+<span><span class="co">#&gt; Chem_100008903 -2.6260404  0.6562698 -0.471809  0.9740143</span></span>
+<span><span class="co">#&gt; Chem_100009217 -0.9357607  0.3094491 -1.213270 -1.2597774</span></span>
+<span><span class="co">#&gt;                   P101050    P101051    P101052    P101054</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.9451090 -0.8226985  1.0015802 -2.3071177</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.4729722 -0.9555507  1.0828391 -1.8022421</span></span>
+<span><span class="co">#&gt; Chem_100021502 -1.1737113  0.3155604 -0.5958842 -1.0243359</span></span>
+<span><span class="co">#&gt; Chem_100020519 -1.1387503  0.7907640 -1.4546449 -1.5861217</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.6240796 -1.0449659 -1.5195541  0.5363529</span></span>
+<span><span class="co">#&gt; Chem_100009217 -0.2269236 -0.8088834 -0.1285024  0.7680164</span></span>
+<span><span class="co">#&gt;                    P101056    P101057    P101059</span></span>
+<span><span class="co">#&gt; Chem_100002945 -1.35261285  0.2806074 -0.9038842</span></span>
+<span><span class="co">#&gt; Chem_100002356 -1.81961291  0.1545946 -1.1692502</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.02917051 -0.5103354  0.3623262</span></span>
+<span><span class="co">#&gt; Chem_100020519  0.81772883 -1.2721726  0.7915259</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.99166813 -0.2566097  0.5953241</span></span>
+<span><span class="co">#&gt; Chem_100009217 -0.34527377  0.1977154  0.9895909</span></span>
 <span><span class="co">#&gt;                    P101061    P101062     P101064</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.86302205 -0.1960373 -0.25176228</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.30709164  0.3946501 -0.60739755</span></span>
-<span><span class="co">#&gt; Chem_100021502 -1.11011506  0.9508551  1.19446253</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.88741722 -0.8140633 -1.24098709</span></span>
-<span><span class="co">#&gt; Chem_100006374  1.12923126  0.8868701 -0.55282125</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.04996025  0.2756856  0.08547022</span></span>
-<span><span class="co">#&gt;                    P101065     P101067     P101068</span></span>
-<span><span class="co">#&gt; Chem_100002945 -1.00028716  0.04190753  0.55883981</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.99990897 -0.02463981  1.28738374</span></span>
-<span><span class="co">#&gt; Chem_100021502  0.02726064 -1.40107378  0.06200926</span></span>
-<span><span class="co">#&gt; Chem_100003926 -1.35289747  0.91188389 -1.04077263</span></span>
-<span><span class="co">#&gt; Chem_100006374 -0.44565574  1.20223576  0.75881926</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.49001843 -0.02765153 -1.23120607</span></span>
-<span><span class="co">#&gt;                   P101069    P101071    P101072    P101074</span></span>
-<span><span class="co">#&gt; Chem_100002945  1.1363847 -0.1539833 -0.1338330 -0.6032395</span></span>
-<span><span class="co">#&gt; Chem_100002356  0.2186497 -0.5357357  0.4421407 -0.5663643</span></span>
-<span><span class="co">#&gt; Chem_100021502  0.1981715 -0.1008186 -1.3222647  0.3085900</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.9729458  0.9274769 -1.1868883 -1.2046560</span></span>
-<span><span class="co">#&gt; Chem_100006374 -0.3305847 -0.9475645  2.1439640  0.7479140</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.8839731  0.4577721  0.6234532  0.9026418</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.78283217 -0.1187707 -0.36664146</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.23988938  0.4580567 -0.70120369</span></span>
+<span><span class="co">#&gt; Chem_100021502 -1.07133286  1.0001958  1.12893125</span></span>
+<span><span class="co">#&gt; Chem_100020519 -1.27605404 -0.7209476  0.81271273</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.06045222  0.3815217 -0.08031662</span></span>
+<span><span class="co">#&gt; Chem_100009217 -0.35103632  0.6039617  0.59423942</span></span>
+<span><span class="co">#&gt;                     P101065     P101067    P101068</span></span>
+<span><span class="co">#&gt; Chem_100002945 -1.037827886  0.04986892  0.5567651</span></span>
+<span><span class="co">#&gt; Chem_100002356 -1.029622604 -0.01767997  1.2802493</span></span>
+<span><span class="co">#&gt; Chem_100021502  0.002941263 -1.40159529  0.0626458</span></span>
+<span><span class="co">#&gt; Chem_100020519 -0.853569566  0.78463002 -1.3616199</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.544948922 -0.01591840 -1.2176931</span></span>
+<span><span class="co">#&gt; Chem_100009217 -0.388395743 -1.03908536 -1.5406667</span></span>
+<span><span class="co">#&gt;                   P101069    P101071     P101072    P101074</span></span>
+<span><span class="co">#&gt; Chem_100002945  1.1519274 -0.2623495 -0.05846931 -0.5589310</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.2343719 -0.6241079  0.50386158 -0.5279354</span></span>
+<span><span class="co">#&gt; Chem_100021502  0.2106408 -0.1634176 -1.28624500  0.3344216</span></span>
+<span><span class="co">#&gt; Chem_100020519  0.8422053  0.7829082 -0.56260941 -0.4536275</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.8468372  0.2973236  0.72373366  0.9535485</span></span>
+<span><span class="co">#&gt; Chem_100009217 -1.8491604  0.2102133  1.57042884 -0.2553603</span></span>
 <span><span class="co">#&gt;                   P101075    P101076    P101077     P101079</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.6096986 -0.4646804 -0.9452529 -1.45554928</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.4731271  0.1817304 -0.4706079 -0.59814006</span></span>
-<span><span class="co">#&gt; Chem_100021502 -1.8548377 -1.4440338 -0.3563570 -0.10297538</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.9510074 -0.9975207 -1.1258550  0.95443779</span></span>
-<span><span class="co">#&gt; Chem_100006374 -1.2870920  0.7073782  1.0565772  0.24691914</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.1211337 -0.3204343  1.2541430 -0.09370249</span></span>
-<span><span class="co">#&gt;                   P101080    P101081    P101082     P101084</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.3943806  1.2536949 -0.1530308 -0.45600466</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.7743312  1.0215990 -0.6654876 -0.09619271</span></span>
-<span><span class="co">#&gt; Chem_100021502  1.2805276 -1.3190834  0.3977203 -0.45667728</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.9600522  0.9119706  1.0383495 -1.00235797</span></span>
-<span><span class="co">#&gt; Chem_100006374 -0.2933687 -0.5659474  0.3045384 -0.23034883</span></span>
-<span><span class="co">#&gt; Chem_100008903  1.6446463  0.2196810  1.2479789 -0.57045075</span></span>
-<span><span class="co">#&gt;                   P101085     P101088    P101090    P101094</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.7419778 0.165250333 -0.7104031  0.4402078</span></span>
-<span><span class="co">#&gt; Chem_100002356  0.1437899 0.749122851 -0.9229583  0.8118784</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.9932958 0.244379221  0.5329977 -0.6186507</span></span>
-<span><span class="co">#&gt; Chem_100003926  0.9272692 0.950823246 -0.9881785  0.9539193</span></span>
-<span><span class="co">#&gt; Chem_100006374  0.5782744 0.007128626 -1.3266452  0.1109197</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.9129208 0.872035828  0.4914493 -0.1640331</span></span>
-<span><span class="co">#&gt;                    P101095    P101096</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.01090871  1.5095675</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.27671101  1.1850421</span></span>
-<span><span class="co">#&gt; Chem_100021502  3.13878869  0.9160546</span></span>
-<span><span class="co">#&gt; Chem_100003926 -0.08993637 -1.1450579</span></span>
-<span><span class="co">#&gt; Chem_100006374  1.91765787 -1.9384430</span></span>
-<span><span class="co">#&gt; Chem_100008903 -2.25250840 -0.9179845</span></span></code></pre></div>
+<span><span class="co">#&gt; Chem_100002945 -0.6208129 -0.5189434 -0.9844017 -1.40995296</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.4821831  0.1321463 -0.5050074 -0.56095347</span></span>
+<span><span class="co">#&gt; Chem_100021502 -1.8688151 -1.4797874 -0.3824484 -0.08000600</span></span>
+<span><span class="co">#&gt; Chem_100020519  0.8174536  0.7960522  0.7465095  0.82805683</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.1000406 -0.3969652  1.1770896 -0.03557314</span></span>
+<span><span class="co">#&gt; Chem_100009217 -0.4716748 -0.2936844  1.9738683  1.03397089</span></span>
+<span><span class="co">#&gt;                   P101080    P101081    P101082    P101084</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.2958847  1.2825766 -0.2514720 -0.4920477</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.6889556  1.0447653 -0.7444940 -0.1282097</span></span>
+<span><span class="co">#&gt; Chem_100021502  1.3442630 -1.3055930  0.3414670 -0.4797617</span></span>
+<span><span class="co">#&gt; Chem_100020519 -1.6996330  0.7885115  0.8855985  0.8083433</span></span>
+<span><span class="co">#&gt; Chem_100008903  1.7686987  0.2646294  1.0915213 -0.6181955</span></span>
+<span><span class="co">#&gt; Chem_100009217  1.3976386  0.4475464 -0.1204858  0.1773034</span></span>
+<span><span class="co">#&gt;                   P101085   P101088    P101090     P101094</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.6313144 0.2158064 -0.7654694  0.51561925</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.2358675 0.7889269 -0.9665987  0.87346336</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.9366582 0.2750225  0.5005153 -0.57796313</span></span>
+<span><span class="co">#&gt; Chem_100020519 -1.5132510 0.8265572  0.8534852 -1.32613212</span></span>
+<span><span class="co">#&gt; Chem_100008903  1.0597282 0.9358758  0.4020679 -0.05459388</span></span>
+<span><span class="co">#&gt; Chem_100009217  0.2051870 0.9198017  0.6567680 -0.67953302</span></span>
+<span><span class="co">#&gt;                   P101095    P101096</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.1002824  1.5060342</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.3504164  1.1807792</span></span>
+<span><span class="co">#&gt; Chem_100021502  3.0926394  0.9213674</span></span>
+<span><span class="co">#&gt; Chem_100020519  0.8746233 -1.1534347</span></span>
+<span><span class="co">#&gt; Chem_100008903 -2.3502599 -0.9041545</span></span>
+<span><span class="co">#&gt; Chem_100009217 -0.6064045 -1.5692320</span></span></code></pre></div>
 </div>
-<div id="数据分布变化" class="section level2" number="6.9">
+<div id="数据分布变化" class="section level2" number="7.9">
 <h2>
-<span class="header-section-number">6.9</span> 数据分布变化<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E5%8F%98%E5%8C%96"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.9</span> 数据分布变化<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E5%8F%98%E5%8C%96"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li>函数来自于<strong>POMA</strong>包</li>
 </ul>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">POMABoxplots</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">data</span>,</span>
 <span>    <span class="va">group</span>,</span>
@@ -1263,7 +1264,7 @@
 <ul>
 <li>以样本为基点的代谢物数据分布情况（组间箱线图）</li>
 </ul>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pl_unnor</span> <span class="op">&lt;-</span> <span class="fu">POMABoxplots</span><span class="op">(</span>data <span class="op">=</span> <span class="va">se_impute</span>, group <span class="op">=</span> <span class="st">"LiverFatClass"</span>, </span>
 <span>                         feature_type <span class="op">=</span> <span class="st">"samples"</span>, jitter <span class="op">=</span> <span class="cn">FALSE</span>, show_number <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Not Normalized (imputation)"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1281,7 +1282,7 @@
 <span>                          feature_type <span class="op">=</span> <span class="st">"samples"</span>, jitter <span class="op">=</span> <span class="cn">FALSE</span>, show_number <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Normalized (Zscore)"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">pl_unnor</span>, <span class="va">pl_nor_log</span>, </span>
+<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">pl_unnor</span>, <span class="va">pl_nor_log</span>, </span>
 <span>                   <span class="va">pl_nor_rb</span>, <span class="va">pl_nor_zscore</span>, </span>
 <span>                   ncol <span class="op">=</span> <span class="fl">1</span>, align <span class="op">=</span> <span class="st">"v"</span>,</span>
 <span>                   labels <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
@@ -1289,7 +1290,7 @@
 <ul>
 <li>以代谢物为基点的代谢物数据分布情况（组间箱线图）</li>
 </ul>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pl_unnor</span> <span class="op">&lt;-</span> <span class="fu">POMADensity</span><span class="op">(</span>data <span class="op">=</span> <span class="va">se_impute</span>, group <span class="op">=</span> <span class="st">"LiverFatClass"</span>, feature_type <span class="op">=</span> <span class="st">"features"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Not Normalized"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="co"># data before normalization</span></span>
@@ -1303,7 +1304,7 @@
 <span><span class="va">pl_nor_zscore</span> <span class="op">&lt;-</span> <span class="fu">POMADensity</span><span class="op">(</span>data <span class="op">=</span> <span class="va">se_scale</span>, group <span class="op">=</span> <span class="st">"LiverFatClass"</span>, feature_type <span class="op">=</span> <span class="st">"features"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Normalized (Zscore)"</span><span class="op">)</span> <span class="co"># data after normalization</span></span>
 <span></span>
-<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">pl_unnor</span>, <span class="va">pl_nor_log</span>, </span>
+<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">pl_unnor</span>, <span class="va">pl_nor_log</span>, </span>
 <span>                   <span class="va">pl_nor_rb</span>, <span class="va">pl_nor_zscore</span>, </span>
 <span>                   ncol <span class="op">=</span> <span class="fl">1</span>, align <span class="op">=</span> <span class="st">"v"</span>,</span>
 <span>                   labels <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
@@ -1311,7 +1312,7 @@
 <ul>
 <li>所有以代谢物为基点的数据分布</li>
 </ul>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">raw_pl</span> <span class="op">&lt;-</span> <span class="fu">get_distribution</span><span class="op">(</span>datset <span class="op">=</span> <span class="va">data_meta_new</span>, Type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span></span>
 <span><span class="va">check_pl</span> <span class="op">&lt;-</span> <span class="fu">get_distribution</span><span class="op">(</span>datset <span class="op">=</span> <span class="va">se_check</span>, Type <span class="op">=</span> <span class="st">"check"</span><span class="op">)</span></span>
 <span><span class="va">filter_pl</span> <span class="op">&lt;-</span> <span class="fu">get_distribution</span><span class="op">(</span>datset <span class="op">=</span> <span class="va">se_filter</span>, Type <span class="op">=</span> <span class="st">"filter"</span><span class="op">)</span></span>
@@ -1320,7 +1321,7 @@
 <span><span class="va">norm_relative_pl</span> <span class="op">&lt;-</span> <span class="fu">get_distribution</span><span class="op">(</span>datset <span class="op">=</span> <span class="va">se_norm</span>, Type <span class="op">=</span> <span class="st">"norm_relative"</span><span class="op">)</span></span>
 <span><span class="va">norm_scale_pl</span> <span class="op">&lt;-</span> <span class="fu">get_distribution</span><span class="op">(</span>datset <span class="op">=</span> <span class="va">se_scale</span>, Type <span class="op">=</span> <span class="st">"norm_scale"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">raw_pl</span>, <span class="va">check_pl</span>, </span>
+<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">raw_pl</span>, <span class="va">check_pl</span>, </span>
 <span>                   <span class="va">filter_pl</span>, <span class="va">impute_pl</span>, </span>
 <span>                   <span class="va">norm_log10_pl</span>, <span class="va">norm_relative_pl</span>,</span>
 <span>                   <span class="va">norm_scale_pl</span>,</span>
@@ -1335,11 +1336,11 @@
 <li><p>Zscore是跨样本针对特征归一化其，数据分布呈现标准正态分布</p></li>
 </ul>
 </div>
-<div id="保存数据-1" class="section level2" number="6.10">
+<div id="保存数据-1" class="section level2" number="7.10">
 <h2>
-<span class="header-section-number">6.10</span> 保存数据<a class="anchor" aria-label="anchor" href="#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.10</span> 保存数据<a class="anchor" aria-label="anchor" href="#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE-1"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span><span class="op">(</span><span class="st">"./InputData/result/QC"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"./InputData/result/QC"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -1353,18 +1354,18 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_norm</span>, <span class="st">"./InputData/result/QC/se_norm.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_scale</span>, <span class="st">"./InputData/result/QC/se_scale.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="总结-2" class="section level2" number="6.11">
+<div id="总结-2" class="section level2" number="7.11">
 <h2>
-<span class="header-section-number">6.11</span> 总结<a class="anchor" aria-label="anchor" href="#%E6%80%BB%E7%BB%93-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.11</span> 总结<a class="anchor" aria-label="anchor" href="#%E6%80%BB%E7%BB%93-2"><i class="fas fa-link"></i></a>
 </h2>
 <p>数据预处理是代谢组分析较为重要的步骤，通常建议使用log+zscore的方法对数据归一化处理，用于后续的统计分析，但看到有关文章在计算Log2FoldChange的时候使用原始intensity值计算。</p>
 </div>
-<div id="session-info-1" class="section level2" number="6.12">
+<div id="session-info-1" class="section level2" number="7.12">
 <h2>
-<span class="header-section-number">6.12</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.12</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-1"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
 <span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
@@ -1375,7 +1376,7 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2023-12-05</span></span>
+<span><span class="co">#&gt;  date     2023-12-06</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
@@ -1539,33 +1540,33 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
 </div>
-<div id="reference-4" class="section level2" number="6.13">
+<div id="reference-5" class="section level2" number="7.13">
 <h2>
-<span class="header-section-number">6.13</span> Reference<a class="anchor" aria-label="anchor" href="#reference-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.13</span> Reference<a class="anchor" aria-label="anchor" href="#reference-5"><i class="fas fa-link"></i></a>
 </h2>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></div>
-<div class="next"><a href="DimensionReduction.html"><span class="header-section-number">7</span> Dimension Reduction</a></div>
+<div class="prev"><a href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></div>
+<div class="next"><a href="DimensionReduction.html"><span class="header-section-number">8</span> Dimension Reduction</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#dataprocessing"><span class="header-section-number">6</span> Data Processing</a></li>
-<li><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="header-section-number">6.1</span> 处理流程</a></li>
-<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-2"><span class="header-section-number">6.2</span> 加载R包</a></li>
-<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-1"><span class="header-section-number">6.3</span> 导入数据</a></li>
-<li><a class="nav-link" href="#%E6%9E%84%E5%BB%BAqc%E6%A0%B7%E6%9C%AC"><span class="header-section-number">6.4</span> 构建QC样本</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4"><span class="header-section-number">6.5</span> 数据过滤</a></li>
-<li><a class="nav-link" href="#%E8%A1%A5%E7%BC%BA%E5%A4%B1%E5%80%BC"><span class="header-section-number">6.6</span> 补缺失值</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4-1"><span class="header-section-number">6.7</span> 数据过滤</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96"><span class="header-section-number">6.8</span> 数据标准化</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E5%8F%98%E5%8C%96"><span class="header-section-number">6.9</span> 数据分布变化</a></li>
-<li><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE-1"><span class="header-section-number">6.10</span> 保存数据</a></li>
-<li><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="header-section-number">6.11</span> 总结</a></li>
-<li><a class="nav-link" href="#session-info-1"><span class="header-section-number">6.12</span> Session info</a></li>
-<li><a class="nav-link" href="#reference-4"><span class="header-section-number">6.13</span> Reference</a></li>
+<li><a class="nav-link" href="#dataprocessing"><span class="header-section-number">7</span> Data Processing</a></li>
+<li><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="header-section-number">7.1</span> 处理流程</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-3"><span class="header-section-number">7.2</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-2"><span class="header-section-number">7.3</span> 导入数据</a></li>
+<li><a class="nav-link" href="#%E6%9E%84%E5%BB%BAqc%E6%A0%B7%E6%9C%AC"><span class="header-section-number">7.4</span> 构建QC样本</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4"><span class="header-section-number">7.5</span> 数据过滤</a></li>
+<li><a class="nav-link" href="#%E8%A1%A5%E7%BC%BA%E5%A4%B1%E5%80%BC"><span class="header-section-number">7.6</span> 补缺失值</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4-1"><span class="header-section-number">7.7</span> 数据过滤</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96"><span class="header-section-number">7.8</span> 数据标准化</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E5%8F%98%E5%8C%96"><span class="header-section-number">7.9</span> 数据分布变化</a></li>
+<li><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE-1"><span class="header-section-number">7.10</span> 保存数据</a></li>
+<li><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="header-section-number">7.11</span> 总结</a></li>
+<li><a class="nav-link" href="#session-info-1"><span class="header-section-number">7.12</span> Session info</a></li>
+<li><a class="nav-link" href="#reference-5"><span class="header-section-number">7.13</span> Reference</a></li>
 </ul>
 
       <div class="book-extra">
@@ -1583,7 +1584,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-05.</p>
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

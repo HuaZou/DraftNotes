@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 6 Linear Model on Microbial Community | 生物信息随记</title>
+<meta name="author" content="Hua Zou">
+<meta name="description" content="在微生物研究中，通常会使用基于距离矩阵的置换检验（如PERMANOVA）判断环境因素和微生物群落结构的相关性关系。本文使用另一套分析方法计算环境因素对微生物群落差异和微生物相对丰度差异的贡献，它使用到的是： 相关性分析：计算环境因素和各个物种相对丰度的相关性大小； 多元线性回归分析：计算主要的环境因素对各个物种相对丰度的贡献（\(R^2\)）；...">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="Chapter 6 Linear Model on Microbial Community | 生物信息随记">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://zouhua.top/DraftNotes/LinearModelonMicrobialCommunity.html">
+<meta property="og:description" content="在微生物研究中，通常会使用基于距离矩阵的置换检验（如PERMANOVA）判断环境因素和微生物群落结构的相关性关系。本文使用另一套分析方法计算环境因素对微生物群落差异和微生物相对丰度差异的贡献，它使用到的是： 相关性分析：计算环境因素和各个物种相对丰度的相关性大小； 多元线性回归分析：计算主要的环境因素对各个物种相对丰度的贡献（\(R^2\)）；...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 6 Linear Model on Microbial Community | 生物信息随记">
+<meta name="twitter:description" content="在微生物研究中，通常会使用基于距离矩阵的置换检验（如PERMANOVA）判断环境因素和微生物群落结构的相关性关系。本文使用另一套分析方法计算环境因素对微生物群落差异和微生物相对丰度差异的贡献，它使用到的是： 相关性分析：计算环境因素和各个物种相对丰度的相关性大小； 多元线性回归分析：计算主要的环境因素对各个物种相对丰度的贡献（\(R^2\)）；...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">生物信息随记</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> 介绍</a></li>
+<li class="book-part">Data Set</li>
+<li><a class="" href="ZeybelDataset.html"><span class="header-section-number">2</span> Zeybel Dataset</a></li>
+<li class="book-part">Statistical Methods</li>
+<li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
+<li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
+<li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li><a class="active" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
+<li class="book-part">Metabolomics Data Analysis</li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">8</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">9</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">10</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">11</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">12</span> Other Analysis</a></li>
+<li class="book-part">Machine Learning</li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">13</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">14</span> XGBoost Algorithm</a></li>
+<li class="book-part">Knowledge</li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">15</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">16</span> Notes</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/HuaZou/DraftNotes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="LinearModelonMicrobialCommunity" class="section level1" number="6">
+<h1>
+<span class="header-section-number">6</span> Linear Model on Microbial Community<a class="anchor" aria-label="anchor" href="#LinearModelonMicrobialCommunity"><i class="fas fa-link"></i></a>
+</h1>
+<p>在微生物研究中，通常会使用基于距离矩阵的置换检验（如PERMANOVA）判断环境因素和微生物群落结构的相关性关系。本文使用另一套分析方法计算环境因素对微生物群落差异和微生物相对丰度差异的贡献，它使用到的是：</p>
+<ul>
+<li><p>相关性分析：计算环境因素和各个物种相对丰度的相关性大小；</p></li>
+<li><p>多元线性回归分析：计算主要的环境因素对各个物种相对丰度的贡献（<span class="math inline">\(R^2\)</span>）；</p></li>
+<li><p>拆分线性回归的总体贡献：计算每一个环境因素对各个物种相对丰度的重要程度（类似方差解分析）。</p></li>
+</ul>
+<p>本文为了确定影响微生物（肠道和口腔）群落差异和微生物相对丰度差异的人体特征变量。</p>
+<p><strong>声明</strong>：本文参考了小白鱼的《仿一篇文献的相关性分析和线性模型评估影响群落组成的重要环境变量》。</p>
+<div id="加载r包-2" class="section level2" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-2"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://dx.plos.org/10.1371/journal.pone.0061217">phyloseq</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/topepo/caret/">caret</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">leaps</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://prof.bht-berlin.de/groemping/relaimpo/">relaimpo</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># rm(list = ls())</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>future.globals.maxSize <span class="op">=</span> <span class="fl">1000</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="导入数据-1" class="section level2" number="6.2">
+<h2>
+<span class="header-section-number">6.2</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>对数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel%20et%20al.%20-%202022.xlsx">OmicsDataSet-Zeybel et al. - 2022.xlsx</a>处理后生成的，可参考数据生成和预处理章节。</p>
+<ul>
+<li><p>ps_gut：来自宿主肠道微生物组 (见<a href="https://zouhua.top/DraftNotes/ZeybelDataset.html">Zeybel Dataset</a>章节)</p></li>
+<li><p>ps_oral：来自宿主肠道微生物组 (见<a href="https://zouhua.top/DraftNotes/ZeybelDataset.html">Zeybel Dataset</a>章节)</p></li>
+</ul>
+<blockquote>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">ps_gut</span>, <span class="st">"./InputData/result/Zeybel_2022_gut_MGS_ps.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">ps_ora</span>, <span class="st">"./InputData/result/Zeybel_2022_oral_MGS_ps.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</blockquote>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ps_gut</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"./InputData/result/Zeybel_2022_gut_MGS_ps.RDS"</span><span class="op">)</span></span>
+<span><span class="va">ps_oral</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"./InputData/result/Zeybel_2022_oral_MGS_ps.RDS"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="数据准备" class="section level2" number="6.3">
+<h2>
+<span class="header-section-number">6.3</span> 数据准备<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>人体特征指标：如Liver_fat, Creatinine, Body_mass_index等</p></li>
+<li><p>门水平微生物表达谱：phylum levels</p></li>
+</ul>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">meta_gut</span> <span class="op">&lt;-</span> <span class="va">ps_gut</span><span class="op">@</span><span class="va">sam_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">meta_oral</span> <span class="op">&lt;-</span> <span class="va">ps_oral</span><span class="op">@</span><span class="va">sam_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">6</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">meta_gut</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">meta_oral</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># remotes::install_github("HuaZou/MicrobiomeAnalysis")</span></span>
+<span><span class="va">prof_gut</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/aggregate_taxa.html">aggregate_taxa</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">ps_gut</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"Phylum"</span><span class="op">)</span></span>
+<span><span class="va">prof_gut</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/trim_prevalence.html">trim_prevalence</a></span><span class="op">(</span></span>
+<span>  object <span class="op">=</span> <span class="va">prof_gut</span>,</span>
+<span>  cutoff <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  trim <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span></span>
+<span><span class="va">prof_gut</span> <span class="op">&lt;-</span> <span class="va">prof_gut</span><span class="op">@</span><span class="va">otu_table</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">prof_gut_final</span> <span class="op">&lt;-</span> <span class="va">prof_gut</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof_gut</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">prof_oral</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/aggregate_taxa.html">aggregate_taxa</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">ps_oral</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"Phylum"</span><span class="op">)</span></span>
+<span><span class="va">prof_oral</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/trim_prevalence.html">trim_prevalence</a></span><span class="op">(</span></span>
+<span>  object <span class="op">=</span> <span class="va">prof_oral</span>,</span>
+<span>  cutoff <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  trim <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span></span>
+<span><span class="va">prof_oral</span> <span class="op">&lt;-</span> <span class="va">prof_oral</span><span class="op">@</span><span class="va">otu_table</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">prof_oral_final</span> <span class="op">&lt;-</span> <span class="va">prof_oral</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof_oral</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">meta_final</span> <span class="op">&lt;-</span> <span class="va">meta_oral</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">meta_oral</span><span class="op">)</span><span class="op">)</span>, ,<span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">ps_gut</span>, <span class="va">ps_oral</span>, <span class="va">meta_gut</span>, <span class="va">meta_oral</span>, <span class="va">sid</span>, <span class="va">prof_gut</span>, <span class="va">prof_oral</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="相关性分析" class="section level2" number="6.4">
+<h2>
+<span class="header-section-number">6.4</span> 相关性分析<a class="anchor" aria-label="anchor" href="#%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90"><i class="fas fa-link"></i></a>
+</h2>
+<p>人体特征和物种相关性分析，分别计算每个人体特征和各个物种丰度的相关系数（采用spearman相关系数）。</p>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">run_cor</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
+<span>    <span class="va">data_sam</span>,</span>
+<span>    <span class="va">data_otu</span>,</span>
+<span>    <span class="va">columns</span>  <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    <span class="va">method</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"spearman"</span>, <span class="st">"pearson"</span>, <span class="st">"kendall"</span><span class="op">)</span>,</span>
+<span>    <span class="va">p_adjust</span> <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>  <span class="co"># data_sam = meta_final</span></span>
+<span>  <span class="co"># data_otu = prof_gut_final</span></span>
+<span>  <span class="co"># columns = NULL</span></span>
+<span>  <span class="co"># method = "spearman"</span></span>
+<span>  <span class="co"># p_adjust = "BH"</span></span>
+<span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">method</span> <span class="op">&lt;-</span> <span class="st">"spearman"</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">method</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.arg.html">match.arg</a></span><span class="op">(</span></span>
+<span>      <span class="va">method</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"spearman"</span>, <span class="st">"pearson"</span>, <span class="st">"kendall"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="co"># p_adjust</span></span>
+<span>  <span class="va">p_adjust</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.arg.html">match.arg</a></span><span class="op">(</span><span class="va">p_adjust</span>,</span>
+<span>                        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"fdr"</span>, <span class="st">"bonferroni"</span>, <span class="st">"holm"</span>,</span>
+<span>                          <span class="st">"hochberg"</span>, <span class="st">"hommel"</span>, <span class="st">"BH"</span>, <span class="st">"BY"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">interset_sampleid</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">data_otu_interset</span> <span class="op">&lt;-</span> <span class="va">data_otu</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">interset_sampleid</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">data_sam_interset</span> <span class="op">&lt;-</span> <span class="va">data_sam</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">data_sam_interset_final</span> <span class="op">&lt;-</span> <span class="va">data_sam_interset</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">interset_sampleid</span>, </span>
+<span>                                                      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset</span><span class="op">)</span><span class="op">)</span>, , <span class="cn">F</span><span class="op">]</span></span>
+<span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu_interset</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset_final</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"The order of SampleID is wrong, please check your inputdata"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="va">sam_tab</span> <span class="op">&lt;-</span> <span class="va">data_sam_interset_final</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"TempRowNames"</span><span class="op">)</span></span>
+<span>  <span class="va">otu_tab_t</span> <span class="op">&lt;-</span> <span class="va">data_otu_interset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># columns for test</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">columns</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">sam_tab</span> <span class="op">&lt;-</span> <span class="va">sam_tab</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempRowNames"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">columns</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">sam_tab</span> <span class="op">&lt;-</span> <span class="va">sam_tab</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempRowNames"</span><span class="op">)</span>    </span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"The order of SampleID is wrong, please check your input"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="co"># calculate the association between individual taxa and factors</span></span>
+<span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co"># whether all the elements are numeric</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Please check your input, values in "</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,<span class="st">" are not numeric"</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>    <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="va">mdat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">sam_tab</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span>,</span>
+<span>                         y<span class="op">=</span><span class="va">otu_tab_t</span><span class="op">[</span>, <span class="va">j</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>      <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span><span class="op">(</span><span class="va">mdat</span><span class="op">$</span><span class="va">x</span>, <span class="va">mdat</span><span class="op">$</span><span class="va">y</span>, method <span class="op">=</span> <span class="va">method</span><span class="op">)</span></span>
+<span>      <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Phenotype<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span>
+<span>                         FeatureID<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">[</span><span class="va">j</span><span class="op">]</span>,</span>
+<span>                         Statistic<span class="op">=</span><span class="va">fit</span><span class="op">$</span><span class="va">statistic</span>,</span>
+<span>                         Rho<span class="op">=</span><span class="va">fit</span><span class="op">$</span><span class="va">estimate</span>,</span>
+<span>                         Pvalue<span class="op">=</span><span class="va">fit</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span></span>
+<span>      <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">temp</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="va">res</span><span class="op">$</span><span class="va">AdjustedPvalue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html">p.adjust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">Pvalue</span><span class="op">)</span>, method <span class="op">=</span> <span class="va">p_adjust</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">gut_corres</span> <span class="op">&lt;-</span> <span class="fu">run_cor</span><span class="op">(</span></span>
+<span>  data_sam <span class="op">=</span> <span class="va">meta_final</span>,</span>
+<span>  data_otu <span class="op">=</span> <span class="va">prof_gut_final</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">oral_corres</span> <span class="op">&lt;-</span> <span class="fu">run_cor</span><span class="op">(</span></span>
+<span>  data_sam <span class="op">=</span> <span class="va">meta_final</span>,</span>
+<span>  data_otu <span class="op">=</span> <span class="va">prof_oral_final</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="线性回归的解释度" class="section level2" number="6.5">
+<h2>
+<span class="header-section-number">6.5</span> 线性回归的解释度<a class="anchor" aria-label="anchor" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9A%84%E8%A7%A3%E9%87%8A%E5%BA%A6"><i class="fas fa-link"></i></a>
+</h2>
+<p>人体特征指标对各个物种的贡献度可通过多元线性回归分析，即物种作为Y响应变量，人体特征作为X变量，通过回归的<span class="math inline">\(R^2\)</span>解析总解释度。</p>
+<p>人体指标可能存在共线性的情况，可以在线性回归计算时候选择前向或后向回归方式筛选重要的变量。两种方法对结果影响较大，可能会得到大相径庭的结果。</p>
+<ul>
+<li><p>“leapForward”: 前向逐步回归 (forward selection)</p></li>
+<li><p>“leapBackward”: 后向逐步回归 (backward selection)</p></li>
+<li><p>“leapSeq”: 逐步回归 (stepwise selection)</p></li>
+</ul>
+<div id="通过前向选择环境变量的分析思路" class="section level3" number="6.5.1">
+<h3>
+<span class="header-section-number">6.5.1</span> 通过前向选择环境变量的分析思路<a class="anchor" aria-label="anchor" href="#%E9%80%9A%E8%BF%87%E5%89%8D%E5%90%91%E9%80%89%E6%8B%A9%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF"><i class="fas fa-link"></i></a>
+</h3>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li><p>通过前向逐步回归，在所有人体特征筛选重要的变量，尽可能减少人体特征共线性以获取简约模型，又同时尽可能保证模型的总解释率不要损失很多；</p></li>
+<li><p>使用选择的人体特征，分别拟合与每个物种丰度的多元线性回归，以期通过人体特征来解释物种丰度组成的差异；</p></li>
+<li><p>对于在第（2）步中获得的最优模型，提取它们的总解释率（即线性模型的R2或校正后的R2）等信息；</p></li>
+<li><p>对于在第（2）步中获得的最优模型，通过类似方差分解分析的方法，评估主要的人体特征对于物种丰度总方差的贡献，实现定量分析主要的人体特征相对重要性的目的。</p></li>
+</ol>
+</blockquote>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">run_lm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
+<span>    <span class="va">data_sam</span>,</span>
+<span>    <span class="va">data_otu</span>,</span>
+<span>    <span class="va">columns</span>  <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    <span class="va">method</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"leapForward"</span>, <span class="st">"leapBackward"</span>, <span class="st">"leapSeq"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>  <span class="co"># data_sam = meta_final</span></span>
+<span>  <span class="co"># data_otu = prof_gut_final</span></span>
+<span>  <span class="co"># columns = NULL</span></span>
+<span>  <span class="co"># method = "leapForward"</span></span>
+<span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">method</span> <span class="op">&lt;-</span> <span class="st">"leapForward"</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">method</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.arg.html">match.arg</a></span><span class="op">(</span></span>
+<span>      <span class="va">method</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"leapForward"</span>, <span class="st">"leapBackward"</span>, <span class="st">"leapSeq"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="va">interset_sampleid</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">data_otu_interset</span> <span class="op">&lt;-</span> <span class="va">data_otu</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">interset_sampleid</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">data_sam_interset</span> <span class="op">&lt;-</span> <span class="va">data_sam</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">data_sam_interset_final</span> <span class="op">&lt;-</span> <span class="va">data_sam_interset</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">interset_sampleid</span>, </span>
+<span>                                                      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset</span><span class="op">)</span><span class="op">)</span>, , <span class="cn">F</span><span class="op">]</span></span>
+<span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu_interset</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset_final</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"The order of SampleID is wrong, please check your inputdata"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="va">sam_tab</span> <span class="op">&lt;-</span> <span class="va">data_sam_interset_final</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"TempRowNames"</span><span class="op">)</span></span>
+<span>  <span class="va">otu_tab_t</span> <span class="op">&lt;-</span> <span class="va">data_otu_interset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># columns for test</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">columns</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">sam_tab</span> <span class="op">&lt;-</span> <span class="va">sam_tab</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempRowNames"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">columns</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">sam_tab</span> <span class="op">&lt;-</span> <span class="va">sam_tab</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempRowNames"</span><span class="op">)</span>    </span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"The order of SampleID is wrong, please check your input"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="va">LM_func</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dat</span>, <span class="va">feature_name</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    </span>
+<span>    <span class="va">feature</span> <span class="op">&lt;-</span> <span class="va">feature_name</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Taxa"</span></span>
+<span>    </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="co"># 变量选择</span></span>
+<span>    <span class="va">train.control</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/caret/man/trainControl.html">trainControl</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"cv"</span>, number <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span>    <span class="va">step.model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/caret/man/train.html">train</a></span><span class="op">(</span><span class="va">Taxa</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">dat</span>,</span>
+<span>                        method <span class="op">=</span> <span class="st">"leapBackward"</span>, </span>
+<span>                        tuneGrid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>nvmax <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span>
+<span>                        trControl <span class="op">=</span> <span class="va">train.control</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">model.coef</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">step.model</span><span class="op">$</span><span class="va">finalModel</span>, <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">step.model</span><span class="op">$</span><span class="va">bestTune</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="va">final_index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">model.coef</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
+<span>    </span>
+<span>    <span class="co"># 基于上述选择的变量，使用 lm()拟合变量与各物种丰度的多元线性回归，获取最优模型</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">final_index</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="va">result_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>FeatureID <span class="op">=</span> <span class="va">feature</span>,</span>
+<span>                                 R2 <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>                                 AdjustedR2 <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>                                 Pvalue <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span>      <span class="va">result_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TempID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>                                 Value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">feature</span><span class="op">)</span></span>
+<span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>      <span class="va">dat_new</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Taxa"</span>, <span class="va">final_index</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="va">lm_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Taxa</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">dat_new</span><span class="op">)</span></span>
+<span>      <span class="va">lm_stat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_fit</span><span class="op">)</span></span>
+<span>      <span class="va">R2</span> <span class="op">&lt;-</span> <span class="va">lm_stat</span><span class="op">$</span><span class="va">r.squared</span> </span>
+<span>      <span class="va">adjR2</span> <span class="op">&lt;-</span> <span class="va">lm_stat</span><span class="op">$</span><span class="va">adj.r.squared</span> </span>
+<span>      <span class="va">fvalue</span> <span class="op">&lt;-</span> <span class="va">lm_stat</span><span class="op">$</span><span class="va">fstatistic</span> </span>
+<span>      <span class="va">Pvalue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Fdist.html">pf</a></span><span class="op">(</span><span class="va">fvalue</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">fvalue</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">fvalue</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
+<span>      </span>
+<span>      <span class="va">result_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>FeatureID <span class="op">=</span> <span class="va">feature</span>,</span>
+<span>                                 R2 <span class="op">=</span> <span class="va">R2</span>,</span>
+<span>                                 AdjustedR2 <span class="op">=</span> <span class="va">adjR2</span>,</span>
+<span>                                 Pvalue <span class="op">=</span> <span class="va">Pvalue</span><span class="op">)</span></span>
+<span>      </span>
+<span>      <span class="co"># 多元线性回归（已通过变量选择后的最优模型）中各环境变量的相对重要性</span></span>
+<span>      <span class="va">error</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span></span>
+<span>        expr <span class="op">=</span> <span class="op">{</span></span>
+<span>          <span class="va">crf</span> <span class="op">&lt;-</span> <span class="fu">relaimpo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/relaimpo/man/calc.relimp.html">calc.relimp</a></span><span class="op">(</span><span class="va">lm_fit</span>, rela <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>        <span class="op">}</span>,</span>
+<span>        error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">{</span></span>
+<span>          <span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span><span class="op">(</span><span class="st">'calc.relimp Caught an error!'</span><span class="op">)</span></span>
+<span>          <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span></span>
+<span>        <span class="op">}</span></span>
+<span>      <span class="op">)</span></span>
+<span>      </span>
+<span>      <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">error</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="va">result_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TempID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>                                     Value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">feature</span><span class="op">)</span>  </span>
+<span>      <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>        <span class="va">temp_import</span> <span class="op">&lt;-</span> <span class="va">crf</span><span class="op">@</span><span class="va">lmg</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>          <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>          <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">feature</span><span class="op">)</span></span>
+<span>        <span class="va">temp_import_NA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TempID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">final_index</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                                     Value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>          <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>          <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">feature</span><span class="op">)</span></span>
+<span>        </span>
+<span>        <span class="va">result_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">temp_import</span>, <span class="va">temp_import_NA</span><span class="op">)</span>        </span>
+<span>      <span class="op">}</span></span>
+<span>    <span class="op">}</span></span>
+<span>    </span>
+<span>    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">result_model</span>,</span>
+<span>                import <span class="op">=</span> <span class="va">result_import</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>  </span>
+<span>  </span>
+<span></span>
+<span>  <span class="va">res_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="va">res_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    </span>
+<span>    <span class="va">mdat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">[</span>, <span class="va">i</span>, <span class="op">]</span>, <span class="va">sam_tab</span><span class="op">)</span></span>
+<span>    <span class="va">featureID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>    </span>
+<span>    <span class="va">temp_list</span> <span class="op">&lt;-</span> <span class="fu">LM_func</span><span class="op">(</span>dat <span class="op">=</span> <span class="va">mdat</span>, feature_name <span class="op">=</span> <span class="va">featureID</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">res_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">res_model</span>, <span class="va">temp_list</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span>
+<span>    <span class="va">res_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">res_import</span>, <span class="va">temp_list</span><span class="op">$</span><span class="va">import</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">res_model</span>,</span>
+<span>              import <span class="op">=</span> <span class="va">res_import</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">gut_LM</span> <span class="op">&lt;-</span> <span class="fu">run_lm</span><span class="op">(</span></span>
+<span>  data_sam <span class="op">=</span> <span class="va">meta_final</span>,</span>
+<span>  data_otu <span class="op">=</span> <span class="va">prof_gut_final</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"leapBackward"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
+<span></span>
+<span><span class="va">oral_LM</span> <span class="op">&lt;-</span> <span class="fu">run_lm</span><span class="op">(</span></span>
+<span>  data_sam <span class="op">=</span> <span class="va">meta_final</span>,</span>
+<span>  data_otu <span class="op">=</span> <span class="va">prof_oral_final</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"leapBackward"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span></code></pre></div>
+</div>
+</div>
+<div id="可视化结果" class="section level2" number="6.6">
+<h2>
+<span class="header-section-number">6.6</span> 可视化结果<a class="anchor" aria-label="anchor" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E7%BB%93%E6%9E%9C"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>热图的颜色表示相关系数大小；</p></li>
+<li><p>柱状图表示人体特征变量对物种丰度差异的变异度解释；</p></li>
+<li><p>热图的圆圈大小表示人体特征变量对物种的贡献程度大小。</p></li>
+</ul>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">get_LM_plot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">datCor</span>, <span class="va">datLM</span><span class="op">)</span>  <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">dat_cor</span> <span class="op">&lt;-</span> <span class="va">datCor</span></span>
+<span>  <span class="va">dat_cor</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">dat_cor</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&lt;</span> <span class="fl">0.001</span><span class="op">)</span>, <span class="st">"siglabel"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"***"</span></span>
+<span>  <span class="va">dat_cor</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">dat_cor</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&lt;</span> <span class="fl">0.01</span> <span class="op">&amp;</span> <span class="va">dat_cor</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&gt;</span> <span class="fl">0.001</span><span class="op">)</span>, <span class="st">"siglabel"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"**"</span></span>
+<span>  <span class="va">dat_cor</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">dat_cor</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="op">&amp;</span> <span class="va">dat_cor</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&gt;</span> <span class="fl">0.01</span><span class="op">)</span>, <span class="st">"siglabel"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"*"</span></span>
+<span>  </span>
+<span>  <span class="va">dat_LM</span> <span class="op">&lt;-</span> <span class="va">datLM</span></span>
+<span>  <span class="va">dat_LM_R2</span> <span class="op">&lt;-</span> <span class="va">dat_LM</span><span class="op">$</span><span class="va">model</span></span>
+<span>  <span class="va">dat_LM_import</span> <span class="op">&lt;-</span> <span class="va">dat_LM</span><span class="op">$</span><span class="va">import</span></span>
+<span>  </span>
+<span>  <span class="va">dat_LM_R2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">dat_LM_R2</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&lt;</span> <span class="fl">0.001</span><span class="op">)</span>, <span class="st">"siglabel"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"***"</span></span>
+<span>  <span class="va">dat_LM_R2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">dat_LM_R2</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&lt;</span> <span class="fl">0.01</span> <span class="op">&amp;</span> <span class="va">dat_LM_R2</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&gt;</span> <span class="fl">0.001</span><span class="op">)</span>, <span class="st">"siglabel"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"**"</span></span>
+<span>  <span class="va">dat_LM_R2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">dat_LM_R2</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="op">&amp;</span> <span class="va">dat_LM_R2</span><span class="op">$</span><span class="va">Pvalue</span> <span class="op">&gt;</span> <span class="fl">0.01</span><span class="op">)</span>, <span class="st">"siglabel"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"*"</span></span>
+<span>  </span>
+<span>  <span class="va">dat_LM_import_final</span> <span class="op">&lt;-</span> <span class="va">dat_LM_import</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"Phenotype"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"FeatureID"</span>, value <span class="op">=</span> <span class="st">"importance"</span>, <span class="op">-</span><span class="va">Phenotype</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat_cor</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FeatureID</span>, y <span class="op">=</span> <span class="va">Phenotype</span>, fill <span class="op">=</span> <span class="va">Rho</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_fill_gradientn</a></span><span class="op">(</span>colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#2D6DB1"</span>, <span class="st">"white"</span>, <span class="st">"#DC1623"</span><span class="op">)</span>, limit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_x_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_y_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat_cor</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FeatureID</span>, y <span class="op">=</span> <span class="va">Phenotype</span>, label <span class="op">=</span> <span class="va">siglabel</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat_LM_import_final</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FeatureID</span>, y <span class="op">=</span> <span class="va">Phenotype</span>, size <span class="op">=</span> <span class="va">importance</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size_continuous</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">"Correlation"</span>, size <span class="op">=</span> <span class="st">"Importance (%)"</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>order <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>           size <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>order <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>          panel.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span>, </span>
+<span>          legend.key <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>          axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span>, angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>          axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span>, </span>
+<span>          axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  </span>
+<span>  <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat_LM_R2</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FeatureID</span>, y <span class="op">=</span> <span class="va">R2</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>, fill <span class="op">=</span> <span class="st">"#4882B2"</span>, width <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Explained variation (%)"</span>, x <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          panel.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span>, angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>          axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span>,</span>
+<span>          axis.line <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span>,</span>
+<span>          axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  </span>
+<span>  <span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, ncol <span class="op">=</span> <span class="fl">2</span>, align <span class="op">=</span> <span class="st">"h"</span>, rel_widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">pl</span><span class="op">)</span>  </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span><span class="op">(</span></span>
+<span>  <span class="fu">get_LM_plot</span><span class="op">(</span>datCor <span class="op">=</span> <span class="va">gut_corres</span>, datLM <span class="op">=</span> <span class="va">gut_LM</span><span class="op">)</span>,</span>
+<span>  <span class="fu">get_LM_plot</span><span class="op">(</span>datCor <span class="op">=</span> <span class="va">oral_corres</span>, datLM <span class="op">=</span> <span class="va">oral_LM</span><span class="op">)</span>,</span>
+<span>  ncol <span class="op">=</span> <span class="fl">1</span>, align <span class="op">=</span> <span class="st">"hv"</span>, labels <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="13-Statistics_LMFeature_files/figure-html/unnamed-chunk-7-1.png" width="100%"></div>
+<p>结果：<em>基于相关性和最优多元回归模型的人体特征指标差异对微生物群落差异和微生物门相对丰度差异的贡献。热图表示了人体特征指标和微生物的Spearman相关系数，柱形图表示了人体指标对解释微生物变异的总贡献（通过多元线性回归获得），圆圈大小表示人体指标的重要性（通过多元线性回归和方差分解分析获得）</em>。</p>
+<ul>
+<li><p>A图是肠道微生物和人体特征变量的结果；B图是口腔微生物和人体特征变量的结果；</p></li>
+<li><p>肠道微生物和口腔微生物与人体特征变量相关性差异较大，人体特征变量对口腔微生物相对丰度差异共享度较大，Liver fat和Sodium对口腔的Bacterodies, Firmicutes和Proteobacteria物种差异和相对丰度差异有较大贡献，而肠道仅Urea_BUN对Actinobacteria物种差异和相对丰度有较大贡献；</p></li>
+<li><p>人体特征变量对微生物群落解释度差异在肠道和口腔也存在较大差异。在口腔解释度最高的是Proteobacteria，而在肠道则是Actinobacteria。</p></li>
+</ul>
+</div>
+<div id="systemic-information-3" class="section level2" number="6.7">
+<h2>
+<span class="header-section-number">6.7</span> Systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-3"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  setting  value</span></span>
+<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
+<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  ui       X11</span></span>
+<span><span class="co">#&gt;  language (EN)</span></span>
+<span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
+<span><span class="co">#&gt;  date     2023-12-06</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  package              * version    date (UTC) lib source</span></span>
+<span><span class="co">#&gt;  ade4                   1.7-22     2023-02-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ANCOMBC                1.4.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  annotate               1.72.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  AnnotationDbi          1.60.2     2023-03-10 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ape                    5.7-1      2023-03-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Biobase                2.54.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocGenerics           0.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocParallel           1.28.3     2021-12-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  biomformat             1.22.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  Biostrings             2.62.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  bit                    4.0.5      2022-11-15 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bit64                  4.0.5      2020-08-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  bitops                 1.0-7      2021-04-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  blob                   1.2.4      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bookdown               0.34       2023-05-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  boot                 * 1.3-28.1   2022-11-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bslib                  0.6.0      2023-11-21 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  cachem                 1.0.8      2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  callr                  3.7.3      2022-11-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  caret                * 6.0-94     2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  caTools                1.18.2     2021-03-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  class                  7.3-22     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cli                    3.6.1      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cluster                2.1.4      2022-08-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  codetools              0.2-19     2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  colorspace             2.1-0      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  corpcor                1.6.10     2021-09-16 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  cowplot                1.1.1      2020-12-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  crayon                 1.5.2      2022-09-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  data.table             1.14.8     2023-02-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DBI                    1.1.3      2022-06-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DelayedArray           0.20.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  DESeq2                 1.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  devtools               2.4.5      2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  digest                 0.6.33     2023-07-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  downlit                0.4.3      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  dplyr                * 1.1.2      2023-04-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ellipsis               0.3.2      2021-04-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  evaluate               0.21       2023-05-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fansi                  1.0.4      2023-01-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  farver                 2.1.1      2022-07-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmap                1.1.1      2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  forcats              * 1.0.0      2023-01-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  foreach                1.5.2      2022-02-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fs                     1.6.2      2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  future                 1.33.0     2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  future.apply           1.11.0     2023-05-21 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  genefilter             1.76.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  geneplotter            1.72.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  generics               0.1.3      2022-07-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  GenomeInfoDb           1.30.1     2022-01-30 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomeInfoDbData       1.2.7      2022-03-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomicRanges          1.46.1     2021-11-18 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ggplot2              * 3.4.2      2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glmnet                 4.1-7      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  globals                0.16.2     2022-11-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glue                   1.6.2      2022-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gower                  1.0.1      2022-12-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gplots                 3.1.3      2022-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtable                 0.3.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtools                 3.9.4      2022-11-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hardhat                1.3.0      2023-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  highr                  0.10       2022-12-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hms                    1.1.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmltools              0.5.7      2023-11-03 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  htmlwidgets            1.6.2      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  httpuv                 1.6.11     2023-05-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  httr                   1.4.6      2023-05-08 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  igraph                 1.5.0      2023-06-16 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  ipred                  0.9-14     2023-03-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  IRanges                2.28.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  iterators              1.0.14     2022-02-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  jquerylib              0.1.4      2021-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  jsonlite               1.8.7      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  KEGGREST               1.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  KernSmooth             2.23-22    2023-07-10 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  knitr                  1.43       2023-05-25 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  labeling               0.4.2      2020-10-20 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  later                  1.3.1      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lattice              * 0.21-8     2023-04-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lava                   1.7.2.1    2023-02-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  leaps                * 3.1        2020-01-16 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  lifecycle              1.0.3      2022-10-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  limma                  3.50.3     2022-04-07 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  listenv                0.9.0      2022-12-16 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  locfit                 1.5-9.8    2023-06-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  lubridate            * 1.9.2      2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  magrittr               2.0.3      2022-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  MASS                 * 7.3-60     2023-05-04 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Matrix               * 1.6-0      2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  MatrixGenerics         1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  matrixStats            1.0.0      2023-06-02 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  memoise                2.0.1      2021-11-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  metagenomeSeq          1.36.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  mgcv                   1.8-42     2023-03-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  microbiome             1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  MicrobiomeAnalysis     1.0.3      2023-12-02 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  mime                   0.12       2021-09-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  miniUI                 0.1.1.1    2018-05-18 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mitools              * 2.4        2019-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ModelMetrics           1.2.2.2    2020-03-17 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  multtest               2.50.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  munsell                0.5.0      2018-06-12 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  nlme                   3.1-162    2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  nloptr                 2.0.3      2022-05-26 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  nnet                   7.3-19     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  parallelly             1.36.0     2023-05-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  permute                0.9-7      2022-01-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  phyloseq             * 1.38.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  pillar                 1.9.0      2023-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pkgbuild               1.4.2      2023-06-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pkgconfig              2.0.3      2019-09-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pkgload                1.3.2.1    2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  plyr                   1.8.8      2022-11-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  png                    0.1-8      2022-11-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  prettyunits            1.1.1      2020-01-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pROC                   1.18.4     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  processx               3.8.2      2023-06-30 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  prodlim                2023.03.31 2023-04-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  profvis                0.3.8      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  promises               1.2.0.1    2021-02-11 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ps                     1.7.5      2023-04-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr                * 1.0.1      2023-01-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  R6                     2.5.1      2021-08-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rbibutils              2.2.13     2023-01-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  RColorBrewer           1.1-3      2022-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Rcpp                   1.0.11     2023-07-06 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  RCurl                  1.98-1.12  2023-03-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Rdpack                 2.4        2022-07-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  readr                * 2.1.4      2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  recipes                1.0.6      2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  relaimpo             * 2.2-7      2023-10-04 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  remotes                2.4.2      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  reshape2               1.4.4      2020-04-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rhdf5                  2.38.1     2022-03-10 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rhdf5filters           1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  Rhdf5lib               1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rlang                  1.1.1      2023-04-28 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rmarkdown              2.23       2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  rpart                  4.1.19     2022-10-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  RSQLite                2.3.1      2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rstudioapi             0.15.0     2023-07-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  Rtsne                  0.16       2022-04-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  S4Vectors              0.32.4     2022-03-29 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sass                   0.4.6      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scales                 1.2.1      2022-08-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sessioninfo            1.2.2      2021-12-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shape                  1.4.6      2021-05-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shiny                  1.7.4.1    2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  stringi                1.7.12     2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr              * 1.5.0      2022-12-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  SummarizedExperiment   1.24.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  survey               * 4.2-1      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  survival             * 3.5-5      2023-03-12 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tibble               * 3.2.1      2023-03-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr                * 1.3.0      2023-01-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyselect             1.2.0      2022-10-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyverse            * 2.0.0      2023-02-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timechange             0.2.0      2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timeDate               4022.108   2023-01-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tzdb                   0.4.0      2023-05-12 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  urlchecker             1.0.1      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  usethis                2.2.2      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  utf8                   1.2.3      2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vctrs                  0.6.3      2023-06-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  vegan                  2.6-4      2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  withr                  2.5.0      2022-03-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Wrench                 1.12.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  xfun                   0.40       2023-08-09 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  XML                    3.99-0.14  2023-03-19 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xml2                   1.3.5      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xtable                 1.8-4      2019-04-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  XVector                0.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  yaml                   2.3.7      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  zlibbioc               1.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
+<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
+</div>
+<div id="reference-4" class="section level2" number="6.8">
+<h2>
+<span class="header-section-number">6.8</span> Reference<a class="anchor" aria-label="anchor" href="#reference-4"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>Balance between community assembly processes mediates species coexistence in agricultural soil microbiomes across eastern China</p></li>
+<li><p><a href="https://mp.weixin.qq.com/s/EP63-mi9GJSTRS35dQSgMw">仿一篇文献的相关性分析和线性模型评估影响群落组成的重要环境变量</a></p></li>
+<li><p><a href="http://www.sthda.com/english/articles/37-model-selection-essentials-in-r/154-stepwise-regression-essentials-in-r/">Stepwise Regression Essentials in R</a></p></li>
+</ul>
+</div>
+</div>
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></div>
+<div class="next"><a href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#LinearModelonMicrobialCommunity"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-2"><span class="header-section-number">6.1</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-1"><span class="header-section-number">6.2</span> 导入数据</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="header-section-number">6.3</span> 数据准备</a></li>
+<li><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90"><span class="header-section-number">6.4</span> 相关性分析</a></li>
+<li>
+<a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9A%84%E8%A7%A3%E9%87%8A%E5%BA%A6"><span class="header-section-number">6.5</span> 线性回归的解释度</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%89%8D%E5%90%91%E9%80%89%E6%8B%A9%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF"><span class="header-section-number">6.5.1</span> 通过前向选择环境变量的分析思路</a></li></ul>
+</li>
+<li><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E7%BB%93%E6%9E%9C"><span class="header-section-number">6.6</span> 可视化结果</a></li>
+<li><a class="nav-link" href="#systemic-information-3"><span class="header-section-number">6.7</span> Systemic information</a></li>
+<li><a class="nav-link" href="#reference-4"><span class="header-section-number">6.8</span> Reference</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/HuaZou/DraftNotes/blob/main/13-Statistics_LMFeature.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/HuaZou/DraftNotes/edit/main/13-Statistics_LMFeature.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-06.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

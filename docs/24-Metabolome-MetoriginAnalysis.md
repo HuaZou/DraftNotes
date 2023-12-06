@@ -56,66 +56,66 @@ datSignif <- data.table::fread("./InputData/result/DA/Metabolites_FC_VIP_ttest.t
 
 head(datSignif)
 #>                                         FeatureID
-#> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 1:                                         serine
 #> 2:                 cysteine-glutathione disulfide
-#> 3:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
-#> 4:                                         serine
+#> 3: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>            Block2                Block FoldChange
-#> 1: None vs Severe 10_None vs 12_Severe  0.6444244
+#> 1: None vs Severe 10_None vs 12_Severe  1.2218596
 #> 2: None vs Severe 10_None vs 12_Severe  1.7109000
-#> 3: None vs Severe 10_None vs 12_Severe  0.5199556
-#> 4: None vs Severe 10_None vs 12_Severe  1.2218596
+#> 3: None vs Severe 10_None vs 12_Severe  0.6444244
+#> 4: None vs Severe 10_None vs 12_Severe  0.5199556
 #> 5: None vs Severe 10_None vs 12_Severe  0.5667863
 #> 6: None vs Severe 10_None vs 12_Severe  0.5638085
 #>    Log2FoldChange      VIP    CorPvalue Statistic
-#> 1:     -0.6339170 2.680471 7.910566e-05 -4.875928
-#> 2:      0.7747554 2.615284 1.427798e-04  4.879864
-#> 3:     -0.9435396 2.535490 2.775095e-04 -4.333042
-#> 4:      0.2890785 2.490737 3.929470e-04  4.314434
-#> 5:     -0.8191231 2.489832 3.956533e-04 -4.144802
-#> 6:     -0.8267228 2.381443 8.605197e-04 -3.781278
+#> 1:      0.2890785 2.674591 8.999556e-05  4.942204
+#> 2:      0.7747554 2.634369 1.293340e-04  4.920901
+#> 3:     -0.6339170 2.669850 9.401183e-05 -4.778381
+#> 4:     -0.9435396 2.508350 3.635911e-04 -4.191446
+#> 5:     -0.8191231 2.448184 5.678387e-04 -3.981889
+#> 6:     -0.8267228 2.363792 1.015090e-03 -3.695956
 #>          Pvalue AdjustedPvalue Mean Abundance (All)
-#> 1: 0.0001197367     0.03975257              3841099
-#> 2: 0.0001073822     0.03975257              1246453
-#> 3: 0.0004066026     0.06749603              2243154
-#> 4: 0.0003379029     0.06749603             63358904
-#> 5: 0.0006948992     0.09228261              1817773
-#> 6: 0.0017211306     0.16326153              1192929
+#> 1: 7.940359e-05     0.03196511             63358904
+#> 2: 9.701095e-05     0.03196511              1246453
+#> 3: 1.607599e-04     0.03531358              3841099
+#> 4: 6.052272e-04     0.09971118              2243154
+#> 5: 1.026049e-03     0.13523331              1817773
+#> 6: 2.175833e-03     0.15931932              1192929
 #>    Mean Abundance None Mean Abundance Severe  metabolitesID
-#> 1:           2952496.1             4581602.1 Chem_100015755
+#> 1:          70323857.2            57554776.3       Chem_503
 #> 2:           1611743.8              942044.4 Chem_100001437
-#> 3:           1491869.7             2869225.1 Chem_100009066
-#> 4:          70323857.2            57554776.3       Chem_503
+#> 3:           2952496.1             4581602.1 Chem_100015755
+#> 4:           1491869.7             2869225.1 Chem_100009066
 #> 5:           1282914.5             2263488.8 Chem_100009181
 #> 6:            838913.8             1487941.0 Chem_100010917
 #>                                       BIOCHEMICAL
-#> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 1:                                         serine
 #> 2:                 cysteine-glutathione disulfide
-#> 3:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
-#> 4:                                         serine
+#> 3: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>    SUPER.PATHWAY                              SUB.PATHWAY
-#> 1:         Lipid                                Ceramides
+#> 1:    Amino Acid Glycine, Serine and Threonine Metabolism
 #> 2:    Amino Acid                   Glutathione Metabolism
-#> 3:         Lipid                Phosphatidylinositol (PI)
-#> 4:    Amino Acid Glycine, Serine and Threonine Metabolism
+#> 3:         Lipid                                Ceramides
+#> 4:         Lipid                Phosphatidylinositol (PI)
 #> 5:         Lipid                Phosphatidylinositol (PI)
 #> 6:         Lipid                           Diacylglycerol
 #>    COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM
-#> 1:  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 1:   1648 LC/MS Pos Early        503 1239 106.0499     5951
 #> 2:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
-#> 3:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
-#> 4:   1648 LC/MS Pos Early        503 1239 106.0499     5951
+#> 3:  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 4:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
 #> 5:  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
 #> 6:  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283
 #>           CAS   KEGG SampleIDHMDBID
-#> 1:       <NA>   <NA>           <NA>
+#> 1:    56-45-1 C00065    HMDB0000187
 #> 2: 13081-14-6 R00900    HMDB0000656
-#> 3:       <NA>   <NA>    HMDB0009783
-#> 4:    56-45-1 C00065    HMDB0000187
+#> 3:       <NA>   <NA>           <NA>
+#> 4:       <NA>   <NA>    HMDB0009783
 #> 5:       <NA>   <NA>           <NA>
 #> 6:       <NA> C13861    HMDB0007102
 ```
@@ -180,19 +180,19 @@ pre_data <- get_metabolites(
   
 head(pre_data)
 #>         HMDBID KEGGID
-#> 1: HMDB0000656 R00900
-#> 2: HMDB0009783   <NA>
-#> 3: HMDB0000187 C00065
+#> 1: HMDB0000187 C00065
+#> 2: HMDB0000656 R00900
+#> 3: HMDB0009783   <NA>
 #> 4: HMDB0007102 C13861
-#> 5: HMDB0004950   <NA>
-#> 6: HMDB0007102 C13861
+#> 5: HMDB0000177 C00135
+#> 6: HMDB0004950   <NA>
 #>                                          Name Diff
-#> 1:             cysteine-glutathione disulfide    1
-#> 2:      1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*    1
-#> 3:                                     serine    1
+#> 1:                                     serine    1
+#> 2:             cysteine-glutathione disulfide    1
+#> 3:      1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*    1
 #> 4: palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*    1
-#> 5:       N-stearoyl-sphingosine (d18:1/18:0)*    1
-#> 6: palmitoyl-oleoyl-glycerol (16:0/18:1) [1]*    1
+#> 5:                                  histidine    1
+#> 6:       N-stearoyl-sphingosine (d18:1/18:0)*    1
 ```
 
 
@@ -263,7 +263,7 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-05
+#>  date     2023-12-06
 #>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────

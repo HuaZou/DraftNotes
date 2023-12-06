@@ -69,66 +69,66 @@ datSignif <- data.table::fread("./InputData/result/DA/Metabolites_FC_VIP_ttest.t
 
 head(datSignif)
 #>                                         FeatureID
-#> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 1:                                         serine
 #> 2:                 cysteine-glutathione disulfide
-#> 3:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
-#> 4:                                         serine
+#> 3: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>            Block2                Block FoldChange
-#> 1: None vs Severe 10_None vs 12_Severe  0.6444244
+#> 1: None vs Severe 10_None vs 12_Severe  1.2218596
 #> 2: None vs Severe 10_None vs 12_Severe  1.7109000
-#> 3: None vs Severe 10_None vs 12_Severe  0.5199556
-#> 4: None vs Severe 10_None vs 12_Severe  1.2218596
+#> 3: None vs Severe 10_None vs 12_Severe  0.6444244
+#> 4: None vs Severe 10_None vs 12_Severe  0.5199556
 #> 5: None vs Severe 10_None vs 12_Severe  0.5667863
 #> 6: None vs Severe 10_None vs 12_Severe  0.5638085
 #>    Log2FoldChange      VIP    CorPvalue Statistic
-#> 1:     -0.6339170 2.680471 7.910566e-05 -4.875928
-#> 2:      0.7747554 2.615284 1.427798e-04  4.879864
-#> 3:     -0.9435396 2.535490 2.775095e-04 -4.333042
-#> 4:      0.2890785 2.490737 3.929470e-04  4.314434
-#> 5:     -0.8191231 2.489832 3.956533e-04 -4.144802
-#> 6:     -0.8267228 2.381443 8.605197e-04 -3.781278
+#> 1:      0.2890785 2.674591 8.999556e-05  4.942204
+#> 2:      0.7747554 2.634369 1.293340e-04  4.920901
+#> 3:     -0.6339170 2.669850 9.401183e-05 -4.778381
+#> 4:     -0.9435396 2.508350 3.635911e-04 -4.191446
+#> 5:     -0.8191231 2.448184 5.678387e-04 -3.981889
+#> 6:     -0.8267228 2.363792 1.015090e-03 -3.695956
 #>          Pvalue AdjustedPvalue Mean Abundance (All)
-#> 1: 0.0001197367     0.03975257              3841099
-#> 2: 0.0001073822     0.03975257              1246453
-#> 3: 0.0004066026     0.06749603              2243154
-#> 4: 0.0003379029     0.06749603             63358904
-#> 5: 0.0006948992     0.09228261              1817773
-#> 6: 0.0017211306     0.16326153              1192929
+#> 1: 7.940359e-05     0.03196511             63358904
+#> 2: 9.701095e-05     0.03196511              1246453
+#> 3: 1.607599e-04     0.03531358              3841099
+#> 4: 6.052272e-04     0.09971118              2243154
+#> 5: 1.026049e-03     0.13523331              1817773
+#> 6: 2.175833e-03     0.15931932              1192929
 #>    Mean Abundance None Mean Abundance Severe  metabolitesID
-#> 1:           2952496.1             4581602.1 Chem_100015755
+#> 1:          70323857.2            57554776.3       Chem_503
 #> 2:           1611743.8              942044.4 Chem_100001437
-#> 3:           1491869.7             2869225.1 Chem_100009066
-#> 4:          70323857.2            57554776.3       Chem_503
+#> 3:           2952496.1             4581602.1 Chem_100015755
+#> 4:           1491869.7             2869225.1 Chem_100009066
 #> 5:           1282914.5             2263488.8 Chem_100009181
 #> 6:            838913.8             1487941.0 Chem_100010917
 #>                                       BIOCHEMICAL
-#> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 1:                                         serine
 #> 2:                 cysteine-glutathione disulfide
-#> 3:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
-#> 4:                                         serine
+#> 3: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>    SUPER.PATHWAY                              SUB.PATHWAY
-#> 1:         Lipid                                Ceramides
+#> 1:    Amino Acid Glycine, Serine and Threonine Metabolism
 #> 2:    Amino Acid                   Glutathione Metabolism
-#> 3:         Lipid                Phosphatidylinositol (PI)
-#> 4:    Amino Acid Glycine, Serine and Threonine Metabolism
+#> 3:         Lipid                                Ceramides
+#> 4:         Lipid                Phosphatidylinositol (PI)
 #> 5:         Lipid                Phosphatidylinositol (PI)
 #> 6:         Lipid                           Diacylglycerol
 #>    COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM
-#> 1:  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 1:   1648 LC/MS Pos Early        503 1239 106.0499     5951
 #> 2:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
-#> 3:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
-#> 4:   1648 LC/MS Pos Early        503 1239 106.0499     5951
+#> 3:  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 4:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
 #> 5:  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
 #> 6:  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283
 #>           CAS   KEGG SampleIDHMDBID
-#> 1:       <NA>   <NA>           <NA>
+#> 1:    56-45-1 C00065    HMDB0000187
 #> 2: 13081-14-6 R00900    HMDB0000656
-#> 3:       <NA>   <NA>    HMDB0009783
-#> 4:    56-45-1 C00065    HMDB0000187
+#> 3:       <NA>   <NA>           <NA>
+#> 4:       <NA>   <NA>    HMDB0009783
 #> 5:       <NA>   <NA>           <NA>
 #> 6:       <NA> C13861    HMDB0007102
 ```
@@ -553,52 +553,52 @@ ORA_res <- get_enrichment(
   enrich_type = "ORA")
 
 head(ORA_res$enrich[, 1:6])
-#>                                                                                      ID
-#> Central carbon metabolism in cancer                 Central carbon metabolism in cancer
-#> Protein digestion and absorption                       Protein digestion and absorption
-#> Mineral absorption                                                   Mineral absorption
-#> ABC transporters                                                       ABC transporters
-#> Alanine, aspartate and glutamate metabolism Alanine, aspartate and glutamate metabolism
-#> Aminoacyl-tRNA biosynthesis                                 Aminoacyl-tRNA biosynthesis
-#>                                                                                    NAME
-#> Central carbon metabolism in cancer                 Central carbon metabolism in cancer
-#> Protein digestion and absorption                       Protein digestion and absorption
-#> Mineral absorption                                                   Mineral absorption
-#> ABC transporters                                                       ABC transporters
-#> Alanine, aspartate and glutamate metabolism Alanine, aspartate and glutamate metabolism
-#> Aminoacyl-tRNA biosynthesis                                 Aminoacyl-tRNA biosynthesis
-#>                                             CompoundRatio
-#> Central carbon metabolism in cancer                15/120
-#> Protein digestion and absorption                   14/120
-#> Mineral absorption                                 11/120
-#> ABC transporters                                   21/120
-#> Alanine, aspartate and glutamate metabolism        10/120
-#> Aminoacyl-tRNA biosynthesis                        12/120
-#>                                              BgRatio
-#> Central carbon metabolism in cancer          37/3527
-#> Protein digestion and absorption             47/3527
-#> Mineral absorption                           29/3527
-#> ABC transporters                            139/3527
-#> Alanine, aspartate and glutamate metabolism  28/3527
-#> Aminoacyl-tRNA biosynthesis                  52/3527
-#>                                                   pvalue
-#> Central carbon metabolism in cancer         1.961908e-13
-#> Protein digestion and absorption            1.725598e-10
-#> Mineral absorption                          9.220642e-10
-#> ABC transporters                            3.731938e-09
-#> Alanine, aspartate and glutamate metabolism 1.118132e-08
-#> Aminoacyl-tRNA biosynthesis                 9.049451e-08
-#>                                                 p.adjust
-#> Central carbon metabolism in cancer         2.216956e-11
-#> Protein digestion and absorption            9.749626e-09
-#> Mineral absorption                          3.473108e-08
-#> ABC transporters                            1.054273e-07
-#> Alanine, aspartate and glutamate metabolism 2.526978e-07
-#> Aminoacyl-tRNA biosynthesis                 1.704313e-06
+#>                                                                                ID
+#> Central carbon metabolism in cancer           Central carbon metabolism in cancer
+#> Protein digestion and absorption                 Protein digestion and absorption
+#> Mineral absorption                                             Mineral absorption
+#> ABC transporters                                                 ABC transporters
+#> Glycine, serine and threonine metabolism Glycine, serine and threonine metabolism
+#> Aminoacyl-tRNA biosynthesis                           Aminoacyl-tRNA biosynthesis
+#>                                                                              NAME
+#> Central carbon metabolism in cancer           Central carbon metabolism in cancer
+#> Protein digestion and absorption                 Protein digestion and absorption
+#> Mineral absorption                                             Mineral absorption
+#> ABC transporters                                                 ABC transporters
+#> Glycine, serine and threonine metabolism Glycine, serine and threonine metabolism
+#> Aminoacyl-tRNA biosynthesis                           Aminoacyl-tRNA biosynthesis
+#>                                          CompoundRatio
+#> Central carbon metabolism in cancer             14/116
+#> Protein digestion and absorption                13/116
+#> Mineral absorption                              10/116
+#> ABC transporters                                19/116
+#> Glycine, serine and threonine metabolism        11/116
+#> Aminoacyl-tRNA biosynthesis                     11/116
+#>                                           BgRatio
+#> Central carbon metabolism in cancer       37/3527
+#> Protein digestion and absorption          47/3527
+#> Mineral absorption                        29/3527
+#> ABC transporters                         139/3527
+#> Glycine, serine and threonine metabolism  48/3527
+#> Aminoacyl-tRNA biosynthesis               52/3527
+#>                                                pvalue
+#> Central carbon metabolism in cancer      2.548002e-12
+#> Protein digestion and absorption         1.472814e-09
+#> Mineral absorption                       1.189040e-08
+#> ABC transporters                         6.862861e-08
+#> Glycine, serine and threonine metabolism 2.451820e-07
+#> Aminoacyl-tRNA biosynthesis              5.864471e-07
+#>                                              p.adjust
+#> Central carbon metabolism in cancer      3.032123e-10
+#> Protein digestion and absorption         8.763245e-08
+#> Mineral absorption                       4.716527e-07
+#> ABC transporters                         2.041701e-06
+#> Glycine, serine and threonine metabolism 5.835331e-06
+#> Aminoacyl-tRNA biosynthesis              1.163120e-05
 ```
 
 
-结果：在设置提取差异代谢物阈值后，可以得知ORA结果下有113, 9条通路存在，再根据qvalue卡差异通路即可。
+结果：在设置提取差异代谢物阈值后，可以得知ORA结果下有119, 9条通路存在，再根据qvalue卡差异通路即可。
 
 + 差异代谢物涉及到的通路
 
@@ -795,25 +795,25 @@ ORA_res <- get_enrichment2(
 head(ORA_res$enrich[, 1:6])
 #>                   Group       ID
 #> map05230 None vs Severe map05230
-#> map01230 None vs Severe map01230
 #> map04974 None vs Severe map04974
 #> map02010 None vs Severe map02010
+#> map01230 None vs Severe map01230
 #> map04978 None vs Severe map04978
-#> map00232 None vs Severe map00232
+#> map00970 None vs Severe map00970
 #>                                         NAME CompoundRatio
-#> map05230 Central carbon metabolism in cancer        22/194
-#> map01230         Biosynthesis of amino acids        30/194
-#> map04974    Protein digestion and absorption        20/194
-#> map02010                    ABC transporters        30/194
-#> map04978                  Mineral absorption        14/194
-#> map00232                 Caffeine metabolism        12/194
+#> map05230 Central carbon metabolism in cancer        22/187
+#> map04974    Protein digestion and absorption        20/187
+#> map02010                    ABC transporters        30/187
+#> map01230         Biosynthesis of amino acids        29/187
+#> map04978                  Mineral absorption        14/187
+#> map00970         Aminoacyl-tRNA biosynthesis        16/187
 #>           BgRatio       pvalue
-#> map05230  37/6200 1.490629e-24
-#> map01230 128/6200 8.660270e-19
-#> map04974  47/6200 1.417856e-18
-#> map02010 137/6200 6.822555e-18
-#> map04978  29/6200 2.778055e-14
-#> map00232  22/6200 3.089770e-13
+#> map05230  37/6200 6.435005e-25
+#> map04974  47/6200 6.734812e-19
+#> map02010 137/6200 2.328324e-18
+#> map01230 128/6200 3.333986e-18
+#> map04978  29/6200 1.657128e-14
+#> map00970  52/6200 9.901016e-13
 ```
 
 
@@ -1150,27 +1150,27 @@ gsva_results <- gsva(
   verbose = FALSE)
 
 head(gsva_results[, 1:3])
-#>                                            P101001
-#> ABC transporters                        -0.1925503
-#> Aminoacyl-tRNA biosynthesis             -0.3693173
-#> Bile secretion                           0.1164858
-#> Biosynthesis of unsaturated fatty acids  0.3483619
-#> Central carbon metabolism in cancer     -0.3069527
-#> D-Amino acid metabolism                 -0.2644257
+#>                                             P101001
+#> ABC transporters                        -0.19785115
+#> Aminoacyl-tRNA biosynthesis             -0.44251397
+#> Bile secretion                           0.03246049
+#> Biosynthesis of unsaturated fatty acids  0.35044104
+#> Central carbon metabolism in cancer     -0.36554859
+#> D-Amino acid metabolism                 -0.28854465
 #>                                            P101003
-#> ABC transporters                        -0.4173781
-#> Aminoacyl-tRNA biosynthesis             -0.2766935
-#> Bile secretion                           0.2254191
-#> Biosynthesis of unsaturated fatty acids  0.6984551
-#> Central carbon metabolism in cancer     -0.3915451
-#> D-Amino acid metabolism                 -0.1532755
+#> ABC transporters                        -0.3661835
+#> Aminoacyl-tRNA biosynthesis             -0.2563757
+#> Bile secretion                           0.2198854
+#> Biosynthesis of unsaturated fatty acids  0.7072639
+#> Central carbon metabolism in cancer     -0.3726533
+#> D-Amino acid metabolism                 -0.1256066
 #>                                             P101004
-#> ABC transporters                         0.09969585
-#> Aminoacyl-tRNA biosynthesis              0.21009943
-#> Bile secretion                          -0.10503465
-#> Biosynthesis of unsaturated fatty acids  0.30231632
-#> Central carbon metabolism in cancer      0.16178854
-#> D-Amino acid metabolism                  0.06904998
+#> ABC transporters                         0.04724719
+#> Aminoacyl-tRNA biosynthesis              0.19184024
+#> Bile secretion                          -0.12492670
+#> Biosynthesis of unsaturated fatty acids  0.27476208
+#> Central carbon metabolism in cancer      0.15347909
+#> D-Amino acid metabolism                  0.03579754
 ```
 
 ### 可视化结果
@@ -1331,7 +1331,7 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-05
+#>  date     2023-12-06
 #>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────

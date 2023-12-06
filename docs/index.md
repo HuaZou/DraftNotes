@@ -1,7 +1,7 @@
 --- 
 title: "生物信息随记"
 author: "Hua Zou"
-date: "2023-08-24 and updated on 2023-12-05"
+date: "2023-08-24 and updated on 2023-12-06"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [assets/book.bib, assets/packages.bib]

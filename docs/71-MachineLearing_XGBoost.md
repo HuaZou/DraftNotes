@@ -299,7 +299,7 @@ x_train_select = x_train[selected_features]
 
 
 print("training dataset:", x_train_select.shape[0], "sampels;", x_train_select.shape[1], "features")
-#> training dataset: 398 sampels; 10 features
+#> training dataset: 398 sampels; 8 features
 ```
 
 
@@ -311,9 +311,9 @@ x_train_select = x_train[selected_features]
 x_test_select = x_test[selected_features]
 
 print("training dataset:", x_train_select.shape[0], "sampels;", x_train_select.shape[1], "features")
-#> training dataset: 398 sampels; 10 features
+#> training dataset: 398 sampels; 8 features
 print("test dataset:", x_test_select.shape[0], "sampels;", x_test_select.shape[1], "features")
-#> test dataset: 171 sampels; 10 features
+#> test dataset: 171 sampels; 8 features
 ```
 
 
@@ -525,7 +525,7 @@ bp0 = clf0.best_params_
 
 df.head()
 #>    mean_fit_time  std_fit_time  ...  mean_train_score  std_train_score
-#> 0       0.041672      0.012724  ...          0.998742         0.001779
+#> 0       0.023831      0.001426  ...          0.998742         0.001779
 #> 
 #> [1 rows x 56 columns]
 ```
@@ -627,7 +627,7 @@ for i, grid_key in enumerate(param_grid.keys()):
                          &#x27;max_cat_threshold&#x27;: [None],
                          &#x27;max_cat_to_onehot&#x27;: [None], &#x27;max_delta_step&#x27;: [None],
                          &#x27;max_depth&#x27;: [5], &#x27;max_leaves&#x27;: [None],
-                         &#x27;min_child_weight&#x27;: [1], &#x27;missing&#x27;: [nan],
+                         &#x27;min_child_weight&#x27;: [0], &#x27;missing&#x27;: [nan],
                          &#x27;monotone_constraints&#x27;: [None], &#x27;n_estimators&#x27;: [70],
                          &#x27;n_jobs&#x27;: [None], &#x27;num_parallel_tree&#x27;: [None],
                          &#x27;objective&#x27;: [&#x27;binary:logistic&#x27;], &#x27;predictor&#x27;: [None], ...},
@@ -646,7 +646,7 @@ for i, grid_key in enumerate(param_grid.keys()):
                          &#x27;max_cat_threshold&#x27;: [None],
                          &#x27;max_cat_to_onehot&#x27;: [None], &#x27;max_delta_step&#x27;: [None],
                          &#x27;max_depth&#x27;: [5], &#x27;max_leaves&#x27;: [None],
-                         &#x27;min_child_weight&#x27;: [1], &#x27;missing&#x27;: [nan],
+                         &#x27;min_child_weight&#x27;: [0], &#x27;missing&#x27;: [nan],
                          &#x27;monotone_constraints&#x27;: [None], &#x27;n_estimators&#x27;: [70],
                          &#x27;n_jobs&#x27;: [None], &#x27;num_parallel_tree&#x27;: [None],
                          &#x27;objective&#x27;: [&#x27;binary:logistic&#x27;], &#x27;predictor&#x27;: [None], ...},
@@ -680,7 +680,7 @@ for i, grid_key in enumerate(param_grid.keys()):
 
 ```python
 bp_gs
-#> {'base_score': None, 'booster': 'gbtree', 'callbacks': None, 'colsample_bylevel': None, 'colsample_bynode': None, 'colsample_bytree': 0.7, 'early_stopping_rounds': None, 'enable_categorical': False, 'eval_metric': 'auc', 'feature_types': None, 'gamma': 0, 'gpu_id': None, 'grow_policy': 'lossguide', 'importance_type': None, 'interaction_constraints': None, 'learning_rate': 0.01, 'max_bin': None, 'max_cat_threshold': None, 'max_cat_to_onehot': None, 'max_delta_step': None, 'max_depth': 5, 'max_leaves': None, 'min_child_weight': 1, 'missing': nan, 'monotone_constraints': None, 'n_estimators': 70, 'n_jobs': None, 'num_parallel_tree': None, 'objective': 'binary:logistic', 'predictor': None, 'random_state': None, 'reg_alpha': 0, 'reg_lambda': 0.1, 'sampling_method': None, 'scale_pos_weight': None, 'subsample': None, 'tree_method': 'hist', 'use_label_encoder': False, 'validate_parameters': None, 'verbosity': None}
+#> {'base_score': None, 'booster': 'gbtree', 'callbacks': None, 'colsample_bylevel': None, 'colsample_bynode': None, 'colsample_bytree': 0.5, 'early_stopping_rounds': None, 'enable_categorical': False, 'eval_metric': 'auc', 'feature_types': None, 'gamma': 0.1, 'gpu_id': None, 'grow_policy': 'lossguide', 'importance_type': None, 'interaction_constraints': None, 'learning_rate': 0.03, 'max_bin': None, 'max_cat_threshold': None, 'max_cat_to_onehot': None, 'max_delta_step': None, 'max_depth': 5, 'max_leaves': None, 'min_child_weight': 0, 'missing': nan, 'monotone_constraints': None, 'n_estimators': 70, 'n_jobs': None, 'num_parallel_tree': None, 'objective': 'binary:logistic', 'predictor': None, 'random_state': None, 'reg_alpha': 0, 'reg_lambda': 0.2, 'sampling_method': None, 'scale_pos_weight': None, 'subsample': None, 'tree_method': 'hist', 'use_label_encoder': False, 'validate_parameters': None, 'verbosity': None}
 ```
 
 
@@ -837,23 +837,23 @@ xgb_final.fit(x_train_select, y_train)
 ```{=html}
 <style>#sk-container-id-6 {color: black;}#sk-container-id-6 pre{padding: 0;}#sk-container-id-6 div.sk-toggleable {background-color: white;}#sk-container-id-6 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-6 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-6 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-6 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-6 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-6 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-6 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-6 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-6 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-6 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-6 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-6 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-6 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-6 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-6 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-6 div.sk-item {position: relative;z-index: 1;}#sk-container-id-6 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-6 div.sk-item::before, #sk-container-id-6 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-6 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-6 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-6 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-6 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-6 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-6 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-6 div.sk-label-container {text-align: center;}#sk-container-id-6 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-6 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-6" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>XGBClassifier(base_score=None, booster=&#x27;gbtree&#x27;, callbacks=None,
               colsample_bylevel=None, colsample_bynode=None,
-              colsample_bytree=0.7, early_stopping_rounds=None,
+              colsample_bytree=0.5, early_stopping_rounds=None,
               enable_categorical=False, eval_metric=&#x27;auc&#x27;, feature_types=None,
-              gamma=0, gpu_id=None, grow_policy=&#x27;lossguide&#x27;,
+              gamma=0.1, gpu_id=None, grow_policy=&#x27;lossguide&#x27;,
               importance_type=None, interaction_constraints=None,
-              learning_rate=0.01, max_bin=None, max_cat_threshold=None,
+              learning_rate=0.03, max_bin=None, max_cat_threshold=None,
               max_cat_to_onehot=None, max_delta_step=None, max_depth=5,
-              max_leaves=None, min_child_weight=1, missing=nan,
+              max_leaves=None, min_child_weight=0, missing=nan,
               monotone_constraints=None, n_estimators=70, n_jobs=None,
               num_parallel_tree=None, predictor=None, random_state=None, ...)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox" checked><label for="sk-estimator-id-12" class="sk-toggleable__label sk-toggleable__label-arrow">XGBClassifier</label><div class="sk-toggleable__content"><pre>XGBClassifier(base_score=None, booster=&#x27;gbtree&#x27;, callbacks=None,
               colsample_bylevel=None, colsample_bynode=None,
-              colsample_bytree=0.7, early_stopping_rounds=None,
+              colsample_bytree=0.5, early_stopping_rounds=None,
               enable_categorical=False, eval_metric=&#x27;auc&#x27;, feature_types=None,
-              gamma=0, gpu_id=None, grow_policy=&#x27;lossguide&#x27;,
+              gamma=0.1, gpu_id=None, grow_policy=&#x27;lossguide&#x27;,
               importance_type=None, interaction_constraints=None,
-              learning_rate=0.01, max_bin=None, max_cat_threshold=None,
+              learning_rate=0.03, max_bin=None, max_cat_threshold=None,
               max_cat_to_onehot=None, max_delta_step=None, max_depth=5,
-              max_leaves=None, min_child_weight=1, missing=nan,
+              max_leaves=None, min_child_weight=0, missing=nan,
               monotone_constraints=None, n_estimators=70, n_jobs=None,
               num_parallel_tree=None, predictor=None, random_state=None, ...)</pre></div></div></div></div></div>
 ```
@@ -865,7 +865,7 @@ classifier_score = xgb_final.score(x_train_select, y_train)
 
 print('\nThe classifier accuracy score is {:03.2f}\n'.format(classifier_score))
 #> 
-#> The classifier accuracy score is 0.98
+#> The classifier accuracy score is 1.00
 ```
 
 ### Evaluating model performance
@@ -929,12 +929,12 @@ index_df = pd.DataFrame([['Accuracy', accuracy],
 
 index_df
 #>                  Index     Value
-#> 0             Accuracy  0.947368
+#> 0             Accuracy  0.959064
 #> 1          Specificity  0.970874
-#> 2          Sensitivity  0.943396
-#> 3            Precision  0.953846
-#> 4               Recall  0.911765
-#> 5             F1 score  0.932331
+#> 2          Sensitivity  0.961538
+#> 3            Precision  0.955224
+#> 4               Recall  0.941176
+#> 5             F1 score  0.948148
 #> 6  False Positive Rate  0.029126
 ```
 
@@ -1003,12 +1003,12 @@ class_report = print_class_report(predicted, 'XGBoost')
 #> Classification Report for XGBoost:
 #>               precision    recall  f1-score   support
 #> 
-#>            B       0.97      0.94      0.96       106
-#>            M       0.91      0.95      0.93        65
+#>            B       0.97      0.96      0.97       104
+#>            M       0.94      0.96      0.95        67
 #> 
-#>     accuracy                           0.95       171
-#>    macro avg       0.94      0.95      0.94       171
-#> weighted avg       0.95      0.95      0.95       171
+#>     accuracy                           0.96       171
+#>    macro avg       0.96      0.96      0.96       171
+#> weighted avg       0.96      0.96      0.96       171
 ```
 
 
@@ -1075,7 +1075,7 @@ session_info.show()
 #> Python 3.9.16 | packaged by conda-forge | (main, Feb  1 2023, 21:50:49) [Clang 14.0.6 ]
 #> macOS-10.16-x86_64-i386-64bit
 #> -----
-#> Session information updated at 2023-12-05 18:22
+#> Session information updated at 2023-12-06 21:26
 ```
 
 

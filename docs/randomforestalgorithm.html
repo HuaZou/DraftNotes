@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 12 Random Forest Algorithm | 生物信息随记</title>
+<title>Chapter 13 Random Forest Algorithm | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
 <meta name="description" content="随机森林是常用的非线性用于构建分类器的算法，它是由数目众多的弱决策树构建成森林进而对结果进行投票判断标签的方法。随机森林用于分类器的算法过程， 随机切分样本，然后选择2/3用于建模，剩余1/3用于验证袋外误差； 随机选择特征构建决策树，每个叶子节点分成二类； 根据GINI系数判断分类内部纯度程度，进行裁剪树枝； 1/3数据预测，根据每个决策树的结果投票确定标签； 输出标签结果，并给出OOB...">
 <meta name="generator" content="bookdown 0.34 with bs4_book()">
-<meta property="og:title" content="Chapter 12 Random Forest Algorithm | 生物信息随记">
+<meta property="og:title" content="Chapter 13 Random Forest Algorithm | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/randomforestalgorithm.html">
 <meta property="og:description" content="随机森林是常用的非线性用于构建分类器的算法，它是由数目众多的弱决策树构建成森林进而对结果进行投票判断标签的方法。随机森林用于分类器的算法过程， 随机切分样本，然后选择2/3用于建模，剩余1/3用于验证袋外误差； 随机选择特征构建决策树，每个叶子节点分成二类； 根据GINI系数判断分类内部纯度程度，进行裁剪树枝； 1/3数据预测，根据每个决策树的结果投票确定标签； 输出标签结果，并给出OOB...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 12 Random Forest Algorithm | 生物信息随记">
+<meta name="twitter:title" content="Chapter 13 Random Forest Algorithm | 生物信息随记">
 <meta name="twitter:description" content="随机森林是常用的非线性用于构建分类器的算法，它是由数目众多的弱决策树构建成森林进而对结果进行投票判断标签的方法。随机森林用于分类器的算法过程， 随机切分样本，然后选择2/3用于建模，剩余1/3用于验证袋外误差； 随机选择特征构建决策树，每个叶子节点分成二类； 根据GINI系数判断分类内部纯度程度，进行裁剪树枝； 1/3数据预测，根据每个决策树的结果投票确定标签； 输出标签结果，并给出OOB...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -78,19 +78,20 @@
 <li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
 <li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
 <li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
 <li class="book-part">Metabolomics Data Analysis</li>
-<li><a class="" href="dataprocessing.html"><span class="header-section-number">6</span> Data Processing</a></li>
-<li><a class="" href="DimensionReduction.html"><span class="header-section-number">7</span> Dimension Reduction</a></li>
-<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">8</span> Differetial Analysis</a></li>
-<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">9</span> Functional Analysis</a></li>
-<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">10</span> MetOrigin Analysis</a></li>
-<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">8</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">9</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">10</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">11</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">12</span> Other Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="active" href="randomforestalgorithm.html"><span class="header-section-number">12</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></li>
+<li><a class="active" href="randomforestalgorithm.html"><span class="header-section-number">13</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">14</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">14</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">15</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">15</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">16</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -99,9 +100,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="randomforestalgorithm" class="section level1" number="12">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="randomforestalgorithm" class="section level1" number="13">
 <h1>
-<span class="header-section-number">12</span> Random Forest Algorithm<a class="anchor" aria-label="anchor" href="#randomforestalgorithm"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13</span> Random Forest Algorithm<a class="anchor" aria-label="anchor" href="#randomforestalgorithm"><i class="fas fa-link"></i></a>
 </h1>
 <p>随机森林是常用的非线性用于构建分类器的算法，它是由数目众多的弱决策树构建成森林进而对结果进行投票判断标签的方法。随机森林用于分类器的算法过程，</p>
 <ul>
@@ -125,12 +126,12 @@
 <li>重新建模</li>
 <li>模型效能评估</li>
 </ul>
-<div id="下载数据" class="section level2" number="12.1">
+<div id="下载数据" class="section level2" number="13.1">
 <h2>
-<span class="header-section-number">12.1</span> 下载数据<a class="anchor" aria-label="anchor" href="#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.1</span> 下载数据<a class="anchor" aria-label="anchor" href="#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
 </h2>
 <p>可以点击此处下载数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv">clean_data.csv</a>或使用<code>wget</code></p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb179-1"><a href="randomforestalgorithm.html#cb179-1" tabindex="-1"></a><span class="fu">wget</span> https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb187-1"><a href="randomforestalgorithm.html#cb187-1" tabindex="-1"></a><span class="fu">wget</span> https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv</span></code></pre></div>
 <blockquote>
 <p>该数据集包含569份恶性和良性肿瘤的样本的32类指标，通过这些特征构建区分恶性和良性肿瘤的随机森林分类器.</p>
 </blockquote>
@@ -138,11 +139,11 @@
 <p>The Breast Cancer datasets is available machine learning repository maintained by the University of California, Irvine. The dataset contains 569 samples of malignant and benign tumor cells.</p>
 </blockquote>
 </div>
-<div id="加载r包-9" class="section level2" number="12.2">
+<div id="加载r包-10" class="section level2" number="13.2">
 <h2>
-<span class="header-section-number">12.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-9"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-10"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
@@ -158,12 +159,12 @@
 <span></span>
 <span><span class="va">group_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="加载数据" class="section level2" number="12.3">
+<div id="加载数据" class="section level2" number="13.3">
 <h2>
-<span class="header-section-number">12.3</span> 加载数据<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.3</span> 加载数据<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datset</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"./InputData/Breast_cancer/clean_data.csv"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">datset</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"./InputData/Breast_cancer/clean_data.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">datset</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    V1 diagnosis radius_mean texture_mean perimeter_mean</span></span>
@@ -237,12 +238,12 @@
 <span><span class="co">#&gt; 5:                 0.07678</span></span>
 <span><span class="co">#&gt; 6:                 0.12440</span></span></code></pre></div>
 </div>
-<div id="数据切割" class="section level2" number="12.4">
+<div id="数据切割" class="section level2" number="13.4">
 <h2>
-<span class="header-section-number">12.4</span> 数据切割<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%89%B2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.4</span> 数据切割<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%89%B2"><i class="fas fa-link"></i></a>
 </h2>
 <p>对数据集按照70%的比例划分成训练集和测试集，其中训练集用于构建模型，测试集用于评估模型效能。另外，在这一步前也有教程对特征进行选择，筛选组间差异大的特征用于建模。这里使用 caret::createDataPartition函数进行划分数据集，它能够根据组间比例合理分割数据。</p>
-<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mdat</span> <span class="op">&lt;-</span> <span class="va">datset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">V1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="va">diagnosis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -266,9 +267,9 @@
 <span><span class="va">X_test</span> <span class="op">&lt;-</span> <span class="va">testData</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="va">y_test</span> <span class="op">&lt;-</span> <span class="va">testData</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span></code></pre></div>
 </div>
-<div id="调参选择最佳决策树数目" class="section level2" number="12.5">
+<div id="调参选择最佳决策树数目" class="section level2" number="13.5">
 <h2>
-<span class="header-section-number">12.5</span> 调参（选择最佳决策树数目）<a class="anchor" aria-label="anchor" href="#%E8%B0%83%E5%8F%82%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E5%86%B3%E7%AD%96%E6%A0%91%E6%95%B0%E7%9B%AE"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.5</span> 调参（选择最佳决策树数目）<a class="anchor" aria-label="anchor" href="#%E8%B0%83%E5%8F%82%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E5%86%B3%E7%AD%96%E6%A0%91%E6%95%B0%E7%9B%AE"><i class="fas fa-link"></i></a>
 </h2>
 <p>随机森林算法的参数众多，本文选择对mtry和ntree两个参数进行调参，其他均使用默认参数。</p>
 <ul>
@@ -277,7 +278,7 @@
 <li>
 <em>ntree</em>：构成森林的决策树数目</li>
 </ul>
-<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">RUN</span> <span class="op">&lt;-</span> <span class="cn">F</span></span>
 <span></span>
@@ -357,12 +358,12 @@
 </li>
 </ul>
 </div>
-<div id="建模" class="section level2" number="12.6">
+<div id="建模" class="section level2" number="13.6">
 <h2>
-<span class="header-section-number">12.6</span> 建模<a class="anchor" aria-label="anchor" href="#%E5%BB%BA%E6%A8%A1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.6</span> 建模<a class="anchor" aria-label="anchor" href="#%E5%BB%BA%E6%A8%A1"><i class="fas fa-link"></i></a>
 </h2>
 <p>使用上述最佳参数建模</p>
-<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">rf_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span><span class="op">(</span></span>
 <span>  <span class="va">Group</span> <span class="op">~</span> <span class="va">.</span>,</span>
@@ -394,12 +395,12 @@
 </li>
 </ul>
 </div>
-<div id="特征的重要性得分" class="section level2" number="12.7">
+<div id="特征的重要性得分" class="section level2" number="13.7">
 <h2>
-<span class="header-section-number">12.7</span> 特征的重要性得分<a class="anchor" aria-label="anchor" href="#%E7%89%B9%E5%BE%81%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7%E5%BE%97%E5%88%86"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.7</span> 特征的重要性得分<a class="anchor" aria-label="anchor" href="#%E7%89%B9%E5%BE%81%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7%E5%BE%97%E5%88%86"><i class="fas fa-link"></i></a>
 </h2>
 <p>获取所有特征的重要性得分，此处使用MeanDecreaseAccuracy。</p>
-<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">imp_biomarker</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/importance.html">importance</a></span><span class="op">(</span><span class="va">rf_fit</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>, rownames <span class="op">=</span> <span class="st">"Features"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">MeanDecreaseAccuracy</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">imp_biomarker</span></span>
@@ -419,13 +420,13 @@
 <span><span class="co">#&gt; # ℹ 20 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 1 more variable: MeanDecreaseGini &lt;dbl&gt;</span></span></code></pre></div>
 </div>
-<div id="多次建模选择最佳特征数目基于oob-rate" class="section level2" number="12.8">
+<div id="多次建模选择最佳特征数目基于oob-rate" class="section level2" number="13.8">
 <h2>
-<span class="header-section-number">12.8</span> 多次建模选择最佳特征数目（基于OOB rate）<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E6%AC%A1%E5%BB%BA%E6%A8%A1%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E7%89%B9%E5%BE%81%E6%95%B0%E7%9B%AE%E5%9F%BA%E4%BA%8Eoob-rate"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.8</span> 多次建模选择最佳特征数目（基于OOB rate）<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E6%AC%A1%E5%BB%BA%E6%A8%A1%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E7%89%B9%E5%BE%81%E6%95%B0%E7%9B%AE%E5%9F%BA%E4%BA%8Eoob-rate"><i class="fas fa-link"></i></a>
 </h2>
 <p>上述模型选了所有32个特征用于建模，这是单次建模的结果，为了更好确定最佳特征数目，采用五次建模的结果寻找最小OOB rate对应的特征数目作为最佳特征数目。</p>
 <p>另外，最佳决策树数目参考第一次模型的 1000，也作为本次最佳决策树数目。</p>
-<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">error.cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
@@ -468,7 +469,7 @@
 <ul>
 <li>optimal number of biomarkers chosen by min cv.error</li>
 </ul>
-<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optimal</span> <span class="op">&lt;-</span> <span class="va">err.df</span><span class="op">$</span><span class="va">num</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">err.df</span><span class="op">$</span><span class="va">err.mean</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">err.df</span><span class="op">$</span><span class="va">err.mean</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">main_theme</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
@@ -514,7 +515,7 @@
 </li>
 <li><p>importance of optimal biomarker</p></li>
 </ul>
-<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">imp_biomarker</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">optimal</span>, <span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Features</span>, <span class="va">MeanDecreaseAccuracy</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">MeanDecreaseAccuracy</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -534,9 +535,9 @@
 </li>
 </ul>
 </div>
-<div id="多元回归分析筛选相关特征" class="section level2" number="12.9">
+<div id="多元回归分析筛选相关特征" class="section level2" number="13.9">
 <h2>
-<span class="header-section-number">12.9</span> 多元回归分析筛选相关特征<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E5%85%83%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E7%AD%9B%E9%80%89%E7%9B%B8%E5%85%B3%E7%89%B9%E5%BE%81"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.9</span> 多元回归分析筛选相关特征<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E5%85%83%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E7%AD%9B%E9%80%89%E7%9B%B8%E5%85%B3%E7%89%B9%E5%BE%81"><i class="fas fa-link"></i></a>
 </h2>
 <p>上述22个特征在建模过程还是偏多，可以通过多元回归分析筛选与响应变量（分类变量）最相关的自变量。</p>
 <ul>
@@ -545,7 +546,7 @@
 <li>采用logist regression算法</li>
 </ul>
 <p>该步骤可选择也可不选择，因为后续分析发现如果严格按照pvalue &lt; 0.05则仅能筛选到2-3个特征。</p>
-<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mdat_mulvar</span> <span class="op">&lt;-</span> <span class="va">mdat</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="va">imp_biomarker</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">optimal</span>, <span class="op">]</span><span class="op">$</span><span class="va">Features</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Group</span> <span class="op">==</span> <span class="va">group_names</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
@@ -587,13 +588,13 @@
 </li>
 </ul>
 </div>
-<div id="疾病风险得分" class="section level2" number="12.10">
+<div id="疾病风险得分" class="section level2" number="13.10">
 <h2>
-<span class="header-section-number">12.10</span> 疾病风险得分<a class="anchor" aria-label="anchor" href="#%E7%96%BE%E7%97%85%E9%A3%8E%E9%99%A9%E5%BE%97%E5%88%86"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.10</span> 疾病风险得分<a class="anchor" aria-label="anchor" href="#%E7%96%BE%E7%97%85%E9%A3%8E%E9%99%A9%E5%BE%97%E5%88%86"><i class="fas fa-link"></i></a>
 </h2>
 <p>nomogram是一类可以可视化上述5个特征对恶性肿瘤贡献的图形，它也是通过多元线性回归对疾病贡献得到打分，然后分别累加各个特征对疾病的得分得到一个总分，最后总分对应疾病分享百分比。</p>
 <p>该处没有对自变量进行标准化，本来是要做的，但考虑到每个指标所含有的临床学意义，就使用了原始值。</p>
-<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://hbiostat.org/R/rms/">rms</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">selected_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="va">dat_coef</span><span class="op">$</span><span class="va">FeatureID</span><span class="op">)</span></span>
@@ -626,12 +627,12 @@
 <p>20 + 20 + 10 + 10 + 20 = 80
 80分对应疾病风险概率是100%，也即是说某位检查者的上述五类指标符合该要求，意味着她有100%的概率患有恶性乳腺癌。</p>
 </div>
-<div id="重新建模" class="section level2" number="12.11">
+<div id="重新建模" class="section level2" number="13.11">
 <h2>
-<span class="header-section-number">12.11</span> 重新建模<a class="anchor" aria-label="anchor" href="#%E9%87%8D%E6%96%B0%E5%BB%BA%E6%A8%A1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.11</span> 重新建模<a class="anchor" aria-label="anchor" href="#%E9%87%8D%E6%96%B0%E5%BB%BA%E6%A8%A1"><i class="fas fa-link"></i></a>
 </h2>
 <p>使用上述五个指标重新建模</p>
-<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">selected_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="va">dat_coef</span><span class="op">$</span><span class="va">FeatureID</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">trainData_optimal</span> <span class="op">&lt;-</span> <span class="va">trainData</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -664,7 +665,7 @@
 <ul>
 <li>ConfusionMatrix</li>
 </ul>
-<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"M"</span><span class="op">)</span></span>
 <span><span class="va">pred_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">rf_fit_optimal</span>, newdata <span class="op">=</span> <span class="va">testData_optimal</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu">caret</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/caret/man/confusionMatrix.html">confusionMatrix</a></span><span class="op">(</span><span class="va">pred_raw</span>, <span class="va">testData_optimal</span><span class="op">$</span><span class="va">Group</span><span class="op">)</span><span class="op">)</span></span>
@@ -699,7 +700,7 @@
 <ul>
 <li>performance of classifier</li>
 </ul>
-<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Evaluate_index</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">DataTest</span>, </span>
 <span>    <span class="va">PredProb</span> <span class="op">=</span> <span class="va">pred_prob</span>, </span>
@@ -768,7 +769,7 @@
 <ul>
 <li>AUROC</li>
 </ul>
-<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">AUROC</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">DataTest</span>, </span>
 <span>    <span class="va">PredProb</span> <span class="op">=</span> <span class="va">pred_prob</span>, </span>
@@ -863,7 +864,7 @@
 <ul>
 <li>AUPRC</li>
 </ul>
-<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">AUPRC</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">DataTest</span>, </span>
 <span>    <span class="va">PredProb</span> <span class="op">=</span> <span class="va">pred_prob</span>, </span>
@@ -914,14 +915,14 @@
 <span><span class="va">AUPRC_res</span><span class="op">$</span><span class="va">PC_pl</span></span></code></pre></div>
 <div class="inline-figure"><img src="70-MachineLearing_RandomForest_files/figure-html/unnamed-chunk-17-1.png" width="100%"></div>
 </div>
-<div id="final-biomarkers" class="section level2" number="12.12">
+<div id="final-biomarkers" class="section level2" number="13.12">
 <h2>
-<span class="header-section-number">12.12</span> Final biomarkers<a class="anchor" aria-label="anchor" href="#final-biomarkers"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.12</span> Final biomarkers<a class="anchor" aria-label="anchor" href="#final-biomarkers"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li>importance score</li>
 </ul>
-<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">imp_biomarker</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Features</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">dat_coef</span><span class="op">$</span><span class="va">FeatureID</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Features</span>, <span class="va">MeanDecreaseAccuracy</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -934,12 +935,12 @@
 <span>    <span class="va">main_theme</span></span></code></pre></div>
 <div class="inline-figure"><img src="70-MachineLearing_RandomForest_files/figure-html/unnamed-chunk-18-1.png" width="100%"></div>
 </div>
-<div id="systemic-information-3" class="section level2" number="12.13">
+<div id="systemic-information-4" class="section level2" number="13.13">
 <h2>
-<span class="header-section-number">12.13</span> systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.13</span> systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-4"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
 <span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
@@ -950,7 +951,7 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2023-12-05</span></span>
+<span><span class="co">#&gt;  date     2023-12-06</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
@@ -1087,25 +1088,25 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></div>
-<div class="next"><a href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></div>
+<div class="prev"><a href="OtherAnalysis.html"><span class="header-section-number">12</span> Other Analysis</a></div>
+<div class="next"><a href="XGBoostalgorithm.html"><span class="header-section-number">14</span> XGBoost Algorithm</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#randomforestalgorithm"><span class="header-section-number">12</span> Random Forest Algorithm</a></li>
-<li><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="header-section-number">12.1</span> 下载数据</a></li>
-<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-9"><span class="header-section-number">12.2</span> 加载R包</a></li>
-<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="header-section-number">12.3</span> 加载数据</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%89%B2"><span class="header-section-number">12.4</span> 数据切割</a></li>
-<li><a class="nav-link" href="#%E8%B0%83%E5%8F%82%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E5%86%B3%E7%AD%96%E6%A0%91%E6%95%B0%E7%9B%AE"><span class="header-section-number">12.5</span> 调参（选择最佳决策树数目）</a></li>
-<li><a class="nav-link" href="#%E5%BB%BA%E6%A8%A1"><span class="header-section-number">12.6</span> 建模</a></li>
-<li><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7%E5%BE%97%E5%88%86"><span class="header-section-number">12.7</span> 特征的重要性得分</a></li>
-<li><a class="nav-link" href="#%E5%A4%9A%E6%AC%A1%E5%BB%BA%E6%A8%A1%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E7%89%B9%E5%BE%81%E6%95%B0%E7%9B%AE%E5%9F%BA%E4%BA%8Eoob-rate"><span class="header-section-number">12.8</span> 多次建模选择最佳特征数目（基于OOB rate）</a></li>
-<li><a class="nav-link" href="#%E5%A4%9A%E5%85%83%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E7%AD%9B%E9%80%89%E7%9B%B8%E5%85%B3%E7%89%B9%E5%BE%81"><span class="header-section-number">12.9</span> 多元回归分析筛选相关特征</a></li>
-<li><a class="nav-link" href="#%E7%96%BE%E7%97%85%E9%A3%8E%E9%99%A9%E5%BE%97%E5%88%86"><span class="header-section-number">12.10</span> 疾病风险得分</a></li>
-<li><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E5%BB%BA%E6%A8%A1"><span class="header-section-number">12.11</span> 重新建模</a></li>
-<li><a class="nav-link" href="#final-biomarkers"><span class="header-section-number">12.12</span> Final biomarkers</a></li>
-<li><a class="nav-link" href="#systemic-information-3"><span class="header-section-number">12.13</span> systemic information</a></li>
+<li><a class="nav-link" href="#randomforestalgorithm"><span class="header-section-number">13</span> Random Forest Algorithm</a></li>
+<li><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="header-section-number">13.1</span> 下载数据</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-10"><span class="header-section-number">13.2</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="header-section-number">13.3</span> 加载数据</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%89%B2"><span class="header-section-number">13.4</span> 数据切割</a></li>
+<li><a class="nav-link" href="#%E8%B0%83%E5%8F%82%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E5%86%B3%E7%AD%96%E6%A0%91%E6%95%B0%E7%9B%AE"><span class="header-section-number">13.5</span> 调参（选择最佳决策树数目）</a></li>
+<li><a class="nav-link" href="#%E5%BB%BA%E6%A8%A1"><span class="header-section-number">13.6</span> 建模</a></li>
+<li><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7%E5%BE%97%E5%88%86"><span class="header-section-number">13.7</span> 特征的重要性得分</a></li>
+<li><a class="nav-link" href="#%E5%A4%9A%E6%AC%A1%E5%BB%BA%E6%A8%A1%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E7%89%B9%E5%BE%81%E6%95%B0%E7%9B%AE%E5%9F%BA%E4%BA%8Eoob-rate"><span class="header-section-number">13.8</span> 多次建模选择最佳特征数目（基于OOB rate）</a></li>
+<li><a class="nav-link" href="#%E5%A4%9A%E5%85%83%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E7%AD%9B%E9%80%89%E7%9B%B8%E5%85%B3%E7%89%B9%E5%BE%81"><span class="header-section-number">13.9</span> 多元回归分析筛选相关特征</a></li>
+<li><a class="nav-link" href="#%E7%96%BE%E7%97%85%E9%A3%8E%E9%99%A9%E5%BE%97%E5%88%86"><span class="header-section-number">13.10</span> 疾病风险得分</a></li>
+<li><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E5%BB%BA%E6%A8%A1"><span class="header-section-number">13.11</span> 重新建模</a></li>
+<li><a class="nav-link" href="#final-biomarkers"><span class="header-section-number">13.12</span> Final biomarkers</a></li>
+<li><a class="nav-link" href="#systemic-information-4"><span class="header-section-number">13.13</span> systemic information</a></li>
 </ul>
 
       <div class="book-extra">
@@ -1123,7 +1124,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-05.</p>
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -1,0 +1,506 @@
+```{r, include = FALSE}
+knitr::opts_chunk$set(out.width = "100%", message = FALSE, warning = FALSE)
+```
+
+
+# Linear Model on Microbial Community {#LinearModelonMicrobialCommunity}
+
+
+在微生物研究中，通常会使用基于距离矩阵的置换检验（如PERMANOVA）判断环境因素和微生物群落结构的相关性关系。本文使用另一套分析方法计算环境因素对微生物群落差异和微生物相对丰度差异的贡献，它使用到的是：
+
++ 相关性分析：计算环境因素和各个物种相对丰度的相关性大小；
+
++ 多元线性回归分析：计算主要的环境因素对各个物种相对丰度的贡献（$R^2$）；
+
++ 拆分线性回归的总体贡献：计算每一个环境因素对各个物种相对丰度的重要程度（类似方差解分析）。
+
+
+本文为了确定影响微生物（肠道和口腔）群落差异和微生物相对丰度差异的人体特征变量。
+
+
+**声明**：本文参考了小白鱼的《仿一篇文献的相关性分析和线性模型评估影响群落组成的重要环境变量》。
+
+
+## 加载R包
+
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+library(phyloseq)
+
+library(caret)
+library(leaps)
+library(relaimpo)
+
+# rm(list = ls())
+options(stringsAsFactors = F)
+options(future.globals.maxSize = 1000 * 1024^2)
+```
+
+
+## 导入数据
+
+对数据[OmicsDataSet-Zeybel et al. - 2022.xlsx](https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel et al. - 2022.xlsx)处理后生成的，可参考数据生成和预处理章节。
+
+
++ ps_gut：来自宿主肠道微生物组 (见[Zeybel Dataset](https://zouhua.top/DraftNotes/ZeybelDataset.html)章节)
+
++ ps_oral：来自宿主肠道微生物组 (见[Zeybel Dataset](https://zouhua.top/DraftNotes/ZeybelDataset.html)章节)
+
+> ```R
+> saveRDS(ps_gut, "./InputData/result/Zeybel_2022_gut_MGS_ps.RDS", compress = TRUE)
+> saveRDS(ps_ora, "./InputData/result/Zeybel_2022_oral_MGS_ps.RDS", compress = TRUE)
+> ```
+
+```{r}
+ps_gut <- readRDS("./InputData/result/Zeybel_2022_gut_MGS_ps.RDS")
+ps_oral <- readRDS("./InputData/result/Zeybel_2022_oral_MGS_ps.RDS")
+```
+
+
+## 数据准备
+
++ 人体特征指标：如Liver_fat, Creatinine, Body_mass_index等
+
++ 门水平微生物表达谱：phylum levels
+
+```{r, message = FALSE, warning = FALSE}
+meta_gut <- ps_gut@sam_data %>%
+  data.frame() %>%
+  na.omit() %>%
+  dplyr::select(6:14)
+
+meta_oral <- ps_oral@sam_data %>%
+  data.frame() %>%
+  na.omit() %>%
+  dplyr::select(6:14)
+
+sid <- intersect(rownames(meta_gut), rownames(meta_oral))
+
+# remotes::install_github("HuaZou/MicrobiomeAnalysis")
+prof_gut <- MicrobiomeAnalysis::aggregate_taxa(
+  x = ps_gut,
+  level = "Phylum")
+prof_gut <- MicrobiomeAnalysis::trim_prevalence(
+  object = prof_gut,
+  cutoff = 0.1,
+  trim = "feature")
+prof_gut <- prof_gut@otu_table %>%
+  data.frame()
+prof_gut_final <- prof_gut[, pmatch(sid, colnames(prof_gut))]
+
+prof_oral <- MicrobiomeAnalysis::aggregate_taxa(
+  x = ps_oral,
+  level = "Phylum")
+prof_oral <- MicrobiomeAnalysis::trim_prevalence(
+  object = prof_oral,
+  cutoff = 0.1,
+  trim = "feature")
+prof_oral <- prof_oral@otu_table %>%
+  data.frame()
+prof_oral_final <- prof_oral[, pmatch(sid, colnames(prof_oral))]
+
+meta_final <- meta_oral[pmatch(sid, rownames(meta_oral)), ,]
+
+rm(ps_gut, ps_oral, meta_gut, meta_oral, sid, prof_gut, prof_oral)
+```
+
+
+## 相关性分析
+
+人体特征和物种相关性分析，分别计算每个人体特征和各个物种丰度的相关系数（采用spearman相关系数）。
+
+```{r, message = FALSE, warning = FALSE}
+run_cor <- function(
+    data_sam,
+    data_otu,
+    columns  = NULL,
+    method = c("spearman", "pearson", "kendall"),
+    p_adjust = "BH") {
+
+  # data_sam = meta_final
+  # data_otu = prof_gut_final
+  # columns = NULL
+  # method = "spearman"
+  # p_adjust = "BH"
+
+  if (is.null(method)) {
+    method <- "spearman"
+  } else {
+    method <- match.arg(
+      method,
+      c("spearman", "pearson", "kendall")
+    )
+  }
+  # p_adjust
+  p_adjust <- match.arg(p_adjust,
+                        c("none", "fdr", "bonferroni", "holm",
+                          "hochberg", "hommel", "BH", "BY")
+  )
+
+  interset_sampleid <- dplyr::intersect(
+      colnames(data_otu), rownames(data_sam))
+
+  data_otu_interset <- data_otu %>% 
+    as.data.frame() %>%
+    dplyr::select(dplyr::all_of(interset_sampleid))
+  data_sam_interset <- data_sam %>% 
+    as.data.frame()
+
+  data_sam_interset_final <- data_sam_interset[pmatch(interset_sampleid, 
+                                                      rownames(data_sam_interset)), , F]
+
+  if (!all(colnames(data_otu_interset) == rownames(data_sam_interset_final))) {
+    stop("The order of SampleID is wrong, please check your inputdata")
+  }
+
+  sam_tab <- data_sam_interset_final %>%
+      as.data.frame() %>%
+      tibble::rownames_to_column("TempRowNames")
+  otu_tab_t <- data_otu_interset %>%
+      as.data.frame() %>%
+      base::t() %>%
+      as.data.frame()
+
+  # columns for test
+  if (!is.null(columns)) {
+    sam_tab <- sam_tab %>%
+      tibble::column_to_rownames("TempRowNames") %>%
+      dplyr::select(dplyr::all_of(columns))
+  } else {
+    sam_tab <- sam_tab %>%
+      tibble::column_to_rownames("TempRowNames")    
+  }
+
+  if (!all(rownames(otu_tab_t) == rownames(sam_tab))) {
+    stop("The order of SampleID is wrong, please check your input")
+  }
+
+  # calculate the association between individual taxa and factors
+  res <- data.frame()
+  for (i in 1:ncol(sam_tab)) {
+    # whether all the elements are numeric
+    if (!is.numeric(sam_tab[, i])) {
+      stop("Please check your input, values in ", colnames(sam_tab)[i]," are not numeric")
+    }
+    for (j in 1:ncol(otu_tab_t)) {
+      mdat <- data.frame(x=sam_tab[, i],
+                         y=otu_tab_t[, j]) %>%
+        na.omit()
+      fit <- stats::cor.test(mdat$x, mdat$y, method = method)
+      temp <- data.frame(Phenotype=colnames(sam_tab)[i],
+                         FeatureID=colnames(otu_tab_t)[j],
+                         Statistic=fit$statistic,
+                         Rho=fit$estimate,
+                         Pvalue=fit$p.value)
+      res <- rbind(res, temp)
+    }
+  }
+
+  res$AdjustedPvalue <- p.adjust(as.numeric(res$Pvalue), method = p_adjust)
+  rownames(res) <- NULL
+
+  return(res)
+}
+
+gut_corres <- run_cor(
+  data_sam = meta_final,
+  data_otu = prof_gut_final)
+
+oral_corres <- run_cor(
+  data_sam = meta_final,
+  data_otu = prof_oral_final)
+```
+
+
+
+## 线性回归的解释度
+
+人体特征指标对各个物种的贡献度可通过多元线性回归分析，即物种作为Y响应变量，人体特征作为X变量，通过回归的$R^2$解析总解释度。
+
+人体指标可能存在共线性的情况，可以在线性回归计算时候选择前向或后向回归方式筛选重要的变量。两种方法对结果影响较大，可能会得到大相径庭的结果。
+
++ "leapForward": 前向逐步回归 (forward selection)
+
++ "leapBackward": 后向逐步回归 (backward selection)
+
++ "leapSeq": 逐步回归 (stepwise selection)
+
+
+### 通过前向选择环境变量的分析思路
+
+> 1. 通过前向逐步回归，在所有人体特征筛选重要的变量，尽可能减少人体特征共线性以获取简约模型，又同时尽可能保证模型的总解释率不要损失很多；
+>
+> 2. 使用选择的人体特征，分别拟合与每个物种丰度的多元线性回归，以期通过人体特征来解释物种丰度组成的差异；
+>
+> 3. 对于在第（2）步中获得的最优模型，提取它们的总解释率（即线性模型的R2或校正后的R2）等信息；
+>
+> 4. 对于在第（2）步中获得的最优模型，通过类似方差分解分析的方法，评估主要的人体特征对于物种丰度总方差的贡献，实现定量分析主要的人体特征相对重要性的目的。
+
+
+```{r, message = FALSE, warning = FALSE}
+run_lm <- function(
+    data_sam,
+    data_otu,
+    columns  = NULL,
+    method = c("leapForward", "leapBackward", "leapSeq")) {
+
+  # data_sam = meta_final
+  # data_otu = prof_gut_final
+  # columns = NULL
+  # method = "leapForward"
+
+  if (is.null(method)) {
+    method <- "leapForward"
+  } else {
+    method <- match.arg(
+      method,
+      c("leapForward", "leapBackward", "leapSeq")
+    )
+  }
+
+  interset_sampleid <- dplyr::intersect(
+      colnames(data_otu), rownames(data_sam))
+
+  data_otu_interset <- data_otu %>% 
+    as.data.frame() %>%
+    dplyr::select(dplyr::all_of(interset_sampleid))
+  data_sam_interset <- data_sam %>% 
+    as.data.frame()
+
+  data_sam_interset_final <- data_sam_interset[pmatch(interset_sampleid, 
+                                                      rownames(data_sam_interset)), , F]
+
+  if (!all(colnames(data_otu_interset) == rownames(data_sam_interset_final))) {
+    stop("The order of SampleID is wrong, please check your inputdata")
+  }
+
+  sam_tab <- data_sam_interset_final %>%
+      as.data.frame() %>%
+      tibble::rownames_to_column("TempRowNames")
+  otu_tab_t <- data_otu_interset %>%
+      as.data.frame() %>%
+      base::t() %>%
+      as.data.frame()
+
+  # columns for test
+  if (!is.null(columns)) {
+    sam_tab <- sam_tab %>%
+      tibble::column_to_rownames("TempRowNames") %>%
+      dplyr::select(dplyr::all_of(columns))
+  } else {
+    sam_tab <- sam_tab %>%
+      tibble::column_to_rownames("TempRowNames")    
+  }
+
+  if (!all(rownames(otu_tab_t) == rownames(sam_tab))) {
+    stop("The order of SampleID is wrong, please check your input")
+  }
+  
+  LM_func <- function(dat, feature_name) {
+    
+    feature <- feature_name
+    colnames(dat)[1] <- "Taxa"
+    
+    set.seed(123)
+    
+    # 变量选择
+    train.control <- trainControl(method = "cv", number = 3)
+    step.model <- train(Taxa ~., data = dat,
+                        method = "leapBackward", 
+                        tuneGrid = data.frame(nvmax = 1:5),
+                        trControl = train.control)
+    
+    model.coef <- coef(step.model$finalModel, as.numeric(step.model$bestTune)) %>%
+      as.data.frame()
+    final_index <- rownames(model.coef)[-1]
+    
+    # 基于上述选择的变量，使用 lm()拟合变量与各物种丰度的多元线性回归，获取最优模型
+    if (length(final_index) < 1) {
+      result_model <- data.frame(FeatureID = feature,
+                                 R2 = NA,
+                                 AdjustedR2 = NA,
+                                 Pvalue = NA)
+      result_import <- data.frame(TempID = colnames(dat)[-1],
+                                 Value = NA) %>%
+        tibble::column_to_rownames("TempID") %>%
+        setNames(feature)
+    } else {
+      dat_new <- dat %>%
+        dplyr::select(dplyr::all_of(c("Taxa", final_index)))
+      lm_fit <- lm(Taxa ~., data = dat_new)
+      lm_stat <- summary(lm_fit)
+      R2 <- lm_stat$r.squared 
+      adjR2 <- lm_stat$adj.r.squared 
+      fvalue <- lm_stat$fstatistic 
+      Pvalue <- pf(fvalue[1], fvalue[2], fvalue[3])
+      
+      result_model <- data.frame(FeatureID = feature,
+                                 R2 = R2,
+                                 AdjustedR2 = adjR2,
+                                 Pvalue = Pvalue)
+      
+      # 多元线性回归（已通过变量选择后的最优模型）中各环境变量的相对重要性
+      error <- tryCatch(
+        expr = {
+          crf <- relaimpo::calc.relimp(lm_fit, rela = FALSE)
+        },
+        error = function(e){
+          message('calc.relimp Caught an error!')
+          print(e)
+        }
+      )
+      
+      if (length(error) > 1) {
+        result_import <- data.frame(TempID = colnames(dat)[-1],
+                                     Value = NA) %>%
+            tibble::column_to_rownames("TempID") %>%
+            setNames(feature)  
+      } else {
+        temp_import <- crf@lmg %>%
+          as.data.frame() %>%
+          setNames(feature)
+        temp_import_NA <- data.frame(TempID = c(setdiff(colnames(dat)[-1], final_index)),
+                                     Value = NA) %>%
+          tibble::column_to_rownames("TempID") %>%
+          setNames(feature)
+        
+        result_import <- rbind(temp_import, temp_import_NA)        
+      }
+    }
+    
+    res <- list(model = result_model,
+                import = result_import)
+    
+    return(res)
+  }  
+  
+
+  res_model <- data.frame()
+  res_import <- data.frame(matrix(NA, nrow = ncol(sam_tab), ncol = 0))
+  
+  for (i in 1:ncol(otu_tab_t)) {
+    
+    mdat <- cbind(otu_tab_t[, i, ], sam_tab)
+    featureID <- colnames(otu_tab_t)[i]
+    
+    temp_list <- LM_func(dat = mdat, feature_name = featureID)
+    
+    res_model <- rbind(res_model, temp_list$model)
+    res_import <- cbind(res_import, temp_list$import)
+  }
+  
+  res <- list(model = res_model,
+              import = res_import)
+  
+  return(res)
+}
+
+gut_LM <- run_lm(
+  data_sam = meta_final,
+  data_otu = prof_gut_final,
+  method = "leapBackward")
+
+oral_LM <- run_lm(
+  data_sam = meta_final,
+  data_otu = prof_oral_final,
+  method = "leapBackward")
+```
+
+
+## 可视化结果
+
++ 热图的颜色表示相关系数大小；
+
++ 柱状图表示人体特征变量对物种丰度差异的变异度解释；
+
++ 热图的圆圈大小表示人体特征变量对物种的贡献程度大小。
+
+
+```{r, message = FALSE, warning = FALSE, fig.width=8, fig.height=8}
+get_LM_plot <- function(datCor, datLM)  {
+  
+  dat_cor <- datCor
+  dat_cor[which(dat_cor$Pvalue < 0.001), "siglabel"] <- "***"
+  dat_cor[which(dat_cor$Pvalue < 0.01 & dat_cor$Pvalue > 0.001), "siglabel"] <- "**"
+  dat_cor[which(dat_cor$Pvalue < 0.05 & dat_cor$Pvalue > 0.01), "siglabel"] <- "*"
+  
+  dat_LM <- datLM
+  dat_LM_R2 <- dat_LM$model
+  dat_LM_import <- dat_LM$import
+  
+  dat_LM_R2[which(dat_LM_R2$Pvalue < 0.001), "siglabel"] <- "***"
+  dat_LM_R2[which(dat_LM_R2$Pvalue < 0.01 & dat_LM_R2$Pvalue > 0.001), "siglabel"] <- "**"
+  dat_LM_R2[which(dat_LM_R2$Pvalue < 0.05 & dat_LM_R2$Pvalue > 0.01), "siglabel"] <- "*"
+  
+  dat_LM_import_final <- dat_LM_import %>%
+    tibble::rownames_to_column("Phenotype") %>%
+    tidyr::gather(key = "FeatureID", value = "importance", -Phenotype)
+  
+  p1 <- ggplot() +
+    geom_tile(data = dat_cor, aes(x = FeatureID, y = Phenotype, fill = Rho)) +
+    scale_fill_gradientn(colors = c("#2D6DB1", "white", "#DC1623"), limit = c(-1, 1)) +
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    geom_text(data = dat_cor, aes(x = FeatureID, y = Phenotype, label = siglabel), size = 3) +
+    geom_point(data = dat_LM_import_final, aes(x = FeatureID, y = Phenotype, size = importance * 100), shape = 1) +
+    scale_size_continuous(range = c(0, 5)) +
+    labs(y = "", x = "", fill = "Correlation", size = "Importance (%)") +  
+    guides(fill = guide_legend(order = 1), 
+           size = guide_legend(order = 2)) +
+    theme_bw() +
+    theme(panel.grid = element_blank(), 
+          panel.background = element_rect(color = "black"), 
+          legend.key = element_blank(), 
+          axis.text.x = element_text(color = "black", angle = 45, hjust = 1, vjust = 1), 
+          axis.text.y = element_text(color = "black"), 
+          axis.ticks = element_line(color = "black"))
+  
+  
+  p2 <- ggplot() +
+    geom_col(data = dat_LM_R2, aes(x = FeatureID, y = R2 * 100), fill = "#4882B2", width = 0.6) +
+    scale_y_continuous(expand = c(0, 0), limits = c(0, 100)) +
+    labs(y = "Explained variation (%)", x = "") +
+    theme(panel.grid = element_blank(),
+          panel.background = element_blank(),
+          axis.text.x = element_text(color = "black", angle = 45, hjust = 1, vjust = 1),
+          axis.text.y = element_text(color = "black"),
+          axis.line = element_line(color = "black"),
+          axis.ticks = element_line(color = "black"))
+  
+  
+  pl <- cowplot::plot_grid(p2, p1, ncol = 2, align = "h", rel_widths = c(0.7, 1))
+  
+  return(pl)  
+}
+
+cowplot::plot_grid(
+  get_LM_plot(datCor = gut_corres, datLM = gut_LM),
+  get_LM_plot(datCor = oral_corres, datLM = oral_LM),
+  ncol = 1, align = "hv", labels = LETTERS[1:2])
+```
+
+
+结果：*基于相关性和最优多元回归模型的人体特征指标差异对微生物群落差异和微生物门相对丰度差异的贡献。热图表示了人体特征指标和微生物的Spearman相关系数，柱形图表示了人体指标对解释微生物变异的总贡献（通过多元线性回归获得），圆圈大小表示人体指标的重要性（通过多元线性回归和方差分解分析获得）*。
+
++ A图是肠道微生物和人体特征变量的结果；B图是口腔微生物和人体特征变量的结果；
+
++ 肠道微生物和口腔微生物与人体特征变量相关性差异较大，人体特征变量对口腔微生物相对丰度差异共享度较大，Liver fat和Sodium对口腔的Bacterodies, Firmicutes和Proteobacteria物种差异和相对丰度差异有较大贡献，而肠道仅Urea_BUN对Actinobacteria物种差异和相对丰度有较大贡献；
+
++ 人体特征变量对微生物群落解释度差异在肠道和口腔也存在较大差异。在口腔解释度最高的是Proteobacteria，而在肠道则是Actinobacteria。
+
+
+
+## Systemic information
+```{r}
+devtools::session_info()
+```
+
+
+## Reference
+
++ Balance between community assembly processes mediates species coexistence in agricultural soil microbiomes across eastern China
+
++ [仿一篇文献的相关性分析和线性模型评估影响群落组成的重要环境变量](https://mp.weixin.qq.com/s/EP63-mi9GJSTRS35dQSgMw)
+
++ [Stepwise Regression Essentials in R](http://www.sthda.com/english/articles/37-model-selection-essentials-in-r/154-stepwise-regression-essentials-in-r/)

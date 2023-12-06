@@ -4,17 +4,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 14 Metageomics | 生物信息随记</title>
+<title>Chapter 15 Metageomics | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
-<meta name="description" content="本文聚焦用生物信息学的方法挖掘宏基因组数据背后的生物学意义。 从环境中提取包含所有微生物的DNA，然后建库测序获取fastq等二代测序数据，生信是指对这些数据进行处理和提取它们背后的生物学意义，解析出对环境影响产生相应的微生物。 宏基因组数据分析的优劣点 相关数据分析工具  14.1 宏基因组介绍 metagenomics通常有多种含义，它包含 基于marker...">
+<meta name="description" content="本文聚焦用生物信息学的方法挖掘宏基因组数据背后的生物学意义。 从环境中提取包含所有微生物的DNA，然后建库测序获取fastq等二代测序数据，生信是指对这些数据进行处理和提取它们背后的生物学意义，解析出对环境影响产生相应的微生物。 宏基因组数据分析的优劣点 相关数据分析工具  15.1 宏基因组介绍 metagenomics通常有多种含义，它包含 基于marker...">
 <meta name="generator" content="bookdown 0.34 with bs4_book()">
-<meta property="og:title" content="Chapter 14 Metageomics | 生物信息随记">
+<meta property="og:title" content="Chapter 15 Metageomics | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/Metageomics.html">
-<meta property="og:description" content="本文聚焦用生物信息学的方法挖掘宏基因组数据背后的生物学意义。 从环境中提取包含所有微生物的DNA，然后建库测序获取fastq等二代测序数据，生信是指对这些数据进行处理和提取它们背后的生物学意义，解析出对环境影响产生相应的微生物。 宏基因组数据分析的优劣点 相关数据分析工具  14.1 宏基因组介绍 metagenomics通常有多种含义，它包含 基于marker...">
+<meta property="og:description" content="本文聚焦用生物信息学的方法挖掘宏基因组数据背后的生物学意义。 从环境中提取包含所有微生物的DNA，然后建库测序获取fastq等二代测序数据，生信是指对这些数据进行处理和提取它们背后的生物学意义，解析出对环境影响产生相应的微生物。 宏基因组数据分析的优劣点 相关数据分析工具  15.1 宏基因组介绍 metagenomics通常有多种含义，它包含 基于marker...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 14 Metageomics | 生物信息随记">
-<meta name="twitter:description" content="本文聚焦用生物信息学的方法挖掘宏基因组数据背后的生物学意义。 从环境中提取包含所有微生物的DNA，然后建库测序获取fastq等二代测序数据，生信是指对这些数据进行处理和提取它们背后的生物学意义，解析出对环境影响产生相应的微生物。 宏基因组数据分析的优劣点 相关数据分析工具  14.1 宏基因组介绍 metagenomics通常有多种含义，它包含 基于marker...">
+<meta name="twitter:title" content="Chapter 15 Metageomics | 生物信息随记">
+<meta name="twitter:description" content="本文聚焦用生物信息学的方法挖掘宏基因组数据背后的生物学意义。 从环境中提取包含所有微生物的DNA，然后建库测序获取fastq等二代测序数据，生信是指对这些数据进行处理和提取它们背后的生物学意义，解析出对环境影响产生相应的微生物。 宏基因组数据分析的优劣点 相关数据分析工具  15.1 宏基因组介绍 metagenomics通常有多种含义，它包含 基于marker...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
@@ -78,19 +78,20 @@
 <li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
 <li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
 <li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
 <li class="book-part">Metabolomics Data Analysis</li>
-<li><a class="" href="dataprocessing.html"><span class="header-section-number">6</span> Data Processing</a></li>
-<li><a class="" href="DimensionReduction.html"><span class="header-section-number">7</span> Dimension Reduction</a></li>
-<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">8</span> Differetial Analysis</a></li>
-<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">9</span> Functional Analysis</a></li>
-<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">10</span> MetOrigin Analysis</a></li>
-<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">11</span> Other Analysis</a></li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">8</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">9</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">10</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">11</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">12</span> Other Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">12</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">13</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">14</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="active" href="Metageomics.html"><span class="header-section-number">14</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">15</span> Notes</a></li>
+<li><a class="active" href="Metageomics.html"><span class="header-section-number">15</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">16</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -99,9 +100,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="Metageomics" class="section level1" number="14">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="Metageomics" class="section level1" number="15">
 <h1>
-<span class="header-section-number">14</span> Metageomics<a class="anchor" aria-label="anchor" href="#Metageomics"><i class="fas fa-link"></i></a>
+<span class="header-section-number">15</span> Metageomics<a class="anchor" aria-label="anchor" href="#Metageomics"><i class="fas fa-link"></i></a>
 </h1>
 <p>本文聚焦用生物信息学的方法挖掘宏基因组数据背后的生物学意义。</p>
 <p>从环境中提取包含所有微生物的DNA，然后建库测序获取fastq等二代测序数据，生信是指对这些数据进行处理和提取它们背后的生物学意义，解析出对环境影响产生相应的微生物。</p>
@@ -109,9 +110,9 @@
 <li><p>宏基因组数据分析的优劣点</p></li>
 <li><p>相关数据分析工具</p></li>
 </ul>
-<div id="宏基因组介绍" class="section level2" number="14.1">
+<div id="宏基因组介绍" class="section level2" number="15.1">
 <h2>
-<span class="header-section-number">14.1</span> 宏基因组介绍<a class="anchor" aria-label="anchor" href="#%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E4%BB%8B%E7%BB%8D"><i class="fas fa-link"></i></a>
+<span class="header-section-number">15.1</span> 宏基因组介绍<a class="anchor" aria-label="anchor" href="#%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E4%BB%8B%E7%BB%8D"><i class="fas fa-link"></i></a>
 </h2>
 <p>metagenomics通常有多种含义，它包含</p>
 <ul>
@@ -186,9 +187,9 @@
 <li><p>测序深度（稀少微量的微生物无法检测出来）</p></li>
 <li><p>计算资源（微生物从头组装等需要消耗巨量的计算资源）</p></li>
 </ul>
-<div id="宏基因组常用分析流程" class="section level3" number="14.1.1">
+<div id="宏基因组常用分析流程" class="section level3" number="15.1.1">
 <h3>
-<span class="header-section-number">14.1.1</span> 宏基因组常用分析流程<a class="anchor" aria-label="anchor" href="#%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%B8%B8%E7%94%A8%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B"><i class="fas fa-link"></i></a>
+<span class="header-section-number">15.1.1</span> 宏基因组常用分析流程<a class="anchor" aria-label="anchor" href="#%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%B8%B8%E7%94%A8%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B"><i class="fas fa-link"></i></a>
 </h3>
 <p>参考 A review of methods and databases for metagenomic classification and assembly (Ref:)<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Florian P Breitwieser, Jennifer Lu, and Steven L Salzberg, &lt;span&gt;“A Review of Methods and Databases for Metagenomic Classification and Assembly,”&lt;/span&gt; &lt;em&gt;Briefings in Bioinformatics&lt;/em&gt; 20, no. 4 (2019): 1125–36.&lt;/p&gt;"><sup>3</sup></a></span></p>
 <div class="figure" style="text-align: center">
@@ -209,9 +210,9 @@ Figure 4.1: Common analysis procedures for metagenomics data
 <p>这些步骤涉及软件众多。</p>
 </div>
 </div>
-<div id="reference-11" class="section level2" number="14.2">
+<div id="reference-12" class="section level2" number="15.2">
 <h2>
-<span class="header-section-number">14.2</span> Reference<a class="anchor" aria-label="anchor" href="#reference-11"><i class="fas fa-link"></i></a>
+<span class="header-section-number">15.2</span> Reference<a class="anchor" aria-label="anchor" href="#reference-12"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li><p>Breitwieser, Florian P., Jennifer Lu, and Steven L. Salzberg. “A review of methods and databases for metagenomic classification and assembly.” Briefings in bioinformatics 20.4 (2019): 1125-1136.</p></li>
@@ -221,16 +222,16 @@ Figure 4.1: Common analysis procedures for metagenomics data
 </div>
 
   <div class="chapter-nav">
-<div class="prev"><a href="XGBoostalgorithm.html"><span class="header-section-number">13</span> XGBoost Algorithm</a></div>
-<div class="next"><a href="Notes.html"><span class="header-section-number">15</span> Notes</a></div>
+<div class="prev"><a href="XGBoostalgorithm.html"><span class="header-section-number">14</span> XGBoost Algorithm</a></div>
+<div class="next"><a href="Notes.html"><span class="header-section-number">16</span> Notes</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#Metageomics"><span class="header-section-number">14</span> Metageomics</a></li>
+<li><a class="nav-link" href="#Metageomics"><span class="header-section-number">15</span> Metageomics</a></li>
 <li>
-<a class="nav-link" href="#%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E4%BB%8B%E7%BB%8D"><span class="header-section-number">14.1</span> 宏基因组介绍</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%B8%B8%E7%94%A8%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B"><span class="header-section-number">14.1.1</span> 宏基因组常用分析流程</a></li></ul>
+<a class="nav-link" href="#%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E4%BB%8B%E7%BB%8D"><span class="header-section-number">15.1</span> 宏基因组介绍</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%B8%B8%E7%94%A8%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B"><span class="header-section-number">15.1.1</span> 宏基因组常用分析流程</a></li></ul>
 </li>
-<li><a class="nav-link" href="#reference-11"><span class="header-section-number">14.2</span> Reference</a></li>
+<li><a class="nav-link" href="#reference-12"><span class="header-section-number">15.2</span> Reference</a></li>
 </ul>
 
       <div class="book-extra">
@@ -248,7 +249,7 @@ Figure 4.1: Common analysis procedures for metagenomics data
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-05.</p>
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
