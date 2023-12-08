@@ -79,19 +79,20 @@
 <li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
 <li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
 <li><a class="active" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
+<li><a class="" href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></li>
 <li class="book-part">Metabolomics Data Analysis</li>
-<li><a class="" href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></li>
-<li><a class="" href="DimensionReduction.html"><span class="header-section-number">8</span> Dimension Reduction</a></li>
-<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">9</span> Differetial Analysis</a></li>
-<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">10</span> Functional Analysis</a></li>
-<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">11</span> MetOrigin Analysis</a></li>
-<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">12</span> Other Analysis</a></li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">9</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">10</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">11</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">12</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">13</span> Other Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">13</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">14</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">14</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">15</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">15</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">16</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">16</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">17</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -178,7 +179,7 @@
 <span>  trim <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span></span>
 <span><span class="va">prof_gut</span> <span class="op">&lt;-</span> <span class="va">prof_gut</span><span class="op">@</span><span class="va">otu_table</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">prof_gut_final</span> <span class="op">&lt;-</span> <span class="va">prof_gut</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof_gut</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">prof_gut_final</span> <span class="op">&lt;-</span> <span class="va">prof_gut</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof_gut</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">prof_oral</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/aggregate_taxa.html">aggregate_taxa</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">ps_oral</span>,</span>
@@ -189,7 +190,7 @@
 <span>  trim <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span></span>
 <span><span class="va">prof_oral</span> <span class="op">&lt;-</span> <span class="va">prof_oral</span><span class="op">@</span><span class="va">otu_table</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">prof_oral_final</span> <span class="op">&lt;-</span> <span class="va">prof_oral</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof_oral</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">prof_oral_final</span> <span class="op">&lt;-</span> <span class="va">prof_oral</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof_oral</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">meta_final</span> <span class="op">&lt;-</span> <span class="va">meta_oral</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">meta_oral</span><span class="op">)</span><span class="op">)</span>, ,<span class="op">]</span></span>
 <span></span>
@@ -206,7 +207,8 @@
 <span>    <span class="va">data_otu</span>,</span>
 <span>    <span class="va">columns</span>  <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>    <span class="va">method</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"spearman"</span>, <span class="st">"pearson"</span>, <span class="st">"kendall"</span><span class="op">)</span>,</span>
-<span>    <span class="va">p_adjust</span> <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">p_adjust</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"fdr"</span>, <span class="st">"bonferroni"</span>, <span class="st">"holm"</span>,</span>
+<span>                 <span class="st">"hochberg"</span>, <span class="st">"hommel"</span>, <span class="st">"BH"</span>, <span class="st">"BY"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span></span>
 <span>  <span class="co"># data_sam = meta_final</span></span>
 <span>  <span class="co"># data_otu = prof_gut_final</span></span>
@@ -229,7 +231,7 @@
 <span>  <span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">interset_sampleid</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">data_otu_interset</span> <span class="op">&lt;-</span> <span class="va">data_otu</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -240,7 +242,7 @@
 <span>  <span class="va">data_sam_interset_final</span> <span class="op">&lt;-</span> <span class="va">data_sam_interset</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">interset_sampleid</span>, </span>
 <span>                                                      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset</span><span class="op">)</span><span class="op">)</span>, , <span class="cn">F</span><span class="op">]</span></span>
 <span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu_interset</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset_final</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu_interset</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset_final</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"The order of SampleID is wrong, please check your inputdata"</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span></span>
@@ -271,15 +273,15 @@
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="co"># whether all the elements are numeric</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">is.numeric</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Please check your input, values in "</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,<span class="st">" are not numeric"</span><span class="op">)</span></span>
+<span>      <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Please check your input, values in "</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,<span class="st">" are not numeric"</span><span class="op">)</span></span>
 <span>    <span class="op">}</span></span>
 <span>    <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="va">mdat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">sam_tab</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span>,</span>
 <span>                         y<span class="op">=</span><span class="va">otu_tab_t</span><span class="op">[</span>, <span class="va">j</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>      <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span><span class="op">(</span><span class="va">mdat</span><span class="op">$</span><span class="va">x</span>, <span class="va">mdat</span><span class="op">$</span><span class="va">y</span>, method <span class="op">=</span> <span class="va">method</span><span class="op">)</span></span>
-<span>      <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Phenotype<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span>
-<span>                         FeatureID<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">[</span><span class="va">j</span><span class="op">]</span>,</span>
+<span>      <span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Phenotype<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">sam_tab</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,</span>
+<span>                         FeatureID<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">[</span><span class="va">j</span><span class="op">]</span>,</span>
 <span>                         Statistic<span class="op">=</span><span class="va">fit</span><span class="op">$</span><span class="va">statistic</span>,</span>
 <span>                         Rho<span class="op">=</span><span class="va">fit</span><span class="op">$</span><span class="va">estimate</span>,</span>
 <span>                         Pvalue<span class="op">=</span><span class="va">fit</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span></span>
@@ -295,35 +297,62 @@
 <span></span>
 <span><span class="va">gut_corres</span> <span class="op">&lt;-</span> <span class="fu">run_cor</span><span class="op">(</span></span>
 <span>  data_sam <span class="op">=</span> <span class="va">meta_final</span>,</span>
-<span>  data_otu <span class="op">=</span> <span class="va">prof_gut_final</span><span class="op">)</span></span>
+<span>  data_otu <span class="op">=</span> <span class="va">prof_gut_final</span>,</span>
+<span>  p_adjust <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">oral_corres</span> <span class="op">&lt;-</span> <span class="fu">run_cor</span><span class="op">(</span></span>
 <span>  data_sam <span class="op">=</span> <span class="va">meta_final</span>,</span>
-<span>  data_otu <span class="op">=</span> <span class="va">prof_oral_final</span><span class="op">)</span></span></code></pre></div>
+<span>  data_otu <span class="op">=</span> <span class="va">prof_oral_final</span>,</span>
+<span>  p_adjust <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gut_corres</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   Phenotype         FeatureID Statistic</span></span>
+<span><span class="co">#&gt; 1 Liver_fat p__Actinobacteria      7914</span></span>
+<span><span class="co">#&gt; 2 Liver_fat  p__Bacteroidetes      4858</span></span></code></pre></div>
 </div>
-<div id="线性回归的解释度" class="section level2" number="6.5">
+<div id="线性回归分析" class="section level2" number="6.5">
 <h2>
-<span class="header-section-number">6.5</span> 线性回归的解释度<a class="anchor" aria-label="anchor" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9A%84%E8%A7%A3%E9%87%8A%E5%BA%A6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.5</span> 线性回归分析<a class="anchor" aria-label="anchor" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90"><i class="fas fa-link"></i></a>
 </h2>
 <p>人体特征指标对各个物种的贡献度可通过多元线性回归分析，即物种作为Y响应变量，人体特征作为X变量，通过回归的<span class="math inline">\(R^2\)</span>解析总解释度。</p>
 <p>人体指标可能存在共线性的情况，可以在线性回归计算时候选择前向或后向回归方式筛选重要的变量。两种方法对结果影响较大，可能会得到大相径庭的结果。</p>
+<div id="选择变量分析思路" class="section level3" number="6.5.1">
+<h3>
+<span class="header-section-number">6.5.1</span> 选择变量分析思路<a class="anchor" aria-label="anchor" href="#%E9%80%89%E6%8B%A9%E5%8F%98%E9%87%8F%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>通过前向选择变量的分析思路</li>
+</ul>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li><p>通过前向逐步回归，在所有人体特征变量筛选重要的变量，尽可能减少人体特征共线性以获取简约模型，又同时尽可能保证模型的总解释率不要损失很多；</p></li>
+<li><p>使用选择的人体特征变量，分别拟合与每个物种丰度的多元线性回归，以期通过人体特征变量来解释物种丰度组成的差异；</p></li>
+<li><p>对于在第（2）步中获得的最优模型，提取它们的总解释率（即线性模型的R2或校正后的R2）等信息；</p></li>
+<li><p>对于在第（2）步中获得的最优模型，通过类似方差分解分析的方法，评估主要的人体特征对于物种丰度总方差的贡献，实现定量分析主要的人体特征相对重要性的目的。</p></li>
+</ol>
+</blockquote>
+<ul>
+<li>通过后向选择变量的分析思路</li>
+</ul>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li><p>使用所有人体特征变量，分别拟合与每个物种丰度的多元线性回归，以期通过人体特征变量来解释物种丰度组成的差异；</p></li>
+<li><p>通过后向逐步回归，在构建好的每个线性模型中筛选重要的变量，尽可能减少人体特征变量共线性以获取简约模型，又同时尽可能保证模型的总解释率不要损失很多；</p></li>
+<li><p>对于在第（2）步中获得的最优模型，提取它们的总解释率（即线性模型的R2或校正后的R2）等信息；</p></li>
+<li><p>对于在第（2）步中获得的最优模型，通过类似方差分解分析的方法，评估主要的人体特征对于物种丰度总方差的贡献，实现定量分析主要的人体特征相对重要性的目的。</p></li>
+</ol>
+</blockquote>
+</div>
+<div id="函数" class="section level3" number="6.5.2">
+<h3>
+<span class="header-section-number">6.5.2</span> 函数<a class="anchor" aria-label="anchor" href="#%E5%87%BD%E6%95%B0"><i class="fas fa-link"></i></a>
+</h3>
+<p>method参数控制筛选变量的方向：</p>
 <ul>
 <li><p>“leapForward”: 前向逐步回归 (forward selection)</p></li>
 <li><p>“leapBackward”: 后向逐步回归 (backward selection)</p></li>
 <li><p>“leapSeq”: 逐步回归 (stepwise selection)</p></li>
 </ul>
-<div id="通过前向选择环境变量的分析思路" class="section level3" number="6.5.1">
-<h3>
-<span class="header-section-number">6.5.1</span> 通过前向选择环境变量的分析思路<a class="anchor" aria-label="anchor" href="#%E9%80%9A%E8%BF%87%E5%89%8D%E5%90%91%E9%80%89%E6%8B%A9%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF"><i class="fas fa-link"></i></a>
-</h3>
-<blockquote>
-<ol style="list-style-type: decimal">
-<li><p>通过前向逐步回归，在所有人体特征筛选重要的变量，尽可能减少人体特征共线性以获取简约模型，又同时尽可能保证模型的总解释率不要损失很多；</p></li>
-<li><p>使用选择的人体特征，分别拟合与每个物种丰度的多元线性回归，以期通过人体特征来解释物种丰度组成的差异；</p></li>
-<li><p>对于在第（2）步中获得的最优模型，提取它们的总解释率（即线性模型的R2或校正后的R2）等信息；</p></li>
-<li><p>对于在第（2）步中获得的最优模型，通过类似方差分解分析的方法，评估主要的人体特征对于物种丰度总方差的贡献，实现定量分析主要的人体特征相对重要性的目的。</p></li>
-</ol>
-</blockquote>
 <div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">run_lm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">data_sam</span>,</span>
@@ -346,7 +375,7 @@
 <span>  <span class="op">}</span></span>
 <span></span>
 <span>  <span class="va">interset_sampleid</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">data_otu_interset</span> <span class="op">&lt;-</span> <span class="va">data_otu</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -357,7 +386,7 @@
 <span>  <span class="va">data_sam_interset_final</span> <span class="op">&lt;-</span> <span class="va">data_sam_interset</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">interset_sampleid</span>, </span>
 <span>                                                      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset</span><span class="op">)</span><span class="op">)</span>, , <span class="cn">F</span><span class="op">]</span></span>
 <span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu_interset</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset_final</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_otu_interset</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">data_sam_interset_final</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"The order of SampleID is wrong, please check your inputdata"</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span></span>
@@ -386,14 +415,14 @@
 <span>  <span class="va">LM_func</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dat</span>, <span class="va">feature_name</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    </span>
 <span>    <span class="va">feature</span> <span class="op">&lt;-</span> <span class="va">feature_name</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Taxa"</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Taxa"</span></span>
 <span>    </span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span>    </span>
 <span>    <span class="co"># 变量选择</span></span>
 <span>    <span class="va">train.control</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/caret/man/trainControl.html">trainControl</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"cv"</span>, number <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span>    <span class="va">step.model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/caret/man/train.html">train</a></span><span class="op">(</span><span class="va">Taxa</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">dat</span>,</span>
-<span>                        method <span class="op">=</span> <span class="st">"leapBackward"</span>, </span>
+<span>                        method <span class="op">=</span> <span class="va">method</span>, </span>
 <span>                        tuneGrid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>nvmax <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span>
 <span>                        trControl <span class="op">=</span> <span class="va">train.control</span><span class="op">)</span></span>
 <span>    </span>
@@ -407,7 +436,7 @@
 <span>                                 R2 <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>                                 AdjustedR2 <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>                                 Pvalue <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
-<span>      <span class="va">result_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TempID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>      <span class="va">result_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TempID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>                                 Value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">feature</span><span class="op">)</span></span>
@@ -438,7 +467,7 @@
 <span>      <span class="op">)</span></span>
 <span>      </span>
 <span>      <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">error</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>        <span class="va">result_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TempID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>        <span class="va">result_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TempID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>                                     Value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>            <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>            <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">feature</span><span class="op">)</span>  </span>
@@ -446,7 +475,7 @@
 <span>        <span class="va">temp_import</span> <span class="op">&lt;-</span> <span class="va">crf</span><span class="op">@</span><span class="va">lmg</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">feature</span><span class="op">)</span></span>
-<span>        <span class="va">temp_import_NA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TempID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">final_index</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        <span class="va">temp_import_NA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>TempID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">final_index</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                                     Value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>          <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TempID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="va">feature</span><span class="op">)</span></span>
@@ -468,7 +497,7 @@
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    </span>
 <span>    <span class="va">mdat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">[</span>, <span class="va">i</span>, <span class="op">]</span>, <span class="va">sam_tab</span><span class="op">)</span></span>
-<span>    <span class="va">featureID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>    <span class="va">featureID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">otu_tab_t</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span>    </span>
 <span>    <span class="va">temp_list</span> <span class="op">&lt;-</span> <span class="fu">LM_func</span><span class="op">(</span>dat <span class="op">=</span> <span class="va">mdat</span>, feature_name <span class="op">=</span> <span class="va">featureID</span><span class="op">)</span></span>
 <span>    </span>
@@ -499,12 +528,17 @@
 <span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
 <span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
 <span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
-<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml&gt;</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">oral_LM</span><span class="op">$</span><span class="va">model</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                FeatureID        R2 AdjustedR2</span></span>
+<span><span class="co">#&gt; value  p__Actinobacteria 0.2355881  0.2109297</span></span>
+<span><span class="co">#&gt; value1  p__Bacteroidetes 0.3249810  0.2285498</span></span></code></pre></div>
 </div>
 </div>
-<div id="可视化结果" class="section level2" number="6.6">
+<div id="可视化" class="section level2" number="6.6">
 <h2>
-<span class="header-section-number">6.6</span> 可视化结果<a class="anchor" aria-label="anchor" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E7%BB%93%E6%9E%9C"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.6</span> 可视化<a class="anchor" aria-label="anchor" href="#%E5%8F%AF%E8%A7%86%E5%8C%96"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li><p>热图的颜色表示相关系数大小；</p></li>
@@ -563,12 +597,12 @@
 <span>          axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
 <span>  </span>
-<span>  <span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, ncol <span class="op">=</span> <span class="fl">2</span>, align <span class="op">=</span> <span class="st">"h"</span>, rel_widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, ncol <span class="op">=</span> <span class="fl">2</span>, align <span class="op">=</span> <span class="st">"h"</span>, rel_widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">pl</span><span class="op">)</span>  </span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cowplot/man/plot_grid.html">plot_grid</a></span><span class="op">(</span></span>
+<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span></span>
 <span>  <span class="fu">get_LM_plot</span><span class="op">(</span>datCor <span class="op">=</span> <span class="va">gut_corres</span>, datLM <span class="op">=</span> <span class="va">gut_LM</span><span class="op">)</span>,</span>
 <span>  <span class="fu">get_LM_plot</span><span class="op">(</span>datCor <span class="op">=</span> <span class="va">oral_corres</span>, datLM <span class="op">=</span> <span class="va">oral_LM</span><span class="op">)</span>,</span>
 <span>  ncol <span class="op">=</span> <span class="fl">1</span>, align <span class="op">=</span> <span class="st">"hv"</span>, labels <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
@@ -577,7 +611,8 @@
 <ul>
 <li><p>A图是肠道微生物和人体特征变量的结果；B图是口腔微生物和人体特征变量的结果；</p></li>
 <li><p>肠道微生物和口腔微生物与人体特征变量相关性差异较大，人体特征变量对口腔微生物相对丰度差异共享度较大，Liver fat和Sodium对口腔的Bacterodies, Firmicutes和Proteobacteria物种差异和相对丰度差异有较大贡献，而肠道仅Urea_BUN对Actinobacteria物种差异和相对丰度有较大贡献；</p></li>
-<li><p>人体特征变量对微生物群落解释度差异在肠道和口腔也存在较大差异。在口腔解释度最高的是Proteobacteria，而在肠道则是Actinobacteria。</p></li>
+<li><p>人体特征变量对微生物群落解释度差异在肠道和口腔也存在较大差异。在口腔解释度最高的是Proteobacteria，而在肠道则是Actinobacteria；</p></li>
+<li><p>相比PERMANOVA分析（各个微生物对整体人体特征变量的总变异度，也即单个微生物对人体变量总体的扰动程度），该组合方法不仅计算了各个微生物对核心人体特征变量（前后向逐步回归筛选）的解释度，而且也计算了这些核心变量对该微生物的重要程度（<span class="math inline">\(R^2\)</span>分解成重要性打分）。</p></li>
 </ul>
 </div>
 <div id="systemic-information-3" class="section level2" number="6.7">
@@ -585,7 +620,7 @@
 <span class="header-section-number">6.7</span> Systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-3"><i class="fas fa-link"></i></a>
 </h2>
 <div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
 <span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
@@ -596,8 +631,8 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2023-12-06</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  date     2023-12-08</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  package              * version    date (UTC) lib source</span></span>
@@ -793,12 +828,9 @@
 </ul>
 </div>
 </div>
-
-
-
   <div class="chapter-nav">
 <div class="prev"><a href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></div>
-<div class="next"><a href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></div>
+<div class="next"><a href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -808,9 +840,12 @@
 <li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="header-section-number">6.3</span> 数据准备</a></li>
 <li><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90"><span class="header-section-number">6.4</span> 相关性分析</a></li>
 <li>
-<a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9A%84%E8%A7%A3%E9%87%8A%E5%BA%A6"><span class="header-section-number">6.5</span> 线性回归的解释度</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%89%8D%E5%90%91%E9%80%89%E6%8B%A9%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF"><span class="header-section-number">6.5.1</span> 通过前向选择环境变量的分析思路</a></li></ul>
+<a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90"><span class="header-section-number">6.5</span> 线性回归分析</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%8F%98%E9%87%8F%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF"><span class="header-section-number">6.5.1</span> 选择变量分析思路</a></li>
+<li><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="header-section-number">6.5.2</span> 函数</a></li>
+</ul>
 </li>
-<li><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E7%BB%93%E6%9E%9C"><span class="header-section-number">6.6</span> 可视化结果</a></li>
+<li><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="header-section-number">6.6</span> 可视化</a></li>
 <li><a class="nav-link" href="#systemic-information-3"><span class="header-section-number">6.7</span> Systemic information</a></li>
 <li><a class="nav-link" href="#reference-4"><span class="header-section-number">6.8</span> Reference</a></li>
 </ul>
@@ -830,7 +865,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-06.</p>
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

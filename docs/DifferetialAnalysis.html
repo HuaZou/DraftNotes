@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 9 Differetial Analysis | 生物信息随记</title>
+<title>Chapter 10 Differetial Analysis | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
 <meta name="description" content="差异分析的目的是为了筛选代谢物标记物，常用的方法有以下几种 倍数变化法 (Fold Change)，也有基于log2的Fold change，计算组间倍数变化 T检验，计算组间均值的t统计量差别 PLS-DA或OPLS-DA的VIP(Variable Importance for the...">
 <meta name="generator" content="bookdown 0.34 with bs4_book()">
-<meta property="og:title" content="Chapter 9 Differetial Analysis | 生物信息随记">
+<meta property="og:title" content="Chapter 10 Differetial Analysis | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/DifferetialAnalysis.html">
 <meta property="og:description" content="差异分析的目的是为了筛选代谢物标记物，常用的方法有以下几种 倍数变化法 (Fold Change)，也有基于log2的Fold change，计算组间倍数变化 T检验，计算组间均值的t统计量差别 PLS-DA或OPLS-DA的VIP(Variable Importance for the...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 9 Differetial Analysis | 生物信息随记">
+<meta name="twitter:title" content="Chapter 10 Differetial Analysis | 生物信息随记">
 <meta name="twitter:description" content="差异分析的目的是为了筛选代谢物标记物，常用的方法有以下几种 倍数变化法 (Fold Change)，也有基于log2的Fold change，计算组间倍数变化 T检验，计算组间均值的t统计量差别 PLS-DA或OPLS-DA的VIP(Variable Importance for the...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -79,19 +79,20 @@
 <li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
 <li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
 <li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
+<li><a class="" href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></li>
 <li class="book-part">Metabolomics Data Analysis</li>
-<li><a class="" href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></li>
-<li><a class="" href="DimensionReduction.html"><span class="header-section-number">8</span> Dimension Reduction</a></li>
-<li><a class="active" href="DifferetialAnalysis.html"><span class="header-section-number">9</span> Differetial Analysis</a></li>
-<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">10</span> Functional Analysis</a></li>
-<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">11</span> MetOrigin Analysis</a></li>
-<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">12</span> Other Analysis</a></li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">9</span> Dimension Reduction</a></li>
+<li><a class="active" href="DifferetialAnalysis.html"><span class="header-section-number">10</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">11</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">12</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">13</span> Other Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">13</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">14</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">14</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">15</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">15</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">16</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">16</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">17</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -100,9 +101,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="DifferetialAnalysis" class="section level1" number="9">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="DifferetialAnalysis" class="section level1" number="10">
 <h1>
-<span class="header-section-number">9</span> Differetial Analysis<a class="anchor" aria-label="anchor" href="#DifferetialAnalysis"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10</span> Differetial Analysis<a class="anchor" aria-label="anchor" href="#DifferetialAnalysis"><i class="fas fa-link"></i></a>
 </h1>
 <p>差异分析的目的是为了筛选代谢物标记物，常用的方法有以下几种</p>
 <ul>
@@ -110,24 +111,24 @@
 <li><p>T检验，计算组间均值的t统计量差别</p></li>
 <li><p>PLS-DA或OPLS-DA的VIP(Variable Importance for the Projection，变量投影重要度)，计算代谢物在投影平面坐标的重要度打分，个人理解有点类似主成分的特征系数</p></li>
 </ul>
-<div id="安装microbiomeanalysis包" class="section level2" number="9.1">
+<div id="安装microbiomeanalysis包" class="section level2" number="10.1">
 <h2>
-<span class="header-section-number">9.1</span> 安装MicrobiomeAnalysis包<a class="anchor" aria-label="anchor" href="#%E5%AE%89%E8%A3%85microbiomeanalysis%E5%8C%85"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.1</span> 安装MicrobiomeAnalysis包<a class="anchor" aria-label="anchor" href="#%E5%AE%89%E8%A3%85microbiomeanalysis%E5%8C%85"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li>MicrobiomeAnalysis可提供下面分析使用的函数</li>
 </ul>
-<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"remotes"</span>, <span class="st">"devtools"</span><span class="op">)</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"remotes"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"HuaZou/MicrobiomeAnalysis"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="加载r包-5" class="section level2" number="9.2">
+<div id="加载r包-6" class="section level2" number="10.2">
 <h2>
-<span class="header-section-number">9.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-5"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-6"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://dx.doi.org/10.1021/acs.jproteome.5b00354">ropls</a></span><span class="op">)</span></span>
@@ -143,13 +144,13 @@
 <span><span class="va">grp_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"None"</span>, <span class="st">"Mild"</span>, <span class="st">"Moderate"</span>, <span class="st">"Severe"</span><span class="op">)</span></span>
 <span><span class="va">grp_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#7DD06F"</span>, <span class="st">"#844081"</span>, <span class="st">"#688EC1"</span>, <span class="st">"#C17E73"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="导入数据-4" class="section level2" number="9.3">
+<div id="导入数据-4" class="section level2" number="10.3">
 <h2>
-<span class="header-section-number">9.3</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.3</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>对数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel%20et%20al.%20-%202022.xlsx">OmicsDataSet-Zeybel et al. - 2022.xlsx</a>处理后生成的，可参考数据预处理章节。</p>
 <blockquote>
-<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_filter</span>, <span class="st">"./InputData/result/QC/se_filter.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_scale</span>, <span class="st">"./InputData/result/QC/se_scale.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </blockquote>
@@ -157,17 +158,17 @@
 <li><p>se_filter.RDS用于计算倍数变化</p></li>
 <li><p>se_scale.RDS用于T检验和PLS-DA</p></li>
 </ul>
-<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">se_filter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"./InputData/result/QC/se_filter.RDS"</span><span class="op">)</span></span>
 <span><span class="va">se_scale</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"./InputData/result/QC/se_scale.RDS"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="平均值和方差-mean---sd" class="section level2" number="9.4">
+<div id="平均值和方差-mean---sd" class="section level2" number="10.4">
 <h2>
-<span class="header-section-number">9.4</span> 平均值和方差 (mean +/- sd)<a class="anchor" aria-label="anchor" href="#%E5%B9%B3%E5%9D%87%E5%80%BC%E5%92%8C%E6%96%B9%E5%B7%AE-mean---sd"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4</span> 平均值和方差 (mean +/- sd)<a class="anchor" aria-label="anchor" href="#%E5%B9%B3%E5%9D%87%E5%80%BC%E5%92%8C%E6%96%B9%E5%B7%AE-mean---sd"><i class="fas fa-link"></i></a>
 </h2>
 <p>根据代谢物的相对定量或绝对定量结果，计算某个代谢物在两组间表达量的平均值和方差</p>
 <p>这里选择”None”和”Severe”两组计算</p>
-<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">meansd_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">x</span>,</span>
 <span>    <span class="va">group</span>,</span>
@@ -187,18 +188,18 @@
 <span>  <span class="va">feature</span> <span class="op">&lt;-</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">rowData</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"CompVar"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"CompVar"</span></span>
 <span>  <span class="va">phenotype</span> <span class="op">&lt;-</span> <span class="va">metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">CompVar</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">group_names</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>CompVar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">CompVar</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>CompVar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">CompVar</span>, levels <span class="op">=</span> <span class="va">group_names</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="va">sid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">profile</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">sid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">profile</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="va">phen</span> <span class="op">&lt;-</span> <span class="va">phenotype</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span><span class="op">)</span>, , <span class="op">]</span></span>
 <span>  <span class="va">prof</span> <span class="op">&lt;-</span> <span class="va">profile</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">sid</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phen</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phen</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Wrong Order"</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span>  </span>
@@ -212,7 +213,7 @@
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="va">nRow</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df_occ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df_occ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df_occ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span>    <span class="op">}</span></span>
 <span>    <span class="va">df_KEEP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">df_occ</span> <span class="op">&gt;</span> <span class="va">threshold</span>, <span class="fl">1</span>, <span class="va">all</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="st">"Status"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -257,7 +258,7 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"Feature"</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">mean_res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"FeatureID"</span>, </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">mean_res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"FeatureID"</span>, </span>
 <span>                        <span class="st">"Mean+/-SD Abundance(All)"</span>,</span>
 <span>                     <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Mean Abundance "</span>, <span class="va">group_names</span><span class="op">)</span><span class="op">)</span> </span>
 <span>  </span>
@@ -284,21 +285,21 @@
 <span><span class="co">#&gt; 1 Chem_100002945 33862956.0909091+/-15764070.6522433</span></span>
 <span><span class="co">#&gt; 2 Chem_100002356 3629040.02272727+/-1307163.71272114</span></span>
 <span><span class="co">#&gt; 3 Chem_100021502   684442.63282273+/-371654.38934552</span></span>
-<span><span class="co">#&gt; 4 Chem_100020519 22367529.3088522+/-21023151.6992651</span></span>
+<span><span class="co">#&gt; 4 Chem_100020519 22377791.1880027+/-21032607.1969419</span></span>
 <span><span class="co">#&gt; 5 Chem_100008903 102839488.727273+/-27950099.0087515</span></span>
 <span><span class="co">#&gt; 6 Chem_100009217   274551.65968485+/-148845.64090602</span></span>
 <span><span class="co">#&gt;                   Mean Abundance None</span></span>
 <span><span class="co">#&gt; 1         31958567+/-19461108.7209389</span></span>
 <span><span class="co">#&gt; 2      3322149.325+/-1301360.05772809</span></span>
 <span><span class="co">#&gt; 3      684387.21095+/-465469.48938036</span></span>
-<span><span class="co">#&gt; 4 20423136.3098974+/-21688521.2573225</span></span>
+<span><span class="co">#&gt; 4 20427247.0621117+/-21691828.6530022</span></span>
 <span><span class="co">#&gt; 5       103557801.6+/-25226703.757032</span></span>
 <span><span class="co">#&gt; 6    244809.93332667+/-95659.19506961</span></span>
 <span><span class="co">#&gt;                 Mean Abundance Severe  metabolitesID</span></span>
 <span><span class="co">#&gt; 1         35449947+/-12589758.3211378 Chem_100002945</span></span>
 <span><span class="co">#&gt; 2 3884782.27083333+/-1311269.55266439 Chem_100002356</span></span>
 <span><span class="co">#&gt; 3   684488.81771667+/-293986.70676612 Chem_100021502</span></span>
-<span><span class="co">#&gt; 4 23987856.8079811+/-21274379.1491838 Chem_100020519</span></span>
+<span><span class="co">#&gt; 4  24003244.6262452+/-21288519.296662 Chem_100020519</span></span>
 <span><span class="co">#&gt; 5 102240894.666667+/-31142531.5321634 Chem_100008903</span></span>
 <span><span class="co">#&gt; 6       299336.43165+/-182578.0691836 Chem_100009217</span></span>
 <span><span class="co">#&gt;                                   BIOCHEMICAL SUPER.PATHWAY</span></span>
@@ -330,14 +331,14 @@
 <span><span class="co">#&gt; 5    HMDB0008138</span></span>
 <span><span class="co">#&gt; 6    HMDB0009093</span></span></code></pre></div>
 </div>
-<div id="倍数变化法-fold-change" class="section level2" number="9.5">
+<div id="倍数变化法-fold-change" class="section level2" number="10.5">
 <h2>
-<span class="header-section-number">9.5</span> 倍数变化法 (Fold Change)<a class="anchor" aria-label="anchor" href="#%E5%80%8D%E6%95%B0%E5%8F%98%E5%8C%96%E6%B3%95-fold-change"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.5</span> 倍数变化法 (Fold Change)<a class="anchor" aria-label="anchor" href="#%E5%80%8D%E6%95%B0%E5%8F%98%E5%8C%96%E6%B3%95-fold-change"><i class="fas fa-link"></i></a>
 </h2>
 <blockquote>
 <p>倍数变化法即根据代谢物的相对定量或绝对定量结果，计算某个代谢物在两组间表达量的差异倍数（Fold Change），简称FC值。假设A物质在对照组中定量结果为1，在疾病组中定量结果为3，那么此物质的FC值即为3。由于代谢物定量结果肯定是非负数，那么FC的取值就是(0, +∞)。为筛选到差异更为显著的代谢物，小迈提供给各位老师的结果中默认选择的是FC值≥2或≤0.5的物质，此标准设置的较为严格，若因此筛到的差异代谢物较少，可根据需求将差异倍数标准调整为1.5倍或者1.2倍，这两种阈值在代谢组研究相关文章中也是较为常见的。</p>
 </blockquote>
-<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fc_result</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_metabolomeDA.html">run_metabolomeDA</a></span><span class="op">(</span></span>
 <span>  object_raw <span class="op">=</span> <span class="va">se_filter</span>,</span>
 <span>  variable <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
@@ -350,21 +351,21 @@
 <span><span class="co">#&gt; 1 Chem_100002945 10_None vs 12_Severe  0.9015124</span></span>
 <span><span class="co">#&gt; 2 Chem_100002356 10_None vs 12_Severe  0.8551700</span></span>
 <span><span class="co">#&gt; 3 Chem_100021502 10_None vs 12_Severe  0.9998516</span></span>
-<span><span class="co">#&gt; 4 Chem_100020519 10_None vs 12_Severe  0.8513948</span></span>
+<span><span class="co">#&gt; 4 Chem_100020519 10_None vs 12_Severe  0.8510202</span></span>
 <span><span class="co">#&gt; 5 Chem_100008903 10_None vs 12_Severe  1.0128804</span></span>
 <span><span class="co">#&gt; 6 Chem_100009217 10_None vs 12_Severe  0.8178421</span></span>
 <span><span class="co">#&gt;   Log2FoldChange Mean Abundance (All) Mean Abundance None</span></span>
 <span><span class="co">#&gt; 1  -0.1495807503           33862956.1          31958567.0</span></span>
 <span><span class="co">#&gt; 2  -0.2257168212            3629040.0           3322149.3</span></span>
 <span><span class="co">#&gt; 3  -0.0002141722             684442.6            684387.2</span></span>
-<span><span class="co">#&gt; 4  -0.2320998331           22367529.3          20423136.3</span></span>
+<span><span class="co">#&gt; 4  -0.2327346464           22377791.2          20427247.1</span></span>
 <span><span class="co">#&gt; 5   0.0184638782          102839488.7         103557801.6</span></span>
 <span><span class="co">#&gt; 6  -0.2901057796             274551.7            244809.9</span></span>
 <span><span class="co">#&gt;   Mean Abundance Severe  metabolitesID</span></span>
 <span><span class="co">#&gt; 1            35449947.0 Chem_100002945</span></span>
 <span><span class="co">#&gt; 2             3884782.3 Chem_100002356</span></span>
 <span><span class="co">#&gt; 3              684488.8 Chem_100021502</span></span>
-<span><span class="co">#&gt; 4            23987856.8 Chem_100020519</span></span>
+<span><span class="co">#&gt; 4            24003244.6 Chem_100020519</span></span>
 <span><span class="co">#&gt; 5           102240894.7 Chem_100008903</span></span>
 <span><span class="co">#&gt; 6              299336.4 Chem_100009217</span></span>
 <span><span class="co">#&gt;                                   BIOCHEMICAL SUPER.PATHWAY</span></span>
@@ -401,14 +402,14 @@
 <li><p>Log2FoldChange是组间倍数变化的log2对数值</p></li>
 </ul>
 </div>
-<div id="t检验" class="section level2" number="9.6">
+<div id="t检验" class="section level2" number="10.6">
 <h2>
-<span class="header-section-number">9.6</span> T检验<a class="anchor" aria-label="anchor" href="#t%E6%A3%80%E9%AA%8C"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.6</span> T检验<a class="anchor" aria-label="anchor" href="#t%E6%A3%80%E9%AA%8C"><i class="fas fa-link"></i></a>
 </h2>
 <blockquote>
 <p>T检验，又叫student t 检验（Student’s t test）,是一种常用的假设检验方法，也是差异代谢物筛选中常见的统计策略之一。假设检验首先必须要有假设，我们假设某代谢物在A组和B组的含量没有差异（H0，零假设），然后基于此假设，通过t test计算出统计量t值和其对应的p值，如果P-value&lt;0.05，那么说明小概率事件出现了，我们应该拒绝零假设，即A组和B组的含量不一样，即有显著差异。</p>
 </blockquote>
-<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">t_result</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_metabolomeDA.html">run_metabolomeDA</a></span><span class="op">(</span></span>
 <span>  object_norm <span class="op">=</span> <span class="va">se_scale</span>,</span>
 <span>  variable <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
@@ -417,19 +418,19 @@
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">t_result</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        FeatureID                Block  Statistic    Pvalue</span></span>
-<span><span class="co">#&gt; 1 Chem_100002945 10_None vs 12_Severe -0.4930851 0.6295634</span></span>
-<span><span class="co">#&gt; 2 Chem_100002356 10_None vs 12_Severe -0.6434776 0.5291685</span></span>
-<span><span class="co">#&gt; 3 Chem_100021502 10_None vs 12_Severe -0.3062205 0.7642351</span></span>
-<span><span class="co">#&gt; 4 Chem_100020519 10_None vs 12_Severe -0.1932402 0.8487889</span></span>
-<span><span class="co">#&gt; 5 Chem_100008903 10_None vs 12_Severe  1.1263483 0.2733543</span></span>
-<span><span class="co">#&gt; 6 Chem_100009217 10_None vs 12_Severe -0.2960430 0.7703108</span></span>
+<span><span class="co">#&gt; 1 Chem_100002945 10_None vs 12_Severe -0.5359961 0.6002266</span></span>
+<span><span class="co">#&gt; 2 Chem_100002356 10_None vs 12_Severe -0.6916539 0.4989317</span></span>
+<span><span class="co">#&gt; 3 Chem_100021502 10_None vs 12_Severe -0.3287081 0.7475442</span></span>
+<span><span class="co">#&gt; 4 Chem_100020519 10_None vs 12_Severe -0.1983307 0.8448580</span></span>
+<span><span class="co">#&gt; 5 Chem_100008903 10_None vs 12_Severe  1.0873934 0.2898022</span></span>
+<span><span class="co">#&gt; 6 Chem_100009217 10_None vs 12_Severe -0.3203800 0.7520565</span></span>
 <span><span class="co">#&gt;   AdjustedPvalue  metabolitesID</span></span>
-<span><span class="co">#&gt; 1      0.8883761 Chem_100002945</span></span>
-<span><span class="co">#&gt; 2      0.8650553 Chem_100002356</span></span>
-<span><span class="co">#&gt; 3      0.9172111 Chem_100021502</span></span>
-<span><span class="co">#&gt; 4      0.9568910 Chem_100020519</span></span>
-<span><span class="co">#&gt; 5      0.6875592 Chem_100008903</span></span>
-<span><span class="co">#&gt; 6      0.9172111 Chem_100009217</span></span>
+<span><span class="co">#&gt; 1      0.8791865 Chem_100002945</span></span>
+<span><span class="co">#&gt; 2      0.8373945 Chem_100002356</span></span>
+<span><span class="co">#&gt; 3      0.9059672 Chem_100021502</span></span>
+<span><span class="co">#&gt; 4      0.9496587 Chem_100020519</span></span>
+<span><span class="co">#&gt; 5      0.7137720 Chem_100008903</span></span>
+<span><span class="co">#&gt; 6      0.9060523 Chem_100009217</span></span>
 <span><span class="co">#&gt;                                   BIOCHEMICAL SUPER.PATHWAY</span></span>
 <span><span class="co">#&gt; 1 (14 or 15)-methylpalmitate (a17:0 or i17:0)         Lipid</span></span>
 <span><span class="co">#&gt; 2  (16 or 17)-methylstearate (a19:0 or i19:0)         Lipid</span></span>
@@ -464,9 +465,9 @@
 <li><p>AdjustedPvalue是组间t检验结果pvalue的FDR校正结果，多次假设检验需要做FDR校正</p></li>
 </ul>
 </div>
-<div id="变量投影重要度-vip-正交偏最小二乘判别分析opls-da" class="section level2" number="9.7">
+<div id="变量投影重要度-vip-正交偏最小二乘判别分析opls-da" class="section level2" number="10.7">
 <h2>
-<span class="header-section-number">9.7</span> 变量投影重要度 (VIP) 正交偏最小二乘判别分析（OPLS-DA）<a class="anchor" aria-label="anchor" href="#%E5%8F%98%E9%87%8F%E6%8A%95%E5%BD%B1%E9%87%8D%E8%A6%81%E5%BA%A6-vip-%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.7</span> 变量投影重要度 (VIP) 正交偏最小二乘判别分析（OPLS-DA）<a class="anchor" aria-label="anchor" href="#%E5%8F%98%E9%87%8F%E6%8A%95%E5%BD%B1%E9%87%8D%E8%A6%81%E5%BA%A6-vip-%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><i class="fas fa-link"></i></a>
 </h2>
 <blockquote>
 <p>由于代谢组数据具有“高维、高噪音、高变异”的特点，因此一般采用多元统计分析方法，可以在最大程度保留原始信息的基础上将高维复杂的数据进行“简化和降维”，建立可靠的数学模型对研究对象的代谢谱特点进行归纳和总结。常见的多元统计分析方法包括PLS-DA或OPLS-DA。</p>
@@ -480,58 +481,58 @@
 <blockquote>
 <p>VIP（Variable important in projection）是(O)PLS-DA模型变量的变量权重值，可用于衡量各代谢物积累差异对各组样本分类判别的影响强度和解释能力，VIP≥1为常见的差异代谢物筛选标准。</p>
 </blockquote>
-<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">VIP_result</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_metabolomeDA.html">run_metabolomeDA</a></span><span class="op">(</span></span>
 <span>  object_norm <span class="op">=</span> <span class="va">se_scale</span>,</span>
 <span>  variable <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
 <span>  variable_name <span class="op">=</span> <span class="va">grp_names</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  DA_method <span class="op">=</span> <span class="st">"vip"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; PLS-DA</span></span>
-<span><span class="co">#&gt; 22 samples x 659 variables and 1 response</span></span>
+<span><span class="co">#&gt; 22 samples x 665 variables and 1 response</span></span>
 <span><span class="co">#&gt; standard scaling of predictors and response(s)</span></span>
 <span><span class="co">#&gt;       R2X(cum) R2Y(cum) Q2(cum) RMSEE pre ort pR2Y  pQ2</span></span>
-<span><span class="co">#&gt; Total    0.105    0.815   0.526 0.225   1   0 0.15 0.05</span></span>
+<span><span class="co">#&gt; Total    0.101    0.832   0.542 0.214   1   0  0.1 0.05</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">VIP_result</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        FeatureID                Block      VIP    CorPvalue</span></span>
-<span><span class="co">#&gt; 1       Chem_503 10_None vs 12_Severe 2.674591 8.999556e-05</span></span>
-<span><span class="co">#&gt; 2 Chem_100015755 10_None vs 12_Severe 2.669850 9.401183e-05</span></span>
-<span><span class="co">#&gt; 3 Chem_100001437 10_None vs 12_Severe 2.634369 1.293340e-04</span></span>
-<span><span class="co">#&gt; 4 Chem_100009066 10_None vs 12_Severe 2.508350 3.635911e-04</span></span>
-<span><span class="co">#&gt; 5 Chem_100022013 10_None vs 12_Severe 2.454479 5.426659e-04</span></span>
-<span><span class="co">#&gt; 6 Chem_100009181 10_None vs 12_Severe 2.448184 5.678387e-04</span></span>
+<span><span class="co">#&gt; 1 Chem_100015755 10_None vs 12_Severe 2.687525 8.117771e-05</span></span>
+<span><span class="co">#&gt; 2 Chem_100001437 10_None vs 12_Severe 2.650556 1.138437e-04</span></span>
+<span><span class="co">#&gt; 3       Chem_503 10_None vs 12_Severe 2.548672 2.690372e-04</span></span>
+<span><span class="co">#&gt; 4 Chem_100009066 10_None vs 12_Severe 2.512645 3.565018e-04</span></span>
+<span><span class="co">#&gt; 5 Chem_100009181 10_None vs 12_Severe 2.477067 4.658589e-04</span></span>
+<span><span class="co">#&gt; 6 Chem_100022013 10_None vs 12_Severe 2.448254 5.744321e-04</span></span>
 <span><span class="co">#&gt;    metabolitesID</span></span>
-<span><span class="co">#&gt; 1       Chem_503</span></span>
-<span><span class="co">#&gt; 2 Chem_100015755</span></span>
-<span><span class="co">#&gt; 3 Chem_100001437</span></span>
+<span><span class="co">#&gt; 1 Chem_100015755</span></span>
+<span><span class="co">#&gt; 2 Chem_100001437</span></span>
+<span><span class="co">#&gt; 3       Chem_503</span></span>
 <span><span class="co">#&gt; 4 Chem_100009066</span></span>
-<span><span class="co">#&gt; 5 Chem_100022013</span></span>
-<span><span class="co">#&gt; 6 Chem_100009181</span></span>
+<span><span class="co">#&gt; 5 Chem_100009181</span></span>
+<span><span class="co">#&gt; 6 Chem_100022013</span></span>
 <span><span class="co">#&gt;                                      BIOCHEMICAL</span></span>
-<span><span class="co">#&gt; 1                                         serine</span></span>
-<span><span class="co">#&gt; 2 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
-<span><span class="co">#&gt; 3                 cysteine-glutathione disulfide</span></span>
+<span><span class="co">#&gt; 1 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
+<span><span class="co">#&gt; 2                 cysteine-glutathione disulfide</span></span>
+<span><span class="co">#&gt; 3                                         serine</span></span>
 <span><span class="co">#&gt; 4          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*</span></span>
-<span><span class="co">#&gt; 5                 tetrahydrocortisol glucuronide</span></span>
-<span><span class="co">#&gt; 6           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*</span></span>
+<span><span class="co">#&gt; 5           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*</span></span>
+<span><span class="co">#&gt; 6                 tetrahydrocortisol glucuronide</span></span>
 <span><span class="co">#&gt;   SUPER.PATHWAY                              SUB.PATHWAY</span></span>
-<span><span class="co">#&gt; 1    Amino Acid Glycine, Serine and Threonine Metabolism</span></span>
-<span><span class="co">#&gt; 2         Lipid                                Ceramides</span></span>
-<span><span class="co">#&gt; 3    Amino Acid                   Glutathione Metabolism</span></span>
+<span><span class="co">#&gt; 1         Lipid                                Ceramides</span></span>
+<span><span class="co">#&gt; 2    Amino Acid                   Glutathione Metabolism</span></span>
+<span><span class="co">#&gt; 3    Amino Acid Glycine, Serine and Threonine Metabolism</span></span>
 <span><span class="co">#&gt; 4         Lipid                Phosphatidylinositol (PI)</span></span>
-<span><span class="co">#&gt; 5         Lipid                          Corticosteroids</span></span>
-<span><span class="co">#&gt; 6         Lipid                Phosphatidylinositol (PI)</span></span>
+<span><span class="co">#&gt; 5         Lipid                Phosphatidylinositol (PI)</span></span>
+<span><span class="co">#&gt; 6         Lipid                          Corticosteroids</span></span>
 <span><span class="co">#&gt;   COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM</span></span>
-<span><span class="co">#&gt; 1   1648 LC/MS Pos Early        503 1239 106.0499     5951</span></span>
-<span><span class="co">#&gt; 2  57440  LC/MS Pos Late  100015755 3920 594.5820     &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690</span></span>
+<span><span class="co">#&gt; 1  57440  LC/MS Pos Late  100015755 3920 594.5820     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690</span></span>
+<span><span class="co">#&gt; 3   1648 LC/MS Pos Early        503 1239 106.0499     5951</span></span>
 <span><span class="co">#&gt; 4  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232</span></span>
-<span><span class="co">#&gt; 5  64411       LC/MS Neg  100022013 4666 541.2654     &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 6  52726  LC/MS Pos Late  100009181 3711 882.6066     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5  52726  LC/MS Pos Late  100009181 3711 882.6066     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6  64411       LC/MS Neg  100022013 4666 541.2654     &lt;NA&gt;</span></span>
 <span><span class="co">#&gt;          CAS   KEGG SampleIDHMDBID</span></span>
-<span><span class="co">#&gt; 1    56-45-1 C00065    HMDB0000187</span></span>
-<span><span class="co">#&gt; 2       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3 13081-14-6 R00900    HMDB0000656</span></span>
+<span><span class="co">#&gt; 1       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 13081-14-6 R00900    HMDB0000656</span></span>
+<span><span class="co">#&gt; 3    56-45-1 C00065    HMDB0000187</span></span>
 <span><span class="co">#&gt; 4       &lt;NA&gt;   &lt;NA&gt;    HMDB0009783</span></span>
 <span><span class="co">#&gt; 5       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 6       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span></code></pre></div>
@@ -541,12 +542,12 @@
 <li><p><strong>CorPvalue</strong>是每个代谢物和投影平面向量的相关系数</p></li>
 </ul>
 </div>
-<div id="合并所有结果" class="section level2" number="9.8">
+<div id="合并所有结果" class="section level2" number="10.8">
 <h2>
-<span class="header-section-number">9.8</span> 合并所有结果<a class="anchor" aria-label="anchor" href="#%E5%90%88%E5%B9%B6%E6%89%80%E6%9C%89%E7%BB%93%E6%9E%9C"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.8</span> 合并所有结果<a class="anchor" aria-label="anchor" href="#%E5%90%88%E5%B9%B6%E6%89%80%E6%9C%89%E7%BB%93%E6%9E%9C"><i class="fas fa-link"></i></a>
 </h2>
 <p>合并上述六个指标，用于后续判断差异代谢物</p>
-<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mergedResults</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">fc_result</span>,</span>
 <span>    <span class="va">vip_result</span>,</span>
@@ -555,9 +556,9 @@
 <span>    <span class="va">group_labels</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  </span>
 <span>  <span class="va">overlap_cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">fc_result</span><span class="op">)</span>,</span>
-<span>              <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">vip_result</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">test_result</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">fc_result</span><span class="op">)</span>,</span>
+<span>              <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">vip_result</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">test_result</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="va">overlap_cols</span> <span class="op">&lt;-</span> <span class="va">overlap_cols</span><span class="op">[</span><span class="va">overlap_cols</span> <span class="op">!=</span> <span class="st">"FeatureID"</span><span class="op">]</span></span>
 <span>  </span>
@@ -595,68 +596,68 @@
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">final_result</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        FeatureID         Block2                Block</span></span>
-<span><span class="co">#&gt; 1       Chem_503 None vs Severe 10_None vs 12_Severe</span></span>
-<span><span class="co">#&gt; 2 Chem_100001437 None vs Severe 10_None vs 12_Severe</span></span>
-<span><span class="co">#&gt; 3 Chem_100015755 None vs Severe 10_None vs 12_Severe</span></span>
+<span><span class="co">#&gt; 1 Chem_100015755 None vs Severe 10_None vs 12_Severe</span></span>
+<span><span class="co">#&gt; 2       Chem_503 None vs Severe 10_None vs 12_Severe</span></span>
+<span><span class="co">#&gt; 3 Chem_100001437 None vs Severe 10_None vs 12_Severe</span></span>
 <span><span class="co">#&gt; 4 Chem_100009066 None vs Severe 10_None vs 12_Severe</span></span>
 <span><span class="co">#&gt; 5 Chem_100009181 None vs Severe 10_None vs 12_Severe</span></span>
 <span><span class="co">#&gt; 6 Chem_100010917 None vs Severe 10_None vs 12_Severe</span></span>
 <span><span class="co">#&gt;   FoldChange Log2FoldChange      VIP    CorPvalue Statistic</span></span>
-<span><span class="co">#&gt; 1  1.2218596      0.2890785 2.674591 8.999556e-05  4.942204</span></span>
-<span><span class="co">#&gt; 2  1.7109000      0.7747554 2.634369 1.293340e-04  4.920901</span></span>
-<span><span class="co">#&gt; 3  0.6444244     -0.6339170 2.669850 9.401183e-05 -4.778381</span></span>
-<span><span class="co">#&gt; 4  0.5199556     -0.9435396 2.508350 3.635911e-04 -4.191446</span></span>
-<span><span class="co">#&gt; 5  0.5667863     -0.8191231 2.448184 5.678387e-04 -3.981889</span></span>
-<span><span class="co">#&gt; 6  0.5638085     -0.8267228 2.363792 1.015090e-03 -3.695956</span></span>
+<span><span class="co">#&gt; 1  0.6444244     -0.6339170 2.687525 8.117771e-05 -4.819854</span></span>
+<span><span class="co">#&gt; 2  1.2218596      0.2890785 2.548672 2.690372e-04  4.485697</span></span>
+<span><span class="co">#&gt; 3  1.7109000      0.7747554 2.650556 1.138437e-04  4.986734</span></span>
+<span><span class="co">#&gt; 4  0.5199556     -0.9435396 2.512645 3.565018e-04 -4.210199</span></span>
+<span><span class="co">#&gt; 5  0.5667863     -0.8191231 2.477067 4.658589e-04 -4.076152</span></span>
+<span><span class="co">#&gt; 6  0.5638085     -0.8267228 2.357696 1.067887e-03 -3.676029</span></span>
 <span><span class="co">#&gt;         Pvalue AdjustedPvalue Mean Abundance (All)</span></span>
-<span><span class="co">#&gt; 1 7.940359e-05     0.03196511             63358904</span></span>
-<span><span class="co">#&gt; 2 9.701095e-05     0.03196511              1246453</span></span>
-<span><span class="co">#&gt; 3 1.607599e-04     0.03531358              3841099</span></span>
-<span><span class="co">#&gt; 4 6.052272e-04     0.09971118              2243154</span></span>
-<span><span class="co">#&gt; 5 1.026049e-03     0.13523331              1817773</span></span>
-<span><span class="co">#&gt; 6 2.175833e-03     0.15931932              1192929</span></span>
+<span><span class="co">#&gt; 1 1.593233e-04     0.05015989              3841099</span></span>
+<span><span class="co">#&gt; 2 2.262852e-04     0.05015989             63358904</span></span>
+<span><span class="co">#&gt; 3 8.603076e-05     0.05015989              1246453</span></span>
+<span><span class="co">#&gt; 4 5.617708e-04     0.09339439              2243154</span></span>
+<span><span class="co">#&gt; 5 8.065149e-04     0.10726649              1817773</span></span>
+<span><span class="co">#&gt; 6 2.258811e-03     0.20428466              1192929</span></span>
 <span><span class="co">#&gt;   Mean Abundance None Mean Abundance Severe  metabolitesID</span></span>
-<span><span class="co">#&gt; 1          70323857.2            57554776.3       Chem_503</span></span>
-<span><span class="co">#&gt; 2           1611743.8              942044.4 Chem_100001437</span></span>
-<span><span class="co">#&gt; 3           2952496.1             4581602.1 Chem_100015755</span></span>
+<span><span class="co">#&gt; 1           2952496.1             4581602.1 Chem_100015755</span></span>
+<span><span class="co">#&gt; 2          70323857.2            57554776.3       Chem_503</span></span>
+<span><span class="co">#&gt; 3           1611743.8              942044.4 Chem_100001437</span></span>
 <span><span class="co">#&gt; 4           1491869.7             2869225.1 Chem_100009066</span></span>
 <span><span class="co">#&gt; 5           1282914.5             2263488.8 Chem_100009181</span></span>
 <span><span class="co">#&gt; 6            838913.8             1487941.0 Chem_100010917</span></span>
 <span><span class="co">#&gt;                                      BIOCHEMICAL</span></span>
-<span><span class="co">#&gt; 1                                         serine</span></span>
-<span><span class="co">#&gt; 2                 cysteine-glutathione disulfide</span></span>
-<span><span class="co">#&gt; 3 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
+<span><span class="co">#&gt; 1 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
+<span><span class="co">#&gt; 2                                         serine</span></span>
+<span><span class="co">#&gt; 3                 cysteine-glutathione disulfide</span></span>
 <span><span class="co">#&gt; 4          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*</span></span>
 <span><span class="co">#&gt; 5           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*</span></span>
 <span><span class="co">#&gt; 6     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*</span></span>
 <span><span class="co">#&gt;   SUPER.PATHWAY                              SUB.PATHWAY</span></span>
-<span><span class="co">#&gt; 1    Amino Acid Glycine, Serine and Threonine Metabolism</span></span>
-<span><span class="co">#&gt; 2    Amino Acid                   Glutathione Metabolism</span></span>
-<span><span class="co">#&gt; 3         Lipid                                Ceramides</span></span>
+<span><span class="co">#&gt; 1         Lipid                                Ceramides</span></span>
+<span><span class="co">#&gt; 2    Amino Acid Glycine, Serine and Threonine Metabolism</span></span>
+<span><span class="co">#&gt; 3    Amino Acid                   Glutathione Metabolism</span></span>
 <span><span class="co">#&gt; 4         Lipid                Phosphatidylinositol (PI)</span></span>
 <span><span class="co">#&gt; 5         Lipid                Phosphatidylinositol (PI)</span></span>
 <span><span class="co">#&gt; 6         Lipid                           Diacylglycerol</span></span>
 <span><span class="co">#&gt;   COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM</span></span>
-<span><span class="co">#&gt; 1   1648 LC/MS Pos Early        503 1239 106.0499     5951</span></span>
-<span><span class="co">#&gt; 2  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690</span></span>
-<span><span class="co">#&gt; 3  57440  LC/MS Pos Late  100015755 3920 594.5820     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 1  57440  LC/MS Pos Late  100015755 3920 594.5820     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2   1648 LC/MS Pos Early        503 1239 106.0499     5951</span></span>
+<span><span class="co">#&gt; 3  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690</span></span>
 <span><span class="co">#&gt; 4  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232</span></span>
 <span><span class="co">#&gt; 5  52726  LC/MS Pos Late  100009181 3711 882.6066     &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 6  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283</span></span>
 <span><span class="co">#&gt;          CAS   KEGG SampleIDHMDBID</span></span>
-<span><span class="co">#&gt; 1    56-45-1 C00065    HMDB0000187</span></span>
-<span><span class="co">#&gt; 2 13081-14-6 R00900    HMDB0000656</span></span>
-<span><span class="co">#&gt; 3       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 1       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2    56-45-1 C00065    HMDB0000187</span></span>
+<span><span class="co">#&gt; 3 13081-14-6 R00900    HMDB0000656</span></span>
 <span><span class="co">#&gt; 4       &lt;NA&gt;   &lt;NA&gt;    HMDB0009783</span></span>
 <span><span class="co">#&gt; 5       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 6       &lt;NA&gt; C13861    HMDB0007102</span></span></code></pre></div>
 </div>
-<div id="一键生成差异结果" class="section level2" number="9.9">
+<div id="一键生成差异结果" class="section level2" number="10.9">
 <h2>
-<span class="header-section-number">9.9</span> 一键生成差异结果<a class="anchor" aria-label="anchor" href="#%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90%E5%B7%AE%E5%BC%82%E7%BB%93%E6%9E%9C"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.9</span> 一键生成差异结果<a class="anchor" aria-label="anchor" href="#%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90%E5%B7%AE%E5%BC%82%E7%BB%93%E6%9E%9C"><i class="fas fa-link"></i></a>
 </h2>
 <p><code><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_metabolomeDA.html">MicrobiomeAnalysis::run_metabolomeDA</a></code>函数提供一键式生成差异结果。</p>
-<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">final_result</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/run_metabolomeDA.html">run_metabolomeDA</a></span><span class="op">(</span></span>
 <span>  object_raw <span class="op">=</span> <span class="va">se_filter</span>,</span>
 <span>  object_norm <span class="op">=</span> <span class="va">se_scale</span>,</span>
@@ -664,75 +665,75 @@
 <span>  variable_name <span class="op">=</span> <span class="va">grp_names</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  DA_method <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; PLS-DA</span></span>
-<span><span class="co">#&gt; 22 samples x 659 variables and 1 response</span></span>
+<span><span class="co">#&gt; 22 samples x 665 variables and 1 response</span></span>
 <span><span class="co">#&gt; standard scaling of predictors and response(s)</span></span>
 <span><span class="co">#&gt;       R2X(cum) R2Y(cum) Q2(cum) RMSEE pre ort pR2Y  pQ2</span></span>
-<span><span class="co">#&gt; Total    0.105    0.815   0.526 0.225   1   0  0.1 0.05</span></span>
+<span><span class="co">#&gt; Total    0.101    0.832   0.542 0.214   1   0 0.05 0.05</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">final_result</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        FeatureID         Block2                Block</span></span>
-<span><span class="co">#&gt; 1       Chem_503 None vs Severe 10_None vs 12_Severe</span></span>
-<span><span class="co">#&gt; 2 Chem_100001437 None vs Severe 10_None vs 12_Severe</span></span>
-<span><span class="co">#&gt; 3 Chem_100015755 None vs Severe 10_None vs 12_Severe</span></span>
+<span><span class="co">#&gt; 1 Chem_100015755 None vs Severe 10_None vs 12_Severe</span></span>
+<span><span class="co">#&gt; 2       Chem_503 None vs Severe 10_None vs 12_Severe</span></span>
+<span><span class="co">#&gt; 3 Chem_100001437 None vs Severe 10_None vs 12_Severe</span></span>
 <span><span class="co">#&gt; 4 Chem_100009066 None vs Severe 10_None vs 12_Severe</span></span>
 <span><span class="co">#&gt; 5 Chem_100009181 None vs Severe 10_None vs 12_Severe</span></span>
 <span><span class="co">#&gt; 6 Chem_100010917 None vs Severe 10_None vs 12_Severe</span></span>
 <span><span class="co">#&gt;   FoldChange Log2FoldChange      VIP    CorPvalue Statistic</span></span>
-<span><span class="co">#&gt; 1  1.2218596      0.2890785 2.674591 8.999556e-05  4.942204</span></span>
-<span><span class="co">#&gt; 2  1.7109000      0.7747554 2.634369 1.293340e-04  4.920901</span></span>
-<span><span class="co">#&gt; 3  0.6444244     -0.6339170 2.669850 9.401183e-05 -4.778381</span></span>
-<span><span class="co">#&gt; 4  0.5199556     -0.9435396 2.508350 3.635911e-04 -4.191446</span></span>
-<span><span class="co">#&gt; 5  0.5667863     -0.8191231 2.448184 5.678387e-04 -3.981889</span></span>
-<span><span class="co">#&gt; 6  0.5638085     -0.8267228 2.363792 1.015090e-03 -3.695956</span></span>
+<span><span class="co">#&gt; 1  0.6444244     -0.6339170 2.687525 8.117771e-05 -4.819854</span></span>
+<span><span class="co">#&gt; 2  1.2218596      0.2890785 2.548672 2.690372e-04  4.485697</span></span>
+<span><span class="co">#&gt; 3  1.7109000      0.7747554 2.650556 1.138437e-04  4.986734</span></span>
+<span><span class="co">#&gt; 4  0.5199556     -0.9435396 2.512645 3.565018e-04 -4.210199</span></span>
+<span><span class="co">#&gt; 5  0.5667863     -0.8191231 2.477067 4.658589e-04 -4.076152</span></span>
+<span><span class="co">#&gt; 6  0.5638085     -0.8267228 2.357696 1.067887e-03 -3.676029</span></span>
 <span><span class="co">#&gt;         Pvalue AdjustedPvalue Mean Abundance (All)</span></span>
-<span><span class="co">#&gt; 1 7.940359e-05     0.03196511             63358904</span></span>
-<span><span class="co">#&gt; 2 9.701095e-05     0.03196511              1246453</span></span>
-<span><span class="co">#&gt; 3 1.607599e-04     0.03531358              3841099</span></span>
-<span><span class="co">#&gt; 4 6.052272e-04     0.09971118              2243154</span></span>
-<span><span class="co">#&gt; 5 1.026049e-03     0.13523331              1817773</span></span>
-<span><span class="co">#&gt; 6 2.175833e-03     0.15931932              1192929</span></span>
+<span><span class="co">#&gt; 1 1.593233e-04     0.05015989              3841099</span></span>
+<span><span class="co">#&gt; 2 2.262852e-04     0.05015989             63358904</span></span>
+<span><span class="co">#&gt; 3 8.603076e-05     0.05015989              1246453</span></span>
+<span><span class="co">#&gt; 4 5.617708e-04     0.09339439              2243154</span></span>
+<span><span class="co">#&gt; 5 8.065149e-04     0.10726649              1817773</span></span>
+<span><span class="co">#&gt; 6 2.258811e-03     0.20428466              1192929</span></span>
 <span><span class="co">#&gt;   Mean Abundance None Mean Abundance Severe  metabolitesID</span></span>
-<span><span class="co">#&gt; 1          70323857.2            57554776.3       Chem_503</span></span>
-<span><span class="co">#&gt; 2           1611743.8              942044.4 Chem_100001437</span></span>
-<span><span class="co">#&gt; 3           2952496.1             4581602.1 Chem_100015755</span></span>
+<span><span class="co">#&gt; 1           2952496.1             4581602.1 Chem_100015755</span></span>
+<span><span class="co">#&gt; 2          70323857.2            57554776.3       Chem_503</span></span>
+<span><span class="co">#&gt; 3           1611743.8              942044.4 Chem_100001437</span></span>
 <span><span class="co">#&gt; 4           1491869.7             2869225.1 Chem_100009066</span></span>
 <span><span class="co">#&gt; 5           1282914.5             2263488.8 Chem_100009181</span></span>
 <span><span class="co">#&gt; 6            838913.8             1487941.0 Chem_100010917</span></span>
 <span><span class="co">#&gt;                                      BIOCHEMICAL</span></span>
-<span><span class="co">#&gt; 1                                         serine</span></span>
-<span><span class="co">#&gt; 2                 cysteine-glutathione disulfide</span></span>
-<span><span class="co">#&gt; 3 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
+<span><span class="co">#&gt; 1 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*</span></span>
+<span><span class="co">#&gt; 2                                         serine</span></span>
+<span><span class="co">#&gt; 3                 cysteine-glutathione disulfide</span></span>
 <span><span class="co">#&gt; 4          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*</span></span>
 <span><span class="co">#&gt; 5           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*</span></span>
 <span><span class="co">#&gt; 6     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*</span></span>
 <span><span class="co">#&gt;   SUPER.PATHWAY                              SUB.PATHWAY</span></span>
-<span><span class="co">#&gt; 1    Amino Acid Glycine, Serine and Threonine Metabolism</span></span>
-<span><span class="co">#&gt; 2    Amino Acid                   Glutathione Metabolism</span></span>
-<span><span class="co">#&gt; 3         Lipid                                Ceramides</span></span>
+<span><span class="co">#&gt; 1         Lipid                                Ceramides</span></span>
+<span><span class="co">#&gt; 2    Amino Acid Glycine, Serine and Threonine Metabolism</span></span>
+<span><span class="co">#&gt; 3    Amino Acid                   Glutathione Metabolism</span></span>
 <span><span class="co">#&gt; 4         Lipid                Phosphatidylinositol (PI)</span></span>
 <span><span class="co">#&gt; 5         Lipid                Phosphatidylinositol (PI)</span></span>
 <span><span class="co">#&gt; 6         Lipid                           Diacylglycerol</span></span>
 <span><span class="co">#&gt;   COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM</span></span>
-<span><span class="co">#&gt; 1   1648 LC/MS Pos Early        503 1239 106.0499     5951</span></span>
-<span><span class="co">#&gt; 2  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690</span></span>
-<span><span class="co">#&gt; 3  57440  LC/MS Pos Late  100015755 3920 594.5820     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 1  57440  LC/MS Pos Late  100015755 3920 594.5820     &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2   1648 LC/MS Pos Early        503 1239 106.0499     5951</span></span>
+<span><span class="co">#&gt; 3  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690</span></span>
 <span><span class="co">#&gt; 4  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232</span></span>
 <span><span class="co">#&gt; 5  52726  LC/MS Pos Late  100009181 3711 882.6066     &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 6  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283</span></span>
 <span><span class="co">#&gt;          CAS   KEGG SampleIDHMDBID</span></span>
-<span><span class="co">#&gt; 1    56-45-1 C00065    HMDB0000187</span></span>
-<span><span class="co">#&gt; 2 13081-14-6 R00900    HMDB0000656</span></span>
-<span><span class="co">#&gt; 3       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 1       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2    56-45-1 C00065    HMDB0000187</span></span>
+<span><span class="co">#&gt; 3 13081-14-6 R00900    HMDB0000656</span></span>
 <span><span class="co">#&gt; 4       &lt;NA&gt;   &lt;NA&gt;    HMDB0009783</span></span>
 <span><span class="co">#&gt; 5       &lt;NA&gt;   &lt;NA&gt;           &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 6       &lt;NA&gt; C13861    HMDB0007102</span></span></code></pre></div>
 </div>
-<div id="可视化结果-1" class="section level2" number="9.10">
+<div id="可视化结果" class="section level2" number="10.10">
 <h2>
-<span class="header-section-number">9.10</span> 可视化结果<a class="anchor" aria-label="anchor" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E7%BB%93%E6%9E%9C-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.10</span> 可视化结果<a class="anchor" aria-label="anchor" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E7%BB%93%E6%9E%9C"><i class="fas fa-link"></i></a>
 </h2>
 <p>以火山图展示差异结果，使用<code><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/plot_volcano.html">MicrobiomeAnalysis::plot_volcano</a></code>画图。</p>
-<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">get_volcano</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">inputdata</span>,</span>
 <span>    <span class="va">group_names</span>,</span>
@@ -762,11 +763,11 @@
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>FeatureID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">FeatureID</span>, sep <span class="op">=</span> <span class="st">":"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"FeatureID"</span>, <span class="st">"Block2"</span>, <span class="va">x_index</span>, <span class="va">y_index</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="st">"TaxaID"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"TaxaID"</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="st">"TaxaID"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"TaxaID"</span></span>
 <span>  <span class="op">}</span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="va">y_index</span> <span class="op">==</span> <span class="st">"CorPvalue"</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span> <span class="op">==</span> <span class="va">y_index</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Pvalue"</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span> <span class="op">==</span> <span class="va">y_index</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Pvalue"</span></span>
 <span>    <span class="va">y_index</span> <span class="op">&lt;-</span> <span class="st">"Pvalue"</span></span>
 <span>  <span class="op">}</span></span>
 <span> </span>
@@ -785,15 +786,15 @@
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="va">plot</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">res</span> <span class="op">&lt;-</span> <span class="va">pl</span></span>
 <span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span> <span class="op">==</span> <span class="va">x_index</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Xindex"</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span> <span class="op">==</span> <span class="va">y_index</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Yindex"</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span> <span class="op">==</span> <span class="va">x_index</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Xindex"</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">plotdata</span><span class="op">)</span> <span class="op">==</span> <span class="va">y_index</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Yindex"</span></span>
 <span>    </span>
 <span>    <span class="va">datsignif</span> <span class="op">&lt;-</span> <span class="va">plotdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">Xindex</span><span class="op">)</span> <span class="op">&gt;</span> <span class="va">x_cutoff</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Yindex</span> <span class="op">&lt;</span> <span class="va">y_cutoff</span><span class="op">)</span></span>
 <span>    </span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">datsignif</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">datsignif</span><span class="op">)</span> <span class="op">==</span> <span class="st">"Xindex"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x_index</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">datsignif</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">datsignif</span><span class="op">)</span> <span class="op">==</span> <span class="st">"Yindex"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">y_index</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">datsignif</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">datsignif</span><span class="op">)</span> <span class="op">==</span> <span class="st">"Xindex"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x_index</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">datsignif</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">datsignif</span><span class="op">)</span> <span class="op">==</span> <span class="st">"Yindex"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">y_index</span></span>
 <span>        </span>
 <span>    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>figure <span class="op">=</span> <span class="va">pl</span>,</span>
 <span>                data <span class="op">=</span> <span class="va">datsignif</span><span class="op">)</span></span>
@@ -820,11 +821,11 @@
 <span><span class="va">lgfc_FDR_vol</span><span class="op">$</span><span class="va">figure</span></span></code></pre></div>
 <div class="inline-figure"><img src="22-Metabolome_DifferentialAnalysis_files/figure-html/unnamed-chunk-10-1.png" width="100%"></div>
 </div>
-<div id="输出结果" class="section level2" number="9.11">
+<div id="输出结果" class="section level2" number="10.11">
 <h2>
-<span class="header-section-number">9.11</span> 输出结果<a class="anchor" aria-label="anchor" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.11</span> 输出结果<a class="anchor" aria-label="anchor" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span><span class="op">(</span><span class="st">"./InputData/result/DA/"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"./InputData/result/DA/"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -832,12 +833,12 @@
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.table</a></span><span class="op">(</span><span class="va">final_result</span>, <span class="st">"./InputData/result/DA/Metabolites_FC_VIP_ttest.tsv"</span>, </span>
 <span>            row.names <span class="op">=</span> <span class="cn">F</span>, quote <span class="op">=</span> <span class="cn">F</span>, sep <span class="op">=</span> <span class="st">"\t"</span>, fileEncoding <span class="op">=</span> <span class="st">"UTF-8"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="session-info-3" class="section level2" number="9.12">
+<div id="session-info-3" class="section level2" number="10.12">
 <h2>
-<span class="header-section-number">9.12</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.12</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-3"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
 <span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
@@ -848,8 +849,8 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2023-12-06</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  date     2023-12-08</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  package              * version   date (UTC) lib source</span></span>
@@ -1012,9 +1013,9 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
 </div>
-<div id="reference-7" class="section level2" number="9.13">
+<div id="reference-8" class="section level2" number="10.13">
 <h2>
-<span class="header-section-number">9.13</span> Reference<a class="anchor" aria-label="anchor" href="#reference-7"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.13</span> Reference<a class="anchor" aria-label="anchor" href="#reference-8"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/354562604">FC/T检验/PLS-DA筛选差异代谢物方法介绍</a></li>
@@ -1022,25 +1023,25 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="DimensionReduction.html"><span class="header-section-number">8</span> Dimension Reduction</a></div>
-<div class="next"><a href="FunctionalAnalysis.html"><span class="header-section-number">10</span> Functional Analysis</a></div>
+<div class="prev"><a href="DimensionReduction.html"><span class="header-section-number">9</span> Dimension Reduction</a></div>
+<div class="next"><a href="FunctionalAnalysis.html"><span class="header-section-number">11</span> Functional Analysis</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#DifferetialAnalysis"><span class="header-section-number">9</span> Differetial Analysis</a></li>
-<li><a class="nav-link" href="#%E5%AE%89%E8%A3%85microbiomeanalysis%E5%8C%85"><span class="header-section-number">9.1</span> 安装MicrobiomeAnalysis包</a></li>
-<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-5"><span class="header-section-number">9.2</span> 加载R包</a></li>
-<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-4"><span class="header-section-number">9.3</span> 导入数据</a></li>
-<li><a class="nav-link" href="#%E5%B9%B3%E5%9D%87%E5%80%BC%E5%92%8C%E6%96%B9%E5%B7%AE-mean---sd"><span class="header-section-number">9.4</span> 平均值和方差 (mean +/- sd)</a></li>
-<li><a class="nav-link" href="#%E5%80%8D%E6%95%B0%E5%8F%98%E5%8C%96%E6%B3%95-fold-change"><span class="header-section-number">9.5</span> 倍数变化法 (Fold Change)</a></li>
-<li><a class="nav-link" href="#t%E6%A3%80%E9%AA%8C"><span class="header-section-number">9.6</span> T检验</a></li>
-<li><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%8A%95%E5%BD%B1%E9%87%8D%E8%A6%81%E5%BA%A6-vip-%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><span class="header-section-number">9.7</span> 变量投影重要度 (VIP) 正交偏最小二乘判别分析（OPLS-DA）</a></li>
-<li><a class="nav-link" href="#%E5%90%88%E5%B9%B6%E6%89%80%E6%9C%89%E7%BB%93%E6%9E%9C"><span class="header-section-number">9.8</span> 合并所有结果</a></li>
-<li><a class="nav-link" href="#%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90%E5%B7%AE%E5%BC%82%E7%BB%93%E6%9E%9C"><span class="header-section-number">9.9</span> 一键生成差异结果</a></li>
-<li><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E7%BB%93%E6%9E%9C-1"><span class="header-section-number">9.10</span> 可视化结果</a></li>
-<li><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C"><span class="header-section-number">9.11</span> 输出结果</a></li>
-<li><a class="nav-link" href="#session-info-3"><span class="header-section-number">9.12</span> Session info</a></li>
-<li><a class="nav-link" href="#reference-7"><span class="header-section-number">9.13</span> Reference</a></li>
+<li><a class="nav-link" href="#DifferetialAnalysis"><span class="header-section-number">10</span> Differetial Analysis</a></li>
+<li><a class="nav-link" href="#%E5%AE%89%E8%A3%85microbiomeanalysis%E5%8C%85"><span class="header-section-number">10.1</span> 安装MicrobiomeAnalysis包</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-6"><span class="header-section-number">10.2</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-4"><span class="header-section-number">10.3</span> 导入数据</a></li>
+<li><a class="nav-link" href="#%E5%B9%B3%E5%9D%87%E5%80%BC%E5%92%8C%E6%96%B9%E5%B7%AE-mean---sd"><span class="header-section-number">10.4</span> 平均值和方差 (mean +/- sd)</a></li>
+<li><a class="nav-link" href="#%E5%80%8D%E6%95%B0%E5%8F%98%E5%8C%96%E6%B3%95-fold-change"><span class="header-section-number">10.5</span> 倍数变化法 (Fold Change)</a></li>
+<li><a class="nav-link" href="#t%E6%A3%80%E9%AA%8C"><span class="header-section-number">10.6</span> T检验</a></li>
+<li><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%8A%95%E5%BD%B1%E9%87%8D%E8%A6%81%E5%BA%A6-vip-%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><span class="header-section-number">10.7</span> 变量投影重要度 (VIP) 正交偏最小二乘判别分析（OPLS-DA）</a></li>
+<li><a class="nav-link" href="#%E5%90%88%E5%B9%B6%E6%89%80%E6%9C%89%E7%BB%93%E6%9E%9C"><span class="header-section-number">10.8</span> 合并所有结果</a></li>
+<li><a class="nav-link" href="#%E4%B8%80%E9%94%AE%E7%94%9F%E6%88%90%E5%B7%AE%E5%BC%82%E7%BB%93%E6%9E%9C"><span class="header-section-number">10.9</span> 一键生成差异结果</a></li>
+<li><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E7%BB%93%E6%9E%9C"><span class="header-section-number">10.10</span> 可视化结果</a></li>
+<li><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C"><span class="header-section-number">10.11</span> 输出结果</a></li>
+<li><a class="nav-link" href="#session-info-3"><span class="header-section-number">10.12</span> Session info</a></li>
+<li><a class="nav-link" href="#reference-8"><span class="header-section-number">10.13</span> Reference</a></li>
 </ul>
 
       <div class="book-extra">
@@ -1058,7 +1059,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-06.</p>
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

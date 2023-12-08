@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 8 Dimension Reduction | 生物信息随记</title>
+<title>Chapter 9 Dimension Reduction | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
 <meta name="description" content="降维分析是为了查看样本的差异或挖掘潜在标志物。方法有以下三种： 主成分分析（PCA） 主成分分析PCA（Principal Component Analysis）是一种常用的数据分析方法。PCA通过线性变换将原始数据变换为一组各维度线性无关的表示，可用于提取数据的主要特征分量，常用于高维数据的降维。 偏最小二乘回归分析法（PLS-DA）...">
 <meta name="generator" content="bookdown 0.34 with bs4_book()">
-<meta property="og:title" content="Chapter 8 Dimension Reduction | 生物信息随记">
+<meta property="og:title" content="Chapter 9 Dimension Reduction | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/DimensionReduction.html">
 <meta property="og:description" content="降维分析是为了查看样本的差异或挖掘潜在标志物。方法有以下三种： 主成分分析（PCA） 主成分分析PCA（Principal Component Analysis）是一种常用的数据分析方法。PCA通过线性变换将原始数据变换为一组各维度线性无关的表示，可用于提取数据的主要特征分量，常用于高维数据的降维。 偏最小二乘回归分析法（PLS-DA）...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 8 Dimension Reduction | 生物信息随记">
+<meta name="twitter:title" content="Chapter 9 Dimension Reduction | 生物信息随记">
 <meta name="twitter:description" content="降维分析是为了查看样本的差异或挖掘潜在标志物。方法有以下三种： 主成分分析（PCA） 主成分分析PCA（Principal Component Analysis）是一种常用的数据分析方法。PCA通过线性变换将原始数据变换为一组各维度线性无关的表示，可用于提取数据的主要特征分量，常用于高维数据的降维。 偏最小二乘回归分析法（PLS-DA）...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -79,19 +79,20 @@
 <li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
 <li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
 <li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
+<li><a class="" href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></li>
 <li class="book-part">Metabolomics Data Analysis</li>
-<li><a class="" href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></li>
-<li><a class="active" href="DimensionReduction.html"><span class="header-section-number">8</span> Dimension Reduction</a></li>
-<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">9</span> Differetial Analysis</a></li>
-<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">10</span> Functional Analysis</a></li>
-<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">11</span> MetOrigin Analysis</a></li>
-<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">12</span> Other Analysis</a></li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></li>
+<li><a class="active" href="DimensionReduction.html"><span class="header-section-number">9</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">10</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">11</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">12</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">13</span> Other Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">13</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">14</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">14</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">15</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">15</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">16</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">16</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">17</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -100,9 +101,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="DimensionReduction" class="section level1" number="8">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="DimensionReduction" class="section level1" number="9">
 <h1>
-<span class="header-section-number">8</span> Dimension Reduction<a class="anchor" aria-label="anchor" href="#DimensionReduction"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9</span> Dimension Reduction<a class="anchor" aria-label="anchor" href="#DimensionReduction"><i class="fas fa-link"></i></a>
 </h1>
 <p>降维分析是为了查看样本的差异或挖掘潜在标志物。方法有以下三种：</p>
 <ul>
@@ -117,11 +118,11 @@
 <li>正交偏最小二乘判别分析（OPLS-DA）</li>
 </ul>
 <p>正交偏最小二乘判别分析（OPLS-DA）结合了正交信号矫正（OSC）和PLS-DA方法，能够将X矩阵信息分解成与Y相关和不相关的两类信息，通过去除不相关的差异来筛选差异变量。</p>
-<div id="加载r包-4" class="section level2" number="8.1">
+<div id="加载r包-5" class="section level2" number="9.1">
 <h2>
-<span class="header-section-number">8.1</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.1</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-5"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://dx.doi.org/10.1021/acs.jproteome.5b00354">ropls</a></span><span class="op">)</span></span>
@@ -135,23 +136,23 @@
 <span><span class="va">grp_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"None"</span>, <span class="st">"Mild"</span>, <span class="st">"Moderate"</span>, <span class="st">"Severe"</span><span class="op">)</span></span>
 <span><span class="va">grp_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#7DD06F"</span>, <span class="st">"#844081"</span>, <span class="st">"#688EC1"</span>, <span class="st">"#C17E73"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="导入数据-3" class="section level2" number="8.2">
+<div id="导入数据-3" class="section level2" number="9.2">
 <h2>
-<span class="header-section-number">8.2</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.2</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-3"><i class="fas fa-link"></i></a>
 </h2>
 <p>对数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel%20et%20al.%20-%202022.xlsx">OmicsDataSet-Zeybel et al. - 2022.xlsx</a>处理后生成的，可参考数据预处理章节。</p>
 <blockquote>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_scale</span>, <span class="st">"./InputData/result/QC/se_scale.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </blockquote>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"./InputData/result/QC/se_scale.RDS"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="函数" class="section level2" number="8.3">
+<div id="函数-1" class="section level2" number="9.3">
 <h2>
-<span class="header-section-number">8.3</span> 函数<a class="anchor" aria-label="anchor" href="#%E5%87%BD%E6%95%B0"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.3</span> 函数<a class="anchor" aria-label="anchor" href="#%E5%87%BD%E6%95%B0-1"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">DR_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">x</span>,</span>
 <span>    <span class="va">group</span>,</span>
@@ -173,18 +174,18 @@
 <span>  <span class="va">profile</span> <span class="op">&lt;-</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"CompVar"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"CompVar"</span></span>
 <span>  <span class="va">phenotype</span> <span class="op">&lt;-</span> <span class="va">metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">CompVar</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">group_names</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>CompVar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">CompVar</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>CompVar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">CompVar</span>, levels <span class="op">=</span> <span class="va">group_names</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="va">sid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">profile</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">sid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">profile</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="va">phen</span> <span class="op">&lt;-</span> <span class="va">phenotype</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span><span class="op">)</span>, , <span class="op">]</span></span>
 <span>  <span class="va">prof</span> <span class="op">&lt;-</span> <span class="va">profile</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">sid</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phen</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phen</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Wrong Order"</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span>  </span>
@@ -198,7 +199,7 @@
 <span>    <span class="kw">if</span><span class="op">(</span><span class="va">nRow</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">{</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df_occ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span>    <span class="op">}</span><span class="kw">else</span><span class="op">{</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df_occ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df_occ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span>    <span class="op">}</span></span>
 <span>    <span class="va">df_KEEP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">df_occ</span> <span class="op">&gt;</span> <span class="va">threshold</span>, <span class="fl">1</span>, <span class="va">all</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="st">"Status"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -245,11 +246,11 @@
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
-<div id="主成分分析pca" class="section level2" number="8.4">
+<div id="主成分分析pca" class="section level2" number="9.4">
 <h2>
-<span class="header-section-number">8.4</span> 主成分分析（PCA）<a class="anchor" aria-label="anchor" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90pca"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.4</span> 主成分分析（PCA）<a class="anchor" aria-label="anchor" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90pca"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">PCA_res</span> <span class="op">&lt;-</span> <span class="fu">DR_fun</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">data_meta</span>,</span>
 <span>    group <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
@@ -258,10 +259,10 @@
 <span>    DRtype <span class="op">=</span> <span class="st">"PCA"</span>,</span>
 <span>    occ_cutoff <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; PCA</span></span>
-<span><span class="co">#&gt; 55 samples x 659 variables</span></span>
+<span><span class="co">#&gt; 55 samples x 665 variables</span></span>
 <span><span class="co">#&gt; standard scaling of predictors</span></span>
 <span><span class="co">#&gt;       R2X(cum) pre ort</span></span>
-<span><span class="co">#&gt; Total    0.526  10   0</span></span></code></pre></div>
+<span><span class="co">#&gt; Total    0.501   9   0</span></span></code></pre></div>
 <p><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-5-1.png" width="100%"><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-5-2.png" width="100%"></p>
 <p>结果：PCA将原始features重新组合成新的主成分，进而形成了基于主成分的矩阵。每个主成分是由原来features的线性组合而成。</p>
 <ul>
@@ -271,13 +272,13 @@
 <li><p><strong>右下图</strong>：载荷值: 理解为构成每个主成分的features，可以认为一个主成分是由N个feature线性组合合成，每个features对该主成分的贡献程度作为loading的数值。边缘处的变量表示它们在各样本中的含量差别明显（如在某些样本中具有较大/较小的极端值等），即对排序空间的贡献较大，暗示它们可能为一些重要的代谢物。</p></li>
 </ul>
 </div>
-<div id="偏最小二乘回归分析法pls-da" class="section level2" number="8.5">
+<div id="偏最小二乘回归分析法pls-da" class="section level2" number="9.5">
 <h2>
-<span class="header-section-number">8.5</span> 偏最小二乘回归分析法（PLS-DA）<a class="anchor" aria-label="anchor" href="#%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E6%B3%95pls-da"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.5</span> 偏最小二乘回归分析法（PLS-DA）<a class="anchor" aria-label="anchor" href="#%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E6%B3%95pls-da"><i class="fas fa-link"></i></a>
 </h2>
 <p>PLS-DA需要提供Y响应变量，它通过投影分别将预测变量（Y响应变量）和观测变量（自变量）投影到一个新空间，来寻找一个线性回归模型。通过建立组学数据与样本类别之间的关系模型，实现对样本类别的预测，为有监督的建模方式。</p>
 <p>偏最小二乘（PLS）是一种基于预测变量和响应变量之间协方差的潜在变量回归方法，找到不同类别的分割信息最优的线性组合，PLS的每一个成分都赋予一个权值，即对应该成分的分离能力。</p>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">PLS_res</span> <span class="op">&lt;-</span> <span class="fu">DR_fun</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">data_meta</span>,</span>
 <span>    group <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
@@ -286,10 +287,10 @@
 <span>    DRtype <span class="op">=</span> <span class="st">"PLS"</span>,</span>
 <span>    occ_cutoff <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; PLS-DA</span></span>
-<span><span class="co">#&gt; 55 samples x 659 variables and 1 response</span></span>
+<span><span class="co">#&gt; 55 samples x 665 variables and 1 response</span></span>
 <span><span class="co">#&gt; standard scaling of predictors and response(s)</span></span>
-<span><span class="co">#&gt;       R2X(cum) R2Y(cum) Q2(cum) RMSEE pre ort pR2Y  pQ2</span></span>
-<span><span class="co">#&gt; Total    0.117    0.376  -0.211 0.351   2   0  0.1 0.65</span></span></code></pre></div>
+<span><span class="co">#&gt;       R2X(cum) R2Y(cum) Q2(cum) RMSEE pre ort pR2Y pQ2</span></span>
+<span><span class="co">#&gt; Total    0.121    0.368  -0.225 0.353   2   0  0.2 0.6</span></span></code></pre></div>
 <p><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-6-1.png" width="100%"><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-6-2.png" width="100%"></p>
 <p>结果：R2X和R2Y分别表示所建模型对X和Y矩阵的解释率，Q2标示模型的预测能力，它们的值越接近于1表明模型的拟合度越好，训练集的样本越能够被准确划分到其原始归属中。</p>
 <ul>
@@ -299,27 +300,27 @@
 <li><p><strong>右下图</strong>：各样本在PLS-DA轴中的坐标，颜色代表不同分组。我们可以看到，相对于上文的PCA（仅通过方差特征值分解），PLS-DA在区分组间差异时更有效（带监督的偏最小二乘判别分析）。图的下方还提供了R2X、R2Y等值，用于评估模型优度。</p></li>
 </ul>
 <p>此外，还可通过变量投影重要度（Variable Importance for the Projection，VIP）衡量各代谢物组分含量对样本分类判别的影响强度和解释能力，辅助标志代谢物的筛选。通常以<strong>VIP &gt; 1</strong>作为筛选标准。</p>
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vip_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ropls/man/getVipVn.html">getVipVn</a></span><span class="op">(</span><span class="va">PLS_res</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">vip_select</span> <span class="op">&lt;-</span> <span class="va">vip_values</span><span class="op">[</span><span class="va">vip_values</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">vip_select</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Chem_100002356 Chem_100000657 Chem_100009014 Chem_100009002 </span></span>
-<span><span class="co">#&gt;       1.004056       1.070549       1.436139       1.091628 </span></span>
+<span><span class="co">#&gt; Chem_100002356 Chem_100008903 Chem_100000657 Chem_100009014 </span></span>
+<span><span class="co">#&gt;       1.038090       1.003148       1.132359       1.420437 </span></span>
 <span><span class="co">#&gt; Chem_100009009 Chem_100009069 </span></span>
-<span><span class="co">#&gt;       2.010289       1.100467</span></span></code></pre></div>
+<span><span class="co">#&gt;       2.057623       1.085935</span></span></code></pre></div>
 </div>
-<div id="正交偏最小二乘判别分析opls-da" class="section level2" number="8.6">
+<div id="正交偏最小二乘判别分析opls-da" class="section level2" number="9.6">
 <h2>
-<span class="header-section-number">8.6</span> 正交偏最小二乘判别分析（OPLS-DA）<a class="anchor" aria-label="anchor" href="#%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.6</span> 正交偏最小二乘判别分析（OPLS-DA）<a class="anchor" aria-label="anchor" href="#%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><i class="fas fa-link"></i></a>
 </h2>
 <p>PLS-DA容易出现过拟合（overfitting）问题。所谓过拟合，即通过训练集建立了一个预测模型，它在训练集上表现出色，但通过测试集测试时却表现不佳。过拟合是机器学习中的一个常见问题，主要出现在具有比样本数量更多的变量数量的数据集的分析中。主要是因为PLS-DA是有监督的预测模型且偏向训练数据。</p>
 <p>相比PLS-DA，叠加了正交分解的OPLS-DA能更好地避免过拟合现象，这是因为它会通过将与X和Y正交的变量删除，避免不差异的变量影响结果。OPLS从给定的自变量数据集中移除正交变量，并把这些正交变量和非正交变量区分开来。然后再对非正交变量做偏最小二乘法获得载荷矩阵也即是在Y情况下的最大方差。</p>
 <ul>
 <li>None vs Severe</li>
 </ul>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">DR_fun</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">data_meta</span>,</span>
 <span>    group <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
@@ -328,16 +329,16 @@
 <span>    DRtype <span class="op">=</span> <span class="st">"OPLS"</span>,</span>
 <span>    occ_cutoff <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; OPLS-DA</span></span>
-<span><span class="co">#&gt; 22 samples x 659 variables and 1 response</span></span>
+<span><span class="co">#&gt; 22 samples x 665 variables and 1 response</span></span>
 <span><span class="co">#&gt; standard scaling of predictors and response(s)</span></span>
 <span><span class="co">#&gt;       R2X(cum) R2Y(cum) Q2(cum)  RMSEE pre ort pR2Y  pQ2</span></span>
-<span><span class="co">#&gt; Total    0.244    0.988   0.622 0.0606   1   2 0.95 0.05</span></span></code></pre></div>
+<span><span class="co">#&gt; Total    0.248    0.988   0.635 0.0612   1   2 0.65 0.05</span></span></code></pre></div>
 <p><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-8-1.png" width="100%"><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-8-2.png" width="100%"></p>
 <pre><code>#&gt; OPLS-DA
-#&gt; 22 samples x 659 variables and 1 response
+#&gt; 22 samples x 665 variables and 1 response
 #&gt; standard scaling of predictors and response(s)
 #&gt;       R2X(cum) R2Y(cum) Q2(cum)  RMSEE pre ort pR2Y  pQ2
-#&gt; Total    0.244    0.988   0.622 0.0606   1   2 0.95 0.05</code></pre>
+#&gt; Total    0.248    0.988   0.635 0.0612   1   2 0.65 0.05</code></pre>
 <p>结果和PLS-DA一致。</p>
 <ul>
 <li><p><strong>左上图</strong>: 展示了2个正交轴的R2Y和Q2Y</p></li>
@@ -346,12 +347,12 @@
 <li><p><strong>右下图</strong>：各样本在PLS-DA轴中的坐标，颜色代表不同分组。我们可以看到，相对于上文的PCA（仅通过方差特征值分解），PLS-DA在区分组间差异时更有效（带监督的偏最小二乘判别分析）。图的下方还提供了R2X、R2Y等值，用于评估模型优度。</p></li>
 </ul>
 </div>
-<div id="session-info-2" class="section level2" number="8.7">
+<div id="session-info-2" class="section level2" number="9.7">
 <h2>
-<span class="header-section-number">8.7</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.7</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-2"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
 <span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
@@ -362,8 +363,8 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2023-12-06</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  date     2023-12-08</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  package              * version   date (UTC) lib source</span></span>
@@ -522,9 +523,9 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
 </div>
-<div id="reference-6" class="section level2" number="8.8">
+<div id="reference-7" class="section level2" number="9.8">
 <h2>
-<span class="header-section-number">8.8</span> Reference<a class="anchor" aria-label="anchor" href="#reference-6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.8</span> Reference<a class="anchor" aria-label="anchor" href="#reference-7"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li><a href="https://master.bioconductor.org/packages/release/bioc/vignettes/ropls/inst/doc/ropls-vignette.html">ropls: PCA, PLS(-DA) and OPLS(-DA) for multivariate analysis and feature selection of omics data</a></li>
@@ -532,20 +533,20 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="dataprocessing.html"><span class="header-section-number">7</span> Data Processing</a></div>
-<div class="next"><a href="DifferetialAnalysis.html"><span class="header-section-number">9</span> Differetial Analysis</a></div>
+<div class="prev"><a href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></div>
+<div class="next"><a href="DifferetialAnalysis.html"><span class="header-section-number">10</span> Differetial Analysis</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#DimensionReduction"><span class="header-section-number">8</span> Dimension Reduction</a></li>
-<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-4"><span class="header-section-number">8.1</span> 加载R包</a></li>
-<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-3"><span class="header-section-number">8.2</span> 导入数据</a></li>
-<li><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="header-section-number">8.3</span> 函数</a></li>
-<li><a class="nav-link" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90pca"><span class="header-section-number">8.4</span> 主成分分析（PCA）</a></li>
-<li><a class="nav-link" href="#%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E6%B3%95pls-da"><span class="header-section-number">8.5</span> 偏最小二乘回归分析法（PLS-DA）</a></li>
-<li><a class="nav-link" href="#%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><span class="header-section-number">8.6</span> 正交偏最小二乘判别分析（OPLS-DA）</a></li>
-<li><a class="nav-link" href="#session-info-2"><span class="header-section-number">8.7</span> Session info</a></li>
-<li><a class="nav-link" href="#reference-6"><span class="header-section-number">8.8</span> Reference</a></li>
+<li><a class="nav-link" href="#DimensionReduction"><span class="header-section-number">9</span> Dimension Reduction</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-5"><span class="header-section-number">9.1</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-3"><span class="header-section-number">9.2</span> 导入数据</a></li>
+<li><a class="nav-link" href="#%E5%87%BD%E6%95%B0-1"><span class="header-section-number">9.3</span> 函数</a></li>
+<li><a class="nav-link" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90pca"><span class="header-section-number">9.4</span> 主成分分析（PCA）</a></li>
+<li><a class="nav-link" href="#%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E6%B3%95pls-da"><span class="header-section-number">9.5</span> 偏最小二乘回归分析法（PLS-DA）</a></li>
+<li><a class="nav-link" href="#%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><span class="header-section-number">9.6</span> 正交偏最小二乘判别分析（OPLS-DA）</a></li>
+<li><a class="nav-link" href="#session-info-2"><span class="header-section-number">9.7</span> Session info</a></li>
+<li><a class="nav-link" href="#reference-7"><span class="header-section-number">9.8</span> Reference</a></li>
 </ul>
 
       <div class="book-extra">
@@ -563,7 +564,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-06.</p>
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

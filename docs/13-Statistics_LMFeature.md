@@ -118,7 +118,8 @@ run_cor <- function(
     data_otu,
     columns  = NULL,
     method = c("spearman", "pearson", "kendall"),
-    p_adjust = "BH") {
+    p_adjust = c("none", "fdr", "bonferroni", "holm",
+                 "hochberg", "hommel", "BH", "BY")) {
 
   # data_sam = meta_final
   # data_otu = prof_gut_final
@@ -207,38 +208,63 @@ run_cor <- function(
 
 gut_corres <- run_cor(
   data_sam = meta_final,
-  data_otu = prof_gut_final)
+  data_otu = prof_gut_final,
+  p_adjust = "BH")
 
 oral_corres <- run_cor(
   data_sam = meta_final,
-  data_otu = prof_oral_final)
+  data_otu = prof_oral_final,
+  p_adjust = "BH")
+
+head(gut_corres[, 1:3], 2)
+#>   Phenotype         FeatureID Statistic
+#> 1 Liver_fat p__Actinobacteria      7914
+#> 2 Liver_fat  p__Bacteroidetes      4858
 ```
 
 
 
-## 线性回归的解释度
+## 线性回归分析
 
 人体特征指标对各个物种的贡献度可通过多元线性回归分析，即物种作为Y响应变量，人体特征作为X变量，通过回归的$R^2$解析总解释度。
 
 人体指标可能存在共线性的情况，可以在线性回归计算时候选择前向或后向回归方式筛选重要的变量。两种方法对结果影响较大，可能会得到大相径庭的结果。
+
+
+### 选择变量分析思路
+
+
++ 通过前向选择变量的分析思路
+
+> 1. 通过前向逐步回归，在所有人体特征变量筛选重要的变量，尽可能减少人体特征共线性以获取简约模型，又同时尽可能保证模型的总解释率不要损失很多；
+>
+> 2. 使用选择的人体特征变量，分别拟合与每个物种丰度的多元线性回归，以期通过人体特征变量来解释物种丰度组成的差异；
+>
+> 3. 对于在第（2）步中获得的最优模型，提取它们的总解释率（即线性模型的R2或校正后的R2）等信息；
+>
+> 4. 对于在第（2）步中获得的最优模型，通过类似方差分解分析的方法，评估主要的人体特征对于物种丰度总方差的贡献，实现定量分析主要的人体特征相对重要性的目的。
+
+
++ 通过后向选择变量的分析思路
+
+> 1. 使用所有人体特征变量，分别拟合与每个物种丰度的多元线性回归，以期通过人体特征变量来解释物种丰度组成的差异；
+>
+> 2. 通过后向逐步回归，在构建好的每个线性模型中筛选重要的变量，尽可能减少人体特征变量共线性以获取简约模型，又同时尽可能保证模型的总解释率不要损失很多；
+>
+> 3. 对于在第（2）步中获得的最优模型，提取它们的总解释率（即线性模型的R2或校正后的R2）等信息；
+>
+> 4. 对于在第（2）步中获得的最优模型，通过类似方差分解分析的方法，评估主要的人体特征对于物种丰度总方差的贡献，实现定量分析主要的人体特征相对重要性的目的。
+
+
+### 函数
+
+method参数控制筛选变量的方向：
 
 + "leapForward": 前向逐步回归 (forward selection)
 
 + "leapBackward": 后向逐步回归 (backward selection)
 
 + "leapSeq": 逐步回归 (stepwise selection)
-
-
-### 通过前向选择环境变量的分析思路
-
-> 1. 通过前向逐步回归，在所有人体特征筛选重要的变量，尽可能减少人体特征共线性以获取简约模型，又同时尽可能保证模型的总解释率不要损失很多；
->
-> 2. 使用选择的人体特征，分别拟合与每个物种丰度的多元线性回归，以期通过人体特征来解释物种丰度组成的差异；
->
-> 3. 对于在第（2）步中获得的最优模型，提取它们的总解释率（即线性模型的R2或校正后的R2）等信息；
->
-> 4. 对于在第（2）步中获得的最优模型，通过类似方差分解分析的方法，评估主要的人体特征对于物种丰度总方差的贡献，实现定量分析主要的人体特征相对重要性的目的。
-
 
 
 ```r
@@ -310,7 +336,7 @@ run_lm <- function(
     # 变量选择
     train.control <- trainControl(method = "cv", number = 3)
     step.model <- train(Taxa ~., data = dat,
-                        method = "leapBackward", 
+                        method = method, 
                         tuneGrid = data.frame(nvmax = 1:5),
                         trControl = train.control)
     
@@ -417,17 +443,21 @@ oral_LM <- run_lm(
 #> <simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml>
 #> <simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml>
 #> <simpleError in solve.default(covg[diese, diese], matrix(covg[diese, andere],     length(diese), p + 1 - length(diese))): 'a' is 0-diml>
+
+head(oral_LM$model[, 1:3], 2)
+#>                FeatureID        R2 AdjustedR2
+#> value  p__Actinobacteria 0.2355881  0.2109297
+#> value1  p__Bacteroidetes 0.3249810  0.2285498
 ```
 
 
-## 可视化结果
+## 可视化
 
 + 热图的颜色表示相关系数大小；
 
 + 柱状图表示人体特征变量对物种丰度差异的变异度解释；
 
 + 热图的圆圈大小表示人体特征变量对物种的贡献程度大小。
-
 
 
 ```r
@@ -502,7 +532,9 @@ cowplot::plot_grid(
 
 + 肠道微生物和口腔微生物与人体特征变量相关性差异较大，人体特征变量对口腔微生物相对丰度差异共享度较大，Liver fat和Sodium对口腔的Bacterodies, Firmicutes和Proteobacteria物种差异和相对丰度差异有较大贡献，而肠道仅Urea_BUN对Actinobacteria物种差异和相对丰度有较大贡献；
 
-+ 人体特征变量对微生物群落解释度差异在肠道和口腔也存在较大差异。在口腔解释度最高的是Proteobacteria，而在肠道则是Actinobacteria。
++ 人体特征变量对微生物群落解释度差异在肠道和口腔也存在较大差异。在口腔解释度最高的是Proteobacteria，而在肠道则是Actinobacteria；
+
++ 相比PERMANOVA分析（各个微生物对整体人体特征变量的总变异度，也即单个微生物对人体变量总体的扰动程度），该组合方法不仅计算了各个微生物对核心人体特征变量（前后向逐步回归筛选）的解释度，而且也计算了这些核心变量对该微生物的重要程度（$R^2$分解成重要性打分）。
 
 
 
@@ -520,8 +552,8 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-06
-#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
+#>  date     2023-12-08
+#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package              * version    date (UTC) lib source

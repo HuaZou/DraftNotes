@@ -615,7 +615,7 @@ summary(glht(res.aov, linfct = mcp(group = "Tukey")))
 #>                  Estimate Std. Error t value Pr(>|t|)  
 #> trt1 - ctrl == 0  -0.3710     0.2788  -1.331   0.3909  
 #> trt2 - ctrl == 0   0.4940     0.2788   1.772   0.1980  
-#> trt2 - trt1 == 0   0.8650     0.2788   3.103   0.0119 *
+#> trt2 - trt1 == 0   0.8650     0.2788   3.103   0.0122 *
 #> ---
 #> Signif. codes:  
 #> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -852,7 +852,7 @@ print(result)
 #> data:  variable by
 #> 	 group (A, B) 
 #> 	 stratified by study
-#> Z = 0.12148, p-value = 0.9033
+#> Z = 0.60445, p-value = 0.5455
 #> alternative hypothesis: true mu is not equal to 0
 ```
 
@@ -883,8 +883,8 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-06
-#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
+#>  date     2023-12-08
+#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package              * version   date (UTC) lib source

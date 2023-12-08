@@ -1,0 +1,166 @@
+```{r, include = FALSE}
+knitr::opts_chunk$set(out.width = "100%", message = FALSE, warning = FALSE)
+```
+
+
+# Permutation Test {#PermutationTest}
+
+置换检验属于一种非参数检验，最初真正认识置换检验是从PERMANOVA分析开始的，PERMANOVA的原理是：
+
++ 第一步，获取原始统计量。先计算*组间距离的平方和*和*组内距离的平方和*的差值（类似F分布统计量）；
+
++ 第二步，随机抽取样本组成分组再计算上述类似F分布统计量，重复该过程1000次；
+
++ 第三步。上述1000次得到的数值组成统计量分布，观察原始统计量落在分布的两端（显著性水平=0.05），是则显著差异，否则接受原假设。
+
+从上述步骤能看出第二步是利用了置换检验的思想，通过随机事件得到的结果判断原始结果是否是随机发生的。
+
+
+置换检验方法通常会用在小样本组间比较，一般对样本总体分布情况无要求，特别适用于总体分布未知的小样本数据，即使样本数据小到无法使用比如说t检验，但如通过比较简单假设检验的统计量则要考虑数据分布（比如评估两组数据的差异，先通过T检验获得原始T统计量，随后再通过置换检验抽取样本再获取T统计量，最后再评估原始T统计量在T统计量分布的区域）。
+
+
+## 加载R包
+
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+library(multcomp)
+library(lmPerm)
+
+# rm(list = ls())
+options(stringsAsFactors = F)
+options(future.globals.maxSize = 1000 * 1024^2)
+```
+
+
+## 小样本数据案例
+
+现有两组数据，一组是对照组，一组是实验组，它们的样本量分别是3和5，通过以下数据是否能够证实实验处理可以改善结果？
+
++ 对照组：73，75，78
+
++ 实验组：68，69，80，76，82
+
+解题思路：T检验或Wilcox检验一般要求任意一组样本量均大于等于5较为合适，且两组样本量相差较小（非平衡数据）。该问题样本量较小，普通的假设检验不适合，可以采用置换检验（两组平均值的差值作为统计量）。具体步骤：
+
+1. 第一步，零假设是实验组和对照组没有任何差别；
+
+2. 第二步，获取原始统计量。先计算两组平均值的差值作为统计量，$M_{0} = 0.333$；
+
+3. 第三步，对照组和实验组混合后随机抽取样本组成A和B再计算两组平均值的差值，重复该过程1000次，上述1000次得到的数值组成统计量分布$M_{1000}$；
+
+4. 第四步，计算$M_{1000}$大于$M_{0} = 0.333$的个数$n$，概率$P=n/1000$。若$P < 0.05$则说明实验处理有助于提升结果，否则接受零假设。
+
+```{r, fig.width=4, fig.height=4}
+control <- c(73, 75, 78)
+treatment <- c(68, 69, 80, 76, 82)
+
+permute_fun <- function(x1, x2, times = 1000) {
+  
+  # x1 = control
+  # x2 = treatment
+  # times = 1000
+  
+  M0 <- mean(x1) - mean(x2)
+  x <- c(x1, x2)
+  
+  M_distri <- c()
+  for (i in 1:times ) {
+    x1_new <- sample(x, length(x1))
+    x2_new <- sample(x, length(x2))
+    
+    M_temp <- mean(x1_new) - mean(x2_new)
+    M_distri <- c(M_distri, M_temp)
+  }
+  
+  dat <- data.frame(Time = 1:times,
+                    Value = M_distri)
+  p_value <- length(M_distri[M_distri > M0]) / length(M_distri)
+  p_label <- paste0("Pvalue = ", p_value, " (M1000 > M0)")
+  
+  pl <- ggplot(dat, aes(x = Value)) + 
+    geom_histogram(aes(y=..density..), binwidth=.5, 
+                   color = "black", fill = "white") +
+    geom_density(alpha=.2, fill="#FF6666") +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(title = "Distribution of M statistics",
+         x = "Mean(group1) - Mean(group2)") +
+    geom_vline(xintercept = M0, color = "red", linetype = "dashed", linewidth = 1) +  
+    annotate("text", label = p_label, x = 4, y = 0.14, size = 4) +
+    theme_bw()
+  
+  return(pl)
+}
+
+permute_fun(x1 = control, x2 = treatment)
+```
+
+结果：Pvalue > 0.05，说明实验处理对结果没有显著提升。
+
+
+除了自己撰写脚本外，还可以通过R包内置的函数实现两组置换检验。
+
+```{r}
+EnvStats::twoSamplePermutationTestLocation(
+  x = control,
+  y = treatment,
+  fcn = 'mean',
+  alternative = 'greater',
+  mu1.minus.mu2 = 0,
+  paired = FALSE,
+  exact = FALSE,
+  n.permutations = 1000,
+  seed = 123)
+```
+
+
+## 线性回归案例
+
+线性回归要求残差项服从正态分布，但在实际中残差项会存在离群点或偏差，无法达到完美的正态分布情况。因此使用基于置换检验的线性回归方法会有助于找到显著差异的贡献项。
+
++ 普通线性回归结果揭示*dose*对*weight*没有显著性贡献 (公式中变量的顺序非常重要，公式中后面变量的效果会根据公式前面变量的效果进行调整)
+
+```{r}
+data(litter)
+mod1 <- aov(weight ~ number + gesttime + dose, data = litter)
+summary(mod1)
+```
+
++ 残差情况
+
+```{r, fig.width=4, fig.height=4}
+qqnorm(resid(mod1), main = "Normal Q-Q Plot")
+qqline(resid(mod1), col = "red")
+```
+
++ 置换检验代替传统线性回归方法
+
+```{r}
+set.seed(123)
+mod2 <- lmPerm::aovp(weight ~ number + gesttime + dose, data = litter)
+summary(mod2)
+```
+
+
+结果：dose对weight变量有显著贡献
+
+
+## 总结
+
++ 置换检验思想不仅仅可以用于参数未知和分布未知的小样本数据，也可以用于大样本数据（计算代价较高）；
+
++ 置换检验也适合组间样本量不平衡的数据。
+
+
+## Systemic information
+```{r}
+devtools::session_info()
+```
+
+
+## Reference
+
++ Fisher, R. A., 1935. The Design of Experiments. Oliver & Boyd, Edinburgh.
+
++ [Two-Sample Permutation Test of Difference in Means](https://www.cfholbert.com/blog/two_sample_permutation_test/#:~:text=The%20two%2Dsample%20permutation%20test,median%2C%20or%20some%20other%20measure.)

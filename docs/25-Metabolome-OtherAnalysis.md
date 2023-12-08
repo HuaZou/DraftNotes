@@ -176,65 +176,65 @@ datSignif <- data.table::fread("./InputData/result/DA/Metabolites_FC_VIP_ttest.t
 
 head(datSignif)
 #>                                         FeatureID
-#> 1:                                         serine
-#> 2:                 cysteine-glutathione disulfide
-#> 3: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 2:                                         serine
+#> 3:                 cysteine-glutathione disulfide
 #> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>            Block2                Block FoldChange
-#> 1: None vs Severe 10_None vs 12_Severe  1.2218596
-#> 2: None vs Severe 10_None vs 12_Severe  1.7109000
-#> 3: None vs Severe 10_None vs 12_Severe  0.6444244
+#> 1: None vs Severe 10_None vs 12_Severe  0.6444244
+#> 2: None vs Severe 10_None vs 12_Severe  1.2218596
+#> 3: None vs Severe 10_None vs 12_Severe  1.7109000
 #> 4: None vs Severe 10_None vs 12_Severe  0.5199556
 #> 5: None vs Severe 10_None vs 12_Severe  0.5667863
 #> 6: None vs Severe 10_None vs 12_Severe  0.5638085
 #>    Log2FoldChange      VIP    CorPvalue Statistic
-#> 1:      0.2890785 2.674591 8.999556e-05  4.942204
-#> 2:      0.7747554 2.634369 1.293340e-04  4.920901
-#> 3:     -0.6339170 2.669850 9.401183e-05 -4.778381
-#> 4:     -0.9435396 2.508350 3.635911e-04 -4.191446
-#> 5:     -0.8191231 2.448184 5.678387e-04 -3.981889
-#> 6:     -0.8267228 2.363792 1.015090e-03 -3.695956
+#> 1:     -0.6339170 2.687525 8.117771e-05 -4.819854
+#> 2:      0.2890785 2.548672 2.690372e-04  4.485697
+#> 3:      0.7747554 2.650556 1.138437e-04  4.986734
+#> 4:     -0.9435396 2.512645 3.565018e-04 -4.210199
+#> 5:     -0.8191231 2.477067 4.658589e-04 -4.076152
+#> 6:     -0.8267228 2.357696 1.067887e-03 -3.676029
 #>          Pvalue AdjustedPvalue Mean Abundance (All)
-#> 1: 7.940359e-05     0.03196511             63358904
-#> 2: 9.701095e-05     0.03196511              1246453
-#> 3: 1.607599e-04     0.03531358              3841099
-#> 4: 6.052272e-04     0.09971118              2243154
-#> 5: 1.026049e-03     0.13523331              1817773
-#> 6: 2.175833e-03     0.15931932              1192929
+#> 1: 1.593233e-04     0.05015989              3841099
+#> 2: 2.262852e-04     0.05015989             63358904
+#> 3: 8.603076e-05     0.05015989              1246453
+#> 4: 5.617708e-04     0.09339439              2243154
+#> 5: 8.065149e-04     0.10726649              1817773
+#> 6: 2.258811e-03     0.20428466              1192929
 #>    Mean Abundance None Mean Abundance Severe  metabolitesID
-#> 1:          70323857.2            57554776.3       Chem_503
-#> 2:           1611743.8              942044.4 Chem_100001437
-#> 3:           2952496.1             4581602.1 Chem_100015755
+#> 1:           2952496.1             4581602.1 Chem_100015755
+#> 2:          70323857.2            57554776.3       Chem_503
+#> 3:           1611743.8              942044.4 Chem_100001437
 #> 4:           1491869.7             2869225.1 Chem_100009066
 #> 5:           1282914.5             2263488.8 Chem_100009181
 #> 6:            838913.8             1487941.0 Chem_100010917
 #>                                       BIOCHEMICAL
-#> 1:                                         serine
-#> 2:                 cysteine-glutathione disulfide
-#> 3: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 2:                                         serine
+#> 3:                 cysteine-glutathione disulfide
 #> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>    SUPER.PATHWAY                              SUB.PATHWAY
-#> 1:    Amino Acid Glycine, Serine and Threonine Metabolism
-#> 2:    Amino Acid                   Glutathione Metabolism
-#> 3:         Lipid                                Ceramides
+#> 1:         Lipid                                Ceramides
+#> 2:    Amino Acid Glycine, Serine and Threonine Metabolism
+#> 3:    Amino Acid                   Glutathione Metabolism
 #> 4:         Lipid                Phosphatidylinositol (PI)
 #> 5:         Lipid                Phosphatidylinositol (PI)
 #> 6:         Lipid                           Diacylglycerol
 #>    COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM
-#> 1:   1648 LC/MS Pos Early        503 1239 106.0499     5951
-#> 2:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
-#> 3:  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 1:  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 2:   1648 LC/MS Pos Early        503 1239 106.0499     5951
+#> 3:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
 #> 4:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
 #> 5:  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
 #> 6:  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283
 #>           CAS   KEGG SampleIDHMDBID
-#> 1:    56-45-1 C00065    HMDB0000187
-#> 2: 13081-14-6 R00900    HMDB0000656
-#> 3:       <NA>   <NA>           <NA>
+#> 1:       <NA>   <NA>           <NA>
+#> 2:    56-45-1 C00065    HMDB0000187
+#> 3: 13081-14-6 R00900    HMDB0000656
 #> 4:       <NA>   <NA>    HMDB0009783
 #> 5:       <NA>   <NA>           <NA>
 #> 6:       <NA> C13861    HMDB0007102
@@ -260,12 +260,12 @@ datSignif_KEGG <- datSignif %>%
 target_metabolites <- datSignif_KEGG[sample(1:nrow(datSignif_KEGG), 5), ,]
 
 head(target_metabolites)
-#>            BIOCHEMICAL   KEGG
-#> 1:        5-oxoproline C01879
-#> 2: phenyllactate (PLA) C05607
-#> 3:  alpha-ketobutyrate C00109
-#> 4:      phenol sulfate C02180
-#> 5:           thyroxine C01829
+#>                               BIOCHEMICAL   KEGG
+#> 1: 2-hydroxybutyrate/2-hydroxyisobutyrate C21297
+#> 2:                                   urea C00086
+#> 3:            S-1-pyrroline-5-carboxylate C04322
+#> 4:                 3-methyl-2-oxovalerate C00671
+#> 5:                 alpha-ketoglutaramate* C00940
 ```
 
 
@@ -297,14 +297,14 @@ myAnalysis <- enrich(
     data = fella.data)
 
 show(myAnalysis)
-#> Compounds in the input: 4
-#> [1] "C00109" "C01829" "C01879" "C05607"
+#> Compounds in the input: 3
+#> [1] "C00086" "C00671" "C00940"
 #> Background compounds: all available compounds (default)
 #> -----------------------------
 #> Hypergeometric test: not performed
 #> -----------------------------
 #> Heat diffusion: ready.
-#> P-scores under 0.05:  115
+#> P-scores under 0.05:  101
 #> -----------------------------
 #> PageRank: not performed
 ```
@@ -353,64 +353,64 @@ knitr::kable(head(myTable, 10), format = "html")
  </thead>
 <tbody>
   <tr>
+   <td style="text-align:left;"> hsa00220 </td>
+   <td style="text-align:left;"> pathway </td>
+   <td style="text-align:left;"> Arginine biosynthesis - Homo sapiens (human) </td>
+   <td style="text-align:right;"> 0.0059421 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hsa00250 </td>
+   <td style="text-align:left;"> pathway </td>
+   <td style="text-align:left;"> Alanine, aspartate and glutamate metabolism -... </td>
+   <td style="text-align:right;"> 0.0000035 </td>
+  </tr>
+  <tr>
    <td style="text-align:left;"> hsa00270 </td>
    <td style="text-align:left;"> pathway </td>
    <td style="text-align:left;"> Cysteine and methionine metabolism - Homo sap... </td>
-   <td style="text-align:right;"> 0.0782306 </td>
+   <td style="text-align:right;"> 0.0895812 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> hsa00360 </td>
+   <td style="text-align:left;"> hsa00290 </td>
    <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Phenylalanine metabolism - Homo sapiens (huma... </td>
-   <td style="text-align:right;"> 0.0019802 </td>
+   <td style="text-align:left;"> Valine, leucine and isoleucine biosynthesis -... </td>
+   <td style="text-align:right;"> 0.0234188 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> hsa00480 </td>
+   <td style="text-align:left;"> hsa00330 </td>
    <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Glutathione metabolism - Homo sapiens (human) </td>
-   <td style="text-align:right;"> 0.0000577 </td>
+   <td style="text-align:left;"> Arginine and proline metabolism - Homo sapien... </td>
+   <td style="text-align:right;"> 0.0166064 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> hsa04080 </td>
+   <td style="text-align:left;"> hsa00780 </td>
    <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Neuroactive ligand-receptor interaction - Hom... </td>
+   <td style="text-align:left;"> Biotin metabolism - Homo sapiens (human) </td>
+   <td style="text-align:right;"> 0.0792884 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hsa05120 </td>
+   <td style="text-align:left;"> pathway </td>
+   <td style="text-align:left;"> Epithelial cell signaling in Helicobacter pyl... </td>
    <td style="text-align:right;"> 0.0000010 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> hsa04614 </td>
-   <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Renin-angiotensin system - Homo sapiens (huma... </td>
-   <td style="text-align:right;"> 0.0197757 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> hsa04918 </td>
-   <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Thyroid hormone synthesis - Homo sapiens (hum... </td>
-   <td style="text-align:right;"> 0.0000606 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> hsa04919 </td>
-   <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Thyroid hormone signaling pathway - Homo sapi... </td>
-   <td style="text-align:right;"> 0.0000010 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> hsa04976 </td>
-   <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Bile secretion - Homo sapiens (human) </td>
-   <td style="text-align:right;"> 0.0004242 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> hsa05320 </td>
-   <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Autoimmune thyroid disease - Homo sapiens (hu... </td>
-   <td style="text-align:right;"> 0.0000040 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> M00043 </td>
+   <td style="text-align:left;"> M00019 </td>
    <td style="text-align:left;"> module </td>
-   <td style="text-align:left;"> Thyroid hormone biosynthesis, tyrosine =&gt; tri... </td>
-   <td style="text-align:right;"> 0.0000093 </td>
+   <td style="text-align:left;"> Valine/isoleucine biosynthesis, pyruvate =&gt; v... </td>
+   <td style="text-align:right;"> 0.0077912 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M00027 </td>
+   <td style="text-align:left;"> module </td>
+   <td style="text-align:left;"> GABA (gamma-Aminobutyrate) shunt </td>
+   <td style="text-align:right;"> 0.0834940 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M00029 </td>
+   <td style="text-align:left;"> module </td>
+   <td style="text-align:left;"> Urea cycle </td>
+   <td style="text-align:right;"> 0.0013335 </td>
   </tr>
 </tbody>
 </table>
@@ -613,8 +613,8 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-06
-#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
+#>  date     2023-12-08
+#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package          * version    date (UTC) lib source

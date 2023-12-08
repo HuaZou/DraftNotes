@@ -190,21 +190,21 @@ head(meansd_result)
 #> 1 Chem_100002945 33862956.0909091+/-15764070.6522433
 #> 2 Chem_100002356 3629040.02272727+/-1307163.71272114
 #> 3 Chem_100021502   684442.63282273+/-371654.38934552
-#> 4 Chem_100020519 22367529.3088522+/-21023151.6992651
+#> 4 Chem_100020519 22377791.1880027+/-21032607.1969419
 #> 5 Chem_100008903 102839488.727273+/-27950099.0087515
 #> 6 Chem_100009217   274551.65968485+/-148845.64090602
 #>                   Mean Abundance None
 #> 1         31958567+/-19461108.7209389
 #> 2      3322149.325+/-1301360.05772809
 #> 3      684387.21095+/-465469.48938036
-#> 4 20423136.3098974+/-21688521.2573225
+#> 4 20427247.0621117+/-21691828.6530022
 #> 5       103557801.6+/-25226703.757032
 #> 6    244809.93332667+/-95659.19506961
 #>                 Mean Abundance Severe  metabolitesID
 #> 1         35449947+/-12589758.3211378 Chem_100002945
 #> 2 3884782.27083333+/-1311269.55266439 Chem_100002356
 #> 3   684488.81771667+/-293986.70676612 Chem_100021502
-#> 4 23987856.8079811+/-21274379.1491838 Chem_100020519
+#> 4  24003244.6262452+/-21288519.296662 Chem_100020519
 #> 5 102240894.666667+/-31142531.5321634 Chem_100008903
 #> 6       299336.43165+/-182578.0691836 Chem_100009217
 #>                                   BIOCHEMICAL SUPER.PATHWAY
@@ -256,21 +256,21 @@ head(fc_result)
 #> 1 Chem_100002945 10_None vs 12_Severe  0.9015124
 #> 2 Chem_100002356 10_None vs 12_Severe  0.8551700
 #> 3 Chem_100021502 10_None vs 12_Severe  0.9998516
-#> 4 Chem_100020519 10_None vs 12_Severe  0.8513948
+#> 4 Chem_100020519 10_None vs 12_Severe  0.8510202
 #> 5 Chem_100008903 10_None vs 12_Severe  1.0128804
 #> 6 Chem_100009217 10_None vs 12_Severe  0.8178421
 #>   Log2FoldChange Mean Abundance (All) Mean Abundance None
 #> 1  -0.1495807503           33862956.1          31958567.0
 #> 2  -0.2257168212            3629040.0           3322149.3
 #> 3  -0.0002141722             684442.6            684387.2
-#> 4  -0.2320998331           22367529.3          20423136.3
+#> 4  -0.2327346464           22377791.2          20427247.1
 #> 5   0.0184638782          102839488.7         103557801.6
 #> 6  -0.2901057796             274551.7            244809.9
 #>   Mean Abundance Severe  metabolitesID
 #> 1            35449947.0 Chem_100002945
 #> 2             3884782.3 Chem_100002356
 #> 3              684488.8 Chem_100021502
-#> 4            23987856.8 Chem_100020519
+#> 4            24003244.6 Chem_100020519
 #> 5           102240894.7 Chem_100008903
 #> 6              299336.4 Chem_100009217
 #>                                   BIOCHEMICAL SUPER.PATHWAY
@@ -325,19 +325,19 @@ t_result <- MicrobiomeAnalysis::run_metabolomeDA(
 
 head(t_result)
 #>        FeatureID                Block  Statistic    Pvalue
-#> 1 Chem_100002945 10_None vs 12_Severe -0.4930851 0.6295634
-#> 2 Chem_100002356 10_None vs 12_Severe -0.6434776 0.5291685
-#> 3 Chem_100021502 10_None vs 12_Severe -0.3062205 0.7642351
-#> 4 Chem_100020519 10_None vs 12_Severe -0.1932402 0.8487889
-#> 5 Chem_100008903 10_None vs 12_Severe  1.1263483 0.2733543
-#> 6 Chem_100009217 10_None vs 12_Severe -0.2960430 0.7703108
+#> 1 Chem_100002945 10_None vs 12_Severe -0.5359961 0.6002266
+#> 2 Chem_100002356 10_None vs 12_Severe -0.6916539 0.4989317
+#> 3 Chem_100021502 10_None vs 12_Severe -0.3287081 0.7475442
+#> 4 Chem_100020519 10_None vs 12_Severe -0.1983307 0.8448580
+#> 5 Chem_100008903 10_None vs 12_Severe  1.0873934 0.2898022
+#> 6 Chem_100009217 10_None vs 12_Severe -0.3203800 0.7520565
 #>   AdjustedPvalue  metabolitesID
-#> 1      0.8883761 Chem_100002945
-#> 2      0.8650553 Chem_100002356
-#> 3      0.9172111 Chem_100021502
-#> 4      0.9568910 Chem_100020519
-#> 5      0.6875592 Chem_100008903
-#> 6      0.9172111 Chem_100009217
+#> 1      0.8791865 Chem_100002945
+#> 2      0.8373945 Chem_100002356
+#> 3      0.9059672 Chem_100021502
+#> 4      0.9496587 Chem_100020519
+#> 5      0.7137720 Chem_100008903
+#> 6      0.9060523 Chem_100009217
 #>                                   BIOCHEMICAL SUPER.PATHWAY
 #> 1 (14 or 15)-methylpalmitate (a17:0 or i17:0)         Lipid
 #> 2  (16 or 17)-methylstearate (a19:0 or i19:0)         Lipid
@@ -393,51 +393,51 @@ VIP_result <- MicrobiomeAnalysis::run_metabolomeDA(
   variable_name = grp_names[c(1, 4)],
   DA_method = "vip")
 #> PLS-DA
-#> 22 samples x 659 variables and 1 response
+#> 22 samples x 665 variables and 1 response
 #> standard scaling of predictors and response(s)
 #>       R2X(cum) R2Y(cum) Q2(cum) RMSEE pre ort pR2Y  pQ2
-#> Total    0.105    0.815   0.526 0.225   1   0 0.15 0.05
+#> Total    0.101    0.832   0.542 0.214   1   0  0.1 0.05
 
 head(VIP_result)
 #>        FeatureID                Block      VIP    CorPvalue
-#> 1       Chem_503 10_None vs 12_Severe 2.674591 8.999556e-05
-#> 2 Chem_100015755 10_None vs 12_Severe 2.669850 9.401183e-05
-#> 3 Chem_100001437 10_None vs 12_Severe 2.634369 1.293340e-04
-#> 4 Chem_100009066 10_None vs 12_Severe 2.508350 3.635911e-04
-#> 5 Chem_100022013 10_None vs 12_Severe 2.454479 5.426659e-04
-#> 6 Chem_100009181 10_None vs 12_Severe 2.448184 5.678387e-04
+#> 1 Chem_100015755 10_None vs 12_Severe 2.687525 8.117771e-05
+#> 2 Chem_100001437 10_None vs 12_Severe 2.650556 1.138437e-04
+#> 3       Chem_503 10_None vs 12_Severe 2.548672 2.690372e-04
+#> 4 Chem_100009066 10_None vs 12_Severe 2.512645 3.565018e-04
+#> 5 Chem_100009181 10_None vs 12_Severe 2.477067 4.658589e-04
+#> 6 Chem_100022013 10_None vs 12_Severe 2.448254 5.744321e-04
 #>    metabolitesID
-#> 1       Chem_503
-#> 2 Chem_100015755
-#> 3 Chem_100001437
+#> 1 Chem_100015755
+#> 2 Chem_100001437
+#> 3       Chem_503
 #> 4 Chem_100009066
-#> 5 Chem_100022013
-#> 6 Chem_100009181
+#> 5 Chem_100009181
+#> 6 Chem_100022013
 #>                                      BIOCHEMICAL
-#> 1                                         serine
-#> 2 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
-#> 3                 cysteine-glutathione disulfide
+#> 1 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 2                 cysteine-glutathione disulfide
+#> 3                                         serine
 #> 4          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
-#> 5                 tetrahydrocortisol glucuronide
-#> 6           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
+#> 5           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
+#> 6                 tetrahydrocortisol glucuronide
 #>   SUPER.PATHWAY                              SUB.PATHWAY
-#> 1    Amino Acid Glycine, Serine and Threonine Metabolism
-#> 2         Lipid                                Ceramides
-#> 3    Amino Acid                   Glutathione Metabolism
+#> 1         Lipid                                Ceramides
+#> 2    Amino Acid                   Glutathione Metabolism
+#> 3    Amino Acid Glycine, Serine and Threonine Metabolism
 #> 4         Lipid                Phosphatidylinositol (PI)
-#> 5         Lipid                          Corticosteroids
-#> 6         Lipid                Phosphatidylinositol (PI)
+#> 5         Lipid                Phosphatidylinositol (PI)
+#> 6         Lipid                          Corticosteroids
 #>   COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM
-#> 1   1648 LC/MS Pos Early        503 1239 106.0499     5951
-#> 2  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
-#> 3  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
+#> 1  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 2  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
+#> 3   1648 LC/MS Pos Early        503 1239 106.0499     5951
 #> 4  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
-#> 5  64411       LC/MS Neg  100022013 4666 541.2654     <NA>
-#> 6  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
+#> 5  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
+#> 6  64411       LC/MS Neg  100022013 4666 541.2654     <NA>
 #>          CAS   KEGG SampleIDHMDBID
-#> 1    56-45-1 C00065    HMDB0000187
-#> 2       <NA>   <NA>           <NA>
-#> 3 13081-14-6 R00900    HMDB0000656
+#> 1       <NA>   <NA>           <NA>
+#> 2 13081-14-6 R00900    HMDB0000656
+#> 3    56-45-1 C00065    HMDB0000187
 #> 4       <NA>   <NA>    HMDB0009783
 #> 5       <NA>   <NA>           <NA>
 #> 6       <NA>   <NA>           <NA>
@@ -504,58 +504,58 @@ final_result <- mergedResults(
 
 head(final_result)
 #>        FeatureID         Block2                Block
-#> 1       Chem_503 None vs Severe 10_None vs 12_Severe
-#> 2 Chem_100001437 None vs Severe 10_None vs 12_Severe
-#> 3 Chem_100015755 None vs Severe 10_None vs 12_Severe
+#> 1 Chem_100015755 None vs Severe 10_None vs 12_Severe
+#> 2       Chem_503 None vs Severe 10_None vs 12_Severe
+#> 3 Chem_100001437 None vs Severe 10_None vs 12_Severe
 #> 4 Chem_100009066 None vs Severe 10_None vs 12_Severe
 #> 5 Chem_100009181 None vs Severe 10_None vs 12_Severe
 #> 6 Chem_100010917 None vs Severe 10_None vs 12_Severe
 #>   FoldChange Log2FoldChange      VIP    CorPvalue Statistic
-#> 1  1.2218596      0.2890785 2.674591 8.999556e-05  4.942204
-#> 2  1.7109000      0.7747554 2.634369 1.293340e-04  4.920901
-#> 3  0.6444244     -0.6339170 2.669850 9.401183e-05 -4.778381
-#> 4  0.5199556     -0.9435396 2.508350 3.635911e-04 -4.191446
-#> 5  0.5667863     -0.8191231 2.448184 5.678387e-04 -3.981889
-#> 6  0.5638085     -0.8267228 2.363792 1.015090e-03 -3.695956
+#> 1  0.6444244     -0.6339170 2.687525 8.117771e-05 -4.819854
+#> 2  1.2218596      0.2890785 2.548672 2.690372e-04  4.485697
+#> 3  1.7109000      0.7747554 2.650556 1.138437e-04  4.986734
+#> 4  0.5199556     -0.9435396 2.512645 3.565018e-04 -4.210199
+#> 5  0.5667863     -0.8191231 2.477067 4.658589e-04 -4.076152
+#> 6  0.5638085     -0.8267228 2.357696 1.067887e-03 -3.676029
 #>         Pvalue AdjustedPvalue Mean Abundance (All)
-#> 1 7.940359e-05     0.03196511             63358904
-#> 2 9.701095e-05     0.03196511              1246453
-#> 3 1.607599e-04     0.03531358              3841099
-#> 4 6.052272e-04     0.09971118              2243154
-#> 5 1.026049e-03     0.13523331              1817773
-#> 6 2.175833e-03     0.15931932              1192929
+#> 1 1.593233e-04     0.05015989              3841099
+#> 2 2.262852e-04     0.05015989             63358904
+#> 3 8.603076e-05     0.05015989              1246453
+#> 4 5.617708e-04     0.09339439              2243154
+#> 5 8.065149e-04     0.10726649              1817773
+#> 6 2.258811e-03     0.20428466              1192929
 #>   Mean Abundance None Mean Abundance Severe  metabolitesID
-#> 1          70323857.2            57554776.3       Chem_503
-#> 2           1611743.8              942044.4 Chem_100001437
-#> 3           2952496.1             4581602.1 Chem_100015755
+#> 1           2952496.1             4581602.1 Chem_100015755
+#> 2          70323857.2            57554776.3       Chem_503
+#> 3           1611743.8              942044.4 Chem_100001437
 #> 4           1491869.7             2869225.1 Chem_100009066
 #> 5           1282914.5             2263488.8 Chem_100009181
 #> 6            838913.8             1487941.0 Chem_100010917
 #>                                      BIOCHEMICAL
-#> 1                                         serine
-#> 2                 cysteine-glutathione disulfide
-#> 3 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 1 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 2                                         serine
+#> 3                 cysteine-glutathione disulfide
 #> 4          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>   SUPER.PATHWAY                              SUB.PATHWAY
-#> 1    Amino Acid Glycine, Serine and Threonine Metabolism
-#> 2    Amino Acid                   Glutathione Metabolism
-#> 3         Lipid                                Ceramides
+#> 1         Lipid                                Ceramides
+#> 2    Amino Acid Glycine, Serine and Threonine Metabolism
+#> 3    Amino Acid                   Glutathione Metabolism
 #> 4         Lipid                Phosphatidylinositol (PI)
 #> 5         Lipid                Phosphatidylinositol (PI)
 #> 6         Lipid                           Diacylglycerol
 #>   COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM
-#> 1   1648 LC/MS Pos Early        503 1239 106.0499     5951
-#> 2  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
-#> 3  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 1  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 2   1648 LC/MS Pos Early        503 1239 106.0499     5951
+#> 3  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
 #> 4  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
 #> 5  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
 #> 6  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283
 #>          CAS   KEGG SampleIDHMDBID
-#> 1    56-45-1 C00065    HMDB0000187
-#> 2 13081-14-6 R00900    HMDB0000656
-#> 3       <NA>   <NA>           <NA>
+#> 1       <NA>   <NA>           <NA>
+#> 2    56-45-1 C00065    HMDB0000187
+#> 3 13081-14-6 R00900    HMDB0000656
 #> 4       <NA>   <NA>    HMDB0009783
 #> 5       <NA>   <NA>           <NA>
 #> 6       <NA> C13861    HMDB0007102
@@ -575,65 +575,65 @@ final_result <- MicrobiomeAnalysis::run_metabolomeDA(
   variable_name = grp_names[c(1, 4)],
   DA_method = "all")
 #> PLS-DA
-#> 22 samples x 659 variables and 1 response
+#> 22 samples x 665 variables and 1 response
 #> standard scaling of predictors and response(s)
 #>       R2X(cum) R2Y(cum) Q2(cum) RMSEE pre ort pR2Y  pQ2
-#> Total    0.105    0.815   0.526 0.225   1   0  0.1 0.05
+#> Total    0.101    0.832   0.542 0.214   1   0 0.05 0.05
 
 head(final_result)
 #>        FeatureID         Block2                Block
-#> 1       Chem_503 None vs Severe 10_None vs 12_Severe
-#> 2 Chem_100001437 None vs Severe 10_None vs 12_Severe
-#> 3 Chem_100015755 None vs Severe 10_None vs 12_Severe
+#> 1 Chem_100015755 None vs Severe 10_None vs 12_Severe
+#> 2       Chem_503 None vs Severe 10_None vs 12_Severe
+#> 3 Chem_100001437 None vs Severe 10_None vs 12_Severe
 #> 4 Chem_100009066 None vs Severe 10_None vs 12_Severe
 #> 5 Chem_100009181 None vs Severe 10_None vs 12_Severe
 #> 6 Chem_100010917 None vs Severe 10_None vs 12_Severe
 #>   FoldChange Log2FoldChange      VIP    CorPvalue Statistic
-#> 1  1.2218596      0.2890785 2.674591 8.999556e-05  4.942204
-#> 2  1.7109000      0.7747554 2.634369 1.293340e-04  4.920901
-#> 3  0.6444244     -0.6339170 2.669850 9.401183e-05 -4.778381
-#> 4  0.5199556     -0.9435396 2.508350 3.635911e-04 -4.191446
-#> 5  0.5667863     -0.8191231 2.448184 5.678387e-04 -3.981889
-#> 6  0.5638085     -0.8267228 2.363792 1.015090e-03 -3.695956
+#> 1  0.6444244     -0.6339170 2.687525 8.117771e-05 -4.819854
+#> 2  1.2218596      0.2890785 2.548672 2.690372e-04  4.485697
+#> 3  1.7109000      0.7747554 2.650556 1.138437e-04  4.986734
+#> 4  0.5199556     -0.9435396 2.512645 3.565018e-04 -4.210199
+#> 5  0.5667863     -0.8191231 2.477067 4.658589e-04 -4.076152
+#> 6  0.5638085     -0.8267228 2.357696 1.067887e-03 -3.676029
 #>         Pvalue AdjustedPvalue Mean Abundance (All)
-#> 1 7.940359e-05     0.03196511             63358904
-#> 2 9.701095e-05     0.03196511              1246453
-#> 3 1.607599e-04     0.03531358              3841099
-#> 4 6.052272e-04     0.09971118              2243154
-#> 5 1.026049e-03     0.13523331              1817773
-#> 6 2.175833e-03     0.15931932              1192929
+#> 1 1.593233e-04     0.05015989              3841099
+#> 2 2.262852e-04     0.05015989             63358904
+#> 3 8.603076e-05     0.05015989              1246453
+#> 4 5.617708e-04     0.09339439              2243154
+#> 5 8.065149e-04     0.10726649              1817773
+#> 6 2.258811e-03     0.20428466              1192929
 #>   Mean Abundance None Mean Abundance Severe  metabolitesID
-#> 1          70323857.2            57554776.3       Chem_503
-#> 2           1611743.8              942044.4 Chem_100001437
-#> 3           2952496.1             4581602.1 Chem_100015755
+#> 1           2952496.1             4581602.1 Chem_100015755
+#> 2          70323857.2            57554776.3       Chem_503
+#> 3           1611743.8              942044.4 Chem_100001437
 #> 4           1491869.7             2869225.1 Chem_100009066
 #> 5           1282914.5             2263488.8 Chem_100009181
 #> 6            838913.8             1487941.0 Chem_100010917
 #>                                      BIOCHEMICAL
-#> 1                                         serine
-#> 2                 cysteine-glutathione disulfide
-#> 3 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 1 ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
+#> 2                                         serine
+#> 3                 cysteine-glutathione disulfide
 #> 4          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>   SUPER.PATHWAY                              SUB.PATHWAY
-#> 1    Amino Acid Glycine, Serine and Threonine Metabolism
-#> 2    Amino Acid                   Glutathione Metabolism
-#> 3         Lipid                                Ceramides
+#> 1         Lipid                                Ceramides
+#> 2    Amino Acid Glycine, Serine and Threonine Metabolism
+#> 3    Amino Acid                   Glutathione Metabolism
 #> 4         Lipid                Phosphatidylinositol (PI)
 #> 5         Lipid                Phosphatidylinositol (PI)
 #> 6         Lipid                           Diacylglycerol
 #>   COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM
-#> 1   1648 LC/MS Pos Early        503 1239 106.0499     5951
-#> 2  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
-#> 3  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 1  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
+#> 2   1648 LC/MS Pos Early        503 1239 106.0499     5951
+#> 3  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
 #> 4  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
 #> 5  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
 #> 6  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283
 #>          CAS   KEGG SampleIDHMDBID
-#> 1    56-45-1 C00065    HMDB0000187
-#> 2 13081-14-6 R00900    HMDB0000656
-#> 3       <NA>   <NA>           <NA>
+#> 1       <NA>   <NA>           <NA>
+#> 2    56-45-1 C00065    HMDB0000187
+#> 3 13081-14-6 R00900    HMDB0000656
 #> 4       <NA>   <NA>    HMDB0009783
 #> 5       <NA>   <NA>           <NA>
 #> 6       <NA> C13861    HMDB0007102
@@ -766,8 +766,8 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-06
-#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
+#>  date     2023-12-08
+#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package              * version   date (UTC) lib source

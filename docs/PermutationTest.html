@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 7 Permutation Test | 生物信息随记</title>
+<meta name="author" content="Hua Zou">
+<meta name="description" content="置换检验属于一种非参数检验，最初真正认识置换检验是从PERMANOVA分析开始的，PERMANOVA的原理是： 第一步，获取原始统计量。先计算组间距离的平方和和组内距离的平方和的差值（类似F分布统计量）； 第二步，随机抽取样本组成分组再计算上述类似F分布统计量，重复该过程1000次；...">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="Chapter 7 Permutation Test | 生物信息随记">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://zouhua.top/DraftNotes/PermutationTest.html">
+<meta property="og:description" content="置换检验属于一种非参数检验，最初真正认识置换检验是从PERMANOVA分析开始的，PERMANOVA的原理是： 第一步，获取原始统计量。先计算组间距离的平方和和组内距离的平方和的差值（类似F分布统计量）； 第二步，随机抽取样本组成分组再计算上述类似F分布统计量，重复该过程1000次；...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 7 Permutation Test | 生物信息随记">
+<meta name="twitter:description" content="置换检验属于一种非参数检验，最初真正认识置换检验是从PERMANOVA分析开始的，PERMANOVA的原理是： 第一步，获取原始统计量。先计算组间距离的平方和和组内距离的平方和的差值（类似F分布统计量）； 第二步，随机抽取样本组成分组再计算上述类似F分布统计量，重复该过程1000次；...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">生物信息随记</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> 介绍</a></li>
+<li class="book-part">Data Set</li>
+<li><a class="" href="ZeybelDataset.html"><span class="header-section-number">2</span> Zeybel Dataset</a></li>
+<li class="book-part">Statistical Methods</li>
+<li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
+<li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
+<li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
+<li><a class="active" href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></li>
+<li class="book-part">Metabolomics Data Analysis</li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">9</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">10</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">11</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">12</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">13</span> Other Analysis</a></li>
+<li class="book-part">Machine Learning</li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">14</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">15</span> XGBoost Algorithm</a></li>
+<li class="book-part">Knowledge</li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">16</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">17</span> Notes</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/HuaZou/DraftNotes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="PermutationTest" class="section level1" number="7">
+<h1>
+<span class="header-section-number">7</span> Permutation Test<a class="anchor" aria-label="anchor" href="#PermutationTest"><i class="fas fa-link"></i></a>
+</h1>
+<p>置换检验属于一种非参数检验，最初真正认识置换检验是从PERMANOVA分析开始的，PERMANOVA的原理是：</p>
+<ul>
+<li><p>第一步，获取原始统计量。先计算<em>组间距离的平方和</em>和<em>组内距离的平方和</em>的差值（类似F分布统计量）；</p></li>
+<li><p>第二步，随机抽取样本组成分组再计算上述类似F分布统计量，重复该过程1000次；</p></li>
+<li><p>第三步。上述1000次得到的数值组成统计量分布，观察原始统计量落在分布的两端（显著性水平=0.05），是则显著差异，否则接受原假设。</p></li>
+</ul>
+<p>从上述步骤能看出第二步是利用了置换检验的思想，通过随机事件得到的结果判断原始结果是否是随机发生的。</p>
+<p>置换检验方法通常会用在小样本组间比较，一般对样本总体分布情况无要求，特别适用于总体分布未知的小样本数据，即使样本数据小到无法使用比如说t检验，但如通过比较简单假设检验的统计量则要考虑数据分布（比如评估两组数据的差异，先通过T检验获得原始T统计量，随后再通过置换检验抽取样本再获取T统计量，最后再评估原始T统计量在T统计量分布的区域）。</p>
+<div id="加载r包-3" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-3"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://multcomp.R-forge.R-project.org">multcomp</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtorchiano/lmPerm">lmPerm</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># rm(list = ls())</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>future.globals.maxSize <span class="op">=</span> <span class="fl">1000</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="小样本数据案例" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> 小样本数据案例<a class="anchor" aria-label="anchor" href="#%E5%B0%8F%E6%A0%B7%E6%9C%AC%E6%95%B0%E6%8D%AE%E6%A1%88%E4%BE%8B"><i class="fas fa-link"></i></a>
+</h2>
+<p>现有两组数据，一组是对照组，一组是实验组，它们的样本量分别是3和5，通过以下数据是否能够证实实验处理可以改善结果？</p>
+<ul>
+<li><p>对照组：73，75，78</p></li>
+<li><p>实验组：68，69，80，76，82</p></li>
+</ul>
+<p>解题思路：T检验或Wilcox检验一般要求任意一组样本量均大于等于5较为合适，且两组样本量相差较小（非平衡数据）。该问题样本量较小，普通的假设检验不适合，可以采用置换检验（两组平均值的差值作为统计量）。具体步骤：</p>
+<ol style="list-style-type: decimal">
+<li><p>第一步，零假设是实验组和对照组没有任何差别；</p></li>
+<li><p>第二步，获取原始统计量。先计算两组平均值的差值作为统计量，<span class="math inline">\(M_{0} = 0.333\)</span>；</p></li>
+<li><p>第三步，对照组和实验组混合后随机抽取样本组成A和B再计算两组平均值的差值，重复该过程1000次，上述1000次得到的数值组成统计量分布<span class="math inline">\(M_{1000}\)</span>；</p></li>
+<li><p>第四步，计算<span class="math inline">\(M_{1000}\)</span>大于<span class="math inline">\(M_{0} = 0.333\)</span>的个数<span class="math inline">\(n\)</span>，概率<span class="math inline">\(P=n/1000\)</span>。若<span class="math inline">\(P &lt; 0.05\)</span>则说明实验处理有助于提升结果，否则接受零假设。</p></li>
+</ol>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">control</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">73</span>, <span class="fl">75</span>, <span class="fl">78</span><span class="op">)</span></span>
+<span><span class="va">treatment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">68</span>, <span class="fl">69</span>, <span class="fl">80</span>, <span class="fl">76</span>, <span class="fl">82</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">permute_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, <span class="va">times</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># x1 = control</span></span>
+<span>  <span class="co"># x2 = treatment</span></span>
+<span>  <span class="co"># times = 1000</span></span>
+<span>  </span>
+<span>  <span class="va">M0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">M_distri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">times</span> <span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">x1_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html">sample</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="va">x2_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html">sample</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">M_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x1_new</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x2_new</span><span class="op">)</span></span>
+<span>    <span class="va">M_distri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">M_distri</span>, <span class="va">M_temp</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">times</span>,</span>
+<span>                    Value <span class="op">=</span> <span class="va">M_distri</span><span class="op">)</span></span>
+<span>  <span class="va">p_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">M_distri</span><span class="op">[</span><span class="va">M_distri</span> <span class="op">&gt;</span> <span class="va">M0</span><span class="op">]</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">M_distri</span><span class="op">)</span></span>
+<span>  <span class="va">p_label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Pvalue = "</span>, <span class="va">p_value</span>, <span class="st">" (M1000 &gt; M0)"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">..density..</span><span class="op">)</span>, binwidth<span class="op">=</span><span class="fl">.5</span>, </span>
+<span>                   color <span class="op">=</span> <span class="st">"black"</span>, fill <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">.2</span>, fill<span class="op">=</span><span class="st">"#FF6666"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Distribution of M statistics"</span>,</span>
+<span>         x <span class="op">=</span> <span class="st">"Mean(group1) - Mean(group2)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">M0</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="va">p_label</span>, x <span class="op">=</span> <span class="fl">4</span>, y <span class="op">=</span> <span class="fl">0.14</span>, size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">permute_fun</span><span class="op">(</span>x1 <span class="op">=</span> <span class="va">control</span>, x2 <span class="op">=</span> <span class="va">treatment</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="14-Statistics_Permutation_files/figure-html/unnamed-chunk-3-1.png" width="100%"></div>
+<p>结果：Pvalue &gt; 0.05，说明实验处理对结果没有显著提升。</p>
+<p>除了自己撰写脚本外，还可以通过R包内置的函数实现两组置换检验。</p>
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">EnvStats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EnvStats/man/twoSamplePermutationTestLocation.html">twoSamplePermutationTestLocation</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">control</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">treatment</span>,</span>
+<span>  fcn <span class="op">=</span> <span class="st">'mean'</span>,</span>
+<span>  alternative <span class="op">=</span> <span class="st">'greater'</span>,</span>
+<span>  mu1.minus.mu2 <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  paired <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  exact <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  n.permutations <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Results of Hypothesis Test</span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Null Hypothesis:                 mu.x-mu.y = 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Alternative Hypothesis:          True mu.x-mu.y is greater than 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test Name:                       Two-Sample Permutation Test</span></span>
+<span><span class="co">#&gt;                                  Based on Differences in Means</span></span>
+<span><span class="co">#&gt;                                  (Based on Sampling</span></span>
+<span><span class="co">#&gt;                                  Permutation Distribution</span></span>
+<span><span class="co">#&gt;                                  1000 Times)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimated Parameter(s):          mean of x = 75.33333</span></span>
+<span><span class="co">#&gt;                                  mean of y = 75.00000</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Data:                            x = control  </span></span>
+<span><span class="co">#&gt;                                  y = treatment</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sample Sizes:                    nx = 3</span></span>
+<span><span class="co">#&gt;                                  ny = 5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Test Statistic:                  mean.x - mean.y = 0.3333333</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; P-value:                         0.497</span></span></code></pre></div>
+</div>
+<div id="线性回归案例" class="section level2" number="7.3">
+<h2>
+<span class="header-section-number">7.3</span> 线性回归案例<a class="anchor" aria-label="anchor" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E6%A1%88%E4%BE%8B"><i class="fas fa-link"></i></a>
+</h2>
+<p>线性回归要求残差项服从正态分布，但在实际中残差项会存在离群点或偏差，无法达到完美的正态分布情况。因此使用基于置换检验的线性回归方法会有助于找到显著差异的贡献项。</p>
+<ul>
+<li>普通线性回归结果揭示<em>dose</em>对<em>weight</em>没有显著性贡献 (公式中变量的顺序非常重要，公式中后面变量的效果会根据公式前面变量的效果进行调整)</li>
+</ul>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">litter</span><span class="op">)</span></span>
+<span><span class="va">mod1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html">aov</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">number</span> <span class="op">+</span> <span class="va">gesttime</span> <span class="op">+</span> <span class="va">dose</span>, data <span class="op">=</span> <span class="va">litter</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;             Df Sum Sq Mean Sq F value  Pr(&gt;F)   </span></span>
+<span><span class="co">#&gt; number       1   69.8   69.77   4.367 0.04038 * </span></span>
+<span><span class="co">#&gt; gesttime     1  143.7  143.70   8.994 0.00378 **</span></span>
+<span><span class="co">#&gt; dose         3  122.8   40.93   2.562 0.06196 . </span></span>
+<span><span class="co">#&gt; Residuals   68 1086.4   15.98                   </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span></code></pre></div>
+<ul>
+<li>残差情况</li>
+</ul>
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/qqnorm.html">qqnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">resid</a></span><span class="op">(</span><span class="va">mod1</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Normal Q-Q Plot"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/qqnorm.html">qqline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">resid</a></span><span class="op">(</span><span class="va">mod1</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="14-Statistics_Permutation_files/figure-html/unnamed-chunk-6-1.png" width="100%"></div>
+<ul>
+<li>置换检验代替传统线性回归方法</li>
+</ul>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">mod2</span> <span class="op">&lt;-</span> <span class="fu">lmPerm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lmPerm/man/aovp.html">aovp</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">number</span> <span class="op">+</span> <span class="va">gesttime</span> <span class="op">+</span> <span class="va">dose</span>, data <span class="op">=</span> <span class="va">litter</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Settings:  unique SS : numeric variables centered"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Component 1 :</span></span>
+<span><span class="co">#&gt;             Df R Sum Sq R Mean Sq Iter Pr(Prob)   </span></span>
+<span><span class="co">#&gt; number       1    64.85    64.849 1957  0.04905 * </span></span>
+<span><span class="co">#&gt; gesttime     1   153.99   153.986 5000  0.00220 **</span></span>
+<span><span class="co">#&gt; dose         3   122.80    40.934 2171  0.04422 * </span></span>
+<span><span class="co">#&gt; Residuals   68  1086.42    15.977                 </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span></code></pre></div>
+<p>结果：dose对weight变量有显著贡献</p>
+</div>
+<div id="总结-2" class="section level2" number="7.4">
+<h2>
+<span class="header-section-number">7.4</span> 总结<a class="anchor" aria-label="anchor" href="#%E6%80%BB%E7%BB%93-2"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>置换检验思想不仅仅可以用于参数未知和分布未知的小样本数据，也可以用于大样本数据（计算代价较高）；</p></li>
+<li><p>置换检验也适合组间样本量不平衡的数据。</p></li>
+</ul>
+</div>
+<div id="systemic-information-4" class="section level2" number="7.5">
+<h2>
+<span class="header-section-number">7.5</span> Systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-4"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  setting  value</span></span>
+<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
+<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  ui       X11</span></span>
+<span><span class="co">#&gt;  language (EN)</span></span>
+<span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
+<span><span class="co">#&gt;  date     2023-12-08</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  package     * version date (UTC) lib source</span></span>
+<span><span class="co">#&gt;  bookdown      0.34    2023-05-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bslib         0.6.0   2023-11-21 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  cachem        1.0.8   2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  callr         3.7.3   2022-11-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cli           3.6.1   2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  codetools     0.2-19  2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  colorspace    2.1-0   2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  crayon        1.5.2   2022-09-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  devtools      2.4.5   2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  digest        0.6.33  2023-07-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  downlit       0.4.3   2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  dplyr       * 1.1.2   2023-04-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ellipsis      0.3.2   2021-04-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  EnvStats      2.8.1   2023-08-22 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  evaluate      0.21    2023-05-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fansi         1.0.4   2023-01-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  farver        2.1.1   2022-07-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmap       1.1.1   2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  forcats     * 1.0.0   2023-01-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fs            1.6.2   2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  generics      0.1.3   2022-07-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggplot2     * 3.4.2   2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glue          1.6.2   2022-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtable        0.3.3   2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  highr         0.10    2022-12-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hms           1.1.3   2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmltools     0.5.7   2023-11-03 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  htmlwidgets   1.6.2   2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  httpuv        1.6.11  2023-05-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  jquerylib     0.1.4   2021-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  jsonlite      1.8.7   2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  knitr         1.43    2023-05-25 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  labeling      0.4.2   2020-10-20 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  later         1.3.1   2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lattice       0.21-8  2023-04-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lifecycle     1.0.3   2022-10-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lmPerm      * 2.1.0   2016-08-02 [1] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  lubridate   * 1.9.2   2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  magrittr      2.0.3   2022-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  MASS        * 7.3-60  2023-05-04 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Matrix        1.6-0   2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  memoise       2.0.1   2021-11-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mime          0.12    2021-09-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  miniUI        0.1.1.1 2018-05-18 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  multcomp    * 1.4-25  2023-06-20 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  munsell       0.5.0   2018-06-12 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mvtnorm     * 1.2-2   2023-06-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pillar        1.9.0   2023-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pkgbuild      1.4.2   2023-06-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pkgconfig     2.0.3   2019-09-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pkgload       1.3.2.1 2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  prettyunits   1.1.1   2020-01-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  processx      3.8.2   2023-06-30 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  profvis       0.3.8   2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  promises      1.2.0.1 2021-02-11 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ps            1.7.5   2023-04-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr       * 1.0.1   2023-01-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  R6            2.5.1   2021-08-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Rcpp          1.0.11  2023-07-06 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  readr       * 2.1.4   2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  remotes       2.4.2   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rlang         1.1.1   2023-04-28 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rmarkdown     2.23    2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  rstudioapi    0.15.0  2023-07-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  sandwich      3.0-2   2022-06-15 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sass          0.4.6   2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scales        1.2.1   2022-08-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sessioninfo   1.2.2   2021-12-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shiny         1.7.4.1 2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  stringi       1.7.12  2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr     * 1.5.0   2022-12-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  survival    * 3.5-5   2023-03-12 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  TH.data     * 1.1-2   2023-04-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tibble      * 3.2.1   2023-03-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr       * 1.3.0   2023-01-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyselect    1.2.0   2022-10-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyverse   * 2.0.0   2023-02-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timechange    0.2.0   2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tzdb          0.4.0   2023-05-12 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  urlchecker    1.0.1   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  usethis       2.2.2   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  utf8          1.2.3   2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vctrs         0.6.3   2023-06-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  withr         2.5.0   2022-03-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xfun          0.40    2023-08-09 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xml2          1.3.5   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xtable        1.8-4   2019-04-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  yaml          2.3.7   2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  zoo           1.8-12  2023-04-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
+<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
+</div>
+<div id="reference-5" class="section level2" number="7.6">
+<h2>
+<span class="header-section-number">7.6</span> Reference<a class="anchor" aria-label="anchor" href="#reference-5"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>Fisher, R. A., 1935. The Design of Experiments. Oliver &amp; Boyd, Edinburgh.</p></li>
+<li><p><a href="https://www.cfholbert.com/blog/two_sample_permutation_test/#:~:text=The%20two%2Dsample%20permutation%20test,median%2C%20or%20some%20other%20measure.">Two-Sample Permutation Test of Difference in Means</a></p></li>
+</ul>
+</div>
+</div>
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></div>
+<div class="next"><a href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#PermutationTest"><span class="header-section-number">7</span> Permutation Test</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-3"><span class="header-section-number">7.1</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%B0%8F%E6%A0%B7%E6%9C%AC%E6%95%B0%E6%8D%AE%E6%A1%88%E4%BE%8B"><span class="header-section-number">7.2</span> 小样本数据案例</a></li>
+<li><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E6%A1%88%E4%BE%8B"><span class="header-section-number">7.3</span> 线性回归案例</a></li>
+<li><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="header-section-number">7.4</span> 总结</a></li>
+<li><a class="nav-link" href="#systemic-information-4"><span class="header-section-number">7.5</span> Systemic information</a></li>
+<li><a class="nav-link" href="#reference-5"><span class="header-section-number">7.6</span> Reference</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/HuaZou/DraftNotes/blob/main/14-Statistics_Permutation.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/HuaZou/DraftNotes/edit/main/14-Statistics_Permutation.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-08.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

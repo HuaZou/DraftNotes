@@ -160,10 +160,10 @@ PCA_res <- DR_fun(
     DRtype = "PCA",
     occ_cutoff = 0.5)
 #> PCA
-#> 55 samples x 659 variables
+#> 55 samples x 665 variables
 #> standard scaling of predictors
 #>       R2X(cum) pre ort
-#> Total    0.526  10   0
+#> Total    0.501   9   0
 ```
 
 <img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-5-1.png" width="100%" /><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-5-2.png" width="100%" />
@@ -198,10 +198,10 @@ PLS_res <- DR_fun(
     DRtype = "PLS",
     occ_cutoff = 0.5)
 #> PLS-DA
-#> 55 samples x 659 variables and 1 response
+#> 55 samples x 665 variables and 1 response
 #> standard scaling of predictors and response(s)
-#>       R2X(cum) R2Y(cum) Q2(cum) RMSEE pre ort pR2Y  pQ2
-#> Total    0.117    0.376  -0.211 0.351   2   0  0.1 0.65
+#>       R2X(cum) R2Y(cum) Q2(cum) RMSEE pre ort pR2Y pQ2
+#> Total    0.121    0.368  -0.225 0.353   2   0  0.2 0.6
 ```
 
 <img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-6-1.png" width="100%" /><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-6-2.png" width="100%" />
@@ -226,10 +226,10 @@ vip_values <- getVipVn(PLS_res)
 vip_select <- vip_values[vip_values > 1]
 
 head(vip_select)
-#> Chem_100002356 Chem_100000657 Chem_100009014 Chem_100009002 
-#>       1.004056       1.070549       1.436139       1.091628 
+#> Chem_100002356 Chem_100008903 Chem_100000657 Chem_100009014 
+#>       1.038090       1.003148       1.132359       1.420437 
 #> Chem_100009009 Chem_100009069 
-#>       2.010289       1.100467
+#>       2.057623       1.085935
 ```
 
 
@@ -252,20 +252,20 @@ DR_fun(
     DRtype = "OPLS",
     occ_cutoff = 0.5)
 #> OPLS-DA
-#> 22 samples x 659 variables and 1 response
+#> 22 samples x 665 variables and 1 response
 #> standard scaling of predictors and response(s)
 #>       R2X(cum) R2Y(cum) Q2(cum)  RMSEE pre ort pR2Y  pQ2
-#> Total    0.244    0.988   0.622 0.0606   1   2 0.95 0.05
+#> Total    0.248    0.988   0.635 0.0612   1   2 0.65 0.05
 ```
 
 <img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-8-1.png" width="100%" /><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-8-2.png" width="100%" />
 
 ```
 #> OPLS-DA
-#> 22 samples x 659 variables and 1 response
+#> 22 samples x 665 variables and 1 response
 #> standard scaling of predictors and response(s)
 #>       R2X(cum) R2Y(cum) Q2(cum)  RMSEE pre ort pR2Y  pQ2
-#> Total    0.244    0.988   0.622 0.0606   1   2 0.95 0.05
+#> Total    0.248    0.988   0.635 0.0612   1   2 0.65 0.05
 ```
 
 
@@ -295,8 +295,8 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-06
-#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
+#>  date     2023-12-08
+#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package              * version   date (UTC) lib source
