@@ -7,7 +7,7 @@
 <title>Chapter 2 Zeybel Dataset | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
 <meta name="description" content="该数据集是来自于Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic Steatosis_，它包含了多种组学数据，如 微生物组（粪便和口腔） 宿主人体学指标 宿主临床学指标 宿主血浆代谢组 宿主血浆靶向免疫因子 22位患者纵向时间序列数据...">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="Chapter 2 Zeybel Dataset | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/ZeybelDataset.html">
@@ -17,13 +17,13 @@
 <meta name="twitter:description" content="该数据集是来自于Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic Steatosis_，它包含了多种组学数据，如 微生物组（粪便和口腔） 宿主人体学指标 宿主临床学指标 宿主血浆代谢组 宿主血浆靶向免疫因子 22位患者纵向时间序列数据...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
-<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.8/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
 <script src="libs/datatables-binding-0.31/datatables.js"></script><link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
@@ -88,12 +88,14 @@
 <li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">12</span> Functional Analysis</a></li>
 <li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">13</span> MetOrigin Analysis</a></li>
 <li><a class="" href="OtherAnalysis.html"><span class="header-section-number">14</span> Other Analysis</a></li>
+<li class="book-part">Metagenomics Data Analysis</li>
+<li><a class="" href="MultipleDifferetialAnalysis.html"><span class="header-section-number">15</span> Multiple Differetial Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">15</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">16</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">16</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">17</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">17</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">18</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">18</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">19</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -558,7 +560,7 @@
 <span>  <span class="va">dat</span><span class="op">$</span><span class="va">TaxaID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"s__"</span>, <span class="va">dat</span><span class="op">$</span><span class="va">TaxaID</span><span class="op">)</span></span>
 <span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"TaxaID"</span><span class="op">)</span></span>
-<span>  <span class="va">dat_cln</span> <span class="op">&lt;-</span> <span class="va">dat</span><span class="op">[</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">dat_cln</span> <span class="op">&lt;-</span> <span class="va">dat</span><span class="op">[</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowSums.html">colSums</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span>  <span class="va">sid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat_cln</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">otu_tab</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="co"># before</span></span>
 <span>  <span class="va">dat_before</span> <span class="op">&lt;-</span> <span class="va">otu_tab</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -781,131 +783,128 @@
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
-<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
-<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
-<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  version  R version 4.3.1 (2023-06-16)</span></span>
+<span><span class="co">#&gt;  os       macOS Monterey 12.2.1</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin20</span></span>
 <span><span class="co">#&gt;  ui       X11</span></span>
 <span><span class="co">#&gt;  language (EN)</span></span>
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
 <span><span class="co">#&gt;  date     2024-02-06</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  package              * version   date (UTC) lib source</span></span>
-<span><span class="co">#&gt;  ade4                   1.7-22    2023-02-06 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ape                    5.7-1     2023-03-13 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Biobase              * 2.54.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  BiocGenerics         * 0.40.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  biomformat             1.22.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  Biostrings             2.62.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  bitops                 1.0-7     2021-04-24 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  bookdown               0.34      2023-05-09 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  bslib                  0.6.0     2023-11-21 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  cachem                 1.0.8     2023-05-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  callr                  3.7.3     2022-11-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  cellranger             1.1.0     2016-07-27 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  cli                    3.6.1     2023-03-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  cluster                2.1.4     2022-08-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  codetools              0.2-19    2023-02-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  colorspace             2.1-0     2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  crayon                 1.5.2     2022-09-29 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  data.table             1.14.8    2023-02-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  DBI                    1.1.3     2022-06-18 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  DelayedArray           0.20.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  devtools               2.4.5     2022-10-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  digest                 0.6.33    2023-07-07 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  downlit                0.4.3     2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  dplyr                * 1.1.4     2023-11-17 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  ellipsis               0.3.2     2021-04-29 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  evaluate               0.21      2023-05-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fansi                  1.0.4     2023-01-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fastmap                1.1.1     2023-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  foreach                1.5.2     2022-02-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fs                     1.6.2     2023-04-25 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  generics               0.1.3     2022-07-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  GenomeInfoDb         * 1.30.1    2022-01-30 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  GenomeInfoDbData       1.2.7     2022-03-09 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  GenomicRanges        * 1.46.1    2021-11-18 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  ggplot2                3.4.4     2023-10-12 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  glue                   1.6.2     2022-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gtable                 0.3.3     2023-03-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  htmltools              0.5.7     2023-11-03 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  htmlwidgets            1.6.2     2023-03-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  httpuv                 1.6.11    2023-05-11 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  igraph                 1.5.0     2023-06-16 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  IRanges              * 2.28.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  iterators              1.0.14    2022-02-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  jquerylib              0.1.4     2021-04-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  jsonlite               1.8.7     2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  knitr                  1.43      2023-05-25 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  later                  1.3.1     2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lattice                0.21-8    2023-04-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lifecycle              1.0.3     2022-10-07 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  magrittr               2.0.3     2022-03-30 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  MASS                   7.3-60    2023-05-04 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Matrix                 1.6-5     2024-01-11 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  MatrixGenerics       * 1.6.0     2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  matrixStats          * 1.1.0     2023-11-07 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  memoise                2.0.1     2021-11-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  mgcv                   1.8-42    2023-03-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  mime                   0.12      2021-09-28 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  miniUI                 0.1.1.1   2018-05-18 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  multtest               2.50.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  munsell                0.5.0     2018-06-12 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  nlme                   3.1-162   2023-01-31 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  permute                0.9-7     2022-01-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  phyloseq             * 1.38.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  pillar                 1.9.0     2023-03-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  pkgbuild               1.4.2     2023-06-26 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  pkgconfig              2.0.3     2019-09-22 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  pkgload                1.3.2.1   2023-07-08 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  plyr                   1.8.8     2022-11-11 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  prettyunits            1.1.1     2020-01-24 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  processx               3.8.2     2023-06-30 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  profvis                0.3.8     2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  promises               1.2.0.1   2021-02-11 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  ps                     1.7.5     2023-04-18 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  purrr                  1.0.1     2023-01-10 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  R6                     2.5.1     2021-08-19 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  Rcpp                   1.0.11    2023-07-06 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  RCurl                  1.98-1.12 2023-03-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  readxl                 1.4.3     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  remotes                2.4.2     2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  reshape2               1.4.4     2020-04-09 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  rhdf5                  2.38.1    2022-03-10 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  rhdf5filters           1.6.0     2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  Rhdf5lib               1.16.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  rlang                  1.1.1     2023-04-28 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  rmarkdown              2.23      2023-07-01 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  rstudioapi             0.15.0    2023-07-07 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  S4Vectors            * 0.32.4    2022-03-29 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  sass                   0.4.6     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  scales                 1.2.1     2022-08-20 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  sessioninfo            1.2.2     2021-12-06 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  shiny                  1.7.4.1   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  stringi                1.7.12    2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  stringr                1.5.1     2023-11-14 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  SummarizedExperiment * 1.24.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  survival               3.5-5     2023-03-12 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tibble               * 3.2.1     2023-03-20 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyselect             1.2.0     2022-10-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  urlchecker             1.0.1     2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  usethis                2.2.2     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  utf8                   1.2.3     2023-01-31 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  vctrs                  0.6.5     2023-12-01 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  vegan                  2.6-4     2022-10-11 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  withr                  2.5.0     2022-03-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  xfun                   0.40      2023-08-09 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  xml2                   1.3.5     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  xtable                 1.8-4     2019-04-21 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  XVector                0.34.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  yaml                   2.3.7     2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  zlibbioc               1.40.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  abind                  1.4-5     2016-07-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  ade4                   1.7-22    2023-02-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  ape                    5.7-1     2023-03-13 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  Biobase              * 2.62.0    2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocGenerics         * 0.48.1    2023-11-01 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  biomformat             1.30.0    2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  Biostrings             2.70.2    2024-01-28 [1] Bioconductor 3.18 (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  bitops                 1.0-7     2021-04-24 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  bookdown               0.37      2023-12-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  bslib                  0.6.1     2023-11-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  cachem                 1.0.8     2023-05-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  cellranger             1.1.0     2016-07-27 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  cli                    3.6.2     2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  cluster                2.1.4     2022-08-22 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  codetools              0.2-19    2023-02-01 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  colorspace             2.1-0     2023-01-23 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  crayon                 1.5.2     2022-09-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  data.table             1.15.0    2024-01-30 [1] CRAN (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  DelayedArray           0.28.0    2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  devtools               2.4.5     2022-10-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  digest                 0.6.34    2024-01-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  downlit                0.4.3     2023-06-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  dplyr                * 1.1.4     2023-11-17 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  ellipsis               0.3.2     2021-04-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  evaluate               0.23      2023-11-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  fansi                  1.0.6     2023-12-08 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  fastmap                1.1.1     2023-02-24 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  foreach                1.5.2     2022-02-02 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  fs                     1.6.3     2023-07-20 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  generics               0.1.3     2022-07-05 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  GenomeInfoDb         * 1.38.5    2023-12-28 [1] Bioconductor 3.18 (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  GenomeInfoDbData       1.2.11    2024-01-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomicRanges        * 1.54.1    2023-10-29 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  ggplot2                3.4.4     2023-10-12 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  glue                   1.7.0     2024-01-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  gtable                 0.3.4     2023-08-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  htmltools              0.5.7     2023-11-03 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  htmlwidgets            1.6.4     2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  httpuv                 1.6.14    2024-01-26 [1] CRAN (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  igraph                 2.0.1.1   2024-01-30 [1] CRAN (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  IRanges              * 2.36.0    2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  iterators              1.0.14    2022-02-05 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  jquerylib              0.1.4     2021-04-26 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  jsonlite               1.8.8     2023-12-04 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  knitr                  1.45      2023-10-30 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  later                  1.3.2     2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  lattice                0.21-8    2023-04-05 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  lifecycle              1.0.4     2023-11-07 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  magrittr               2.0.3     2022-03-30 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  MASS                   7.3-60    2023-05-04 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  Matrix                 1.6-5     2024-01-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  MatrixGenerics       * 1.14.0    2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  matrixStats          * 1.2.0     2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  memoise                2.0.1     2021-11-26 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  mgcv                   1.8-42    2023-03-02 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  mime                   0.12      2021-09-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  miniUI                 0.1.1.1   2018-05-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  multtest               2.58.0    2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  munsell                0.5.0     2018-06-12 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  nlme                   3.1-162   2023-01-31 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  permute                0.9-7     2022-01-27 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  phyloseq             * 1.46.0    2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  pillar                 1.9.0     2023-03-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pkgbuild               1.4.3     2023-12-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pkgconfig              2.0.3     2019-09-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pkgload                1.3.4     2024-01-16 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  plyr                   1.8.9     2023-10-02 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  profvis                0.3.8     2023-05-02 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  promises               1.2.1     2023-08-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  purrr                  1.0.2     2023-08-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  R6                     2.5.1     2021-08-19 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  Rcpp                   1.0.12    2024-01-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  RCurl                  1.98-1.14 2024-01-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  readxl                 1.4.3     2023-07-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  remotes                2.4.2.1   2023-07-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  reshape2               1.4.4     2020-04-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rhdf5                  2.46.1    2023-11-29 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  rhdf5filters           1.14.1    2023-11-06 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  Rhdf5lib               1.24.1    2023-12-12 [1] Bioconductor 3.18 (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  rlang                  1.1.3     2024-01-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rmarkdown              2.25      2023-09-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rstudioapi             0.15.0    2023-07-07 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  S4Arrays               1.2.0     2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  S4Vectors            * 0.40.2    2023-11-23 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  sass                   0.4.8     2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  scales                 1.3.0     2023-11-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  sessioninfo            1.2.2     2021-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  shiny                  1.8.0     2023-11-17 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  SparseArray            1.2.3     2023-12-25 [1] Bioconductor 3.18 (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  stringi                1.8.3     2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  stringr                1.5.1     2023-11-14 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  SummarizedExperiment * 1.32.0    2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  survival               3.5-5     2023-03-12 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  tibble               * 3.2.1     2023-03-20 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  tidyselect             1.2.0     2022-10-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  urlchecker             1.0.1     2021-11-30 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  usethis                2.2.2     2023-07-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  utf8                   1.2.4     2023-10-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  vctrs                  0.6.5     2023-12-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  vegan                  2.6-4     2022-10-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  withr                  3.0.0     2024-01-16 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  xfun                   0.41      2023-11-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  xml2                   1.3.6     2023-12-04 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  xtable                 1.8-4     2019-04-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  XVector                0.42.0    2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  yaml                   2.3.8     2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  zlibbioc               1.48.0    2023-10-24 [1] Bioconductor</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
-<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt;  [1] /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/library</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
 </div>

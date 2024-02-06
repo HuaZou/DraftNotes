@@ -7,7 +7,7 @@
 <title>Chapter 7 Permutation Test | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
 <meta name="description" content="置换检验属于一种非参数检验，最初真正认识置换检验是从PERMANOVA分析开始的，PERMANOVA的原理是： 第一步，获取原始统计量。先计算组间距离的平方和和组内距离的平方和的差值（类似F分布统计量）； 第二步，随机抽取样本组成分组再计算上述类似F分布统计量，重复该过程1000次；...">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="Chapter 7 Permutation Test | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/PermutationTest.html">
@@ -17,13 +17,13 @@
 <meta name="twitter:description" content="置换检验属于一种非参数检验，最初真正认识置换检验是从PERMANOVA分析开始的，PERMANOVA的原理是： 第一步，获取原始统计量。先计算组间距离的平方和和组内距离的平方和的差值（类似F分布统计量）； 第二步，随机抽取样本组成分组再计算上述类似F分布统计量，重复该过程1000次；...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
-<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.8/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
 <script src="libs/datatables-binding-0.31/datatables.js"></script><link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
@@ -88,12 +88,14 @@
 <li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">12</span> Functional Analysis</a></li>
 <li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">13</span> MetOrigin Analysis</a></li>
 <li><a class="" href="OtherAnalysis.html"><span class="header-section-number">14</span> Other Analysis</a></li>
+<li class="book-part">Metagenomics Data Analysis</li>
+<li><a class="" href="MultipleDifferetialAnalysis.html"><span class="header-section-number">15</span> Multiple Differetial Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">15</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">16</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">16</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">17</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">17</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">18</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">18</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">19</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -291,111 +293,105 @@
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
-<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
-<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
-<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  version  R version 4.3.1 (2023-06-16)</span></span>
+<span><span class="co">#&gt;  os       macOS Monterey 12.2.1</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin20</span></span>
 <span><span class="co">#&gt;  ui       X11</span></span>
 <span><span class="co">#&gt;  language (EN)</span></span>
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
 <span><span class="co">#&gt;  date     2024-02-06</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  package     * version date (UTC) lib source</span></span>
-<span><span class="co">#&gt;  bookdown      0.34    2023-05-09 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  bslib         0.6.0   2023-11-21 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  cachem        1.0.8   2023-05-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  callr         3.7.3   2022-11-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  cli           3.6.1   2023-03-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  codetools     0.2-19  2023-02-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  colorspace    2.1-0   2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  crayon        1.5.2   2022-09-29 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  devtools      2.4.5   2022-10-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  digest        0.6.33  2023-07-07 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  downlit       0.4.3   2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  ellipsis      0.3.2   2021-04-29 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  EnvStats      2.8.1   2023-08-22 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  evaluate      0.21    2023-05-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fansi         1.0.4   2023-01-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  farver        2.1.1   2022-07-06 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fastmap       1.1.1   2023-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  forcats     * 1.0.0   2023-01-29 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fs            1.6.2   2023-04-25 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  generics      0.1.3   2022-07-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  glue          1.6.2   2022-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gtable        0.3.3   2023-03-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  highr         0.10    2022-12-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  hms           1.1.3   2023-03-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  htmltools     0.5.7   2023-11-03 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  htmlwidgets   1.6.2   2023-03-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  httpuv        1.6.11  2023-05-11 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  jquerylib     0.1.4   2021-04-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  jsonlite      1.8.7   2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  knitr         1.43    2023-05-25 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  labeling      0.4.2   2020-10-20 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  later         1.3.1   2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lattice       0.21-8  2023-04-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lifecycle     1.0.3   2022-10-07 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lmPerm      * 2.1.0   2016-08-02 [1] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  lubridate   * 1.9.2   2023-02-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  magrittr      2.0.3   2022-03-30 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  MASS        * 7.3-60  2023-05-04 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Matrix        1.6-5   2024-01-11 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  memoise       2.0.1   2021-11-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  mime          0.12    2021-09-28 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  miniUI        0.1.1.1 2018-05-18 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  multcomp    * 1.4-25  2023-06-20 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  munsell       0.5.0   2018-06-12 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  mvtnorm     * 1.2-2   2023-06-08 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  pillar        1.9.0   2023-03-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  pkgbuild      1.4.2   2023-06-26 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  pkgconfig     2.0.3   2019-09-22 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  pkgload       1.3.2.1 2023-07-08 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  prettyunits   1.1.1   2020-01-24 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  processx      3.8.2   2023-06-30 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  profvis       0.3.8   2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  promises      1.2.0.1 2021-02-11 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  ps            1.7.5   2023-04-18 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  purrr       * 1.0.1   2023-01-10 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  R6            2.5.1   2021-08-19 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  Rcpp          1.0.11  2023-07-06 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  readr       * 2.1.4   2023-02-10 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  remotes       2.4.2   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  rlang         1.1.1   2023-04-28 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  rmarkdown     2.23    2023-07-01 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  rstudioapi    0.15.0  2023-07-07 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  sandwich      3.0-2   2022-06-15 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  sass          0.4.6   2023-05-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  scales        1.2.1   2022-08-20 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  sessioninfo   1.2.2   2021-12-06 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  shiny         1.7.4.1 2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  stringi       1.7.12  2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  stringr     * 1.5.1   2023-11-14 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  survival    * 3.5-5   2023-03-12 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  TH.data     * 1.1-2   2023-04-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tibble      * 3.2.1   2023-03-20 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyr       * 1.3.0   2023-01-24 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyselect    1.2.0   2022-10-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyverse   * 2.0.0   2023-02-22 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  timechange    0.2.0   2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tzdb          0.4.0   2023-05-12 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  urlchecker    1.0.1   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  usethis       2.2.2   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  utf8          1.2.3   2023-01-31 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  withr         2.5.0   2022-03-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  xfun          0.40    2023-08-09 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  xml2          1.3.5   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  xtable        1.8-4   2019-04-21 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  yaml          2.3.7   2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  zoo           1.8-12  2023-04-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bookdown      0.37    2023-12-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  bslib         0.6.1   2023-11-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  cachem        1.0.8   2023-05-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  cli           3.6.2   2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  codetools     0.2-19  2023-02-01 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  colorspace    2.1-0   2023-01-23 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  devtools      2.4.5   2022-10-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  digest        0.6.34  2024-01-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  downlit       0.4.3   2023-06-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  ellipsis      0.3.2   2021-04-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  EnvStats      2.8.1   2023-08-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  evaluate      0.23    2023-11-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  fansi         1.0.6   2023-12-08 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  farver        2.1.1   2022-07-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  fastmap       1.1.1   2023-02-24 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  forcats     * 1.0.0   2023-01-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  fs            1.6.3   2023-07-20 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  generics      0.1.3   2022-07-05 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  glue          1.7.0   2024-01-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  gtable        0.3.4   2023-08-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  highr         0.10    2022-12-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  hms           1.1.3   2023-03-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  htmltools     0.5.7   2023-11-03 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  htmlwidgets   1.6.4   2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  httpuv        1.6.14  2024-01-26 [1] CRAN (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  jquerylib     0.1.4   2021-04-26 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  jsonlite      1.8.8   2023-12-04 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  knitr         1.45    2023-10-30 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  labeling      0.4.3   2023-08-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  later         1.3.2   2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  lattice       0.21-8  2023-04-05 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  lifecycle     1.0.4   2023-11-07 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  lmPerm      * 2.1.0   2016-08-02 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  lubridate   * 1.9.3   2023-09-27 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  magrittr      2.0.3   2022-03-30 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  MASS        * 7.3-60  2023-05-04 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  Matrix        1.6-5   2024-01-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  memoise       2.0.1   2021-11-26 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  mime          0.12    2021-09-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  miniUI        0.1.1.1 2018-05-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  multcomp    * 1.4-25  2023-06-20 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  munsell       0.5.0   2018-06-12 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  mvtnorm     * 1.2-4   2023-11-27 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pillar        1.9.0   2023-03-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pkgbuild      1.4.3   2023-12-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pkgload       1.3.4   2024-01-16 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  profvis       0.3.8   2023-05-02 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  promises      1.2.1   2023-08-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  purrr       * 1.0.2   2023-08-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  R6            2.5.1   2021-08-19 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  Rcpp          1.0.12  2024-01-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  readr       * 2.1.5   2024-01-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  remotes       2.4.2.1 2023-07-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rlang         1.1.3   2024-01-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rmarkdown     2.25    2023-09-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rstudioapi    0.15.0  2023-07-07 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  sandwich      3.1-0   2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  sass          0.4.8   2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  scales        1.3.0   2023-11-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  sessioninfo   1.2.2   2021-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  shiny         1.8.0   2023-11-17 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  stringi       1.8.3   2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  stringr     * 1.5.1   2023-11-14 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  survival    * 3.5-5   2023-03-12 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  TH.data     * 1.1-2   2023-04-17 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  tibble      * 3.2.1   2023-03-20 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  tidyr       * 1.3.1   2024-01-24 [1] CRAN (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  tidyselect    1.2.0   2022-10-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  tidyverse   * 2.0.0   2023-02-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  timechange    0.3.0   2024-01-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  tzdb          0.4.0   2023-05-12 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  urlchecker    1.0.1   2021-11-30 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  usethis       2.2.2   2023-07-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  utf8          1.2.4   2023-10-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  withr         3.0.0   2024-01-16 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  xfun          0.41    2023-11-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  xml2          1.3.6   2023-12-04 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  xtable        1.8-4   2019-04-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  yaml          2.3.8   2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  zoo           1.8-12  2023-04-13 [1] CRAN (R 4.3.0)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
-<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt;  [1] /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/library</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
 </div>

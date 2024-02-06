@@ -4,26 +4,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 15 Random Forest Algorithm | 生物信息随记</title>
+<title>Chapter 16 Random Forest Algorithm | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
 <meta name="description" content="随机森林是常用的非线性用于构建分类器的算法，它是由数目众多的弱决策树构建成森林进而对结果进行投票判断标签的方法。随机森林用于分类器的算法过程， 随机切分样本，然后选择2/3用于建模，剩余1/3用于验证袋外误差； 随机选择特征构建决策树，每个叶子节点分成二类； 根据GINI系数判断分类内部纯度程度，进行裁剪树枝； 1/3数据预测，根据每个决策树的结果投票确定标签； 输出标签结果，并给出OOB...">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
-<meta property="og:title" content="Chapter 15 Random Forest Algorithm | 生物信息随记">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta property="og:title" content="Chapter 16 Random Forest Algorithm | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/randomforestalgorithm.html">
 <meta property="og:description" content="随机森林是常用的非线性用于构建分类器的算法，它是由数目众多的弱决策树构建成森林进而对结果进行投票判断标签的方法。随机森林用于分类器的算法过程， 随机切分样本，然后选择2/3用于建模，剩余1/3用于验证袋外误差； 随机选择特征构建决策树，每个叶子节点分成二类； 根据GINI系数判断分类内部纯度程度，进行裁剪树枝； 1/3数据预测，根据每个决策树的结果投票确定标签； 输出标签结果，并给出OOB...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 15 Random Forest Algorithm | 生物信息随记">
+<meta name="twitter:title" content="Chapter 16 Random Forest Algorithm | 生物信息随记">
 <meta name="twitter:description" content="随机森林是常用的非线性用于构建分类器的算法，它是由数目众多的弱决策树构建成森林进而对结果进行投票判断标签的方法。随机森林用于分类器的算法过程， 随机切分样本，然后选择2/3用于建模，剩余1/3用于验证袋外误差； 随机选择特征构建决策树，每个叶子节点分成二类； 根据GINI系数判断分类内部纯度程度，进行裁剪树枝； 1/3数据预测，根据每个决策树的结果投票确定标签； 输出标签结果，并给出OOB...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
-<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.8/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
 <script src="libs/datatables-binding-0.31/datatables.js"></script><link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
@@ -88,12 +88,14 @@
 <li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">12</span> Functional Analysis</a></li>
 <li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">13</span> MetOrigin Analysis</a></li>
 <li><a class="" href="OtherAnalysis.html"><span class="header-section-number">14</span> Other Analysis</a></li>
+<li class="book-part">Metagenomics Data Analysis</li>
+<li><a class="" href="MultipleDifferetialAnalysis.html"><span class="header-section-number">15</span> Multiple Differetial Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="active" href="randomforestalgorithm.html"><span class="header-section-number">15</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">16</span> XGBoost Algorithm</a></li>
+<li><a class="active" href="randomforestalgorithm.html"><span class="header-section-number">16</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">17</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">17</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">18</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">18</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">19</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -102,9 +104,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="randomforestalgorithm" class="section level1" number="15">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="randomforestalgorithm" class="section level1" number="16">
 <h1>
-<span class="header-section-number">15</span> Random Forest Algorithm<a class="anchor" aria-label="anchor" href="#randomforestalgorithm"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16</span> Random Forest Algorithm<a class="anchor" aria-label="anchor" href="#randomforestalgorithm"><i class="fas fa-link"></i></a>
 </h1>
 <p>随机森林是常用的非线性用于构建分类器的算法，它是由数目众多的弱决策树构建成森林进而对结果进行投票判断标签的方法。随机森林用于分类器的算法过程，</p>
 <ul>
@@ -128,12 +130,12 @@
 <li>重新建模</li>
 <li>模型效能评估</li>
 </ul>
-<div id="下载数据" class="section level2" number="15.1">
+<div id="下载数据" class="section level2" number="16.1">
 <h2>
-<span class="header-section-number">15.1</span> 下载数据<a class="anchor" aria-label="anchor" href="#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.1</span> 下载数据<a class="anchor" aria-label="anchor" href="#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
 </h2>
 <p>可以点击此处下载数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv">clean_data.csv</a>或使用<code>wget</code></p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb205-1"><a href="randomforestalgorithm.html#cb205-1" tabindex="-1"></a><span class="fu">wget</span> https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv</span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb226-1"><a href="randomforestalgorithm.html#cb226-1" tabindex="-1"></a><span class="fu">wget</span> https://github.com/HuaZou/DraftNotes/blob/main/InputData/Breast_cancer/clean_data.csv</span></code></pre></div>
 <blockquote>
 <p>该数据集包含569份恶性和良性肿瘤的样本的32类指标，通过这些特征构建区分恶性和良性肿瘤的随机森林分类器.</p>
 </blockquote>
@@ -141,11 +143,11 @@
 <p>The Breast Cancer datasets is available machine learning repository maintained by the University of California, Irvine. The dataset contains 569 samples of malignant and benign tumor cells.</p>
 </blockquote>
 </div>
-<div id="加载r包-12" class="section level2" number="15.2">
+<div id="加载r包-13" class="section level2" number="16.2">
 <h2>
-<span class="header-section-number">15.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-12"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-13"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
@@ -153,7 +155,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/topepo/caret/">caret</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://expasy.org/tools/pROC/">pROC</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://xrobin.github.io/pROC/">pROC</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># rm(list = ls())</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
@@ -161,22 +163,24 @@
 <span></span>
 <span><span class="va">group_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"M"</span>, <span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="加载数据" class="section level2" number="15.3">
+<div id="加载数据" class="section level2" number="16.3">
 <h2>
-<span class="header-section-number">15.3</span> 加载数据<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.3</span> 加载数据<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datset</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"./InputData/Breast_cancer/clean_data.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">datset</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    V1 diagnosis radius_mean texture_mean perimeter_mean</span></span>
-<span><span class="co">#&gt; 1:  0         M       17.99        10.38         122.80</span></span>
-<span><span class="co">#&gt; 2:  1         M       20.57        17.77         132.90</span></span>
-<span><span class="co">#&gt; 3:  2         M       19.69        21.25         130.00</span></span>
-<span><span class="co">#&gt; 4:  3         M       11.42        20.38          77.58</span></span>
-<span><span class="co">#&gt; 5:  4         M       20.29        14.34         135.10</span></span>
-<span><span class="co">#&gt; 6:  5         M       12.45        15.70          82.57</span></span>
+<span><span class="co">#&gt;       V1 diagnosis radius_mean texture_mean perimeter_mean</span></span>
+<span><span class="co">#&gt;    &lt;int&gt;    &lt;char&gt;       &lt;num&gt;        &lt;num&gt;          &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:     0         M       17.99        10.38         122.80</span></span>
+<span><span class="co">#&gt; 2:     1         M       20.57        17.77         132.90</span></span>
+<span><span class="co">#&gt; 3:     2         M       19.69        21.25         130.00</span></span>
+<span><span class="co">#&gt; 4:     3         M       11.42        20.38          77.58</span></span>
+<span><span class="co">#&gt; 5:     4         M       20.29        14.34         135.10</span></span>
+<span><span class="co">#&gt; 6:     5         M       12.45        15.70          82.57</span></span>
 <span><span class="co">#&gt;    area_mean smoothness_mean compactness_mean</span></span>
+<span><span class="co">#&gt;        &lt;num&gt;           &lt;num&gt;            &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:    1001.0         0.11840          0.27760</span></span>
 <span><span class="co">#&gt; 2:    1326.0         0.08474          0.07864</span></span>
 <span><span class="co">#&gt; 3:    1203.0         0.10960          0.15990</span></span>
@@ -184,6 +188,7 @@
 <span><span class="co">#&gt; 5:    1297.0         0.10030          0.13280</span></span>
 <span><span class="co">#&gt; 6:     477.1         0.12780          0.17000</span></span>
 <span><span class="co">#&gt;    concavity_mean concave points_mean symmetry_mean</span></span>
+<span><span class="co">#&gt;             &lt;num&gt;               &lt;num&gt;         &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:         0.3001             0.14710        0.2419</span></span>
 <span><span class="co">#&gt; 2:         0.0869             0.07017        0.1812</span></span>
 <span><span class="co">#&gt; 3:         0.1974             0.12790        0.2069</span></span>
@@ -191,6 +196,7 @@
 <span><span class="co">#&gt; 5:         0.1980             0.10430        0.1809</span></span>
 <span><span class="co">#&gt; 6:         0.1578             0.08089        0.2087</span></span>
 <span><span class="co">#&gt;    fractal_dimension_mean radius_se texture_se perimeter_se</span></span>
+<span><span class="co">#&gt;                     &lt;num&gt;     &lt;num&gt;      &lt;num&gt;        &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:                0.07871    1.0950     0.9053        8.589</span></span>
 <span><span class="co">#&gt; 2:                0.05667    0.5435     0.7339        3.398</span></span>
 <span><span class="co">#&gt; 3:                0.05999    0.7456     0.7869        4.585</span></span>
@@ -198,6 +204,7 @@
 <span><span class="co">#&gt; 5:                0.05883    0.7572     0.7813        5.438</span></span>
 <span><span class="co">#&gt; 6:                0.07613    0.3345     0.8902        2.217</span></span>
 <span><span class="co">#&gt;    area_se smoothness_se compactness_se concavity_se</span></span>
+<span><span class="co">#&gt;      &lt;num&gt;         &lt;num&gt;          &lt;num&gt;        &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:  153.40      0.006399        0.04904      0.05373</span></span>
 <span><span class="co">#&gt; 2:   74.08      0.005225        0.01308      0.01860</span></span>
 <span><span class="co">#&gt; 3:   94.03      0.006150        0.04006      0.03832</span></span>
@@ -205,6 +212,7 @@
 <span><span class="co">#&gt; 5:   94.44      0.011490        0.02461      0.05688</span></span>
 <span><span class="co">#&gt; 6:   27.19      0.007510        0.03345      0.03672</span></span>
 <span><span class="co">#&gt;    concave points_se symmetry_se fractal_dimension_se</span></span>
+<span><span class="co">#&gt;                &lt;num&gt;       &lt;num&gt;                &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:           0.01587     0.03003             0.006193</span></span>
 <span><span class="co">#&gt; 2:           0.01340     0.01389             0.003532</span></span>
 <span><span class="co">#&gt; 3:           0.02058     0.02250             0.004571</span></span>
@@ -212,6 +220,7 @@
 <span><span class="co">#&gt; 5:           0.01885     0.01756             0.005115</span></span>
 <span><span class="co">#&gt; 6:           0.01137     0.02165             0.005082</span></span>
 <span><span class="co">#&gt;    radius_worst texture_worst perimeter_worst area_worst</span></span>
+<span><span class="co">#&gt;           &lt;num&gt;         &lt;num&gt;           &lt;num&gt;      &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:        25.38         17.33          184.60     2019.0</span></span>
 <span><span class="co">#&gt; 2:        24.99         23.41          158.80     1956.0</span></span>
 <span><span class="co">#&gt; 3:        23.57         25.53          152.50     1709.0</span></span>
@@ -219,6 +228,7 @@
 <span><span class="co">#&gt; 5:        22.54         16.67          152.20     1575.0</span></span>
 <span><span class="co">#&gt; 6:        15.47         23.75          103.40      741.6</span></span>
 <span><span class="co">#&gt;    smoothness_worst compactness_worst concavity_worst</span></span>
+<span><span class="co">#&gt;               &lt;num&gt;             &lt;num&gt;           &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:           0.1622            0.6656          0.7119</span></span>
 <span><span class="co">#&gt; 2:           0.1238            0.1866          0.2416</span></span>
 <span><span class="co">#&gt; 3:           0.1444            0.4245          0.4504</span></span>
@@ -226,6 +236,7 @@
 <span><span class="co">#&gt; 5:           0.1374            0.2050          0.4000</span></span>
 <span><span class="co">#&gt; 6:           0.1791            0.5249          0.5355</span></span>
 <span><span class="co">#&gt;    concave points_worst symmetry_worst</span></span>
+<span><span class="co">#&gt;                   &lt;num&gt;          &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:               0.2654         0.4601</span></span>
 <span><span class="co">#&gt; 2:               0.1860         0.2750</span></span>
 <span><span class="co">#&gt; 3:               0.2430         0.3613</span></span>
@@ -233,6 +244,7 @@
 <span><span class="co">#&gt; 5:               0.1625         0.2364</span></span>
 <span><span class="co">#&gt; 6:               0.1741         0.3985</span></span>
 <span><span class="co">#&gt;    fractal_dimension_worst</span></span>
+<span><span class="co">#&gt;                      &lt;num&gt;</span></span>
 <span><span class="co">#&gt; 1:                 0.11890</span></span>
 <span><span class="co">#&gt; 2:                 0.08902</span></span>
 <span><span class="co">#&gt; 3:                 0.08758</span></span>
@@ -240,18 +252,18 @@
 <span><span class="co">#&gt; 5:                 0.07678</span></span>
 <span><span class="co">#&gt; 6:                 0.12440</span></span></code></pre></div>
 </div>
-<div id="数据切割" class="section level2" number="15.4">
+<div id="数据切割" class="section level2" number="16.4">
 <h2>
-<span class="header-section-number">15.4</span> 数据切割<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%89%B2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.4</span> 数据切割<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%89%B2"><i class="fas fa-link"></i></a>
 </h2>
 <p>对数据集按照70%的比例划分成训练集和测试集，其中训练集用于构建模型，测试集用于评估模型效能。另外，在这一步前也有教程对特征进行选择，筛选组间差异大的特征用于建模。这里使用 caret::createDataPartition函数进行划分数据集，它能够根据组间比例合理分割数据。</p>
-<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mdat</span> <span class="op">&lt;-</span> <span class="va">datset</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">V1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="va">diagnosis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Group</span>, levels <span class="op">=</span> <span class="va">group_names</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">mdat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">mdat</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">mdat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">mdat</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
@@ -269,9 +281,9 @@
 <span><span class="va">X_test</span> <span class="op">&lt;-</span> <span class="va">testData</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="va">y_test</span> <span class="op">&lt;-</span> <span class="va">testData</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span></code></pre></div>
 </div>
-<div id="调参选择最佳决策树数目" class="section level2" number="15.5">
+<div id="调参选择最佳决策树数目" class="section level2" number="16.5">
 <h2>
-<span class="header-section-number">15.5</span> 调参（选择最佳决策树数目）<a class="anchor" aria-label="anchor" href="#%E8%B0%83%E5%8F%82%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E5%86%B3%E7%AD%96%E6%A0%91%E6%95%B0%E7%9B%AE"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.5</span> 调参（选择最佳决策树数目）<a class="anchor" aria-label="anchor" href="#%E8%B0%83%E5%8F%82%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E5%86%B3%E7%AD%96%E6%A0%91%E6%95%B0%E7%9B%AE"><i class="fas fa-link"></i></a>
 </h2>
 <p>随机森林算法的参数众多，本文选择对mtry和ntree两个参数进行调参，其他均使用默认参数。</p>
 <ul>
@@ -280,7 +292,7 @@
 <li>
 <em>ntree</em>：构成森林的决策树数目</li>
 </ul>
-<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">RUN</span> <span class="op">&lt;-</span> <span class="cn">F</span></span>
 <span></span>
@@ -360,12 +372,12 @@
 </li>
 </ul>
 </div>
-<div id="建模" class="section level2" number="15.6">
+<div id="建模" class="section level2" number="16.6">
 <h2>
-<span class="header-section-number">15.6</span> 建模<a class="anchor" aria-label="anchor" href="#%E5%BB%BA%E6%A8%A1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.6</span> 建模<a class="anchor" aria-label="anchor" href="#%E5%BB%BA%E6%A8%A1"><i class="fas fa-link"></i></a>
 </h2>
 <p>使用上述最佳参数建模</p>
-<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">rf_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span><span class="op">(</span></span>
 <span>  <span class="va">Group</span> <span class="op">~</span> <span class="va">.</span>,</span>
@@ -397,12 +409,12 @@
 </li>
 </ul>
 </div>
-<div id="特征的重要性得分" class="section level2" number="15.7">
+<div id="特征的重要性得分" class="section level2" number="16.7">
 <h2>
-<span class="header-section-number">15.7</span> 特征的重要性得分<a class="anchor" aria-label="anchor" href="#%E7%89%B9%E5%BE%81%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7%E5%BE%97%E5%88%86"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.7</span> 特征的重要性得分<a class="anchor" aria-label="anchor" href="#%E7%89%B9%E5%BE%81%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7%E5%BE%97%E5%88%86"><i class="fas fa-link"></i></a>
 </h2>
 <p>获取所有特征的重要性得分，此处使用MeanDecreaseAccuracy。</p>
-<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">imp_biomarker</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/importance.html">importance</a></span><span class="op">(</span><span class="va">rf_fit</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>, rownames <span class="op">=</span> <span class="st">"Features"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">MeanDecreaseAccuracy</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">imp_biomarker</span></span>
@@ -422,13 +434,13 @@
 <span><span class="co">#&gt; # ℹ 20 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 1 more variable: MeanDecreaseGini &lt;dbl&gt;</span></span></code></pre></div>
 </div>
-<div id="多次建模选择最佳特征数目基于oob-rate" class="section level2" number="15.8">
+<div id="多次建模选择最佳特征数目基于oob-rate" class="section level2" number="16.8">
 <h2>
-<span class="header-section-number">15.8</span> 多次建模选择最佳特征数目（基于OOB rate）<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E6%AC%A1%E5%BB%BA%E6%A8%A1%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E7%89%B9%E5%BE%81%E6%95%B0%E7%9B%AE%E5%9F%BA%E4%BA%8Eoob-rate"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.8</span> 多次建模选择最佳特征数目（基于OOB rate）<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E6%AC%A1%E5%BB%BA%E6%A8%A1%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E7%89%B9%E5%BE%81%E6%95%B0%E7%9B%AE%E5%9F%BA%E4%BA%8Eoob-rate"><i class="fas fa-link"></i></a>
 </h2>
 <p>上述模型选了所有32个特征用于建模，这是单次建模的结果，为了更好确定最佳特征数目，采用五次建模的结果寻找最小OOB rate对应的特征数目作为最佳特征数目。</p>
 <p>另外，最佳决策树数目参考第一次模型的 1000，也作为本次最佳决策树数目。</p>
-<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">error.cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
@@ -448,7 +460,7 @@
 <span><span class="co">#&gt; [1] 5</span></span>
 <span></span>
 <span><span class="va">n.var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">error.cv</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">error.cv</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">'error'</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, sep <span class="op">=</span> <span class="st">'.'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">error.cv</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">'error'</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, sep <span class="op">=</span> <span class="st">'.'</span><span class="op">)</span></span>
 <span><span class="va">err.mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">error.cv</span>, <span class="fl">1</span>, <span class="va">mean</span><span class="op">)</span></span>
 <span><span class="va">err.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>num <span class="op">=</span> <span class="va">n.var</span>, </span>
 <span>                     err.mean <span class="op">=</span> <span class="va">err.mean</span>,</span>
@@ -471,7 +483,7 @@
 <ul>
 <li>optimal number of biomarkers chosen by min cv.error</li>
 </ul>
-<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb234"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optimal</span> <span class="op">&lt;-</span> <span class="va">err.df</span><span class="op">$</span><span class="va">num</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">err.df</span><span class="op">$</span><span class="va">err.mean</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">err.df</span><span class="op">$</span><span class="va">err.mean</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">main_theme</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
@@ -517,7 +529,7 @@
 </li>
 <li><p>importance of optimal biomarker</p></li>
 </ul>
-<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">imp_biomarker</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">optimal</span>, <span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Features</span>, <span class="va">MeanDecreaseAccuracy</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">MeanDecreaseAccuracy</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -537,9 +549,9 @@
 </li>
 </ul>
 </div>
-<div id="多元回归分析筛选相关特征" class="section level2" number="15.9">
+<div id="多元回归分析筛选相关特征" class="section level2" number="16.9">
 <h2>
-<span class="header-section-number">15.9</span> 多元回归分析筛选相关特征<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E5%85%83%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E7%AD%9B%E9%80%89%E7%9B%B8%E5%85%B3%E7%89%B9%E5%BE%81"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.9</span> 多元回归分析筛选相关特征<a class="anchor" aria-label="anchor" href="#%E5%A4%9A%E5%85%83%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E7%AD%9B%E9%80%89%E7%9B%B8%E5%85%B3%E7%89%B9%E5%BE%81"><i class="fas fa-link"></i></a>
 </h2>
 <p>上述22个特征在建模过程还是偏多，可以通过多元回归分析筛选与响应变量（分类变量）最相关的自变量。</p>
 <ul>
@@ -548,15 +560,15 @@
 <li>采用logist regression算法</li>
 </ul>
 <p>该步骤可选择也可不选择，因为后续分析发现如果严格按照pvalue &lt; 0.05则仅能筛选到2-3个特征。</p>
-<div class="sourceCode" id="cb215"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mdat_mulvar</span> <span class="op">&lt;-</span> <span class="va">mdat</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="va">imp_biomarker</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">optimal</span>, <span class="op">]</span><span class="op">$</span><span class="va">Features</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Group</span> <span class="op">==</span> <span class="va">group_names</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mdat_mulvar</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">mdat_mulvar</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">mdat_mulvar</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">" ~ "</span>, </span>
-<span>              <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">mdat_mulvar</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">mdat_mulvar</span><span class="op">)</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">" + "</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">fma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">mdat_mulvar</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">" ~ "</span>, </span>
+<span>              <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">mdat_mulvar</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">mdat_mulvar</span><span class="op">)</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">" + "</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">fma</span>, data <span class="op">=</span> <span class="va">mdat_mulvar</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
 <span></span>
@@ -590,13 +602,13 @@
 </li>
 </ul>
 </div>
-<div id="疾病风险得分" class="section level2" number="15.10">
+<div id="疾病风险得分" class="section level2" number="16.10">
 <h2>
-<span class="header-section-number">15.10</span> 疾病风险得分<a class="anchor" aria-label="anchor" href="#%E7%96%BE%E7%97%85%E9%A3%8E%E9%99%A9%E5%BE%97%E5%88%86"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.10</span> 疾病风险得分<a class="anchor" aria-label="anchor" href="#%E7%96%BE%E7%97%85%E9%A3%8E%E9%99%A9%E5%BE%97%E5%88%86"><i class="fas fa-link"></i></a>
 </h2>
 <p>nomogram是一类可以可视化上述5个特征对恶性肿瘤贡献的图形，它也是通过多元线性回归对疾病贡献得到打分，然后分别累加各个特征对疾病的得分得到一个总分，最后总分对应疾病分享百分比。</p>
 <p>该处没有对自变量进行标准化，本来是要做的，但考虑到每个指标所含有的临床学意义，就使用了原始值。</p>
-<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://hbiostat.org/R/rms/">rms</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">selected_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="va">dat_coef</span><span class="op">$</span><span class="va">FeatureID</span><span class="op">)</span></span>
@@ -606,8 +618,8 @@
 <span></span>
 <span><span class="va">ddist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rms/man/datadist.html">datadist</a></span><span class="op">(</span><span class="va">nom_optimal</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>datadist <span class="op">=</span> <span class="st">"ddist"</span><span class="op">)</span></span>
-<span><span class="va">fit_nom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rms/man/lrm.html">lrm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html">formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">nom_optimal</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">" ~ "</span>, </span>
-<span>              <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">nom_optimal</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">nom_optimal</span><span class="op">)</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">" + "</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span><span class="va">fit_nom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rms/man/lrm.html">lrm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html">formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">nom_optimal</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">" ~ "</span>, </span>
+<span>              <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">nom_optimal</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">nom_optimal</span><span class="op">)</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">" + "</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>         data <span class="op">=</span> <span class="va">nom_optimal</span><span class="op">)</span></span>
 <span><span class="va">nom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rms/man/nomogram.html">nomogram</a></span><span class="op">(</span><span class="va">fit_nom</span>, fun <span class="op">=</span> <span class="va">plogis</span>, funlabel <span class="op">=</span> <span class="st">"Risk of Disease"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">nom</span><span class="op">)</span></span></code></pre></div>
@@ -629,12 +641,12 @@
 <p>20 + 20 + 10 + 10 + 20 = 80
 80分对应疾病风险概率是100%，也即是说某位检查者的上述五类指标符合该要求，意味着她有100%的概率患有恶性乳腺癌。</p>
 </div>
-<div id="重新建模" class="section level2" number="15.11">
+<div id="重新建模" class="section level2" number="16.11">
 <h2>
-<span class="header-section-number">15.11</span> 重新建模<a class="anchor" aria-label="anchor" href="#%E9%87%8D%E6%96%B0%E5%BB%BA%E6%A8%A1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.11</span> 重新建模<a class="anchor" aria-label="anchor" href="#%E9%87%8D%E6%96%B0%E5%BB%BA%E6%A8%A1"><i class="fas fa-link"></i></a>
 </h2>
 <p>使用上述五个指标重新建模</p>
-<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb238"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">selected_columns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="va">dat_coef</span><span class="op">$</span><span class="va">FeatureID</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">trainData_optimal</span> <span class="op">&lt;-</span> <span class="va">trainData</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -667,7 +679,7 @@
 <ul>
 <li>ConfusionMatrix</li>
 </ul>
-<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"M"</span><span class="op">)</span></span>
 <span><span class="va">pred_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">rf_fit_optimal</span>, newdata <span class="op">=</span> <span class="va">testData_optimal</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu">caret</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/caret/man/confusionMatrix.html">confusionMatrix</a></span><span class="op">(</span><span class="va">pred_raw</span>, <span class="va">testData_optimal</span><span class="op">$</span><span class="va">Group</span><span class="op">)</span><span class="op">)</span></span>
@@ -702,7 +714,7 @@
 <ul>
 <li>performance of classifier</li>
 </ul>
-<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Evaluate_index</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">DataTest</span>, </span>
 <span>    <span class="va">PredProb</span> <span class="op">=</span> <span class="va">pred_prob</span>, </span>
@@ -771,7 +783,7 @@
 <ul>
 <li>AUROC</li>
 </ul>
-<div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb241"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">AUROC</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">DataTest</span>, </span>
 <span>    <span class="va">PredProb</span> <span class="op">=</span> <span class="va">pred_prob</span>, </span>
@@ -866,7 +878,7 @@
 <ul>
 <li>AUPRC</li>
 </ul>
-<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb242"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">AUPRC</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">DataTest</span>, </span>
 <span>    <span class="va">PredProb</span> <span class="op">=</span> <span class="va">pred_prob</span>, </span>
@@ -917,14 +929,14 @@
 <span><span class="va">AUPRC_res</span><span class="op">$</span><span class="va">PC_pl</span></span></code></pre></div>
 <div class="inline-figure"><img src="70-MachineLearing_RandomForest_files/figure-html/unnamed-chunk-17-1.png" width="100%"></div>
 </div>
-<div id="final-biomarkers" class="section level2" number="15.12">
+<div id="final-biomarkers" class="section level2" number="16.12">
 <h2>
-<span class="header-section-number">15.12</span> Final biomarkers<a class="anchor" aria-label="anchor" href="#final-biomarkers"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.12</span> Final biomarkers<a class="anchor" aria-label="anchor" href="#final-biomarkers"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li>importance score</li>
 </ul>
-<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb243"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">imp_biomarker</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Features</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">dat_coef</span><span class="op">$</span><span class="va">FeatureID</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Features</span>, <span class="va">MeanDecreaseAccuracy</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -937,178 +949,172 @@
 <span>    <span class="va">main_theme</span></span></code></pre></div>
 <div class="inline-figure"><img src="70-MachineLearing_RandomForest_files/figure-html/unnamed-chunk-18-1.png" width="100%"></div>
 </div>
-<div id="systemic-information-6" class="section level2" number="15.13">
+<div id="systemic-information-6" class="section level2" number="16.13">
 <h2>
-<span class="header-section-number">15.13</span> systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.13</span> systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-6"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb244"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
-<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
-<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
-<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  version  R version 4.3.1 (2023-06-16)</span></span>
+<span><span class="co">#&gt;  os       macOS Monterey 12.2.1</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin20</span></span>
 <span><span class="co">#&gt;  ui       X11</span></span>
 <span><span class="co">#&gt;  language (EN)</span></span>
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
 <span><span class="co">#&gt;  date     2024-02-06</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  package      * version    date (UTC) lib source</span></span>
-<span><span class="co">#&gt;  backports      1.4.1      2021-12-13 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  base64enc      0.1-3      2015-07-28 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  bookdown       0.34       2023-05-09 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  bslib          0.6.0      2023-11-21 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  cachem         1.0.8      2023-05-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  callr          3.7.3      2022-11-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  caret        * 6.0-94     2023-03-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  checkmate      2.2.0      2023-04-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  class          7.3-22     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  cli            3.6.1      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  cluster        2.1.4      2022-08-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  codetools      0.2-19     2023-02-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  colorspace     2.1-0      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  crayon         1.5.2      2022-09-29 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  data.table   * 1.14.8     2023-02-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  devtools       2.4.5      2022-10-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  digest         0.6.33     2023-07-07 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  downlit        0.4.3      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  dplyr        * 1.1.4      2023-11-17 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  e1071          1.7-13     2023-02-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ellipsis       0.3.2      2021-04-29 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  evaluate       0.21       2023-05-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fansi          1.0.4      2023-01-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  farver         2.1.1      2022-07-06 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fastmap        1.1.1      2023-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  forcats        1.0.0      2023-01-29 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  foreach        1.5.2      2022-02-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  foreign        0.8-84     2022-12-06 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Formula        1.2-5      2023-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fs             1.6.2      2023-04-25 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  future         1.33.0     2023-07-01 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  future.apply   1.11.0     2023-05-21 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  generics       0.1.3      2022-07-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ggplot2      * 3.4.4      2023-10-12 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  globals        0.16.2     2022-11-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  glue           1.6.2      2022-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gower          1.0.1      2022-12-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gridExtra      2.3        2017-09-09 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  gtable         0.3.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  hardhat        1.3.0      2023-03-30 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  highr          0.10       2022-12-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Hmisc        * 5.1-0      2023-05-08 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  htmlTable      2.4.1      2022-07-07 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  htmltools      0.5.7      2023-11-03 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  htmlwidgets    1.6.2      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  httpuv         1.6.11     2023-05-11 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  ipred          0.9-14     2023-03-09 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  iterators      1.0.14     2022-02-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  jquerylib      0.1.4      2021-04-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  jsonlite       1.8.7      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  knitr          1.43       2023-05-25 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  labeling       0.4.2      2020-10-20 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  later          1.3.1      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lattice      * 0.21-8     2023-04-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lava           1.7.2.1    2023-02-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lifecycle      1.0.3      2022-10-07 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  listenv        0.9.0      2022-12-16 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lubridate      1.9.2      2023-02-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  magrittr       2.0.3      2022-03-30 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  MASS           7.3-60     2023-05-04 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Matrix         1.6-5      2024-01-11 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  MatrixModels   0.5-2      2023-07-10 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  memoise        2.0.1      2021-11-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  mime           0.12       2021-09-28 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  miniUI         0.1.1.1    2018-05-18 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  ModelMetrics   1.2.2.2    2020-03-17 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  multcomp       1.4-25     2023-06-20 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  munsell        0.5.0      2018-06-12 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  mvtnorm        1.2-2      2023-06-08 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  nlme           3.1-162    2023-01-31 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  nnet           7.3-19     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  parallelly     1.36.0     2023-05-26 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  pillar         1.9.0      2023-03-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  pkgbuild       1.4.2      2023-06-26 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  pkgconfig      2.0.3      2019-09-22 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  pkgload        1.3.2.1    2023-07-08 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  plyr           1.8.8      2022-11-11 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  polspline      1.1.23     2023-06-29 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  prettyunits    1.1.1      2020-01-24 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  pROC         * 1.18.4     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  processx       3.8.2      2023-06-30 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  prodlim        2023.03.31 2023-04-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  profvis        0.3.8      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  promises       1.2.0.1    2021-02-11 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  proxy          0.4-27     2022-06-09 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ps             1.7.5      2023-04-18 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  purrr          1.0.1      2023-01-10 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  quantreg       5.95       2023-04-08 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  R6             2.5.1      2021-08-19 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  randomForest * 4.7-1.1    2022-05-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Rcpp           1.0.11     2023-07-06 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  recipes        1.0.6      2023-04-25 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  remotes        2.4.2      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  reshape2       1.4.4      2020-04-09 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  rlang          1.1.1      2023-04-28 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  rmarkdown      2.23       2023-07-01 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  rms          * 6.7-0      2023-05-08 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  rpart          4.1.19     2022-10-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  rstudioapi     0.15.0     2023-07-07 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  sandwich       3.0-2      2022-06-15 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  sass           0.4.6      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  scales         1.2.1      2022-08-20 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  sessioninfo    1.2.2      2021-12-06 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  shiny          1.7.4.1    2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  SparseM        1.81       2021-02-18 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  stringi        1.7.12     2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  stringr        1.5.1      2023-11-14 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  survival       3.5-5      2023-03-12 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  TH.data        1.1-2      2023-04-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tibble       * 3.2.1      2023-03-20 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyselect     1.2.0      2022-10-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  timechange     0.2.0      2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  timeDate       4022.108   2023-01-07 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  urlchecker     1.0.1      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  usethis        2.2.2      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  utf8           1.2.3      2023-01-31 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  vctrs          0.6.5      2023-12-01 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  withr          2.5.0      2022-03-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  xfun           0.40       2023-08-09 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  xml2           1.3.5      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  xtable         1.8-4      2019-04-21 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  yaml           2.3.7      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  zoo            1.8-12     2023-04-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  backports      1.4.1      2021-12-13 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  base64enc      0.1-3      2015-07-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  bookdown       0.37       2023-12-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  bslib          0.6.1      2023-11-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  cachem         1.0.8      2023-05-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  caret        * 6.0-94     2023-03-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  checkmate      2.3.1      2023-12-04 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  class          7.3-22     2023-05-03 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  cli            3.6.2      2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  cluster        2.1.4      2022-08-22 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  codetools      0.2-19     2023-02-01 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  colorspace     2.1-0      2023-01-23 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  data.table   * 1.15.0     2024-01-30 [1] CRAN (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  devtools       2.4.5      2022-10-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  digest         0.6.34     2024-01-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  downlit        0.4.3      2023-06-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  dplyr        * 1.1.4      2023-11-17 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  e1071          1.7-14     2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  ellipsis       0.3.2      2021-04-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  evaluate       0.23       2023-11-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  fansi          1.0.6      2023-12-08 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  farver         2.1.1      2022-07-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  fastmap        1.1.1      2023-02-24 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  forcats        1.0.0      2023-01-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  foreach        1.5.2      2022-02-02 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  foreign        0.8-84     2022-12-06 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  Formula        1.2-5      2023-02-24 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  fs             1.6.3      2023-07-20 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  future         1.33.1     2023-12-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  future.apply   1.11.1     2023-12-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  generics       0.1.3      2022-07-05 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  ggplot2      * 3.4.4      2023-10-12 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  globals        0.16.2     2022-11-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  glue           1.7.0      2024-01-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  gower          1.0.1      2022-12-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  gridExtra      2.3        2017-09-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  gtable         0.3.4      2023-08-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  hardhat        1.3.1      2024-02-02 [1] CRAN (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  highr          0.10       2022-12-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  Hmisc        * 5.1-1      2023-09-12 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  htmlTable      2.4.2      2023-10-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  htmltools      0.5.7      2023-11-03 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  htmlwidgets    1.6.4      2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  httpuv         1.6.14     2024-01-26 [1] CRAN (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  ipred          0.9-14     2023-03-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  iterators      1.0.14     2022-02-05 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  jquerylib      0.1.4      2021-04-26 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  jsonlite       1.8.8      2023-12-04 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  knitr          1.45       2023-10-30 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  labeling       0.4.3      2023-08-29 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  later          1.3.2      2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  lattice      * 0.21-8     2023-04-05 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  lava           1.7.3      2023-11-04 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  lifecycle      1.0.4      2023-11-07 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  listenv        0.9.1      2024-01-29 [1] CRAN (R 4.3.2)</span></span>
+<span><span class="co">#&gt;  lubridate      1.9.3      2023-09-27 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  magrittr       2.0.3      2022-03-30 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  MASS           7.3-60     2023-05-04 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  Matrix         1.6-5      2024-01-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  MatrixModels   0.5-3      2023-11-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  memoise        2.0.1      2021-11-26 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  mime           0.12       2021-09-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  miniUI         0.1.1.1    2018-05-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  ModelMetrics   1.2.2.2    2020-03-17 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  multcomp       1.4-25     2023-06-20 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  munsell        0.5.0      2018-06-12 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  mvtnorm        1.2-4      2023-11-27 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  nlme           3.1-162    2023-01-31 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  nnet           7.3-19     2023-05-03 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  parallelly     1.36.0     2023-05-26 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pillar         1.9.0      2023-03-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pkgbuild       1.4.3      2023-12-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pkgconfig      2.0.3      2019-09-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pkgload        1.3.4      2024-01-16 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  plyr           1.8.9      2023-10-02 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  polspline      1.1.24     2023-10-26 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  pROC         * 1.18.5     2023-11-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  prodlim        2023.08.28 2023-08-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  profvis        0.3.8      2023-05-02 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  promises       1.2.1      2023-08-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  proxy          0.4-27     2022-06-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  purrr          1.0.2      2023-08-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  quantreg       5.97       2023-08-19 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  R6             2.5.1      2021-08-19 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  randomForest * 4.7-1.1    2022-05-23 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  Rcpp           1.0.12     2024-01-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  recipes        1.0.9      2023-12-13 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  remotes        2.4.2.1    2023-07-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  reshape2       1.4.4      2020-04-09 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rlang          1.1.3      2024-01-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rmarkdown      2.25       2023-09-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rms          * 6.7-1      2023-09-12 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  rpart          4.1.19     2022-10-21 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  rstudioapi     0.15.0     2023-07-07 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  sandwich       3.1-0      2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  sass           0.4.8      2023-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  scales         1.3.0      2023-11-28 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  sessioninfo    1.2.2      2021-12-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  shiny          1.8.0      2023-11-17 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  SparseM        1.81       2021-02-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  stringi        1.8.3      2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  stringr        1.5.1      2023-11-14 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  survival       3.5-5      2023-03-12 [1] CRAN (R 4.3.1)</span></span>
+<span><span class="co">#&gt;  TH.data        1.1-2      2023-04-17 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  tibble       * 3.2.1      2023-03-20 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  tidyselect     1.2.0      2022-10-10 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  timechange     0.3.0      2024-01-18 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  timeDate       4032.109   2023-12-14 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  urlchecker     1.0.1      2021-11-30 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  usethis        2.2.2      2023-07-06 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  utf8           1.2.4      2023-10-22 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  vctrs          0.6.5      2023-12-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  withr          3.0.0      2024-01-16 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  xfun           0.41       2023-11-01 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  xml2           1.3.6      2023-12-04 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  xtable         1.8-4      2019-04-21 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  yaml           2.3.8      2023-12-11 [1] CRAN (R 4.3.0)</span></span>
+<span><span class="co">#&gt;  zoo            1.8-12     2023-04-13 [1] CRAN (R 4.3.0)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
-<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt;  [1] /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/library</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="OtherAnalysis.html"><span class="header-section-number">14</span> Other Analysis</a></div>
-<div class="next"><a href="XGBoostalgorithm.html"><span class="header-section-number">16</span> XGBoost Algorithm</a></div>
+<div class="prev"><a href="MultipleDifferetialAnalysis.html"><span class="header-section-number">15</span> Multiple Differetial Analysis</a></div>
+<div class="next"><a href="XGBoostalgorithm.html"><span class="header-section-number">17</span> XGBoost Algorithm</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#randomforestalgorithm"><span class="header-section-number">15</span> Random Forest Algorithm</a></li>
-<li><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="header-section-number">15.1</span> 下载数据</a></li>
-<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-12"><span class="header-section-number">15.2</span> 加载R包</a></li>
-<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="header-section-number">15.3</span> 加载数据</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%89%B2"><span class="header-section-number">15.4</span> 数据切割</a></li>
-<li><a class="nav-link" href="#%E8%B0%83%E5%8F%82%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E5%86%B3%E7%AD%96%E6%A0%91%E6%95%B0%E7%9B%AE"><span class="header-section-number">15.5</span> 调参（选择最佳决策树数目）</a></li>
-<li><a class="nav-link" href="#%E5%BB%BA%E6%A8%A1"><span class="header-section-number">15.6</span> 建模</a></li>
-<li><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7%E5%BE%97%E5%88%86"><span class="header-section-number">15.7</span> 特征的重要性得分</a></li>
-<li><a class="nav-link" href="#%E5%A4%9A%E6%AC%A1%E5%BB%BA%E6%A8%A1%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E7%89%B9%E5%BE%81%E6%95%B0%E7%9B%AE%E5%9F%BA%E4%BA%8Eoob-rate"><span class="header-section-number">15.8</span> 多次建模选择最佳特征数目（基于OOB rate）</a></li>
-<li><a class="nav-link" href="#%E5%A4%9A%E5%85%83%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E7%AD%9B%E9%80%89%E7%9B%B8%E5%85%B3%E7%89%B9%E5%BE%81"><span class="header-section-number">15.9</span> 多元回归分析筛选相关特征</a></li>
-<li><a class="nav-link" href="#%E7%96%BE%E7%97%85%E9%A3%8E%E9%99%A9%E5%BE%97%E5%88%86"><span class="header-section-number">15.10</span> 疾病风险得分</a></li>
-<li><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E5%BB%BA%E6%A8%A1"><span class="header-section-number">15.11</span> 重新建模</a></li>
-<li><a class="nav-link" href="#final-biomarkers"><span class="header-section-number">15.12</span> Final biomarkers</a></li>
-<li><a class="nav-link" href="#systemic-information-6"><span class="header-section-number">15.13</span> systemic information</a></li>
+<li><a class="nav-link" href="#randomforestalgorithm"><span class="header-section-number">16</span> Random Forest Algorithm</a></li>
+<li><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="header-section-number">16.1</span> 下载数据</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-13"><span class="header-section-number">16.2</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="header-section-number">16.3</span> 加载数据</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%89%B2"><span class="header-section-number">16.4</span> 数据切割</a></li>
+<li><a class="nav-link" href="#%E8%B0%83%E5%8F%82%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E5%86%B3%E7%AD%96%E6%A0%91%E6%95%B0%E7%9B%AE"><span class="header-section-number">16.5</span> 调参（选择最佳决策树数目）</a></li>
+<li><a class="nav-link" href="#%E5%BB%BA%E6%A8%A1"><span class="header-section-number">16.6</span> 建模</a></li>
+<li><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7%E5%BE%97%E5%88%86"><span class="header-section-number">16.7</span> 特征的重要性得分</a></li>
+<li><a class="nav-link" href="#%E5%A4%9A%E6%AC%A1%E5%BB%BA%E6%A8%A1%E9%80%89%E6%8B%A9%E6%9C%80%E4%BD%B3%E7%89%B9%E5%BE%81%E6%95%B0%E7%9B%AE%E5%9F%BA%E4%BA%8Eoob-rate"><span class="header-section-number">16.8</span> 多次建模选择最佳特征数目（基于OOB rate）</a></li>
+<li><a class="nav-link" href="#%E5%A4%9A%E5%85%83%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E7%AD%9B%E9%80%89%E7%9B%B8%E5%85%B3%E7%89%B9%E5%BE%81"><span class="header-section-number">16.9</span> 多元回归分析筛选相关特征</a></li>
+<li><a class="nav-link" href="#%E7%96%BE%E7%97%85%E9%A3%8E%E9%99%A9%E5%BE%97%E5%88%86"><span class="header-section-number">16.10</span> 疾病风险得分</a></li>
+<li><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E5%BB%BA%E6%A8%A1"><span class="header-section-number">16.11</span> 重新建模</a></li>
+<li><a class="nav-link" href="#final-biomarkers"><span class="header-section-number">16.12</span> Final biomarkers</a></li>
+<li><a class="nav-link" href="#systemic-information-6"><span class="header-section-number">16.13</span> systemic information</a></li>
 </ul>
 
       <div class="book-extra">

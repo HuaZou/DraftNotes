@@ -159,23 +159,23 @@ sur_fit %>%
 
 
 ```{=html}
-<div id="lrsqvhxnda" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lrsqvhxnda table {
+<div id="cimzcxqcyb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cimzcxqcyb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lrsqvhxnda thead, #lrsqvhxnda tbody, #lrsqvhxnda tfoot, #lrsqvhxnda tr, #lrsqvhxnda td, #lrsqvhxnda th {
+#cimzcxqcyb thead, #cimzcxqcyb tbody, #cimzcxqcyb tfoot, #cimzcxqcyb tr, #cimzcxqcyb td, #cimzcxqcyb th {
   border-style: none;
 }
 
-#lrsqvhxnda p {
+#cimzcxqcyb p {
   margin: 0;
   padding: 0;
 }
 
-#lrsqvhxnda .gt_table {
+#cimzcxqcyb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -201,12 +201,12 @@ sur_fit %>%
   border-left-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_caption {
+#cimzcxqcyb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lrsqvhxnda .gt_title {
+#cimzcxqcyb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -218,7 +218,7 @@ sur_fit %>%
   border-bottom-width: 0;
 }
 
-#lrsqvhxnda .gt_subtitle {
+#cimzcxqcyb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -230,7 +230,7 @@ sur_fit %>%
   border-top-width: 0;
 }
 
-#lrsqvhxnda .gt_heading {
+#cimzcxqcyb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -242,13 +242,13 @@ sur_fit %>%
   border-right-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_bottom_border {
+#cimzcxqcyb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_col_headings {
+#cimzcxqcyb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -263,7 +263,7 @@ sur_fit %>%
   border-right-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_col_heading {
+#cimzcxqcyb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -283,7 +283,7 @@ sur_fit %>%
   overflow-x: hidden;
 }
 
-#lrsqvhxnda .gt_column_spanner_outer {
+#cimzcxqcyb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -295,15 +295,15 @@ sur_fit %>%
   padding-right: 4px;
 }
 
-#lrsqvhxnda .gt_column_spanner_outer:first-child {
+#cimzcxqcyb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lrsqvhxnda .gt_column_spanner_outer:last-child {
+#cimzcxqcyb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lrsqvhxnda .gt_column_spanner {
+#cimzcxqcyb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -315,11 +315,11 @@ sur_fit %>%
   width: 100%;
 }
 
-#lrsqvhxnda .gt_spanner_row {
+#cimzcxqcyb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lrsqvhxnda .gt_group_heading {
+#cimzcxqcyb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -345,7 +345,7 @@ sur_fit %>%
   text-align: left;
 }
 
-#lrsqvhxnda .gt_empty_group_heading {
+#cimzcxqcyb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -360,15 +360,15 @@ sur_fit %>%
   vertical-align: middle;
 }
 
-#lrsqvhxnda .gt_from_md > :first-child {
+#cimzcxqcyb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lrsqvhxnda .gt_from_md > :last-child {
+#cimzcxqcyb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lrsqvhxnda .gt_row {
+#cimzcxqcyb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -387,7 +387,7 @@ sur_fit %>%
   overflow-x: hidden;
 }
 
-#lrsqvhxnda .gt_stub {
+#cimzcxqcyb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -400,7 +400,7 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#lrsqvhxnda .gt_stub_row_group {
+#cimzcxqcyb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -414,15 +414,15 @@ sur_fit %>%
   vertical-align: top;
 }
 
-#lrsqvhxnda .gt_row_group_first td {
+#cimzcxqcyb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lrsqvhxnda .gt_row_group_first th {
+#cimzcxqcyb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lrsqvhxnda .gt_summary_row {
+#cimzcxqcyb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -432,16 +432,16 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#lrsqvhxnda .gt_first_summary_row {
+#cimzcxqcyb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_first_summary_row.thick {
+#cimzcxqcyb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lrsqvhxnda .gt_last_summary_row {
+#cimzcxqcyb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -451,7 +451,7 @@ sur_fit %>%
   border-bottom-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_grand_summary_row {
+#cimzcxqcyb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -461,7 +461,7 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#lrsqvhxnda .gt_first_grand_summary_row {
+#cimzcxqcyb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -471,7 +471,7 @@ sur_fit %>%
   border-top-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_last_grand_summary_row_top {
+#cimzcxqcyb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -481,11 +481,11 @@ sur_fit %>%
   border-bottom-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_striped {
+#cimzcxqcyb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lrsqvhxnda .gt_table_body {
+#cimzcxqcyb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -494,7 +494,7 @@ sur_fit %>%
   border-bottom-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_footnotes {
+#cimzcxqcyb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -508,7 +508,7 @@ sur_fit %>%
   border-right-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_footnote {
+#cimzcxqcyb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -517,7 +517,7 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#lrsqvhxnda .gt_sourcenotes {
+#cimzcxqcyb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -531,7 +531,7 @@ sur_fit %>%
   border-right-color: #D3D3D3;
 }
 
-#lrsqvhxnda .gt_sourcenote {
+#cimzcxqcyb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -539,69 +539,68 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#lrsqvhxnda .gt_left {
+#cimzcxqcyb .gt_left {
   text-align: left;
 }
 
-#lrsqvhxnda .gt_center {
+#cimzcxqcyb .gt_center {
   text-align: center;
 }
 
-#lrsqvhxnda .gt_right {
+#cimzcxqcyb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lrsqvhxnda .gt_font_normal {
+#cimzcxqcyb .gt_font_normal {
   font-weight: normal;
 }
 
-#lrsqvhxnda .gt_font_bold {
+#cimzcxqcyb .gt_font_bold {
   font-weight: bold;
 }
 
-#lrsqvhxnda .gt_font_italic {
+#cimzcxqcyb .gt_font_italic {
   font-style: italic;
 }
 
-#lrsqvhxnda .gt_super {
+#cimzcxqcyb .gt_super {
   font-size: 65%;
 }
 
-#lrsqvhxnda .gt_footnote_marks {
+#cimzcxqcyb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lrsqvhxnda .gt_asterisk {
+#cimzcxqcyb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lrsqvhxnda .gt_indent_1 {
+#cimzcxqcyb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lrsqvhxnda .gt_indent_2 {
+#cimzcxqcyb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lrsqvhxnda .gt_indent_3 {
+#cimzcxqcyb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lrsqvhxnda .gt_indent_4 {
+#cimzcxqcyb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lrsqvhxnda .gt_indent_5 {
+#cimzcxqcyb .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
-    
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Median survival (95% CI)&lt;/strong&gt;"><strong>Median survival (95% CI)</strong></th>
@@ -609,7 +608,7 @@ sur_fit %>%
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left">sex</td>
-<td headers="stat_1" class="gt_row gt_center"></td></tr>
+<td headers="stat_1" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Male</td>
 <td headers="stat_1" class="gt_row gt_center">283 (218, 320)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Female</td>
@@ -640,23 +639,23 @@ sur_fit %>%
 
 
 ```{=html}
-<div id="bhpqaslmox" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bhpqaslmox table {
+<div id="xrjzzxhcat" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xrjzzxhcat table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bhpqaslmox thead, #bhpqaslmox tbody, #bhpqaslmox tfoot, #bhpqaslmox tr, #bhpqaslmox td, #bhpqaslmox th {
+#xrjzzxhcat thead, #xrjzzxhcat tbody, #xrjzzxhcat tfoot, #xrjzzxhcat tr, #xrjzzxhcat td, #xrjzzxhcat th {
   border-style: none;
 }
 
-#bhpqaslmox p {
+#xrjzzxhcat p {
   margin: 0;
   padding: 0;
 }
 
-#bhpqaslmox .gt_table {
+#xrjzzxhcat .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -682,12 +681,12 @@ sur_fit %>%
   border-left-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_caption {
+#xrjzzxhcat .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bhpqaslmox .gt_title {
+#xrjzzxhcat .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -699,7 +698,7 @@ sur_fit %>%
   border-bottom-width: 0;
 }
 
-#bhpqaslmox .gt_subtitle {
+#xrjzzxhcat .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -711,7 +710,7 @@ sur_fit %>%
   border-top-width: 0;
 }
 
-#bhpqaslmox .gt_heading {
+#xrjzzxhcat .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -723,13 +722,13 @@ sur_fit %>%
   border-right-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_bottom_border {
+#xrjzzxhcat .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_col_headings {
+#xrjzzxhcat .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -744,7 +743,7 @@ sur_fit %>%
   border-right-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_col_heading {
+#xrjzzxhcat .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -764,7 +763,7 @@ sur_fit %>%
   overflow-x: hidden;
 }
 
-#bhpqaslmox .gt_column_spanner_outer {
+#xrjzzxhcat .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -776,15 +775,15 @@ sur_fit %>%
   padding-right: 4px;
 }
 
-#bhpqaslmox .gt_column_spanner_outer:first-child {
+#xrjzzxhcat .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bhpqaslmox .gt_column_spanner_outer:last-child {
+#xrjzzxhcat .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bhpqaslmox .gt_column_spanner {
+#xrjzzxhcat .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -796,11 +795,11 @@ sur_fit %>%
   width: 100%;
 }
 
-#bhpqaslmox .gt_spanner_row {
+#xrjzzxhcat .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bhpqaslmox .gt_group_heading {
+#xrjzzxhcat .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -826,7 +825,7 @@ sur_fit %>%
   text-align: left;
 }
 
-#bhpqaslmox .gt_empty_group_heading {
+#xrjzzxhcat .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -841,15 +840,15 @@ sur_fit %>%
   vertical-align: middle;
 }
 
-#bhpqaslmox .gt_from_md > :first-child {
+#xrjzzxhcat .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bhpqaslmox .gt_from_md > :last-child {
+#xrjzzxhcat .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bhpqaslmox .gt_row {
+#xrjzzxhcat .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -868,7 +867,7 @@ sur_fit %>%
   overflow-x: hidden;
 }
 
-#bhpqaslmox .gt_stub {
+#xrjzzxhcat .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -881,7 +880,7 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#bhpqaslmox .gt_stub_row_group {
+#xrjzzxhcat .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -895,15 +894,15 @@ sur_fit %>%
   vertical-align: top;
 }
 
-#bhpqaslmox .gt_row_group_first td {
+#xrjzzxhcat .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bhpqaslmox .gt_row_group_first th {
+#xrjzzxhcat .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bhpqaslmox .gt_summary_row {
+#xrjzzxhcat .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -913,16 +912,16 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#bhpqaslmox .gt_first_summary_row {
+#xrjzzxhcat .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_first_summary_row.thick {
+#xrjzzxhcat .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bhpqaslmox .gt_last_summary_row {
+#xrjzzxhcat .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -932,7 +931,7 @@ sur_fit %>%
   border-bottom-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_grand_summary_row {
+#xrjzzxhcat .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -942,7 +941,7 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#bhpqaslmox .gt_first_grand_summary_row {
+#xrjzzxhcat .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -952,7 +951,7 @@ sur_fit %>%
   border-top-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_last_grand_summary_row_top {
+#xrjzzxhcat .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -962,11 +961,11 @@ sur_fit %>%
   border-bottom-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_striped {
+#xrjzzxhcat .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bhpqaslmox .gt_table_body {
+#xrjzzxhcat .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -975,7 +974,7 @@ sur_fit %>%
   border-bottom-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_footnotes {
+#xrjzzxhcat .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -989,7 +988,7 @@ sur_fit %>%
   border-right-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_footnote {
+#xrjzzxhcat .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -998,7 +997,7 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#bhpqaslmox .gt_sourcenotes {
+#xrjzzxhcat .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1012,7 +1011,7 @@ sur_fit %>%
   border-right-color: #D3D3D3;
 }
 
-#bhpqaslmox .gt_sourcenote {
+#xrjzzxhcat .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1020,69 +1019,68 @@ sur_fit %>%
   padding-right: 5px;
 }
 
-#bhpqaslmox .gt_left {
+#xrjzzxhcat .gt_left {
   text-align: left;
 }
 
-#bhpqaslmox .gt_center {
+#xrjzzxhcat .gt_center {
   text-align: center;
 }
 
-#bhpqaslmox .gt_right {
+#xrjzzxhcat .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bhpqaslmox .gt_font_normal {
+#xrjzzxhcat .gt_font_normal {
   font-weight: normal;
 }
 
-#bhpqaslmox .gt_font_bold {
+#xrjzzxhcat .gt_font_bold {
   font-weight: bold;
 }
 
-#bhpqaslmox .gt_font_italic {
+#xrjzzxhcat .gt_font_italic {
   font-style: italic;
 }
 
-#bhpqaslmox .gt_super {
+#xrjzzxhcat .gt_super {
   font-size: 65%;
 }
 
-#bhpqaslmox .gt_footnote_marks {
+#xrjzzxhcat .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bhpqaslmox .gt_asterisk {
+#xrjzzxhcat .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bhpqaslmox .gt_indent_1 {
+#xrjzzxhcat .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bhpqaslmox .gt_indent_2 {
+#xrjzzxhcat .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bhpqaslmox .gt_indent_3 {
+#xrjzzxhcat .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bhpqaslmox .gt_indent_4 {
+#xrjzzxhcat .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bhpqaslmox .gt_indent_5 {
+#xrjzzxhcat .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
-    
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;365 Days survival (95% CI)&lt;/strong&gt;"><strong>365 Days survival (95% CI)</strong></th>
@@ -1091,8 +1089,8 @@ sur_fit %>%
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left">sex</td>
-<td headers="stat_1" class="gt_row gt_center"></td>
-<td headers="stat_2" class="gt_row gt_center"></td></tr>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Male</td>
 <td headers="stat_1" class="gt_row gt_center">34% (26%, 44%)</td>
 <td headers="stat_2" class="gt_row gt_center">7.9% (4.0%, 16%)</td></tr>
@@ -1350,124 +1348,118 @@ ggsurpl
 devtools::session_info()
 #> ─ Session info ───────────────────────────────────────────
 #>  setting  value
-#>  version  R version 4.1.3 (2022-03-10)
-#>  os       macOS Big Sur/Monterey 10.16
-#>  system   x86_64, darwin17.0
+#>  version  R version 4.3.1 (2023-06-16)
+#>  os       macOS Monterey 12.2.1
+#>  system   x86_64, darwin20
 #>  ui       X11
 #>  language (EN)
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
 #>  date     2024-02-06
-#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
+#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package       * version date (UTC) lib source
-#>  abind           1.4-5   2016-07-21 [2] CRAN (R 4.1.0)
-#>  backports       1.4.1   2021-12-13 [2] CRAN (R 4.1.0)
-#>  bookdown        0.34    2023-05-09 [2] CRAN (R 4.1.2)
-#>  broom           1.0.5   2023-06-09 [2] CRAN (R 4.1.3)
-#>  broom.helpers   1.13.0  2023-03-28 [2] CRAN (R 4.1.2)
-#>  bslib           0.6.0   2023-11-21 [1] CRAN (R 4.1.3)
-#>  cachem          1.0.8   2023-05-01 [2] CRAN (R 4.1.2)
-#>  callr           3.7.3   2022-11-02 [2] CRAN (R 4.1.2)
-#>  car             3.1-2   2023-03-30 [2] CRAN (R 4.1.2)
-#>  carData         3.0-5   2022-01-06 [2] CRAN (R 4.1.2)
-#>  cli             3.6.1   2023-03-23 [2] CRAN (R 4.1.2)
-#>  colorspace      2.1-0   2023-01-23 [2] CRAN (R 4.1.2)
-#>  commonmark      1.9.0   2023-03-17 [2] CRAN (R 4.1.2)
-#>  crayon          1.5.2   2022-09-29 [2] CRAN (R 4.1.2)
-#>  data.table      1.14.8  2023-02-17 [2] CRAN (R 4.1.2)
-#>  devtools        2.4.5   2022-10-11 [2] CRAN (R 4.1.2)
-#>  digest          0.6.33  2023-07-07 [1] CRAN (R 4.1.3)
-#>  downlit         0.4.3   2023-06-29 [2] CRAN (R 4.1.3)
-#>  dplyr         * 1.1.4   2023-11-17 [1] CRAN (R 4.1.3)
-#>  ellipsis        0.3.2   2021-04-29 [2] CRAN (R 4.1.0)
-#>  evaluate        0.21    2023-05-05 [2] CRAN (R 4.1.2)
-#>  fansi           1.0.4   2023-01-22 [2] CRAN (R 4.1.2)
-#>  farver          2.1.1   2022-07-06 [2] CRAN (R 4.1.2)
-#>  fastmap         1.1.1   2023-02-24 [2] CRAN (R 4.1.2)
-#>  forcats       * 1.0.0   2023-01-29 [1] CRAN (R 4.1.2)
-#>  fs              1.6.2   2023-04-25 [2] CRAN (R 4.1.2)
-#>  generics        0.1.3   2022-07-05 [2] CRAN (R 4.1.2)
-#>  ggplot2       * 3.4.4   2023-10-12 [1] CRAN (R 4.1.3)
-#>  ggpubr        * 0.6.0   2023-02-10 [1] CRAN (R 4.1.2)
-#>  ggsignif        0.6.4   2022-10-13 [2] CRAN (R 4.1.2)
-#>  ggtext          0.1.2   2022-09-16 [2] CRAN (R 4.1.2)
-#>  glue            1.6.2   2022-02-24 [2] CRAN (R 4.1.2)
-#>  gridExtra       2.3     2017-09-09 [2] CRAN (R 4.1.0)
-#>  gridtext        0.1.5   2022-09-16 [2] CRAN (R 4.1.2)
-#>  gt              0.9.0   2023-03-31 [2] CRAN (R 4.1.2)
-#>  gtable          0.3.3   2023-03-21 [2] CRAN (R 4.1.2)
-#>  gtsummary     * 1.7.1   2023-04-27 [2] CRAN (R 4.1.2)
-#>  highr           0.10    2022-12-22 [2] CRAN (R 4.1.2)
-#>  hms             1.1.3   2023-03-21 [2] CRAN (R 4.1.2)
-#>  htmltools       0.5.7   2023-11-03 [1] CRAN (R 4.1.3)
-#>  htmlwidgets     1.6.2   2023-03-17 [2] CRAN (R 4.1.2)
-#>  httpuv          1.6.11  2023-05-11 [2] CRAN (R 4.1.3)
-#>  jquerylib       0.1.4   2021-04-26 [2] CRAN (R 4.1.0)
-#>  jsonlite        1.8.7   2023-06-29 [2] CRAN (R 4.1.3)
-#>  km.ci           0.5-6   2022-04-06 [2] CRAN (R 4.1.2)
-#>  KMsurv          0.1-5   2012-12-03 [2] CRAN (R 4.1.0)
-#>  knitr           1.43    2023-05-25 [2] CRAN (R 4.1.3)
-#>  labeling        0.4.2   2020-10-20 [2] CRAN (R 4.1.0)
-#>  later           1.3.1   2023-05-02 [2] CRAN (R 4.1.2)
-#>  lattice         0.21-8  2023-04-05 [2] CRAN (R 4.1.2)
-#>  lifecycle       1.0.3   2022-10-07 [2] CRAN (R 4.1.2)
-#>  lubridate     * 1.9.2   2023-02-10 [2] CRAN (R 4.1.2)
-#>  magrittr        2.0.3   2022-03-30 [2] CRAN (R 4.1.2)
-#>  markdown        1.7     2023-05-16 [2] CRAN (R 4.1.3)
-#>  Matrix          1.6-5   2024-01-11 [1] CRAN (R 4.1.3)
-#>  memoise         2.0.1   2021-11-26 [2] CRAN (R 4.1.0)
-#>  mime            0.12    2021-09-28 [2] CRAN (R 4.1.0)
-#>  miniUI          0.1.1.1 2018-05-18 [2] CRAN (R 4.1.0)
-#>  munsell         0.5.0   2018-06-12 [2] CRAN (R 4.1.0)
-#>  pillar          1.9.0   2023-03-22 [2] CRAN (R 4.1.2)
-#>  pkgbuild        1.4.2   2023-06-26 [2] CRAN (R 4.1.3)
-#>  pkgconfig       2.0.3   2019-09-22 [2] CRAN (R 4.1.0)
-#>  pkgload         1.3.2.1 2023-07-08 [2] CRAN (R 4.1.3)
-#>  prettyunits     1.1.1   2020-01-24 [2] CRAN (R 4.1.0)
-#>  processx        3.8.2   2023-06-30 [2] CRAN (R 4.1.3)
-#>  profvis         0.3.8   2023-05-02 [2] CRAN (R 4.1.2)
-#>  promises        1.2.0.1 2021-02-11 [2] CRAN (R 4.1.0)
-#>  ps              1.7.5   2023-04-18 [2] CRAN (R 4.1.2)
-#>  purrr         * 1.0.1   2023-01-10 [1] CRAN (R 4.1.2)
-#>  R6              2.5.1   2021-08-19 [2] CRAN (R 4.1.0)
-#>  Rcpp            1.0.11  2023-07-06 [1] CRAN (R 4.1.3)
-#>  readr         * 2.1.4   2023-02-10 [1] CRAN (R 4.1.2)
-#>  remotes         2.4.2   2021-11-30 [2] CRAN (R 4.1.0)
-#>  rlang           1.1.1   2023-04-28 [1] CRAN (R 4.1.2)
-#>  rmarkdown       2.23    2023-07-01 [2] CRAN (R 4.1.3)
-#>  rstatix         0.7.2   2023-02-01 [2] CRAN (R 4.1.2)
-#>  rstudioapi      0.15.0  2023-07-07 [2] CRAN (R 4.1.3)
-#>  sass            0.4.6   2023-05-03 [2] CRAN (R 4.1.2)
-#>  scales          1.2.1   2022-08-20 [1] CRAN (R 4.1.2)
-#>  sessioninfo     1.2.2   2021-12-06 [2] CRAN (R 4.1.0)
-#>  shiny           1.7.4.1 2023-07-06 [2] CRAN (R 4.1.3)
-#>  stringi         1.7.12  2023-01-11 [2] CRAN (R 4.1.2)
-#>  stringr       * 1.5.1   2023-11-14 [1] CRAN (R 4.1.3)
-#>  survival      * 3.5-5   2023-03-12 [2] CRAN (R 4.1.2)
-#>  survminer     * 0.4.9   2021-03-09 [2] CRAN (R 4.1.0)
-#>  survMisc        0.5.6   2022-04-07 [2] CRAN (R 4.1.2)
-#>  tibble        * 3.2.1   2023-03-20 [1] CRAN (R 4.1.2)
-#>  tidyr         * 1.3.0   2023-01-24 [1] CRAN (R 4.1.2)
-#>  tidyselect      1.2.0   2022-10-10 [2] CRAN (R 4.1.2)
-#>  tidyverse     * 2.0.0   2023-02-22 [1] CRAN (R 4.1.2)
-#>  timechange      0.2.0   2023-01-11 [2] CRAN (R 4.1.2)
-#>  tzdb            0.4.0   2023-05-12 [2] CRAN (R 4.1.3)
-#>  urlchecker      1.0.1   2021-11-30 [2] CRAN (R 4.1.0)
-#>  usethis         2.2.2   2023-07-06 [2] CRAN (R 4.1.3)
-#>  utf8            1.2.3   2023-01-31 [2] CRAN (R 4.1.2)
-#>  vctrs           0.6.5   2023-12-01 [1] CRAN (R 4.1.3)
-#>  withr           2.5.0   2022-03-03 [2] CRAN (R 4.1.2)
-#>  xfun            0.40    2023-08-09 [1] CRAN (R 4.1.3)
-#>  xml2            1.3.5   2023-07-06 [2] CRAN (R 4.1.3)
-#>  xtable          1.8-4   2019-04-21 [2] CRAN (R 4.1.0)
-#>  yaml            2.3.7   2023-01-23 [2] CRAN (R 4.1.2)
-#>  zoo             1.8-12  2023-04-13 [2] CRAN (R 4.1.2)
+#>  abind           1.4-5   2016-07-21 [1] CRAN (R 4.3.0)
+#>  backports       1.4.1   2021-12-13 [1] CRAN (R 4.3.0)
+#>  bookdown        0.37    2023-12-01 [1] CRAN (R 4.3.0)
+#>  broom           1.0.5   2023-06-09 [1] CRAN (R 4.3.0)
+#>  broom.helpers   1.14.0  2023-08-07 [1] CRAN (R 4.3.0)
+#>  bslib           0.6.1   2023-11-28 [1] CRAN (R 4.3.0)
+#>  cachem          1.0.8   2023-05-01 [1] CRAN (R 4.3.0)
+#>  car             3.1-2   2023-03-30 [1] CRAN (R 4.3.0)
+#>  carData         3.0-5   2022-01-06 [1] CRAN (R 4.3.0)
+#>  cli             3.6.2   2023-12-11 [1] CRAN (R 4.3.0)
+#>  colorspace      2.1-0   2023-01-23 [1] CRAN (R 4.3.0)
+#>  commonmark      1.9.1   2024-01-30 [1] CRAN (R 4.3.2)
+#>  data.table      1.15.0  2024-01-30 [1] CRAN (R 4.3.2)
+#>  devtools        2.4.5   2022-10-11 [1] CRAN (R 4.3.0)
+#>  digest          0.6.34  2024-01-11 [1] CRAN (R 4.3.0)
+#>  downlit         0.4.3   2023-06-29 [1] CRAN (R 4.3.0)
+#>  dplyr         * 1.1.4   2023-11-17 [1] CRAN (R 4.3.0)
+#>  ellipsis        0.3.2   2021-04-29 [1] CRAN (R 4.3.0)
+#>  evaluate        0.23    2023-11-01 [1] CRAN (R 4.3.0)
+#>  fansi           1.0.6   2023-12-08 [1] CRAN (R 4.3.0)
+#>  farver          2.1.1   2022-07-06 [1] CRAN (R 4.3.0)
+#>  fastmap         1.1.1   2023-02-24 [1] CRAN (R 4.3.0)
+#>  forcats       * 1.0.0   2023-01-29 [1] CRAN (R 4.3.0)
+#>  fs              1.6.3   2023-07-20 [1] CRAN (R 4.3.0)
+#>  generics        0.1.3   2022-07-05 [1] CRAN (R 4.3.0)
+#>  ggplot2       * 3.4.4   2023-10-12 [1] CRAN (R 4.3.0)
+#>  ggpubr        * 0.6.0   2023-02-10 [1] CRAN (R 4.3.0)
+#>  ggsignif        0.6.4   2022-10-13 [1] CRAN (R 4.3.0)
+#>  ggtext          0.1.2   2022-09-16 [1] CRAN (R 4.3.0)
+#>  glue            1.7.0   2024-01-09 [1] CRAN (R 4.3.0)
+#>  gridExtra       2.3     2017-09-09 [1] CRAN (R 4.3.0)
+#>  gridtext        0.1.5   2022-09-16 [1] CRAN (R 4.3.0)
+#>  gt              0.10.1  2024-01-17 [1] CRAN (R 4.3.0)
+#>  gtable          0.3.4   2023-08-21 [1] CRAN (R 4.3.0)
+#>  gtsummary     * 1.7.2   2023-07-15 [1] CRAN (R 4.3.0)
+#>  highr           0.10    2022-12-22 [1] CRAN (R 4.3.0)
+#>  hms             1.1.3   2023-03-21 [1] CRAN (R 4.3.0)
+#>  htmltools       0.5.7   2023-11-03 [1] CRAN (R 4.3.0)
+#>  htmlwidgets     1.6.4   2023-12-06 [1] CRAN (R 4.3.0)
+#>  httpuv          1.6.14  2024-01-26 [1] CRAN (R 4.3.2)
+#>  jquerylib       0.1.4   2021-04-26 [1] CRAN (R 4.3.0)
+#>  jsonlite        1.8.8   2023-12-04 [1] CRAN (R 4.3.0)
+#>  km.ci           0.5-6   2022-04-06 [1] CRAN (R 4.3.0)
+#>  KMsurv          0.1-5   2012-12-03 [1] CRAN (R 4.3.0)
+#>  knitr           1.45    2023-10-30 [1] CRAN (R 4.3.0)
+#>  labeling        0.4.3   2023-08-29 [1] CRAN (R 4.3.0)
+#>  later           1.3.2   2023-12-06 [1] CRAN (R 4.3.0)
+#>  lattice         0.21-8  2023-04-05 [1] CRAN (R 4.3.1)
+#>  lifecycle       1.0.4   2023-11-07 [1] CRAN (R 4.3.0)
+#>  lubridate     * 1.9.3   2023-09-27 [1] CRAN (R 4.3.0)
+#>  magrittr        2.0.3   2022-03-30 [1] CRAN (R 4.3.0)
+#>  markdown        1.12    2023-12-06 [1] CRAN (R 4.3.0)
+#>  Matrix          1.6-5   2024-01-11 [1] CRAN (R 4.3.0)
+#>  memoise         2.0.1   2021-11-26 [1] CRAN (R 4.3.0)
+#>  mime            0.12    2021-09-28 [1] CRAN (R 4.3.0)
+#>  miniUI          0.1.1.1 2018-05-18 [1] CRAN (R 4.3.0)
+#>  munsell         0.5.0   2018-06-12 [1] CRAN (R 4.3.0)
+#>  pillar          1.9.0   2023-03-22 [1] CRAN (R 4.3.0)
+#>  pkgbuild        1.4.3   2023-12-10 [1] CRAN (R 4.3.0)
+#>  pkgconfig       2.0.3   2019-09-22 [1] CRAN (R 4.3.0)
+#>  pkgload         1.3.4   2024-01-16 [1] CRAN (R 4.3.0)
+#>  profvis         0.3.8   2023-05-02 [1] CRAN (R 4.3.0)
+#>  promises        1.2.1   2023-08-10 [1] CRAN (R 4.3.0)
+#>  purrr         * 1.0.2   2023-08-10 [1] CRAN (R 4.3.0)
+#>  R6              2.5.1   2021-08-19 [1] CRAN (R 4.3.0)
+#>  Rcpp            1.0.12  2024-01-09 [1] CRAN (R 4.3.0)
+#>  readr         * 2.1.5   2024-01-10 [1] CRAN (R 4.3.0)
+#>  remotes         2.4.2.1 2023-07-18 [1] CRAN (R 4.3.0)
+#>  rlang           1.1.3   2024-01-10 [1] CRAN (R 4.3.0)
+#>  rmarkdown       2.25    2023-09-18 [1] CRAN (R 4.3.0)
+#>  rstatix         0.7.2   2023-02-01 [1] CRAN (R 4.3.0)
+#>  rstudioapi      0.15.0  2023-07-07 [1] CRAN (R 4.3.0)
+#>  sass            0.4.8   2023-12-06 [1] CRAN (R 4.3.0)
+#>  scales          1.3.0   2023-11-28 [1] CRAN (R 4.3.0)
+#>  sessioninfo     1.2.2   2021-12-06 [1] CRAN (R 4.3.0)
+#>  shiny           1.8.0   2023-11-17 [1] CRAN (R 4.3.0)
+#>  stringi         1.8.3   2023-12-11 [1] CRAN (R 4.3.0)
+#>  stringr       * 1.5.1   2023-11-14 [1] CRAN (R 4.3.0)
+#>  survival      * 3.5-5   2023-03-12 [1] CRAN (R 4.3.1)
+#>  survminer     * 0.4.9   2021-03-09 [1] CRAN (R 4.3.0)
+#>  survMisc        0.5.6   2022-04-07 [1] CRAN (R 4.3.0)
+#>  tibble        * 3.2.1   2023-03-20 [1] CRAN (R 4.3.0)
+#>  tidyr         * 1.3.1   2024-01-24 [1] CRAN (R 4.3.2)
+#>  tidyselect      1.2.0   2022-10-10 [1] CRAN (R 4.3.0)
+#>  tidyverse     * 2.0.0   2023-02-22 [1] CRAN (R 4.3.0)
+#>  timechange      0.3.0   2024-01-18 [1] CRAN (R 4.3.0)
+#>  tzdb            0.4.0   2023-05-12 [1] CRAN (R 4.3.0)
+#>  urlchecker      1.0.1   2021-11-30 [1] CRAN (R 4.3.0)
+#>  usethis         2.2.2   2023-07-06 [1] CRAN (R 4.3.0)
+#>  utf8            1.2.4   2023-10-22 [1] CRAN (R 4.3.0)
+#>  vctrs           0.6.5   2023-12-01 [1] CRAN (R 4.3.0)
+#>  withr           3.0.0   2024-01-16 [1] CRAN (R 4.3.0)
+#>  xfun            0.41    2023-11-01 [1] CRAN (R 4.3.0)
+#>  xml2            1.3.6   2023-12-04 [1] CRAN (R 4.3.0)
+#>  xtable          1.8-4   2019-04-21 [1] CRAN (R 4.3.0)
+#>  yaml            2.3.8   2023-12-11 [1] CRAN (R 4.3.0)
+#>  zoo             1.8-12  2023-04-13 [1] CRAN (R 4.3.0)
 #> 
-#>  [1] /Users/zouhua/Library/R/x86_64/4.1/library
-#>  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library
+#>  [1] /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/library
 #> 
 #> ──────────────────────────────────────────────────────────
 ```
