@@ -4,25 +4,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 9 Dimension Reduction | 生物信息随记</title>
+<title>Chapter 10 Dimension Reduction | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
 <meta name="description" content="降维分析是为了查看样本的差异或挖掘潜在标志物。方法有以下三种： 主成分分析（PCA） 主成分分析PCA（Principal Component Analysis）是一种常用的数据分析方法。PCA通过线性变换将原始数据变换为一组各维度线性无关的表示，可用于提取数据的主要特征分量，常用于高维数据的降维。 偏最小二乘回归分析法（PLS-DA）...">
 <meta name="generator" content="bookdown 0.34 with bs4_book()">
-<meta property="og:title" content="Chapter 9 Dimension Reduction | 生物信息随记">
+<meta property="og:title" content="Chapter 10 Dimension Reduction | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/DimensionReduction.html">
 <meta property="og:description" content="降维分析是为了查看样本的差异或挖掘潜在标志物。方法有以下三种： 主成分分析（PCA） 主成分分析PCA（Principal Component Analysis）是一种常用的数据分析方法。PCA通过线性变换将原始数据变换为一组各维度线性无关的表示，可用于提取数据的主要特征分量，常用于高维数据的降维。 偏最小二乘回归分析法（PLS-DA）...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 9 Dimension Reduction | 生物信息随记">
+<meta name="twitter:title" content="Chapter 10 Dimension Reduction | 生物信息随记">
 <meta name="twitter:description" content="降维分析是为了查看样本的差异或挖掘潜在标志物。方法有以下三种： 主成分分析（PCA） 主成分分析PCA（Principal Component Analysis）是一种常用的数据分析方法。PCA通过线性变换将原始数据变换为一组各维度线性无关的表示，可用于提取数据的主要特征分量，常用于高维数据的降维。 偏最小二乘回归分析法（PLS-DA）...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
 <script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.31/datatables.js"></script><link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -80,19 +80,20 @@
 <li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
 <li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
 <li><a class="" href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></li>
+<li><a class="" href="SurvivalAnalysis.html"><span class="header-section-number">8</span> Survival Analysis</a></li>
 <li class="book-part">Metabolomics Data Analysis</li>
-<li><a class="" href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></li>
-<li><a class="active" href="DimensionReduction.html"><span class="header-section-number">9</span> Dimension Reduction</a></li>
-<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">10</span> Differetial Analysis</a></li>
-<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">11</span> Functional Analysis</a></li>
-<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">12</span> MetOrigin Analysis</a></li>
-<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">13</span> Other Analysis</a></li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">9</span> Data Processing</a></li>
+<li><a class="active" href="DimensionReduction.html"><span class="header-section-number">10</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">11</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">12</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">13</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">14</span> Other Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">14</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">15</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">15</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">16</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">16</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">17</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">17</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">18</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -101,9 +102,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="DimensionReduction" class="section level1" number="9">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="DimensionReduction" class="section level1" number="10">
 <h1>
-<span class="header-section-number">9</span> Dimension Reduction<a class="anchor" aria-label="anchor" href="#DimensionReduction"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10</span> Dimension Reduction<a class="anchor" aria-label="anchor" href="#DimensionReduction"><i class="fas fa-link"></i></a>
 </h1>
 <p>降维分析是为了查看样本的差异或挖掘潜在标志物。方法有以下三种：</p>
 <ul>
@@ -118,11 +119,11 @@
 <li>正交偏最小二乘判别分析（OPLS-DA）</li>
 </ul>
 <p>正交偏最小二乘判别分析（OPLS-DA）结合了正交信号矫正（OSC）和PLS-DA方法，能够将X矩阵信息分解成与Y相关和不相关的两类信息，通过去除不相关的差异来筛选差异变量。</p>
-<div id="加载r包-5" class="section level2" number="9.1">
+<div id="加载r包-6" class="section level2" number="10.1">
 <h2>
-<span class="header-section-number">9.1</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-5"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.1</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-6"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://dx.doi.org/10.1021/acs.jproteome.5b00354">ropls</a></span><span class="op">)</span></span>
@@ -136,23 +137,23 @@
 <span><span class="va">grp_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"None"</span>, <span class="st">"Mild"</span>, <span class="st">"Moderate"</span>, <span class="st">"Severe"</span><span class="op">)</span></span>
 <span><span class="va">grp_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#7DD06F"</span>, <span class="st">"#844081"</span>, <span class="st">"#688EC1"</span>, <span class="st">"#C17E73"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="导入数据-3" class="section level2" number="9.2">
+<div id="导入数据-4" class="section level2" number="10.2">
 <h2>
-<span class="header-section-number">9.2</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.2</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>对数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel%20et%20al.%20-%202022.xlsx">OmicsDataSet-Zeybel et al. - 2022.xlsx</a>处理后生成的，可参考数据预处理章节。</p>
 <blockquote>
-<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_scale</span>, <span class="st">"./InputData/result/QC/se_scale.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </blockquote>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"./InputData/result/QC/se_scale.RDS"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="函数-1" class="section level2" number="9.3">
+<div id="函数-1" class="section level2" number="10.3">
 <h2>
-<span class="header-section-number">9.3</span> 函数<a class="anchor" aria-label="anchor" href="#%E5%87%BD%E6%95%B0-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.3</span> 函数<a class="anchor" aria-label="anchor" href="#%E5%87%BD%E6%95%B0-1"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">DR_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">x</span>,</span>
 <span>    <span class="va">group</span>,</span>
@@ -174,18 +175,18 @@
 <span>  <span class="va">profile</span> <span class="op">&lt;-</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"CompVar"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"CompVar"</span></span>
 <span>  <span class="va">phenotype</span> <span class="op">&lt;-</span> <span class="va">metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">CompVar</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">group_names</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>CompVar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">CompVar</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>CompVar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">CompVar</span>, levels <span class="op">=</span> <span class="va">group_names</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="va">sid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">profile</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">sid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">profile</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="va">phen</span> <span class="op">&lt;-</span> <span class="va">phenotype</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/pmatch.html">pmatch</a></span><span class="op">(</span><span class="va">sid</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span><span class="op">)</span>, , <span class="op">]</span></span>
 <span>  <span class="va">prof</span> <span class="op">&lt;-</span> <span class="va">profile</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">sid</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phen</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">prof</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">phen</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Wrong Order"</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span>  </span>
@@ -199,7 +200,7 @@
 <span>    <span class="kw">if</span><span class="op">(</span><span class="va">nRow</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">{</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df_occ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span>    <span class="op">}</span><span class="kw">else</span><span class="op">{</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df_occ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">df_occ</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span>    <span class="op">}</span></span>
 <span>    <span class="va">df_KEEP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">df_occ</span> <span class="op">&gt;</span> <span class="va">threshold</span>, <span class="fl">1</span>, <span class="va">all</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="st">"Status"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -246,11 +247,11 @@
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
-<div id="主成分分析pca" class="section level2" number="9.4">
+<div id="主成分分析pca" class="section level2" number="10.4">
 <h2>
-<span class="header-section-number">9.4</span> 主成分分析（PCA）<a class="anchor" aria-label="anchor" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90pca"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.4</span> 主成分分析（PCA）<a class="anchor" aria-label="anchor" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90pca"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">PCA_res</span> <span class="op">&lt;-</span> <span class="fu">DR_fun</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">data_meta</span>,</span>
 <span>    group <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
@@ -259,10 +260,10 @@
 <span>    DRtype <span class="op">=</span> <span class="st">"PCA"</span>,</span>
 <span>    occ_cutoff <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; PCA</span></span>
-<span><span class="co">#&gt; 55 samples x 665 variables</span></span>
+<span><span class="co">#&gt; 55 samples x 646 variables</span></span>
 <span><span class="co">#&gt; standard scaling of predictors</span></span>
 <span><span class="co">#&gt;       R2X(cum) pre ort</span></span>
-<span><span class="co">#&gt; Total    0.501   9   0</span></span></code></pre></div>
+<span><span class="co">#&gt; Total     0.52  10   0</span></span></code></pre></div>
 <p><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-5-1.png" width="100%"><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-5-2.png" width="100%"></p>
 <p>结果：PCA将原始features重新组合成新的主成分，进而形成了基于主成分的矩阵。每个主成分是由原来features的线性组合而成。</p>
 <ul>
@@ -272,13 +273,13 @@
 <li><p><strong>右下图</strong>：载荷值: 理解为构成每个主成分的features，可以认为一个主成分是由N个feature线性组合合成，每个features对该主成分的贡献程度作为loading的数值。边缘处的变量表示它们在各样本中的含量差别明显（如在某些样本中具有较大/较小的极端值等），即对排序空间的贡献较大，暗示它们可能为一些重要的代谢物。</p></li>
 </ul>
 </div>
-<div id="偏最小二乘回归分析法pls-da" class="section level2" number="9.5">
+<div id="偏最小二乘回归分析法pls-da" class="section level2" number="10.5">
 <h2>
-<span class="header-section-number">9.5</span> 偏最小二乘回归分析法（PLS-DA）<a class="anchor" aria-label="anchor" href="#%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E6%B3%95pls-da"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.5</span> 偏最小二乘回归分析法（PLS-DA）<a class="anchor" aria-label="anchor" href="#%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E6%B3%95pls-da"><i class="fas fa-link"></i></a>
 </h2>
 <p>PLS-DA需要提供Y响应变量，它通过投影分别将预测变量（Y响应变量）和观测变量（自变量）投影到一个新空间，来寻找一个线性回归模型。通过建立组学数据与样本类别之间的关系模型，实现对样本类别的预测，为有监督的建模方式。</p>
 <p>偏最小二乘（PLS）是一种基于预测变量和响应变量之间协方差的潜在变量回归方法，找到不同类别的分割信息最优的线性组合，PLS的每一个成分都赋予一个权值，即对应该成分的分离能力。</p>
-<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">PLS_res</span> <span class="op">&lt;-</span> <span class="fu">DR_fun</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">data_meta</span>,</span>
 <span>    group <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
@@ -287,10 +288,10 @@
 <span>    DRtype <span class="op">=</span> <span class="st">"PLS"</span>,</span>
 <span>    occ_cutoff <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; PLS-DA</span></span>
-<span><span class="co">#&gt; 55 samples x 665 variables and 1 response</span></span>
+<span><span class="co">#&gt; 55 samples x 646 variables and 1 response</span></span>
 <span><span class="co">#&gt; standard scaling of predictors and response(s)</span></span>
 <span><span class="co">#&gt;       R2X(cum) R2Y(cum) Q2(cum) RMSEE pre ort pR2Y pQ2</span></span>
-<span><span class="co">#&gt; Total    0.121    0.368  -0.225 0.353   2   0  0.2 0.6</span></span></code></pre></div>
+<span><span class="co">#&gt; Total    0.118    0.384  -0.195 0.348   2   0 0.05 0.5</span></span></code></pre></div>
 <p><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-6-1.png" width="100%"><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-6-2.png" width="100%"></p>
 <p>结果：R2X和R2Y分别表示所建模型对X和Y矩阵的解释率，Q2标示模型的预测能力，它们的值越接近于1表明模型的拟合度越好，训练集的样本越能够被准确划分到其原始归属中。</p>
 <ul>
@@ -300,27 +301,27 @@
 <li><p><strong>右下图</strong>：各样本在PLS-DA轴中的坐标，颜色代表不同分组。我们可以看到，相对于上文的PCA（仅通过方差特征值分解），PLS-DA在区分组间差异时更有效（带监督的偏最小二乘判别分析）。图的下方还提供了R2X、R2Y等值，用于评估模型优度。</p></li>
 </ul>
 <p>此外，还可通过变量投影重要度（Variable Importance for the Projection，VIP）衡量各代谢物组分含量对样本分类判别的影响强度和解释能力，辅助标志代谢物的筛选。通常以<strong>VIP &gt; 1</strong>作为筛选标准。</p>
-<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vip_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ropls/man/getVipVn.html">getVipVn</a></span><span class="op">(</span><span class="va">PLS_res</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">vip_select</span> <span class="op">&lt;-</span> <span class="va">vip_values</span><span class="op">[</span><span class="va">vip_values</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">vip_select</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Chem_100002356 Chem_100008903 Chem_100000657 Chem_100009014 </span></span>
-<span><span class="co">#&gt;       1.038090       1.003148       1.132359       1.420437 </span></span>
-<span><span class="co">#&gt; Chem_100009009 Chem_100009069 </span></span>
-<span><span class="co">#&gt;       2.057623       1.085935</span></span></code></pre></div>
+<span><span class="co">#&gt; Chem_100002356 Chem_100009014 Chem_100009009 Chem_100009007 </span></span>
+<span><span class="co">#&gt;       1.182314       1.205334       1.900846       1.412153 </span></span>
+<span><span class="co">#&gt; Chem_100009160 Chem_100001654 </span></span>
+<span><span class="co">#&gt;       1.240287       1.348693</span></span></code></pre></div>
 </div>
-<div id="正交偏最小二乘判别分析opls-da" class="section level2" number="9.6">
+<div id="正交偏最小二乘判别分析opls-da" class="section level2" number="10.6">
 <h2>
-<span class="header-section-number">9.6</span> 正交偏最小二乘判别分析（OPLS-DA）<a class="anchor" aria-label="anchor" href="#%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.6</span> 正交偏最小二乘判别分析（OPLS-DA）<a class="anchor" aria-label="anchor" href="#%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><i class="fas fa-link"></i></a>
 </h2>
 <p>PLS-DA容易出现过拟合（overfitting）问题。所谓过拟合，即通过训练集建立了一个预测模型，它在训练集上表现出色，但通过测试集测试时却表现不佳。过拟合是机器学习中的一个常见问题，主要出现在具有比样本数量更多的变量数量的数据集的分析中。主要是因为PLS-DA是有监督的预测模型且偏向训练数据。</p>
 <p>相比PLS-DA，叠加了正交分解的OPLS-DA能更好地避免过拟合现象，这是因为它会通过将与X和Y正交的变量删除，避免不差异的变量影响结果。OPLS从给定的自变量数据集中移除正交变量，并把这些正交变量和非正交变量区分开来。然后再对非正交变量做偏最小二乘法获得载荷矩阵也即是在Y情况下的最大方差。</p>
 <ul>
 <li>None vs Severe</li>
 </ul>
-<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">DR_fun</span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">data_meta</span>,</span>
 <span>    group <span class="op">=</span> <span class="st">"LiverFatClass"</span>,</span>
@@ -329,16 +330,16 @@
 <span>    DRtype <span class="op">=</span> <span class="st">"OPLS"</span>,</span>
 <span>    occ_cutoff <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; OPLS-DA</span></span>
-<span><span class="co">#&gt; 22 samples x 665 variables and 1 response</span></span>
+<span><span class="co">#&gt; 22 samples x 646 variables and 1 response</span></span>
 <span><span class="co">#&gt; standard scaling of predictors and response(s)</span></span>
 <span><span class="co">#&gt;       R2X(cum) R2Y(cum) Q2(cum)  RMSEE pre ort pR2Y  pQ2</span></span>
-<span><span class="co">#&gt; Total    0.248    0.988   0.635 0.0612   1   2 0.65 0.05</span></span></code></pre></div>
+<span><span class="co">#&gt; Total    0.247    0.986   0.635 0.0663   1   2 0.95 0.05</span></span></code></pre></div>
 <p><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-8-1.png" width="100%"><img src="21-Metabolome_DimensionReduction_files/figure-html/unnamed-chunk-8-2.png" width="100%"></p>
 <pre><code>#&gt; OPLS-DA
-#&gt; 22 samples x 665 variables and 1 response
+#&gt; 22 samples x 646 variables and 1 response
 #&gt; standard scaling of predictors and response(s)
 #&gt;       R2X(cum) R2Y(cum) Q2(cum)  RMSEE pre ort pR2Y  pQ2
-#&gt; Total    0.248    0.988   0.635 0.0612   1   2 0.65 0.05</code></pre>
+#&gt; Total    0.247    0.986   0.635 0.0663   1   2 0.95 0.05</code></pre>
 <p>结果和PLS-DA一致。</p>
 <ul>
 <li><p><strong>左上图</strong>: 展示了2个正交轴的R2Y和Q2Y</p></li>
@@ -347,11 +348,11 @@
 <li><p><strong>右下图</strong>：各样本在PLS-DA轴中的坐标，颜色代表不同分组。我们可以看到，相对于上文的PCA（仅通过方差特征值分解），PLS-DA在区分组间差异时更有效（带监督的偏最小二乘判别分析）。图的下方还提供了R2X、R2Y等值，用于评估模型优度。</p></li>
 </ul>
 </div>
-<div id="session-info-2" class="section level2" number="9.7">
+<div id="session-info-2" class="section level2" number="10.7">
 <h2>
-<span class="header-section-number">9.7</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.7</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-2"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
@@ -363,169 +364,234 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2023-12-08</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  date     2024-02-06</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt;  package              * version   date (UTC) lib source</span></span>
-<span><span class="co">#&gt;  ade4                   1.7-22    2023-02-06 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ANCOMBC                1.4.0     2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  annotate               1.72.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  AnnotationDbi          1.60.2    2023-03-10 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  ape                    5.7-1     2023-03-13 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Biobase              * 2.54.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  BiocGenerics         * 0.40.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  BiocParallel           1.28.3    2021-12-09 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  biomformat             1.22.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  Biostrings             2.62.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  bit                    4.0.5     2022-11-15 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  bit64                  4.0.5     2020-08-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  bitops                 1.0-7     2021-04-24 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  blob                   1.2.4     2023-03-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  bookdown               0.34      2023-05-09 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  bslib                  0.6.0     2023-11-21 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  cachem                 1.0.8     2023-05-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  callr                  3.7.3     2022-11-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  caTools                1.18.2    2021-03-28 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  cli                    3.6.1     2023-03-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  cluster                2.1.4     2022-08-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  codetools              0.2-19    2023-02-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  colorspace             2.1-0     2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  crayon                 1.5.2     2022-09-29 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  data.table             1.14.8    2023-02-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  DBI                    1.1.3     2022-06-18 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  DelayedArray           0.20.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  DESeq2                 1.34.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  devtools               2.4.5     2022-10-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  digest                 0.6.33    2023-07-07 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  downlit                0.4.3     2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  dplyr                * 1.1.2     2023-04-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ellipsis               0.3.2     2021-04-29 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  evaluate               0.21      2023-05-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fansi                  1.0.4     2023-01-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fastmap                1.1.1     2023-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  forcats              * 1.0.0     2023-01-29 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  foreach                1.5.2     2022-02-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fs                     1.6.2     2023-04-25 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  genefilter             1.76.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  geneplotter            1.72.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  generics               0.1.3     2022-07-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  GenomeInfoDb         * 1.30.1    2022-01-30 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  GenomeInfoDbData       1.2.7     2022-03-09 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  GenomicRanges        * 1.46.1    2021-11-18 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  ggplot2              * 3.4.2     2023-04-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  glmnet                 4.1-7     2023-03-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  glue                   1.6.2     2022-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gplots                 3.1.3     2022-04-25 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gtable                 0.3.3     2023-03-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gtools                 3.9.4     2022-11-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  highr                  0.10      2022-12-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  hms                    1.1.3     2023-03-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  htmltools              0.5.7     2023-11-03 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  htmlwidgets            1.6.2     2023-03-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  httpuv                 1.6.11    2023-05-11 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  httr                   1.4.6     2023-05-08 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  igraph                 1.5.0     2023-06-16 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  IRanges              * 2.28.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  iterators              1.0.14    2022-02-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  jquerylib              0.1.4     2021-04-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  jsonlite               1.8.7     2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  KEGGREST               1.34.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  KernSmooth             2.23-22   2023-07-10 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  knitr                  1.43      2023-05-25 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  later                  1.3.1     2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lattice                0.21-8    2023-04-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lifecycle              1.0.3     2022-10-07 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  limma                  3.50.3    2022-04-07 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  locfit                 1.5-9.8   2023-06-11 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  lubridate            * 1.9.2     2023-02-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  magrittr               2.0.3     2022-03-30 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  MASS                   7.3-60    2023-05-04 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Matrix                 1.6-0     2023-07-08 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  MatrixGenerics       * 1.6.0     2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  matrixStats          * 1.0.0     2023-06-02 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  memoise                2.0.1     2021-11-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  metagenomeSeq          1.36.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  mgcv                   1.8-42    2023-03-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  microbiome             1.16.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  MicrobiomeAnalysis   * 1.0.3     2023-12-02 [1] Bioconductor</span></span>
-<span><span class="co">#&gt;  mime                   0.12      2021-09-28 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  miniUI                 0.1.1.1   2018-05-18 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  multtest               2.50.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  munsell                0.5.0     2018-06-12 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  nlme                   3.1-162   2023-01-31 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  nloptr                 2.0.3     2022-05-26 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  permute                0.9-7     2022-01-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  phyloseq               1.38.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  pillar                 1.9.0     2023-03-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  pkgbuild               1.4.2     2023-06-26 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  pkgconfig              2.0.3     2019-09-22 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  pkgload                1.3.2.1   2023-07-08 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  plyr                   1.8.8     2022-11-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  png                    0.1-8     2022-11-29 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  prettyunits            1.1.1     2020-01-24 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  processx               3.8.2     2023-06-30 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  profvis                0.3.8     2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  promises               1.2.0.1   2021-02-11 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  ps                     1.7.5     2023-04-18 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  purrr                * 1.0.1     2023-01-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  R6                     2.5.1     2021-08-19 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  rbibutils              2.2.13    2023-01-13 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  RColorBrewer           1.1-3     2022-04-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Rcpp                   1.0.11    2023-07-06 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  RCurl                  1.98-1.12 2023-03-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Rdpack                 2.4       2022-07-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  readr                * 2.1.4     2023-02-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  remotes                2.4.2     2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  reshape2               1.4.4     2020-04-09 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  rhdf5                  2.38.1    2022-03-10 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  rhdf5filters           1.6.0     2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  Rhdf5lib               1.16.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  rlang                  1.1.1     2023-04-28 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  rmarkdown              2.23      2023-07-01 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  ropls                * 1.26.4    2022-01-11 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  RSQLite                2.3.1     2023-04-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  rstudioapi             0.15.0    2023-07-07 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  Rtsne                  0.16      2022-04-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  S4Vectors            * 0.32.4    2022-03-29 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  sass                   0.4.6     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  scales                 1.2.1     2022-08-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  sessioninfo            1.2.2     2021-12-06 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  shape                  1.4.6     2021-05-19 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  shiny                  1.7.4.1   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  stringi                1.7.12    2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  stringr              * 1.5.0     2022-12-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  SummarizedExperiment * 1.24.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  survival               3.5-5     2023-03-12 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tibble               * 3.2.1     2023-03-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyr                * 1.3.0     2023-01-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyselect             1.2.0     2022-10-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyverse            * 2.0.0     2023-02-22 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  timechange             0.2.0     2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tzdb                   0.4.0     2023-05-12 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  urlchecker             1.0.1     2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  usethis                2.2.2     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  utf8                   1.2.3     2023-01-31 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  vctrs                  0.6.3     2023-06-14 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  vegan                  2.6-4     2022-10-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  withr                  2.5.0     2022-03-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Wrench                 1.12.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  xfun                   0.40      2023-08-09 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  XML                    3.99-0.14 2023-03-19 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  xml2                   1.3.5     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  xtable                 1.8-4     2019-04-21 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  XVector                0.34.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  yaml                   2.3.7     2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  zlibbioc               1.40.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  package                  * version    date (UTC) lib source</span></span>
+<span><span class="co">#&gt;  ade4                       1.7-22     2023-02-06 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ANCOMBC                    2.4.0      2023-10-26 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  annotate                   1.72.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  AnnotationDbi              1.60.2     2023-03-10 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ape                        5.7-1      2023-03-13 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  backports                  1.4.1      2021-12-13 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  base64enc                  0.1-3      2015-07-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  beachmat                   2.10.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  beeswarm                   0.4.0      2021-06-01 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Biobase                  * 2.54.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocGenerics             * 0.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocNeighbors              1.12.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocParallel               1.28.3     2021-12-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocSingular               1.10.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  biomformat                 1.22.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  Biostrings                 2.62.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  bit                        4.0.5      2022-11-15 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bit64                      4.0.5      2020-08-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  bitops                     1.0-7      2021-04-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  blob                       1.2.4      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bluster                    1.4.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  bookdown                   0.34       2023-05-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  boot                       1.3-28.1   2022-11-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bslib                      0.6.0      2023-11-21 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  cachem                     1.0.8      2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  callr                      3.7.3      2022-11-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  caTools                    1.18.2     2021-03-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  cellranger                 1.1.0      2016-07-27 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  checkmate                  2.2.0      2023-04-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  class                      7.3-22     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cli                        3.6.1      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cluster                    2.1.4      2022-08-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  codetools                  0.2-19     2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  colorspace                 2.1-0      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  crayon                     1.5.2      2022-09-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  CVXR                       1.0-12     2024-02-02 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  data.table                 1.14.8     2023-02-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DBI                        1.1.3      2022-06-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DECIPHER                   2.22.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  decontam                   1.14.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  DelayedArray               0.20.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  DelayedMatrixStats         1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  DescTools                  0.99.49    2023-05-17 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  DESeq2                     1.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  devtools                   2.4.5      2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  digest                     0.6.33     2023-07-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  DirichletMultinomial       1.36.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  doParallel                 1.0.17     2022-02-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  doRNG                      1.8.6      2023-01-16 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  downlit                    0.4.3      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  dplyr                    * 1.1.4      2023-11-17 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  e1071                      1.7-13     2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ellipsis                   0.3.2      2021-04-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  energy                     1.7-11     2022-12-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  evaluate                   0.21       2023-05-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Exact                      3.2        2022-09-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  expm                       0.999-7    2023-01-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fansi                      1.0.4      2023-01-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmap                    1.1.1      2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  forcats                  * 1.0.0      2023-01-29 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  foreach                    1.5.2      2022-02-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  foreign                    0.8-84     2022-12-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Formula                    1.2-5      2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fs                         1.6.2      2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  genefilter                 1.76.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  geneplotter                1.72.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  generics                   0.1.3      2022-07-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  GenomeInfoDb             * 1.30.1     2022-01-30 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomeInfoDbData           1.2.7      2022-03-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomicRanges            * 1.46.1     2021-11-18 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ggbeeswarm                 0.7.2      2023-04-29 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggplot2                  * 3.4.4      2023-10-12 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  ggrepel                    0.9.3      2023-02-03 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gld                        2.6.6      2022-10-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glmnet                     4.1-7      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glue                       1.6.2      2022-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gmp                        0.7-1      2023-02-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gplots                     3.1.3      2022-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gridExtra                  2.3        2017-09-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  gsl                        2.1-8      2023-01-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtable                     0.3.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtools                     3.9.4      2022-11-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  highr                      0.10       2022-12-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Hmisc                      5.1-0      2023-05-08 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hms                        1.1.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmlTable                  2.4.1      2022-07-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmltools                  0.5.7      2023-11-03 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  htmlwidgets                1.6.2      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  httpuv                     1.6.11     2023-05-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  httr                       1.4.6      2023-05-08 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  igraph                     1.5.0      2023-06-16 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  IRanges                  * 2.28.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  irlba                      2.3.5.1    2022-10-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  iterators                  1.0.14     2022-02-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  jquerylib                  0.1.4      2021-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  jsonlite                   1.8.7      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  KEGGREST                   1.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  KernSmooth                 2.23-22    2023-07-10 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  knitr                      1.43       2023-05-25 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  later                      1.3.1      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lattice                    0.21-8     2023-04-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lazyeval                   0.2.2      2019-03-15 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  lifecycle                  1.0.3      2022-10-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  limma                      3.50.3     2022-04-07 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  lme4                       1.1-34     2023-07-04 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  lmerTest                   3.1-3      2020-10-23 [1] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  lmom                       2.9        2022-05-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  locfit                     1.5-9.8    2023-06-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  lubridate                * 1.9.2      2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  magrittr                   2.0.3      2022-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  MASS                       7.3-60     2023-05-04 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Matrix                     1.6-5      2024-01-11 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  MatrixGenerics           * 1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  matrixStats              * 1.1.0      2023-11-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  memoise                    2.0.1      2021-11-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  metagenomeSeq              1.36.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  mgcv                       1.8-42     2023-03-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  mia                        1.10.0     2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  MicrobiomeAnalysis       * 1.0.3      2023-12-02 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  mime                       0.12       2021-09-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  miniUI                     0.1.1.1    2018-05-18 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  minqa                      1.2.5      2022-10-19 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  multcomp                   1.4-25     2023-06-20 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  MultiAssayExperiment       1.20.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  multtest                   2.50.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  munsell                    0.5.0      2018-06-12 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mvtnorm                    1.2-2      2023-06-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  nlme                       3.1-162    2023-01-31 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  nloptr                     2.0.3      2022-05-26 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  nnet                       7.3-19     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  numDeriv                   2016.8-1.1 2019-06-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  permute                    0.9-7      2022-01-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  phyloseq                   1.38.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  pillar                     1.9.0      2023-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pkgbuild                   1.4.2      2023-06-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pkgconfig                  2.0.3      2019-09-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pkgload                    1.3.2.1    2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  plyr                       1.8.8      2022-11-11 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  png                        0.1-8      2022-11-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  prettyunits                1.1.1      2020-01-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  processx                   3.8.2      2023-06-30 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  profvis                    0.3.8      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  promises                   1.2.0.1    2021-02-11 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  proxy                      0.4-27     2022-06-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ps                         1.7.5      2023-04-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr                    * 1.0.1      2023-01-10 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  R6                         2.5.1      2021-08-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rbibutils                  2.2.13     2023-01-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  RColorBrewer               1.1-3      2022-04-03 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Rcpp                       1.0.11     2023-07-06 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  RCurl                      1.98-1.12  2023-03-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Rdpack                     2.4        2022-07-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  readr                    * 2.1.4      2023-02-10 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  readxl                     1.4.3      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  remotes                    2.4.2      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  reshape2                   1.4.4      2020-04-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rhdf5                      2.38.1     2022-03-10 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rhdf5filters               1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  Rhdf5lib                   1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rlang                      1.1.1      2023-04-28 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rmarkdown                  2.23       2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  Rmpfr                      0.9-2      2023-04-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rngtools                   1.5.2      2021-09-20 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rootSolve                  1.8.2.3    2021-09-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ropls                    * 1.26.4     2022-01-11 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rpart                      4.1.19     2022-10-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  RSQLite                    2.3.1      2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rstudioapi                 0.15.0     2023-07-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  rsvd                       1.0.5      2021-04-16 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  S4Vectors                * 0.32.4     2022-03-29 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sandwich                   3.0-2      2022-06-15 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sass                       0.4.6      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ScaledMatrix               1.2.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  scales                     1.2.1      2022-08-20 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scater                     1.22.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  scuttle                    1.4.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sessioninfo                1.2.2      2021-12-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shape                      1.4.6      2021-05-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shiny                      1.7.4.1    2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  SingleCellExperiment       1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sparseMatrixStats          1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  stringi                    1.7.12     2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr                  * 1.5.1      2023-11-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  SummarizedExperiment     * 1.24.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  survival                   3.5-5      2023-03-12 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  TH.data                    1.1-2      2023-04-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tibble                   * 3.2.1      2023-03-20 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr                    * 1.3.0      2023-01-24 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyselect                 1.2.0      2022-10-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidytree                   0.4.2      2022-12-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyverse                * 2.0.0      2023-02-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timechange                 0.2.0      2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  treeio                     1.18.1     2021-11-14 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  TreeSummarizedExperiment   2.2.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  tzdb                       0.4.0      2023-05-12 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  urlchecker                 1.0.1      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  usethis                    2.2.2      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  utf8                       1.2.3      2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vctrs                      0.6.5      2023-12-01 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  vegan                      2.6-4      2022-10-11 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vipor                      0.4.5      2017-03-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  viridis                    0.6.3      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  viridisLite                0.4.2      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  withr                      2.5.0      2022-03-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Wrench                     1.12.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  xfun                       0.40       2023-08-09 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  XML                        3.99-0.14  2023-03-19 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xml2                       1.3.5      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xtable                     1.8-4      2019-04-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  XVector                    0.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  yaml                       2.3.7      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  yulab.utils                0.0.6      2022-12-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  zlibbioc                   1.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  zoo                        1.8-12     2023-04-13 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
 <span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
 </div>
-<div id="reference-7" class="section level2" number="9.8">
+<div id="reference-8" class="section level2" number="10.8">
 <h2>
-<span class="header-section-number">9.8</span> Reference<a class="anchor" aria-label="anchor" href="#reference-7"><i class="fas fa-link"></i></a>
+<span class="header-section-number">10.8</span> Reference<a class="anchor" aria-label="anchor" href="#reference-8"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li><a href="https://master.bioconductor.org/packages/release/bioc/vignettes/ropls/inst/doc/ropls-vignette.html">ropls: PCA, PLS(-DA) and OPLS(-DA) for multivariate analysis and feature selection of omics data</a></li>
@@ -533,20 +599,20 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></div>
-<div class="next"><a href="DifferetialAnalysis.html"><span class="header-section-number">10</span> Differetial Analysis</a></div>
+<div class="prev"><a href="dataprocessing.html"><span class="header-section-number">9</span> Data Processing</a></div>
+<div class="next"><a href="DifferetialAnalysis.html"><span class="header-section-number">11</span> Differetial Analysis</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#DimensionReduction"><span class="header-section-number">9</span> Dimension Reduction</a></li>
-<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-5"><span class="header-section-number">9.1</span> 加载R包</a></li>
-<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-3"><span class="header-section-number">9.2</span> 导入数据</a></li>
-<li><a class="nav-link" href="#%E5%87%BD%E6%95%B0-1"><span class="header-section-number">9.3</span> 函数</a></li>
-<li><a class="nav-link" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90pca"><span class="header-section-number">9.4</span> 主成分分析（PCA）</a></li>
-<li><a class="nav-link" href="#%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E6%B3%95pls-da"><span class="header-section-number">9.5</span> 偏最小二乘回归分析法（PLS-DA）</a></li>
-<li><a class="nav-link" href="#%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><span class="header-section-number">9.6</span> 正交偏最小二乘判别分析（OPLS-DA）</a></li>
-<li><a class="nav-link" href="#session-info-2"><span class="header-section-number">9.7</span> Session info</a></li>
-<li><a class="nav-link" href="#reference-7"><span class="header-section-number">9.8</span> Reference</a></li>
+<li><a class="nav-link" href="#DimensionReduction"><span class="header-section-number">10</span> Dimension Reduction</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-6"><span class="header-section-number">10.1</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-4"><span class="header-section-number">10.2</span> 导入数据</a></li>
+<li><a class="nav-link" href="#%E5%87%BD%E6%95%B0-1"><span class="header-section-number">10.3</span> 函数</a></li>
+<li><a class="nav-link" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90pca"><span class="header-section-number">10.4</span> 主成分分析（PCA）</a></li>
+<li><a class="nav-link" href="#%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E6%B3%95pls-da"><span class="header-section-number">10.5</span> 偏最小二乘回归分析法（PLS-DA）</a></li>
+<li><a class="nav-link" href="#%E6%AD%A3%E4%BA%A4%E5%81%8F%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90opls-da"><span class="header-section-number">10.6</span> 正交偏最小二乘判别分析（OPLS-DA）</a></li>
+<li><a class="nav-link" href="#session-info-2"><span class="header-section-number">10.7</span> Session info</a></li>
+<li><a class="nav-link" href="#reference-8"><span class="header-section-number">10.8</span> Reference</a></li>
 </ul>
 
       <div class="book-extra">
@@ -564,7 +630,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-08.</p>
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2024-02-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

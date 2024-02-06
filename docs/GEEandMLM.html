@@ -20,9 +20,9 @@
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
 <script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.31/datatables.js"></script><link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -80,19 +80,20 @@
 <li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
 <li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
 <li><a class="" href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></li>
+<li><a class="" href="SurvivalAnalysis.html"><span class="header-section-number">8</span> Survival Analysis</a></li>
 <li class="book-part">Metabolomics Data Analysis</li>
-<li><a class="" href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></li>
-<li><a class="" href="DimensionReduction.html"><span class="header-section-number">9</span> Dimension Reduction</a></li>
-<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">10</span> Differetial Analysis</a></li>
-<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">11</span> Functional Analysis</a></li>
-<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">12</span> MetOrigin Analysis</a></li>
-<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">13</span> Other Analysis</a></li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">9</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">10</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">11</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">12</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">13</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">14</span> Other Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">14</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">15</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">15</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">16</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">16</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">17</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">17</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">18</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -265,7 +266,7 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="10-Statistics_GEE_MLM_files/figure-html/unnamed-chunk-6-1.png" width="100%"></div>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rando</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">$</span><span class="va">patient</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">rando</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">$</span><span class="va">patient</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">indplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">dataset</span>, <span class="va">patient</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">rando</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">indplot</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">GFR</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"tomato"</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -345,8 +346,8 @@
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">`Pr(&gt;|W|)`</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="va">gee_cc</span><span class="op">)</span></span></code></pre></div>
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-21ae260c1cec9de6475c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-21ae260c1cec9de6475c">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","micro","macro","age","time","micro:time","gender","macro:time"],[81.38429217652833,-20.23342244731935,-28.7164247071349,-0.256111656191009,-1.630455424592818,-1.558160417586715,-2.985396653143875,-1.056006126981865],[3.80862739516465,1.792665644682256,2.10887332478298,0.05828494636203599,0.3727030053548214,0.5209701594154882,1.954885620307319,0.6986072461618382],[456.6087266621688,127.3913990188601,185.4213542569168,19.3083822012732,19.13780259246356,8.945376805723933,2.332176307769848,2.284897403147905],[0,0,0,1.11217032087163e-05,1.216121750136079e-05,0.002781727080120699,0.126724596434603,0.1306387803020597],["81.38 (73.92, 88.85)","-20.23 (-23.75, -16.72)","-28.72 (-32.85, -24.58)","-0.26 (-0.37, -0.14)","-1.63 (-2.36, -0.9)","-1.56 (-2.58, -0.54)","-2.99 (-6.82, 0.85)","-1.06 (-2.43, 0.31)"],[2.211816053474321e+35,0,0,0.77,0.2,0.21,0.05,0.35]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std.err<\/th>\n      <th>Wald<\/th>\n      <th>Pr(&gt;|W|)<\/th>\n      <th>Estimate_95CI<\/th>\n      <th>OddRatio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><ul>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-70f05b60e28a63b73b8e" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-70f05b60e28a63b73b8e">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","micro","macro","age","time","micro:time","gender","macro:time"],[81.38429217652833,-20.23342244731935,-28.7164247071349,-0.256111656191009,-1.630455424592818,-1.558160417586715,-2.985396653143875,-1.056006126981865],[3.80862739516465,1.792665644682256,2.10887332478298,0.05828494636203599,0.3727030053548214,0.5209701594154882,1.954885620307319,0.6986072461618382],[456.6087266621688,127.3913990188601,185.4213542569168,19.3083822012732,19.13780259246356,8.945376805723933,2.332176307769848,2.284897403147905],[0,0,0,1.11217032087163e-05,1.216121750136079e-05,0.002781727080120699,0.126724596434603,0.1306387803020597],["81.38 (73.92, 88.85)","-20.23 (-23.75, -16.72)","-28.72 (-32.85, -24.58)","-0.26 (-0.37, -0.14)","-1.63 (-2.36, -0.9)","-1.56 (-2.58, -0.54)","-2.99 (-6.82, 0.85)","-1.06 (-2.43, 0.31)"],[2.211816053474321e+35,0,0,0.77,0.2,0.21,0.05,0.35]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std.err<\/th>\n      <th>Wald<\/th>\n      <th>Pr(&gt;|W|)<\/th>\n      <th>Estimate_95CI<\/th>\n      <th>OddRatio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std.err","targets":2},{"name":"Wald","targets":3},{"name":"Pr(>|W|)","targets":4},{"name":"Estimate_95CI","targets":5},{"name":"OddRatio","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><ul>
 <li><p><em>Estimate</em>：<span class="math inline">\(\beta\)</span>相关系数，其中_Intercept_是截距估计值。提供了截距和预测变量的估计系数。</p></li>
 <li><p><em>Std.err</em>：<span class="math inline">\(\beta\)</span>相关系的标准误差。给出了与系数估计相关的标准误差。这些是参数估计的不确定性的度量。</p></li>
 <li><p><em>Wald</em>：<span class="math inline">\(\beta\)</span>相关系的wald检验统计量（检验约束条件是否成立的方法之一：F检验、似然比检验（LR）、沃尔德检验（Wald）和拉格朗日乘子检验（LM））</p></li>
@@ -421,8 +422,8 @@
 <span id="cb27-17"><a href="GEEandMLM.html#cb27-17" tabindex="-1"></a><span class="co">#&gt;                       Estimating Equations   Max. cluster size:                   8</span></span>
 <span id="cb27-18"><a href="GEEandMLM.html#cb27-18" tabindex="-1"></a><span class="co">#&gt; Family:                           Gaussian   Mean cluster size:                 6.9</span></span>
 <span id="cb27-19"><a href="GEEandMLM.html#cb27-19" tabindex="-1"></a><span class="co">#&gt; Dependence structure:         Exchangeable   Num. iterations:                     9</span></span>
-<span id="cb27-20"><a href="GEEandMLM.html#cb27-20" tabindex="-1"></a><span class="co">#&gt; Date:                     Fri, 08 Dec 2023   Scale:                         251.425</span></span>
-<span id="cb27-21"><a href="GEEandMLM.html#cb27-21" tabindex="-1"></a><span class="co">#&gt; Covariance type:                    robust   Time:                         15:40:45</span></span>
+<span id="cb27-20"><a href="GEEandMLM.html#cb27-20" tabindex="-1"></a><span class="co">#&gt; Date:                     Tue, 06 Feb 2024   Scale:                         251.425</span></span>
+<span id="cb27-21"><a href="GEEandMLM.html#cb27-21" tabindex="-1"></a><span class="co">#&gt; Covariance type:                    robust   Time:                         13:51:20</span></span>
 <span id="cb27-22"><a href="GEEandMLM.html#cb27-22" tabindex="-1"></a><span class="co">#&gt; ==============================================================================</span></span>
 <span id="cb27-23"><a href="GEEandMLM.html#cb27-23" tabindex="-1"></a><span class="co">#&gt;                  coef    std err          z      P&gt;|z|      [0.025      0.975]</span></span>
 <span id="cb27-24"><a href="GEEandMLM.html#cb27-24" tabindex="-1"></a><span class="co">#&gt; ------------------------------------------------------------------------------</span></span>
@@ -564,8 +565,8 @@
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">`p-value`</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="va">mlm_cc</span><span class="op">)</span></span></code></pre></div>
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-bc6a8d8ead9a1d39badb" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-bc6a8d8ead9a1d39badb">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","time","macro","micro","micro:time","age","macro:time","gender"],[81.37630590707489,-1.630229255264624,-28.71468702803945,-20.23950572775084,-1.553319718414145,-0.2559440159194223,-1.04467322510874,-2.992563368714388],[4.055919807528009,0.1577394720042213,2.477851428705093,2.447453795648101,0.2617731914322335,0.06404800327077127,0.2940514680723924,2.089155674110269],[1175,1175,195,195,1175,195,1175,195],[20.06358847530368,-10.33494809226316,-11.58854267668726,-8.269617086843224,-5.933838029461698,-3.996127948554237,-3.552688350637828,-1.432427178979308],[3.125272620866286e-77,5.047585556854928e-24,5.779570515029318e-24,2.058724488473e-14,3.889121369838315e-09,9.12439085807107e-05,0.0003964288820463114,0.1536226918207506],["81.38 (73.43, 89.33)","-1.63 (-1.94, -1.32)","-28.71 (-33.57, -23.86)","-20.24 (-25.04, -15.44)","-1.55 (-2.07, -1.04)","-0.26 (-0.38, -0.13)","-1.04 (-1.62, -0.47)","-2.99 (-7.09, 1.1)"],[2.19422224245931e+35,0.2,0,0,0.21,0.77,0.35,0.05]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Value<\/th>\n      <th>Std.Error<\/th>\n      <th>DF<\/th>\n      <th>t-value<\/th>\n      <th>p-value<\/th>\n      <th>Estimate_95CI<\/th>\n      <th>OddRatio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><ul>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-3a545fb38830b239cd2c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-3a545fb38830b239cd2c">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","time","macro","micro","micro:time","age","macro:time","gender"],[81.37630590707489,-1.630229255264624,-28.71468702803945,-20.23950572775084,-1.553319718414145,-0.2559440159194223,-1.04467322510874,-2.992563368714388],[4.055919807528009,0.1577394720042213,2.477851428705093,2.447453795648101,0.2617731914322335,0.06404800327077127,0.2940514680723924,2.089155674110269],[1175,1175,195,195,1175,195,1175,195],[20.06358847530368,-10.33494809226316,-11.58854267668726,-8.269617086843224,-5.933838029461698,-3.996127948554237,-3.552688350637828,-1.432427178979308],[3.125272620866286e-77,5.047585556854928e-24,5.779570515029318e-24,2.058724488473e-14,3.889121369838315e-09,9.12439085807107e-05,0.0003964288820463114,0.1536226918207506],["81.38 (73.43, 89.33)","-1.63 (-1.94, -1.32)","-28.71 (-33.57, -23.86)","-20.24 (-25.04, -15.44)","-1.55 (-2.07, -1.04)","-0.26 (-0.38, -0.13)","-1.04 (-1.62, -0.47)","-2.99 (-7.09, 1.1)"],[2.19422224245931e+35,0.2,0,0,0.21,0.77,0.35,0.05]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Value<\/th>\n      <th>Std.Error<\/th>\n      <th>DF<\/th>\n      <th>t-value<\/th>\n      <th>p-value<\/th>\n      <th>Estimate_95CI<\/th>\n      <th>OddRatio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Value","targets":1},{"name":"Std.Error","targets":2},{"name":"DF","targets":3},{"name":"t-value","targets":4},{"name":"p-value","targets":5},{"name":"Estimate_95CI","targets":6},{"name":"OddRatio","targets":7}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><ul>
 <li><p><em>Value</em>：<span class="math inline">\(\beta\)</span>相关系数，其中_Intercept_是截距估计值。提供了截距和预测变量的估计系数。</p></li>
 <li><p><em>Std.Error</em>：<span class="math inline">\(\beta\)</span>相关系的标准误差。给出了与系数估计相关的标准误差。这些是参数估计的不确定性的度量。</p></li>
 <li><p><em>t-value</em>：<span class="math inline">\(\beta\)</span>相关系的t检验统计量</p></li>
@@ -646,8 +647,8 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2023-12-08</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  date     2024-02-06</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  package     * version date (UTC) lib source</span></span>
@@ -665,18 +666,18 @@
 <span><span class="co">#&gt;  devtools      2.4.5   2022-10-11 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  digest        0.6.33  2023-07-07 [1] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  downlit       0.4.3   2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  dplyr       * 1.1.2   2023-04-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  DT            0.28    2023-05-18 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  DT            0.31    2023-12-09 [1] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  ellipsis      0.3.2   2021-04-29 [2] CRAN (R 4.1.0)</span></span>
 <span><span class="co">#&gt;  evaluate      0.21    2023-05-05 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  fansi         1.0.4   2023-01-22 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  farver        2.1.1   2022-07-06 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  fastmap       1.1.1   2023-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  forcats     * 1.0.0   2023-01-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  forcats     * 1.0.0   2023-01-29 [1] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  fs            1.6.2   2023-04-25 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  geepack     * 1.3.9   2022-08-16 [1] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  generics      0.1.3   2022-07-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ggplot2     * 3.4.2   2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  glue          1.6.2   2022-02-24 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  gtable        0.3.3   2023-03-21 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  here          1.0.1   2020-12-13 [2] CRAN (R 4.1.0)</span></span>
@@ -694,13 +695,13 @@
 <span><span class="co">#&gt;  lifecycle     1.0.3   2022-10-07 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  lubridate   * 1.9.2   2023-02-10 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  magrittr      2.0.3   2022-03-30 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  MASS          7.3-60  2023-05-04 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Matrix        1.6-0   2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  MASS          7.3-60  2023-05-04 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Matrix        1.6-5   2024-01-11 [1] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  memoise       2.0.1   2021-11-26 [2] CRAN (R 4.1.0)</span></span>
 <span><span class="co">#&gt;  mime          0.12    2021-09-28 [2] CRAN (R 4.1.0)</span></span>
 <span><span class="co">#&gt;  miniUI        0.1.1.1 2018-05-18 [2] CRAN (R 4.1.0)</span></span>
 <span><span class="co">#&gt;  munsell       0.5.0   2018-06-12 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  nlme        * 3.1-162 2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  nlme        * 3.1-162 2023-01-31 [1] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  pillar        1.9.0   2023-03-22 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  pkgbuild      1.4.2   2023-06-26 [2] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  pkgconfig     2.0.3   2019-09-22 [2] CRAN (R 4.1.0)</span></span>
@@ -711,10 +712,10 @@
 <span><span class="co">#&gt;  profvis       0.3.8   2023-05-02 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  promises      1.2.0.1 2021-02-11 [2] CRAN (R 4.1.0)</span></span>
 <span><span class="co">#&gt;  ps            1.7.5   2023-04-18 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  purrr       * 1.0.1   2023-01-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr       * 1.0.1   2023-01-10 [1] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  R6            2.5.1   2021-08-19 [2] CRAN (R 4.1.0)</span></span>
 <span><span class="co">#&gt;  Rcpp          1.0.11  2023-07-06 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  readr       * 2.1.4   2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  readr       * 2.1.4   2023-02-10 [1] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  remotes       2.4.2   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
 <span><span class="co">#&gt;  reticulate  * 1.30    2023-06-09 [2] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  rlang         1.1.1   2023-04-28 [1] CRAN (R 4.1.2)</span></span>
@@ -722,13 +723,13 @@
 <span><span class="co">#&gt;  rprojroot     2.0.3   2022-04-02 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  rstudioapi    0.15.0  2023-07-07 [2] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  sass          0.4.6   2023-05-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  scales        1.2.1   2022-08-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scales        1.2.1   2022-08-20 [1] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  sessioninfo   1.2.2   2021-12-06 [2] CRAN (R 4.1.0)</span></span>
 <span><span class="co">#&gt;  shiny         1.7.4.1 2023-07-06 [2] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  stringi       1.7.12  2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  stringr     * 1.5.0   2022-12-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tibble      * 3.2.1   2023-03-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyr       * 1.3.0   2023-01-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr     * 1.5.1   2023-11-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  tibble      * 3.2.1   2023-03-20 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr       * 1.3.0   2023-01-24 [1] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  tidyselect    1.2.0   2022-10-10 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  tidyverse   * 2.0.0   2023-02-22 [1] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  timechange    0.2.0   2023-01-11 [2] CRAN (R 4.1.2)</span></span>
@@ -736,7 +737,7 @@
 <span><span class="co">#&gt;  urlchecker    1.0.1   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
 <span><span class="co">#&gt;  usethis       2.2.2   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  utf8          1.2.3   2023-01-31 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  vctrs         0.6.3   2023-06-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  withr         2.5.0   2022-03-03 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt;  xfun          0.40    2023-08-09 [1] CRAN (R 4.1.3)</span></span>
 <span><span class="co">#&gt;  xml2          1.3.5   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
@@ -808,7 +809,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-08.</p>
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2024-02-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

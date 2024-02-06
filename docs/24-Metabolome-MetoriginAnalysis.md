@@ -57,64 +57,64 @@ datSignif <- data.table::fread("./InputData/result/DA/Metabolites_FC_VIP_ttest.t
 head(datSignif)
 #>                                         FeatureID
 #> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
-#> 2:                                         serine
-#> 3:                 cysteine-glutathione disulfide
+#> 2:                 cysteine-glutathione disulfide
+#> 3:                                         serine
 #> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>            Block2                Block FoldChange
 #> 1: None vs Severe 10_None vs 12_Severe  0.6444244
-#> 2: None vs Severe 10_None vs 12_Severe  1.2218596
-#> 3: None vs Severe 10_None vs 12_Severe  1.7109000
+#> 2: None vs Severe 10_None vs 12_Severe  1.7109000
+#> 3: None vs Severe 10_None vs 12_Severe  1.2218596
 #> 4: None vs Severe 10_None vs 12_Severe  0.5199556
 #> 5: None vs Severe 10_None vs 12_Severe  0.5667863
 #> 6: None vs Severe 10_None vs 12_Severe  0.5638085
 #>    Log2FoldChange      VIP    CorPvalue Statistic
-#> 1:     -0.6339170 2.687525 8.117771e-05 -4.819854
-#> 2:      0.2890785 2.548672 2.690372e-04  4.485697
-#> 3:      0.7747554 2.650556 1.138437e-04  4.986734
-#> 4:     -0.9435396 2.512645 3.565018e-04 -4.210199
-#> 5:     -0.8191231 2.477067 4.658589e-04 -4.076152
-#> 6:     -0.8267228 2.357696 1.067887e-03 -3.676029
+#> 1:     -0.6339170 2.672936 8.114814e-05 -4.854409
+#> 2:      0.7747554 2.601041 1.550944e-04  4.858307
+#> 3:      0.2890785 2.541717 2.544812e-04  4.456220
+#> 4:     -0.9435396 2.549095 2.397091e-04 -4.400999
+#> 5:     -0.8191231 2.469432 4.460156e-04 -4.108909
+#> 6:     -0.8267228 2.369314 9.073991e-04 -3.748881
 #>          Pvalue AdjustedPvalue Mean Abundance (All)
-#> 1: 1.593233e-04     0.05015989              3841099
-#> 2: 2.262852e-04     0.05015989             63358904
-#> 3: 8.603076e-05     0.05015989              1246453
-#> 4: 5.617708e-04     0.09339439              2243154
-#> 5: 8.065149e-04     0.10726649              1817773
-#> 6: 2.258811e-03     0.20428466              1192929
+#> 1: 0.0001301058     0.04202417              3841099
+#> 2: 0.0001184340     0.04202417              1246453
+#> 3: 0.0002529654     0.05447188             63358904
+#> 4: 0.0003436084     0.05549276              2243154
+#> 5: 0.0007169002     0.09262350              1817773
+#> 6: 0.0019076334     0.17057034              1192929
 #>    Mean Abundance None Mean Abundance Severe  metabolitesID
 #> 1:           2952496.1             4581602.1 Chem_100015755
-#> 2:          70323857.2            57554776.3       Chem_503
-#> 3:           1611743.8              942044.4 Chem_100001437
+#> 2:           1611743.8              942044.4 Chem_100001437
+#> 3:          70323857.2            57554776.3       Chem_503
 #> 4:           1491869.7             2869225.1 Chem_100009066
 #> 5:           1282914.5             2263488.8 Chem_100009181
 #> 6:            838913.8             1487941.0 Chem_100010917
 #>                                       BIOCHEMICAL
 #> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
-#> 2:                                         serine
-#> 3:                 cysteine-glutathione disulfide
+#> 2:                 cysteine-glutathione disulfide
+#> 3:                                         serine
 #> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>    SUPER.PATHWAY                              SUB.PATHWAY
 #> 1:         Lipid                                Ceramides
-#> 2:    Amino Acid Glycine, Serine and Threonine Metabolism
-#> 3:    Amino Acid                   Glutathione Metabolism
+#> 2:    Amino Acid                   Glutathione Metabolism
+#> 3:    Amino Acid Glycine, Serine and Threonine Metabolism
 #> 4:         Lipid                Phosphatidylinositol (PI)
 #> 5:         Lipid                Phosphatidylinositol (PI)
 #> 6:         Lipid                           Diacylglycerol
 #>    COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM
 #> 1:  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
-#> 2:   1648 LC/MS Pos Early        503 1239 106.0499     5951
-#> 3:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
+#> 2:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
+#> 3:   1648 LC/MS Pos Early        503 1239 106.0499     5951
 #> 4:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
 #> 5:  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
 #> 6:  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283
 #>           CAS   KEGG SampleIDHMDBID
 #> 1:       <NA>   <NA>           <NA>
-#> 2:    56-45-1 C00065    HMDB0000187
-#> 3: 13081-14-6 R00900    HMDB0000656
+#> 2: 13081-14-6 R00900    HMDB0000656
+#> 3:    56-45-1 C00065    HMDB0000187
 #> 4:       <NA>   <NA>    HMDB0009783
 #> 5:       <NA>   <NA>           <NA>
 #> 6:       <NA> C13861    HMDB0007102
@@ -180,15 +180,15 @@ pre_data <- get_metabolites(
   
 head(pre_data)
 #>         HMDBID KEGGID
-#> 1: HMDB0000187 C00065
-#> 2: HMDB0000656 R00900
+#> 1: HMDB0000656 R00900
+#> 2: HMDB0000187 C00065
 #> 3: HMDB0009783   <NA>
 #> 4: HMDB0007102 C13861
 #> 5: HMDB0004950   <NA>
 #> 6: HMDB0000177 C00135
 #>                                          Name Diff
-#> 1:                                     serine    1
-#> 2:             cysteine-glutathione disulfide    1
+#> 1:             cysteine-glutathione disulfide    1
+#> 2:                                     serine    1
 #> 3:      1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*    1
 #> 4: palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*    1
 #> 5:       N-stearoyl-sphingosine (d18:1/18:0)*    1
@@ -263,8 +263,8 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-08
-#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
+#>  date     2024-02-06
+#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package     * version date (UTC) lib source
@@ -279,15 +279,15 @@ devtools::session_info()
 #>  devtools      2.4.5   2022-10-11 [2] CRAN (R 4.1.2)
 #>  digest        0.6.33  2023-07-07 [1] CRAN (R 4.1.3)
 #>  downlit       0.4.3   2023-06-29 [2] CRAN (R 4.1.3)
-#>  dplyr       * 1.1.2   2023-04-20 [2] CRAN (R 4.1.2)
+#>  dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.1.3)
 #>  ellipsis      0.3.2   2021-04-29 [2] CRAN (R 4.1.0)
 #>  evaluate      0.21    2023-05-05 [2] CRAN (R 4.1.2)
 #>  fansi         1.0.4   2023-01-22 [2] CRAN (R 4.1.2)
 #>  fastmap       1.1.1   2023-02-24 [2] CRAN (R 4.1.2)
-#>  forcats     * 1.0.0   2023-01-29 [2] CRAN (R 4.1.2)
+#>  forcats     * 1.0.0   2023-01-29 [1] CRAN (R 4.1.2)
 #>  fs            1.6.2   2023-04-25 [2] CRAN (R 4.1.2)
 #>  generics      0.1.3   2022-07-05 [2] CRAN (R 4.1.2)
-#>  ggplot2     * 3.4.2   2023-04-03 [2] CRAN (R 4.1.2)
+#>  ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.1.3)
 #>  glue          1.6.2   2022-02-24 [2] CRAN (R 4.1.2)
 #>  gtable        0.3.3   2023-03-21 [2] CRAN (R 4.1.2)
 #>  hms           1.1.3   2023-03-21 [2] CRAN (R 4.1.2)
@@ -314,22 +314,22 @@ devtools::session_info()
 #>  profvis       0.3.8   2023-05-02 [2] CRAN (R 4.1.2)
 #>  promises      1.2.0.1 2021-02-11 [2] CRAN (R 4.1.0)
 #>  ps            1.7.5   2023-04-18 [2] CRAN (R 4.1.2)
-#>  purrr       * 1.0.1   2023-01-10 [2] CRAN (R 4.1.2)
+#>  purrr       * 1.0.1   2023-01-10 [1] CRAN (R 4.1.2)
 #>  R6            2.5.1   2021-08-19 [2] CRAN (R 4.1.0)
 #>  Rcpp          1.0.11  2023-07-06 [1] CRAN (R 4.1.3)
-#>  readr       * 2.1.4   2023-02-10 [2] CRAN (R 4.1.2)
+#>  readr       * 2.1.4   2023-02-10 [1] CRAN (R 4.1.2)
 #>  remotes       2.4.2   2021-11-30 [2] CRAN (R 4.1.0)
 #>  rlang         1.1.1   2023-04-28 [1] CRAN (R 4.1.2)
 #>  rmarkdown     2.23    2023-07-01 [2] CRAN (R 4.1.3)
 #>  rstudioapi    0.15.0  2023-07-07 [2] CRAN (R 4.1.3)
 #>  sass          0.4.6   2023-05-03 [2] CRAN (R 4.1.2)
-#>  scales        1.2.1   2022-08-20 [2] CRAN (R 4.1.2)
+#>  scales        1.2.1   2022-08-20 [1] CRAN (R 4.1.2)
 #>  sessioninfo   1.2.2   2021-12-06 [2] CRAN (R 4.1.0)
 #>  shiny         1.7.4.1 2023-07-06 [2] CRAN (R 4.1.3)
 #>  stringi       1.7.12  2023-01-11 [2] CRAN (R 4.1.2)
-#>  stringr     * 1.5.0   2022-12-02 [2] CRAN (R 4.1.2)
-#>  tibble      * 3.2.1   2023-03-20 [2] CRAN (R 4.1.2)
-#>  tidyr       * 1.3.0   2023-01-24 [2] CRAN (R 4.1.2)
+#>  stringr     * 1.5.1   2023-11-14 [1] CRAN (R 4.1.3)
+#>  tibble      * 3.2.1   2023-03-20 [1] CRAN (R 4.1.2)
+#>  tidyr       * 1.3.0   2023-01-24 [1] CRAN (R 4.1.2)
 #>  tidyselect    1.2.0   2022-10-10 [2] CRAN (R 4.1.2)
 #>  tidyverse   * 2.0.0   2023-02-22 [1] CRAN (R 4.1.2)
 #>  timechange    0.2.0   2023-01-11 [2] CRAN (R 4.1.2)
@@ -337,7 +337,7 @@ devtools::session_info()
 #>  urlchecker    1.0.1   2021-11-30 [2] CRAN (R 4.1.0)
 #>  usethis       2.2.2   2023-07-06 [2] CRAN (R 4.1.3)
 #>  utf8          1.2.3   2023-01-31 [2] CRAN (R 4.1.2)
-#>  vctrs         0.6.3   2023-06-14 [1] CRAN (R 4.1.3)
+#>  vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.1.3)
 #>  withr         2.5.0   2022-03-03 [2] CRAN (R 4.1.2)
 #>  xfun          0.40    2023-08-09 [1] CRAN (R 4.1.3)
 #>  xml2          1.3.5   2023-07-06 [2] CRAN (R 4.1.3)

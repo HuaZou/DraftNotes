@@ -4,25 +4,25 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 8 Data Processing | 生物信息随记</title>
+<title>Chapter 9 Data Processing | 生物信息随记</title>
 <meta name="author" content="Hua Zou">
 <meta name="description" content="代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。 本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic...">
 <meta name="generator" content="bookdown 0.34 with bs4_book()">
-<meta property="og:title" content="Chapter 8 Data Processing | 生物信息随记">
+<meta property="og:title" content="Chapter 9 Data Processing | 生物信息随记">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://zouhua.top/DraftNotes/dataprocessing.html">
 <meta property="og:description" content="代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。 本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 8 Data Processing | 生物信息随记">
+<meta name="twitter:title" content="Chapter 9 Data Processing | 生物信息随记">
 <meta name="twitter:description" content="代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。 本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
 <script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.31/datatables.js"></script><link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -80,19 +80,20 @@
 <li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
 <li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
 <li><a class="" href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></li>
+<li><a class="" href="SurvivalAnalysis.html"><span class="header-section-number">8</span> Survival Analysis</a></li>
 <li class="book-part">Metabolomics Data Analysis</li>
-<li><a class="active" href="dataprocessing.html"><span class="header-section-number">8</span> Data Processing</a></li>
-<li><a class="" href="DimensionReduction.html"><span class="header-section-number">9</span> Dimension Reduction</a></li>
-<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">10</span> Differetial Analysis</a></li>
-<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">11</span> Functional Analysis</a></li>
-<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">12</span> MetOrigin Analysis</a></li>
-<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">13</span> Other Analysis</a></li>
+<li><a class="active" href="dataprocessing.html"><span class="header-section-number">9</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">10</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">11</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">12</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">13</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">14</span> Other Analysis</a></li>
 <li class="book-part">Machine Learning</li>
-<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">14</span> Random Forest Algorithm</a></li>
-<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">15</span> XGBoost Algorithm</a></li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">15</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">16</span> XGBoost Algorithm</a></li>
 <li class="book-part">Knowledge</li>
-<li><a class="" href="Metageomics.html"><span class="header-section-number">16</span> Metageomics</a></li>
-<li><a class="" href="Notes.html"><span class="header-section-number">17</span> Notes</a></li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">17</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">18</span> Notes</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -101,18 +102,18 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="dataprocessing" class="section level1" number="8">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="dataprocessing" class="section level1" number="9">
 <h1>
-<span class="header-section-number">8</span> Data Processing<a class="anchor" aria-label="anchor" href="#dataprocessing"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9</span> Data Processing<a class="anchor" aria-label="anchor" href="#dataprocessing"><i class="fas fa-link"></i></a>
 </h1>
 <p>代谢组数据一般是搜库后的质谱峰度谱数据，用峰强intensity表示。Raw intensity通常不直接用于假设检验或线性回归等统计方法，需要对其做数据预处理。</p>
 <p>本次应用到的数据是Zeybel 2022年发布的文章_Multiomics Analysis Reveals the Impact of Microbiota on Host Metabolism in Hepatic Steatosis_的粪便代谢组学质谱数据。</p>
 <blockquote>
 <p>55份粪便代谢组，1032个代谢物</p>
 </blockquote>
-<div id="处理流程" class="section level2" number="8.1">
+<div id="处理流程" class="section level2" number="9.1">
 <h2>
-<span class="header-section-number">8.1</span> 处理流程<a class="anchor" aria-label="anchor" href="#%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.1</span> 处理流程<a class="anchor" aria-label="anchor" href="#%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li><p>数据检查：1.核查所有代谢物intensity value是数值型；2.缺失值的比例</p></li>
@@ -121,11 +122,11 @@
 <li><p>数据标准化（针对代谢物或样本）</p></li>
 </ul>
 </div>
-<div id="加载r包-4" class="section level2" number="8.2">
+<div id="加载r包-5" class="section level2" number="9.2">
 <h2>
-<span class="header-section-number">8.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.2</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-5"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment">SummarizedExperiment</a></span><span class="op">)</span></span>
@@ -134,16 +135,16 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>future.globals.maxSize <span class="op">=</span> <span class="fl">1000</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="导入数据-2" class="section level2" number="8.3">
+<div id="导入数据-3" class="section level2" number="9.3">
 <h2>
-<span class="header-section-number">8.3</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.3</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-3"><i class="fas fa-link"></i></a>
 </h2>
 <p>对数据<a href="https://github.com/HuaZou/DraftNotes/blob/main/InputData/Zeybel-2022/OmicsDataSet-Zeybel%20et%20al.%20-%202022.xlsx">OmicsDataSet-Zeybel et al. - 2022.xlsx</a>处理后生成的输入文件，详细情况可参考<strong>Data Set</strong>具体章节。</p>
 <blockquote>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_metabolite</span>, <span class="st">"./InputData/result/Zeybel_2022_fecal_metabolite_se.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </blockquote>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"./InputData/result/Zeybel_2022_fecal_metabolite_se.RDS"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data_meta</span></span>
@@ -158,32 +159,32 @@
 <span><span class="co">#&gt; colnames(55): P101001 P101003 ... P101095 P101096</span></span>
 <span><span class="co">#&gt; colData names(47): PatientID Gender ...</span></span>
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># colData(data_meta)</span></span>
 <span><span class="co"># assay(data_meta)</span></span>
 <span><span class="co"># rowData(data_meta)</span></span></code></pre></div>
 </div>
-<div id="构建qc样本" class="section level2" number="8.4">
+<div id="构建qc样本" class="section level2" number="9.4">
 <h2>
-<span class="header-section-number">8.4</span> 构建QC样本<a class="anchor" aria-label="anchor" href="#%E6%9E%84%E5%BB%BAqc%E6%A0%B7%E6%9C%AC"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.4</span> 构建QC样本<a class="anchor" aria-label="anchor" href="#%E6%9E%84%E5%BB%BAqc%E6%A0%B7%E6%9C%AC"><i class="fas fa-link"></i></a>
 </h2>
 <p>该数据集不存在QC样本，这导致不能做QC的变化范围的数据过滤，因此构建新的QC样本。以上述随机抽取6个样本作为QC样本。</p>
 <p>QC样本一般是送测样本混合后再分成N份样本（迈维非靶或广靶均是这样做）再测，它可以评估每次质谱的效果或做代谢物过滤。</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">meta_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">data_meta</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">feature_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">rowData</a></span><span class="op">(</span><span class="va">data_meta</span><span class="op">)</span> </span>
 <span><span class="va">assay_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">data_meta</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">rand_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/Bimap-envirAPI.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">assay_tab</span><span class="op">)</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="va">rand_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">assay_tab</span><span class="op">)</span>, <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">QC_assay</span> <span class="op">&lt;-</span> <span class="va">assay_tab</span><span class="op">[</span>, <span class="va">rand_sample</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">QC_assay</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"QC"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">QC_assay</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"QC"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">assay_tab_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">assay_tab</span>, <span class="va">QC_assay</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">QC_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fl">6</span>, ncol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">meta_tab</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">QC_meta</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">meta_tab</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">QC_meta</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">QC_assay</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">QC_meta</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">meta_tab</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">QC_meta</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">QC_assay</span><span class="op">)</span></span>
 <span><span class="va">QC_meta</span><span class="op">$</span><span class="va">LiverFatClass</span> <span class="op">&lt;-</span> <span class="st">"QC"</span></span>
 <span><span class="va">QC_meta</span><span class="op">$</span><span class="va">PatientID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">QC_meta</span><span class="op">)</span></span>
 <span><span class="va">meta_tab_new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">meta_tab</span>, <span class="va">QC_meta</span><span class="op">)</span></span>
@@ -207,11 +208,11 @@
 <span><span class="co">#&gt; colData names(47): PatientID Gender ...</span></span>
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
 </div>
-<div id="数据过滤" class="section level2" number="8.5">
+<div id="数据过滤" class="section level2" number="9.5">
 <h2>
-<span class="header-section-number">8.5</span> 数据过滤<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.5</span> 数据过滤<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">CheckData</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  </span>
 <span>  <span class="co"># object = data_meta_new</span></span>
@@ -222,7 +223,7 @@
 <span>  <span class="co"># numeric &amp; missing values</span></span>
 <span>  <span class="va">int_mat</span> <span class="op">&lt;-</span> <span class="va">DataAssay</span></span>
 <span>  <span class="va">rowNms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">int_mat</span><span class="op">)</span></span>
-<span>  <span class="va">colNms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">int_mat</span><span class="op">)</span></span>
+<span>  <span class="va">colNms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">int_mat</span><span class="op">)</span></span>
 <span>  <span class="va">naNms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">int_mat</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">int_mat</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">int_mat</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span><span class="op">)</span> <span class="op">==</span> <span class="st">"integer64"</span><span class="op">)</span> <span class="op">{</span></span>
@@ -244,7 +245,7 @@
 <span>  </span>
 <span>  <span class="va">int_mat</span> <span class="op">&lt;-</span> <span class="va">num_mat</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">int_mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rowNms</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">int_mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">colNms</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">int_mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">colNms</span></span>
 <span>  <span class="va">varCol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">int_mat</span>, <span class="fl">2</span>, <span class="va">var</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span>  <span class="va">constCol</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">varCol</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">varCol</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="va">constNum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">constCol</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
@@ -275,7 +276,7 @@
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">se_check</span> <span class="op">&lt;-</span> <span class="fu">CheckData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">data_meta_new</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "A total of 7846 (12.5%) missing values were detected."</span></span>
+<span><span class="co">#&gt; [1] "A total of 7839 (12.5%) missing values were detected."</span></span>
 <span><span class="va">se_check</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
 <span><span class="co">#&gt; dim: 1032 61 </span></span>
@@ -290,9 +291,9 @@
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
 <p>结果：12.5%的缺失值存在，下面进行缺失值补充。</p>
 </div>
-<div id="补缺失值" class="section level2" number="8.6">
+<div id="补缺失值" class="section level2" number="9.6">
 <h2>
-<span class="header-section-number">8.6</span> 补缺失值<a class="anchor" aria-label="anchor" href="#%E8%A1%A5%E7%BC%BA%E5%A4%B1%E5%80%BC"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.6</span> 补缺失值<a class="anchor" aria-label="anchor" href="#%E8%A1%A5%E7%BC%BA%E5%A4%B1%E5%80%BC"><i class="fas fa-link"></i></a>
 </h2>
 <p>Missing Value 的产生原因主要有两个：1）一个代谢峰在某些生物样品中存在而在另外一些生物样品中不存在； 2）某些代谢物在生物样品中的浓度低于质谱的检测限。</p>
 <p>Missing Value 在数据中的表现形式为 NA值。对于大规模代谢组学来说，因为其长时间的数据采集，质谱灵敏度的漂移使MV的问题更加严重。一般来说，对一个代谢组学数据来说， Missing Value 会占到所有数据点的 20%左右 。首先需要对 Missing Value 进行过滤，对于 Missing Value超过一定比例的代谢峰来说，该代谢峰很有可能是一个偶然出现的噪声信号，因此将其从数据中删除。 比如，在代谢组学数据中，一般采用的标准为代谢峰需要在 80%的质量控制（quality control， QC） 样品中出现，否则删除。对于 Missing Value 超过一定比例的生物样品来说，该样品很有可能是在样品制备或者数据采集过程中出现了误差，如该样品稀释比例异常或者进样体积异常，这些样品需要被删除掉。</p>
@@ -311,7 +312,7 @@
 </ul>
 <p>一般采用k近邻的方法，它的原理是离该缺失值样本最近的K个样本具有类似的属性，使用它们的平均值填补缺失值是相对可靠的方法，但是也需要注意该方法的阈值适用范围。</p>
 <p>这里使用<strong><a href="https://zouhua.top/MicrobiomeAnalysis/">MicrobiomeAnalysis</a></strong>提供的<a href="https://zouhua.top/MicrobiomeAnalysis/reference/impute_abundance.html">impute_abundance</a>函数，先安装此包。</p>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"remotes"</span>, <span class="st">"devtools"</span><span class="op">)</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"remotes"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -319,7 +320,7 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"HuaZou/MicrobiomeAnalysis"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># library(MicrobiomeAnalysis)</span></span></code></pre></div>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/HuaZou/MicrobiomeAnalysis">MicrobiomeAnalysis</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">se_impute</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/impute_abundance.html">impute_abundance</a></span><span class="op">(</span></span>
@@ -331,10 +332,10 @@
 <span></span>
 <span><span class="va">se_impute</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 957 61 </span></span>
+<span><span class="co">#&gt; dim: 956 61 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(957): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(956): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_100015836 Chem_826</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -343,9 +344,9 @@
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
 <p>结果：代谢物的缺失值在任何组大于50%会被移除，最后移除的代谢物表达矩阵用于缺失值补充。</p>
 </div>
-<div id="数据过滤-1" class="section level2" number="8.7">
+<div id="数据过滤-1" class="section level2" number="9.7">
 <h2>
-<span class="header-section-number">8.7</span> 数据过滤<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.7</span> 数据过滤<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4-1"><i class="fas fa-link"></i></a>
 </h2>
 <p>在非靶向代谢组或蛋白质组经常会使用该方法，目的是过滤掉不太可能用于分析的代谢物或蛋白质。</p>
 <p>过滤会基于QC样本的相对丰度标准方差relative standard deviation (RSD = SD / mean)，可以理解为特征的数据波动范围。 LC-MS或GC-MS对不同样本可能存在不同偏好行，采用QC样本可以得到波动范围，那些具有高RSD的特征可能受到质谱操作的影响较大，因此它们的可靠性相对较低不需要用于后续下游分析。一般情况下，RSD阈值在LC-MS和GC-MS分别是20%和30%（<em>保留波动小于该阈值的代谢物</em>）。</p>
@@ -373,7 +374,7 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">FilterFeature</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">object</span>,</span>
 <span>    <span class="va">group</span>,    </span>
@@ -394,7 +395,7 @@
 <span>  <span class="va">metadata_tab</span> <span class="op">&lt;-</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">object</span><span class="op">)</span> </span>
 <span>  </span>
 <span>  <span class="co"># QC samples</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata_tab</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata_tab</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"TempGroup"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata_tab</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">metadata_tab</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"TempGroup"</span></span>
 <span>  <span class="va">qc_samples</span> <span class="op">&lt;-</span> <span class="va">metadata_tab</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">TempGroup</span> <span class="op">==</span> <span class="va">qc_label</span><span class="op">)</span></span>
@@ -403,7 +404,7 @@
 <span>  <span class="op">}</span></span>
 <span>  </span>
 <span>  <span class="co"># QC samples' feature table</span></span>
-<span>  <span class="va">qc_feature</span> <span class="op">&lt;-</span> <span class="va">features_tab</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">features_tab</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> </span>
+<span>  <span class="va">qc_feature</span> <span class="op">&lt;-</span> <span class="va">features_tab</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">features_tab</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> </span>
 <span>                               <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">qc_samples</span><span class="op">)</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  </span>
@@ -424,7 +425,7 @@
 <span>    </span>
 <span>    <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">datMatrix</span></span>
 <span>    <span class="va">feat_num</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
-<span>    <span class="va">feat_nms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
+<span>    <span class="va">feat_nms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
 <span>    <span class="va">nm</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="va">qc_method</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;&amp;</span> <span class="va">feat_num</span> <span class="op">&lt;</span> <span class="fl">5000</span><span class="op">)</span> <span class="op">{</span> <span class="co"># only allow for less than 4000</span></span>
 <span>      <span class="va">remain</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="va">feat_num</span><span class="op">)</span></span>
@@ -507,14 +508,14 @@
 <span>  qc_label <span class="op">=</span> <span class="st">"QC"</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"iqr"</span>,</span>
 <span>  rsd_cutoff <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Removed  69  features based on QC RSD values. QC samples are excluded from downstream functional analysis."</span></span>
+<span><span class="co">#&gt; [1] "Removed  94  features based on QC RSD values. QC samples are excluded from downstream functional analysis."</span></span>
 <span></span>
 <span><span class="va">se_filter</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 665 55 </span></span>
+<span><span class="co">#&gt; dim: 646 55 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(665): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(646): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_1004 Chem_100015836</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -527,9 +528,9 @@
 <li><p>再根据代谢物波动范围过滤不符合的代谢物</p></li>
 </ul>
 </div>
-<div id="数据标准化" class="section level2" number="8.8">
+<div id="数据标准化" class="section level2" number="9.8">
 <h2>
-<span class="header-section-number">8.8</span> 数据标准化<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.8</span> 数据标准化<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96"><i class="fas fa-link"></i></a>
 </h2>
 <p>数据标准化为了三部分：</p>
 <ul>
@@ -543,17 +544,17 @@
 </li>
 </ul>
 <p>使用<strong>MicrobiomeAnalysis</strong>提供的<code>transform_abundances</code>，选择<em>log10p</em>，改变数据的偏态分布。</p>
-<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">se_tran</span> <span class="op">&lt;-</span> <span class="fu">MicrobiomeAnalysis</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/transform_abundances.html">transform_abundances</a></span><span class="op">(</span></span>
 <span>  object <span class="op">=</span> <span class="va">se_filter</span>,</span>
 <span>  transform <span class="op">=</span> <span class="st">"log10p"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">se_tran</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 665 55 </span></span>
+<span><span class="co">#&gt; dim: 646 55 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(665): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(646): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_1004 Chem_100015836</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -574,7 +575,7 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NormalizeData</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">object</span>,</span>
 <span>    <span class="va">rowNorm</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Quantile"</span>, <span class="st">"GroupPQN"</span>, <span class="st">"SamplePQN"</span>,</span>
@@ -594,7 +595,7 @@
 <span>  </span>
 <span>  <span class="co"># row-&gt;samples; col-&gt;features </span></span>
 <span>  <span class="va">feaTab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">features_tab</span><span class="op">)</span></span>
-<span>  <span class="va">colNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">feaTab</span><span class="op">)</span></span>
+<span>  <span class="va">colNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">feaTab</span><span class="op">)</span></span>
 <span>  <span class="va">rowNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">feaTab</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="co">#############################################</span></span>
@@ -638,7 +639,7 @@
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"After quantile normalization"</span>, <span class="va">constNum</span>, </span>
 <span>                    <span class="st">"features with a constant value were found and deleted."</span><span class="op">)</span><span class="op">)</span></span>
 <span>      <span class="va">datrowNorm</span> <span class="op">&lt;-</span> <span class="va">datrowNorm</span><span class="op">[</span>, <span class="op">!</span><span class="va">constCol</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
-<span>      <span class="va">colNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">datrowNorm</span><span class="op">)</span></span>
+<span>      <span class="va">colNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">datrowNorm</span><span class="op">)</span></span>
 <span>      <span class="va">rowNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">datrowNorm</span><span class="op">)</span></span>
 <span>    <span class="op">}</span></span>
 <span>    <span class="va">rownm</span> <span class="op">&lt;-</span> <span class="st">"Quantile Normalization"</span></span>
@@ -675,11 +676,11 @@
 <span>  <span class="co"># use apply will lose dimension info (i.e. row names and colnames)</span></span>
 <span>  <span class="co"># row-&gt;samples; col-&gt;features </span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">datrowNorm</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rowNames</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">datrowNorm</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">colNames</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">datrowNorm</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">colNames</span></span>
 <span>  </span>
 <span>  <span class="co"># if the reference by feature, the feature column should be removed, since it is all 1</span></span>
 <span>  <span class="kw">if</span><span class="op">(</span><span class="va">rowNorm</span> <span class="op">==</span> <span class="st">"CompNorm"</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="va">inx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">ref</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">datrowNorm</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="va">inx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">ref</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">datrowNorm</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="va">datrowNorm</span> <span class="op">&lt;-</span> <span class="va">datrowNorm</span><span class="op">[</span>, <span class="op">-</span><span class="va">inx</span>, drop<span class="op">=</span><span class="cn">FALSE</span><span class="op">]</span></span>
 <span>    <span class="va">colNames</span> <span class="op">&lt;-</span> <span class="va">colNames</span><span class="op">[</span><span class="op">-</span><span class="va">inx</span><span class="op">]</span></span>
 <span>  <span class="op">}</span></span>
@@ -709,10 +710,10 @@
 <span></span>
 <span><span class="va">se_norm</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 665 55 </span></span>
+<span><span class="co">#&gt; dim: 646 55 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(665): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(646): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_1004 Chem_100015836</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -730,17 +731,17 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">se_scale</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MicrobiomeAnalysis/man/scale_variables.html">scale_variables</a></span><span class="op">(</span></span>
 <span>  object <span class="op">=</span> <span class="va">se_norm</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"zscore"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">se_scale</span></span>
 <span><span class="co">#&gt; class: SummarizedExperiment </span></span>
-<span><span class="co">#&gt; dim: 665 55 </span></span>
+<span><span class="co">#&gt; dim: 646 55 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): ''</span></span>
-<span><span class="co">#&gt; rownames(665): Chem_100002945 Chem_100002356 ...</span></span>
+<span><span class="co">#&gt; rownames(646): Chem_100002945 Chem_100002356 ...</span></span>
 <span><span class="co">#&gt;   Chem_1004 Chem_100015836</span></span>
 <span><span class="co">#&gt; rowData names(13): metabolitesID BIOCHEMICAL ... KEGG</span></span>
 <span><span class="co">#&gt;   SampleIDHMDBID</span></span>
@@ -748,243 +749,257 @@
 <span><span class="co">#&gt; colData names(47): PatientID Gender ...</span></span>
 <span><span class="co">#&gt;   Right_leg_fat_free_mass Right_leg_total_body_water</span></span></code></pre></div>
 <p>查看数据状态</p>
-<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">se_filter</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   P101001     P101003     P101004</span></span>
-<span><span class="co">#&gt; Chem_100002945 51127588.0  42040432.0  34940596.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  5105020.5   4006120.2   3885477.0</span></span>
-<span><span class="co">#&gt; Chem_100021502   756686.2    983889.2    851026.5</span></span>
-<span><span class="co">#&gt; Chem_100020519 38451736.2  44188252.3  39133949.7</span></span>
-<span><span class="co">#&gt; Chem_100008903 94392176.0 117463144.0 115155104.0</span></span>
-<span><span class="co">#&gt; Chem_100009217   144048.2    246049.9    217577.4</span></span>
+<span><span class="co">#&gt;                   P101001      P101003      P101004</span></span>
+<span><span class="co">#&gt; Chem_100002945 51127588.0  42040432.00  34940596.00</span></span>
+<span><span class="co">#&gt; Chem_100002356  5105020.5   4006120.25   3885477.00</span></span>
+<span><span class="co">#&gt; Chem_100021502   756686.2    983889.19    851026.50</span></span>
+<span><span class="co">#&gt; Chem_100008903 94392176.0 117463144.00 115155104.00</span></span>
+<span><span class="co">#&gt; Chem_100000657 25632184.0  26952236.00  25106562.00</span></span>
+<span><span class="co">#&gt; Chem_100001397   123026.4     86646.23     22810.19</span></span>
 <span><span class="co">#&gt;                   P101007     P101009    P101010    P101011</span></span>
 <span><span class="co">#&gt; Chem_100002945 58518636.0  51118832.0 83783688.0 29017984.0</span></span>
 <span><span class="co">#&gt; Chem_100002356  4285129.5   6665653.5  9057441.0  2802655.2</span></span>
 <span><span class="co">#&gt; Chem_100021502   726593.9    232959.5   650261.1   541954.8</span></span>
-<span><span class="co">#&gt; Chem_100020519 45607350.7    421584.8 45395682.9 37810261.1</span></span>
 <span><span class="co">#&gt; Chem_100008903 79582632.0 118408760.0 92508664.0 94076424.0</span></span>
-<span><span class="co">#&gt; Chem_100009217   211262.5    431295.3   135226.5   230266.2</span></span>
-<span><span class="co">#&gt;                   P101012    P101013    P101016     P101017</span></span>
-<span><span class="co">#&gt; Chem_100002945 51222064.0 77550128.0 30949554.0  26923596.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  5996555.0 11367511.0  3874736.8   2817151.0</span></span>
-<span><span class="co">#&gt; Chem_100021502   598491.0   438885.6  1625844.8    566466.9</span></span>
-<span><span class="co">#&gt; Chem_100020519 41630497.4 38062663.5 37906237.4    134190.9</span></span>
-<span><span class="co">#&gt; Chem_100008903 69473744.0 80567352.0 98766592.0 129547656.0</span></span>
-<span><span class="co">#&gt; Chem_100009217   163974.4   162897.1   276264.6    375196.6</span></span>
-<span><span class="co">#&gt;                    P101018     P101019     P101021</span></span>
-<span><span class="co">#&gt; Chem_100002945  56720032.0 27956064.00  48723600.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   8029728.0  3766663.75   5174967.0</span></span>
-<span><span class="co">#&gt; Chem_100021502    427850.6   519559.00   1301591.2</span></span>
-<span><span class="co">#&gt; Chem_100020519  42499104.2    76295.75  42311221.7</span></span>
-<span><span class="co">#&gt; Chem_100008903 118271584.0 37880820.00 163868720.0</span></span>
-<span><span class="co">#&gt; Chem_100009217    538405.4   197953.11    242844.1</span></span>
-<span><span class="co">#&gt;                    P101022    P101024     P101025</span></span>
-<span><span class="co">#&gt; Chem_100002945  16282054.0 77028824.0  32022342.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   1746182.9  5519105.5   2557365.0</span></span>
-<span><span class="co">#&gt; Chem_100021502   1474247.4   970475.8    628680.1</span></span>
-<span><span class="co">#&gt; Chem_100020519    227035.0 46791052.6    105729.3</span></span>
-<span><span class="co">#&gt; Chem_100008903 106189520.0 71475920.0 147776592.0</span></span>
-<span><span class="co">#&gt; Chem_100009217    447587.9   145823.4   1936915.5</span></span>
-<span><span class="co">#&gt;                    P101027     P101030     P101031</span></span>
-<span><span class="co">#&gt; Chem_100002945  22589448.0  38449788.0 59134052.00</span></span>
-<span><span class="co">#&gt; Chem_100002356   1882902.6   2860324.2  4721201.00</span></span>
-<span><span class="co">#&gt; Chem_100021502    635516.6    367246.8   512037.88</span></span>
-<span><span class="co">#&gt; Chem_100020519  34986824.8    563855.2    73751.73</span></span>
-<span><span class="co">#&gt; Chem_100008903 127571792.0 128319128.0 90447848.00</span></span>
-<span><span class="co">#&gt; Chem_100009217    322639.6    381134.2   180923.18</span></span>
-<span><span class="co">#&gt;                   P101038      P101041     P101042</span></span>
-<span><span class="co">#&gt; Chem_100002945 32038030.0  20833830.00 33809080.00</span></span>
-<span><span class="co">#&gt; Chem_100002356  4011627.5   2938779.00  3017260.50</span></span>
-<span><span class="co">#&gt; Chem_100021502   852000.1    634488.56  1680135.75</span></span>
-<span><span class="co">#&gt; Chem_100020519 39731812.0     69179.21    54615.88</span></span>
-<span><span class="co">#&gt; Chem_100008903 46622592.0 111919096.00 89762056.00</span></span>
-<span><span class="co">#&gt; Chem_100009217   165989.5    288088.38   143925.16</span></span>
-<span><span class="co">#&gt;                   P101047     P101050    P101051    P101052</span></span>
-<span><span class="co">#&gt; Chem_100002945 18637508.0  21978476.0 24265162.0 52203780.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  1935144.1   2897211.0  2476279.5  5928454.0</span></span>
-<span><span class="co">#&gt; Chem_100021502   326005.6    316650.2   737202.9   459385.9</span></span>
-<span><span class="co">#&gt; Chem_100020519 32650828.9    114410.1 37838221.5    46874.5</span></span>
-<span><span class="co">#&gt; Chem_100008903 97617984.0 112900000.0 71779912.0 64008512.0</span></span>
-<span><span class="co">#&gt; Chem_100009217   112179.6    222175.4   171262.0   247185.3</span></span>
-<span><span class="co">#&gt;                     P101054    P101056     P101057</span></span>
-<span><span class="co">#&gt; Chem_100002945  12836384.00 18546636.0 32301820.00</span></span>
-<span><span class="co">#&gt; Chem_100002356   1685760.62  1650011.0  3419157.75</span></span>
-<span><span class="co">#&gt; Chem_100021502    346176.59   585470.2   417958.47</span></span>
-<span><span class="co">#&gt; Chem_100020519     30365.21 38779954.0    71663.52</span></span>
-<span><span class="co">#&gt; Chem_100008903 111279888.00 68771592.0 77140264.00</span></span>
-<span><span class="co">#&gt; Chem_100009217    371306.81   208351.8   254912.39</span></span>
-<span><span class="co">#&gt;                    P101059    P101061    P101062</span></span>
-<span><span class="co">#&gt; Chem_100002945  22645984.0 23683254.0 29027646.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   2196044.2  3217499.2  4060367.8</span></span>
-<span><span class="co">#&gt; Chem_100021502    734586.3   337035.7   982299.4</span></span>
-<span><span class="co">#&gt; Chem_100020519  36577523.8    76462.0   381492.1</span></span>
-<span><span class="co">#&gt; Chem_100008903 113564872.0 96143304.0 98940424.0</span></span>
-<span><span class="co">#&gt; Chem_100009217    416259.6   210019.8   325386.6</span></span>
-<span><span class="co">#&gt;                    P101064    P101065    P101067    P101068</span></span>
-<span><span class="co">#&gt; Chem_100002945  32629048.0 22950806.0 33555116.0 44283972.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   3031529.5  2467147.2  3567913.2  6525382.0</span></span>
-<span><span class="co">#&gt; Chem_100021502   1255148.0   637699.1   284516.1   664800.1</span></span>
-<span><span class="co">#&gt; Chem_100020519  45337079.7   284125.7 36151920.0    62530.2</span></span>
-<span><span class="co">#&gt; Chem_100008903 108473368.0 86418592.0 95236288.0 71289048.0</span></span>
-<span><span class="co">#&gt; Chem_100009217    380257.6   217008.5   149385.6   121522.4</span></span>
-<span><span class="co">#&gt;                    P101069     P101071     P101072</span></span>
-<span><span class="co">#&gt; Chem_100002945 52685972.00  32415040.0  34170948.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  3984333.50   3001414.5   4679519.0</span></span>
-<span><span class="co">#&gt; Chem_100021502   684813.56    596846.1    316855.0</span></span>
-<span><span class="co">#&gt; Chem_100020519 43167938.82  39401928.6    679952.5</span></span>
-<span><span class="co">#&gt; Chem_100008903 74526792.00 115519872.0 127401592.0</span></span>
-<span><span class="co">#&gt; Chem_100009217    99392.66    301355.7    590274.3</span></span>
-<span><span class="co">#&gt;                    P101074    P101075    P101076</span></span>
-<span><span class="co">#&gt; Chem_100002945  22550616.0 22058076.0 24455466.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   2529255.5  2583265.5  3515218.2</span></span>
-<span><span class="co">#&gt; Chem_100021502    646136.8   198381.7   255897.7</span></span>
-<span><span class="co">#&gt; Chem_100020519    794265.5 34178910.4 34230397.0</span></span>
-<span><span class="co">#&gt; Chem_100008903 108255040.0 83989120.0 77315256.0</span></span>
-<span><span class="co">#&gt; Chem_100009217    199429.7   179174.6   204990.0</span></span>
-<span><span class="co">#&gt;                    P101077    P101079      P101080</span></span>
-<span><span class="co">#&gt; Chem_100002945  25225170.0 15718590.0  29120336.00</span></span>
-<span><span class="co">#&gt; Chem_100002356   3272875.0  2449462.5   2695001.50</span></span>
-<span><span class="co">#&gt; Chem_100021502    547243.4   508791.6   1256550.25</span></span>
-<span><span class="co">#&gt; Chem_100020519  36913595.2 34413781.2     21754.81</span></span>
-<span><span class="co">#&gt; Chem_100008903 158257952.0 78587928.0 163246832.00</span></span>
-<span><span class="co">#&gt; Chem_100009217    767403.1   375777.7    514687.62</span></span>
-<span><span class="co">#&gt;                    P101081     P101082    P101084</span></span>
-<span><span class="co">#&gt; Chem_100002945  65904836.0  22908578.0 29140440.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   6474709.5   2110243.8  3648091.2</span></span>
-<span><span class="co">#&gt; Chem_100021502    339909.3    596292.2   497300.8</span></span>
-<span><span class="co">#&gt; Chem_100020519  43515920.2  37389441.4 41948877.2</span></span>
-<span><span class="co">#&gt; Chem_100008903 124678488.0 100435064.0 86139200.0</span></span>
-<span><span class="co">#&gt; Chem_100009217    360975.7    197618.8   293438.9</span></span>
-<span><span class="co">#&gt;                     P101085     P101088     P101090</span></span>
-<span><span class="co">#&gt; Chem_100002945  20427124.00  29199012.0  24042020.0</span></span>
-<span><span class="co">#&gt; Chem_100002356   3253531.75   4154170.8   2396959.8</span></span>
-<span><span class="co">#&gt; Chem_100021502    309859.31    601515.1    794206.0</span></span>
-<span><span class="co">#&gt; Chem_100020519     33125.69  33291433.8  44136149.0</span></span>
-<span><span class="co">#&gt; Chem_100008903 103513520.00 101921248.0 107571936.0</span></span>
-<span><span class="co">#&gt; Chem_100009217    238898.77    347081.2    352560.8</span></span>
-<span><span class="co">#&gt;                    P101094    P101095    P101096</span></span>
-<span><span class="co">#&gt; Chem_100002945 36910084.00 35662068.0 66402192.0</span></span>
-<span><span class="co">#&gt; Chem_100002356  4759584.50  3452283.2  6374383.0</span></span>
-<span><span class="co">#&gt; Chem_100021502   414972.84  3606340.5  1077637.5</span></span>
-<span><span class="co">#&gt; Chem_100020519    62620.58 53547228.3   118264.1</span></span>
-<span><span class="co">#&gt; Chem_100008903 85426888.00 53107852.0 80095704.0</span></span>
-<span><span class="co">#&gt; Chem_100009217   168247.59   202723.2   121388.2</span></span></code></pre></div>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; Chem_100000657 31371314.0  27787270.0 26685844.0 27780988.0</span></span>
+<span><span class="co">#&gt; Chem_100001397   375686.5    118662.2   130040.2   258790.7</span></span>
+<span><span class="co">#&gt;                   P101012    P101013     P101016</span></span>
+<span><span class="co">#&gt; Chem_100002945 51222064.0 77550128.0 30949554.00</span></span>
+<span><span class="co">#&gt; Chem_100002356  5996555.0 11367511.0  3874736.75</span></span>
+<span><span class="co">#&gt; Chem_100021502   598491.0   438885.6  1625844.75</span></span>
+<span><span class="co">#&gt; Chem_100008903 69473744.0 80567352.0 98766592.00</span></span>
+<span><span class="co">#&gt; Chem_100000657 30158644.0 27591838.0 21537830.00</span></span>
+<span><span class="co">#&gt; Chem_100001397   121117.4   526472.9    51847.78</span></span>
+<span><span class="co">#&gt;                    P101017     P101018  P101019</span></span>
+<span><span class="co">#&gt; Chem_100002945  26923596.0  56720032.0 27956064</span></span>
+<span><span class="co">#&gt; Chem_100002356   2817151.0   8029728.0  3766664</span></span>
+<span><span class="co">#&gt; Chem_100021502    566466.9    427850.6   519559</span></span>
+<span><span class="co">#&gt; Chem_100008903 129547656.0 118271584.0 37880820</span></span>
+<span><span class="co">#&gt; Chem_100000657  34510160.0  24383964.0 25435894</span></span>
+<span><span class="co">#&gt; Chem_100001397    309598.5    142944.8   122802</span></span>
+<span><span class="co">#&gt;                     P101021     P101022     P101024</span></span>
+<span><span class="co">#&gt; Chem_100002945  48723600.00  16282054.0 77028824.00</span></span>
+<span><span class="co">#&gt; Chem_100002356   5174967.00   1746182.9  5519105.50</span></span>
+<span><span class="co">#&gt; Chem_100021502   1301591.25   1474247.4   970475.75</span></span>
+<span><span class="co">#&gt; Chem_100008903 163868720.00 106189520.0 71475920.00</span></span>
+<span><span class="co">#&gt; Chem_100000657  33230896.00  28310448.0 24481250.00</span></span>
+<span><span class="co">#&gt; Chem_100001397     36066.18    143211.6    41351.85</span></span>
+<span><span class="co">#&gt;                    P101025     P101027     P101030</span></span>
+<span><span class="co">#&gt; Chem_100002945  32022342.0  22589448.0  38449788.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   2557365.0   1882902.6   2860324.2</span></span>
+<span><span class="co">#&gt; Chem_100021502    628680.1    635516.6    367246.8</span></span>
+<span><span class="co">#&gt; Chem_100008903 147776592.0 127571792.0 128319128.0</span></span>
+<span><span class="co">#&gt; Chem_100000657  36634552.0  26803284.0  38250240.0</span></span>
+<span><span class="co">#&gt; Chem_100001397    299205.7    338827.8    240744.7</span></span>
+<span><span class="co">#&gt;                   P101031    P101038      P101041</span></span>
+<span><span class="co">#&gt; Chem_100002945 59134052.0 32038030.0  20833830.00</span></span>
+<span><span class="co">#&gt; Chem_100002356  4721201.0  4011627.5   2938779.00</span></span>
+<span><span class="co">#&gt; Chem_100021502   512037.9   852000.1    634488.56</span></span>
+<span><span class="co">#&gt; Chem_100008903 90447848.0 46622592.0 111919096.00</span></span>
+<span><span class="co">#&gt; Chem_100000657 31415658.0 36232668.0  27869314.00</span></span>
+<span><span class="co">#&gt; Chem_100001397   748813.9   497035.7     45508.17</span></span>
+<span><span class="co">#&gt;                   P101042    P101047     P101050</span></span>
+<span><span class="co">#&gt; Chem_100002945 33809080.0 18637508.0  21978476.0</span></span>
+<span><span class="co">#&gt; Chem_100002356  3017260.5  1935144.1   2897211.0</span></span>
+<span><span class="co">#&gt; Chem_100021502  1680135.8   326005.6    316650.2</span></span>
+<span><span class="co">#&gt; Chem_100008903 89762056.0 97617984.0 112900000.0</span></span>
+<span><span class="co">#&gt; Chem_100000657 29975144.0 30274784.0  29706444.0</span></span>
+<span><span class="co">#&gt; Chem_100001397   141089.5   151984.7    167735.3</span></span>
+<span><span class="co">#&gt;                    P101051    P101052     P101054</span></span>
+<span><span class="co">#&gt; Chem_100002945 24265162.00 52203780.0  12836384.0</span></span>
+<span><span class="co">#&gt; Chem_100002356  2476279.50  5928454.0   1685760.6</span></span>
+<span><span class="co">#&gt; Chem_100021502   737202.88   459385.9    346176.6</span></span>
+<span><span class="co">#&gt; Chem_100008903 71779912.00 64008512.0 111279888.0</span></span>
+<span><span class="co">#&gt; Chem_100000657 28526700.00 19797506.0  22277808.0</span></span>
+<span><span class="co">#&gt; Chem_100001397    83878.49   153736.2    131393.6</span></span>
+<span><span class="co">#&gt;                   P101056     P101057      P101059</span></span>
+<span><span class="co">#&gt; Chem_100002945 18546636.0 32301820.00  22645984.00</span></span>
+<span><span class="co">#&gt; Chem_100002356  1650011.0  3419157.75   2196044.25</span></span>
+<span><span class="co">#&gt; Chem_100021502   585470.2   417958.47    734586.31</span></span>
+<span><span class="co">#&gt; Chem_100008903 68771592.0 77140264.00 113564872.00</span></span>
+<span><span class="co">#&gt; Chem_100000657 20182492.0 22884156.00  28125854.00</span></span>
+<span><span class="co">#&gt; Chem_100001397   125445.7    36627.55     67012.24</span></span>
+<span><span class="co">#&gt;                   P101061    P101062      P101064</span></span>
+<span><span class="co">#&gt; Chem_100002945 23683254.0 29027646.0  32629048.00</span></span>
+<span><span class="co">#&gt; Chem_100002356  3217499.2  4060367.8   3031529.50</span></span>
+<span><span class="co">#&gt; Chem_100021502   337035.7   982299.4   1255148.00</span></span>
+<span><span class="co">#&gt; Chem_100008903 96143304.0 98940424.0 108473368.00</span></span>
+<span><span class="co">#&gt; Chem_100000657 27426428.0 27010240.0  29414698.00</span></span>
+<span><span class="co">#&gt; Chem_100001397   248423.8    35064.2     32855.53</span></span>
+<span><span class="co">#&gt;                   P101065    P101067    P101068    P101069</span></span>
+<span><span class="co">#&gt; Chem_100002945 22950806.0 33555116.0 44283972.0 52685972.0</span></span>
+<span><span class="co">#&gt; Chem_100002356  2467147.2  3567913.2  6525382.0  3984333.5</span></span>
+<span><span class="co">#&gt; Chem_100021502   637699.1   284516.1   664800.1   684813.6</span></span>
+<span><span class="co">#&gt; Chem_100008903 86418592.0 95236288.0 71289048.0 74526792.0</span></span>
+<span><span class="co">#&gt; Chem_100000657 25252692.0 33943364.0 28292364.0 31375248.0</span></span>
+<span><span class="co">#&gt; Chem_100001397   137605.2   155844.5   109021.4   178198.0</span></span>
+<span><span class="co">#&gt;                     P101071     P101072     P101074</span></span>
+<span><span class="co">#&gt; Chem_100002945  32415040.00  34170948.0  22550616.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   3001414.50   4679519.0   2529255.5</span></span>
+<span><span class="co">#&gt; Chem_100021502    596846.06    316855.0    646136.8</span></span>
+<span><span class="co">#&gt; Chem_100008903 115519872.00 127401592.0 108255040.0</span></span>
+<span><span class="co">#&gt; Chem_100000657  33193432.00  27121940.0  24320710.0</span></span>
+<span><span class="co">#&gt; Chem_100001397     74016.23    404225.1    124975.2</span></span>
+<span><span class="co">#&gt;                   P101075    P101076     P101077    P101079</span></span>
+<span><span class="co">#&gt; Chem_100002945 22058076.0 24455466.0  25225170.0 15718590.0</span></span>
+<span><span class="co">#&gt; Chem_100002356  2583265.5  3515218.2   3272875.0  2449462.5</span></span>
+<span><span class="co">#&gt; Chem_100021502   198381.7   255897.7    547243.4   508791.6</span></span>
+<span><span class="co">#&gt; Chem_100008903 83989120.0 77315256.0 158257952.0 78587928.0</span></span>
+<span><span class="co">#&gt; Chem_100000657 25176120.0 25405452.0  25782852.0 26353500.0</span></span>
+<span><span class="co">#&gt; Chem_100001397   177570.7   155756.0    410891.4   292623.9</span></span>
+<span><span class="co">#&gt;                    P101080     P101081     P101082</span></span>
+<span><span class="co">#&gt; Chem_100002945  29120336.0  65904836.0  22908578.0</span></span>
+<span><span class="co">#&gt; Chem_100002356   2695001.5   6474709.5   2110243.8</span></span>
+<span><span class="co">#&gt; Chem_100021502   1256550.2    339909.3    596292.2</span></span>
+<span><span class="co">#&gt; Chem_100008903 163246832.0 124678488.0 100435064.0</span></span>
+<span><span class="co">#&gt; Chem_100000657  25819136.0  34524436.0  27735140.0</span></span>
+<span><span class="co">#&gt; Chem_100001397    162495.1    237136.2    154358.6</span></span>
+<span><span class="co">#&gt;                   P101084     P101085      P101088</span></span>
+<span><span class="co">#&gt; Chem_100002945 29140440.0  20427124.0  29199012.00</span></span>
+<span><span class="co">#&gt; Chem_100002356  3648091.2   3253531.8   4154170.75</span></span>
+<span><span class="co">#&gt; Chem_100021502   497300.8    309859.3    601515.12</span></span>
+<span><span class="co">#&gt; Chem_100008903 86139200.0 103513520.0 101921248.00</span></span>
+<span><span class="co">#&gt; Chem_100000657 30228504.0  29317998.0  28259446.00</span></span>
+<span><span class="co">#&gt; Chem_100001397   181003.1    126785.3     36267.95</span></span>
+<span><span class="co">#&gt;                    P101090     P101094     P101095</span></span>
+<span><span class="co">#&gt; Chem_100002945  24042020.0 36910084.00 35662068.00</span></span>
+<span><span class="co">#&gt; Chem_100002356   2396959.8  4759584.50  3452283.25</span></span>
+<span><span class="co">#&gt; Chem_100021502    794206.0   414972.84  3606340.50</span></span>
+<span><span class="co">#&gt; Chem_100008903 107571936.0 85426888.00 53107852.00</span></span>
+<span><span class="co">#&gt; Chem_100000657  32471818.0 25804370.00 25684144.00</span></span>
+<span><span class="co">#&gt; Chem_100001397    217137.2    75320.37    59115.54</span></span>
+<span><span class="co">#&gt;                    P101096</span></span>
+<span><span class="co">#&gt; Chem_100002945 66402192.00</span></span>
+<span><span class="co">#&gt; Chem_100002356  6374383.00</span></span>
+<span><span class="co">#&gt; Chem_100021502  1077637.50</span></span>
+<span><span class="co">#&gt; Chem_100008903 80095704.00</span></span>
+<span><span class="co">#&gt; Chem_100000657 28136850.00</span></span>
+<span><span class="co">#&gt; Chem_100001397    81256.43</span></span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">se_scale</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                    P101001    P101003    P101004</span></span>
-<span><span class="co">#&gt; Chem_100002945  1.07306917 0.86152338  0.5082323</span></span>
-<span><span class="co">#&gt; Chem_100002356  0.82064850 0.46673458  0.4891795</span></span>
-<span><span class="co">#&gt; Chem_100021502  0.38348742 1.03109633  0.8277830</span></span>
-<span><span class="co">#&gt; Chem_100020519  0.80168130 0.88582795  0.8603053</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.09730152 1.00326048  1.0979398</span></span>
-<span><span class="co">#&gt; Chem_100009217 -1.12521659 0.07573911 -0.1028403</span></span>
-<span><span class="co">#&gt;                    P101007    P101009     P101010</span></span>
-<span><span class="co">#&gt; Chem_100002945  1.04933454  1.1822222  2.48445942</span></span>
-<span><span class="co">#&gt; Chem_100002356  0.09580821  1.5621814  2.35582015</span></span>
-<span><span class="co">#&gt; Chem_100021502  0.10697148 -1.7382319  0.19388958</span></span>
-<span><span class="co">#&gt; Chem_100020519  0.81114382 -0.7005463  0.87897155</span></span>
-<span><span class="co">#&gt; Chem_100008903 -1.13495047  0.7922921  0.05627634</span></span>
-<span><span class="co">#&gt; Chem_100009217 -0.57017590  1.0807971 -1.16419173</span></span>
-<span><span class="co">#&gt;                    P101011    P101012    P101013   P101016</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.28405225  0.9148960  1.9319939 0.2751454</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.57872637  1.0734888  2.6014330 0.5460211</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.19478619 -0.1396695 -0.7230786 2.0808419</span></span>
-<span><span class="co">#&gt; Chem_100020519  0.80531889  0.8068771  0.7739970 0.8596250</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.01310616 -1.3136952 -0.8614738 0.6956945</span></span>
-<span><span class="co">#&gt; Chem_100009217 -0.16992464 -0.9574710 -0.9821566 0.4104843</span></span>
-<span><span class="co">#&gt;                   P101017    P101018    P101019    P101021</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.7433067  0.9513809 -0.1129977  0.9228859</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.7926733  1.5917109  0.3663488  0.8293007</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.2666381 -0.8747766 -0.1235194  1.3692197</span></span>
-<span><span class="co">#&gt; Chem_100020519 -1.1135092  0.7850518 -1.2550937  0.8299187</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.6506740  0.1219791 -2.6397483  1.6647504</span></span>
-<span><span class="co">#&gt; Chem_100009217  0.6284458  1.2323728 -0.3195695 -0.1199946</span></span>
-<span><span class="co">#&gt;                   P101022    P101024    P101025     P101027</span></span>
-<span><span class="co">#&gt; Chem_100002945 -1.5728003  2.1789558 -0.6821484 -1.06861704</span></span>
-<span><span class="co">#&gt; Chem_100002356 -1.5894014  1.0713201 -1.3341558 -1.67254046</span></span>
-<span><span class="co">#&gt; Chem_100021502  1.7636231  0.8848582 -0.2867352  0.01129551</span></span>
-<span><span class="co">#&gt; Chem_100020519 -0.8954834  0.8770938 -1.2263261  0.75833363</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.6260545 -0.9099553  0.5513188  0.76439961</span></span>
-<span><span class="co">#&gt; Chem_100009217  1.2337086 -1.0635292  3.5792427  0.40137905</span></span>
-<span><span class="co">#&gt;                   P101030    P101031     P101038    P101041</span></span>
-<span><span class="co">#&gt; Chem_100002945  0.2926796  1.1997769 -0.29628072 -1.0340575</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.6382651  0.4323314  0.07147409 -0.3905631</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.9868480 -0.4676701  0.49089865  0.1467633</span></span>
-<span><span class="co">#&gt; Chem_100020519 -0.6200918 -1.3155593  0.78665802 -1.3035970</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.8184063 -0.5549997 -2.65763306  0.6770235</span></span>
-<span><span class="co">#&gt; Chem_100009217  0.7408365 -0.8054754 -0.95222048  0.3181630</span></span>
-<span><span class="co">#&gt;                   P101042    P101047    P101050    P101051</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.0958376 -0.7714505 -0.9031042 -0.8393171</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.5628705 -0.9551309 -0.4288246 -0.9670793</span></span>
-<span><span class="co">#&gt; Chem_100021502  1.7804216 -0.7856592 -1.1449344  0.3140216</span></span>
-<span><span class="co">#&gt; Chem_100020519 -1.4069868  0.8426062 -1.1347284  0.7913141</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.4368991  1.0047319  0.6997124 -1.0423101</span></span>
-<span><span class="co">#&gt; Chem_100009217 -1.1949032 -1.2387747 -0.1938945 -0.8069717</span></span>
-<span><span class="co">#&gt;                   P101052    P101054     P101056    P101057</span></span>
-<span><span class="co">#&gt; Chem_100002945  1.0224999 -2.3147133 -1.47963462  0.3075335</span></span>
-<span><span class="co">#&gt; Chem_100002356  1.0966509 -1.7937897 -1.92297496  0.1747746</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.5945462 -1.0100058 -0.09086844 -0.4991725</span></span>
-<span><span class="co">#&gt; Chem_100020519 -1.4558152 -1.5854144  0.80449715 -1.2716007</span></span>
-<span><span class="co">#&gt; Chem_100008903 -1.5016496  0.5741487 -1.13225320 -0.2245752</span></span>
-<span><span class="co">#&gt; Chem_100009217 -0.1255028  0.7811907 -0.40384813  0.2088243</span></span>
-<span><span class="co">#&gt;                   P101059      P101061     P101062</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.9041378 -0.830961764 -0.04269006</span></span>
-<span><span class="co">#&gt; Chem_100002356 -1.1679764 -0.272491428  0.52868460</span></span>
-<span><span class="co">#&gt; Chem_100021502  0.3712173 -1.093359526  1.04814884</span></span>
-<span><span class="co">#&gt; Chem_100020519  0.7948727 -1.280571027 -0.71390394</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.6100619  0.009185413  0.48632983</span></span>
-<span><span class="co">#&gt; Chem_100009217  0.9922981 -0.369602391  0.64507766</span></span>
-<span><span class="co">#&gt;                    P101064     P101065      P101067</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.29816470 -0.96715774  0.005732514</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.64564813 -0.96580922 -0.055647831</span></span>
-<span><span class="co">#&gt; Chem_100021502  1.17546656  0.05328984 -1.428569874</span></span>
-<span><span class="co">#&gt; Chem_100020519  0.82422940 -0.84584830  0.780033076</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.02282356 -0.41934317 -0.078237408</span></span>
-<span><span class="co">#&gt; Chem_100009217  0.63353253 -0.33768720 -1.057981752</span></span>
-<span><span class="co">#&gt;                    P101068    P101069    P101071    P101072</span></span>
-<span><span class="co">#&gt; Chem_100002945  0.60689290  1.0368525 -0.2442709 -0.1072135</span></span>
-<span><span class="co">#&gt; Chem_100002356  1.32706991  0.1263946 -0.6112047  0.4674189</span></span>
-<span><span class="co">#&gt; Chem_100021502  0.08575028  0.1369518 -0.1513205 -1.3147063</span></span>
-<span><span class="co">#&gt; Chem_100020519 -1.35963789  0.8257427  0.7869318 -0.5680769</span></span>
-<span><span class="co">#&gt; Chem_100008903 -1.15371004 -1.0172760  0.3253629  0.6506648</span></span>
-<span><span class="co">#&gt; Chem_100009217 -1.51159030 -1.9068013  0.2212904  1.5332536</span></span>
-<span><span class="co">#&gt;                   P101074    P101075    P101076    P101077</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.5653190 -0.6045877 -0.4761183 -1.0070099</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.5306034 -0.4645580  0.1769096 -0.5154926</span></span>
-<span><span class="co">#&gt; Chem_100021502  0.3364421 -1.8590448 -1.4555677 -0.3873513</span></span>
-<span><span class="co">#&gt; Chem_100020519 -0.4537732  0.8220845  0.8044084  0.7469109</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.9489675  0.1351589 -0.3237120  1.1571875</span></span>
-<span><span class="co">#&gt; Chem_100009217 -0.2530297 -0.4551003 -0.2640308  1.9586874</span></span>
+<span><span class="co">#&gt;                   P101001    P101003    P101004     P101007</span></span>
+<span><span class="co">#&gt; Chem_100002945  1.0003202  0.8340093  0.4824815  1.16514410</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.7698677  0.4528499  0.4722902  0.20487334</span></span>
+<span><span class="co">#&gt; Chem_100021502  0.3493679  1.0177030  0.8133573  0.17978061</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.1750138  0.9830758  1.0729215 -0.95957735</span></span>
+<span><span class="co">#&gt; Chem_100000657 -0.8755692  0.3320746  0.1405178  0.05966061</span></span>
+<span><span class="co">#&gt; Chem_100001397 -0.1384950 -0.4886188 -2.2159878  1.25940891</span></span>
+<span><span class="co">#&gt;                   P101009    P101010     P101011    P101012</span></span>
+<span><span class="co">#&gt; Chem_100002945  1.2101541 2.51666716 -0.23603447  0.9681736</span></span>
+<span><span class="co">#&gt; Chem_100002356  1.5968592 2.40769233 -0.53984618  1.1277217</span></span>
+<span><span class="co">#&gt; Chem_100021502 -1.7072851 0.23001842 -0.16887486 -0.1021096</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.8551114 0.14676736  0.04917596 -1.2248011</span></span>
+<span><span class="co">#&gt; Chem_100000657  0.2436337 0.16307095  0.14091374  0.1443482</span></span>
+<span><span class="co">#&gt; Chem_100001397 -0.1126339 0.03397164  0.89961516 -0.1717796</span></span>
+<span><span class="co">#&gt;                   P101013    P101016    P101017     P101018</span></span>
+<span><span class="co">#&gt; Chem_100002945  2.0188766  0.2942855 -0.8313337  0.97319820</span></span>
+<span><span class="co">#&gt; Chem_100002356  2.6944940  0.5645338 -0.8739209  1.61833342</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.6590182  2.0858052 -0.3221498 -0.85175224</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.7100038  0.7289363  0.5094011  0.17118653</span></span>
+<span><span class="co">#&gt; Chem_100000657 -0.4044572 -0.6113151  0.4869781 -1.97118260</span></span>
+<span><span class="co">#&gt; Chem_100001397  1.7605892 -1.0914366  0.9755675 -0.04186828</span></span>
+<span><span class="co">#&gt;                   P101019    P101021    P101022    P101024</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.2712992  0.9955133 -1.5896988  2.2111767</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.2276389  0.9004347 -1.6181559  1.1215870</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.2140225  1.4138229  1.7307078  0.9167298</span></span>
+<span><span class="co">#&gt; Chem_100008903 -2.8549375  1.7868883  0.5688224 -0.8265065</span></span>
+<span><span class="co">#&gt; Chem_100000657 -0.3095136  1.2218079  0.5114391 -0.6834080</span></span>
+<span><span class="co">#&gt; Chem_100001397 -0.0599027 -1.7098957  0.1531504 -1.5061848</span></span>
+<span><span class="co">#&gt;                   P101025     P101027    P101030</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.5131518 -1.12363191  0.2445829</span></span>
+<span><span class="co">#&gt; Chem_100002356 -1.1975338 -1.72629859 -0.6727476</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.1942294 -0.02995268 -1.0063388</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.7802989  0.66296793  0.7574122</span></span>
+<span><span class="co">#&gt; Chem_100000657  0.5904137 -0.84889311  1.7406139</span></span>
+<span><span class="co">#&gt; Chem_100001397  0.8890289  1.14875934  0.7222524</span></span>
+<span><span class="co">#&gt;                     P101031    P101038    P101041</span></span>
+<span><span class="co">#&gt; Chem_100002945  1.168623874 -0.2262161 -0.9809803</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.419680765  0.1279997 -0.3563059</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.473153554  0.5272900  0.1685822</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.573539379 -2.5698105  0.7331244</span></span>
+<span><span class="co">#&gt; Chem_100000657  0.009496466  1.3142118  0.3866294</span></span>
+<span><span class="co">#&gt; Chem_100001397  2.150497430  1.6629837 -1.3594124</span></span>
+<span><span class="co">#&gt;                    P101042    P101047    P101050    P101051</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.20090806 -0.8221882 -0.8428020 -0.8411860</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.65053616 -1.0044608 -0.3867684 -0.9759579</span></span>
+<span><span class="co">#&gt; Chem_100021502  1.70722179 -0.8169443 -1.1135464  0.3044130</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.58479970  0.9161006  0.7688378 -1.0618801</span></span>
+<span><span class="co">#&gt; Chem_100000657 -0.28533153  2.2064810  0.8421985 -0.1252541</span></span>
+<span><span class="co">#&gt; Chem_100001397 -0.02285532  0.3938023  0.3611153 -0.6384336</span></span>
+<span><span class="co">#&gt;                   P101052      P101054     P101056</span></span>
+<span><span class="co">#&gt; Chem_100002945  0.9926892 -2.296699968 -1.43237721</span></span>
+<span><span class="co">#&gt; Chem_100002356  1.0808513 -1.801646341 -1.89570397</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.6001134 -1.014348465 -0.07517259</span></span>
+<span><span class="co">#&gt; Chem_100008903 -1.5220028  0.552048340 -1.09542644</span></span>
+<span><span class="co">#&gt; Chem_100000657 -2.8081437 -1.475308440 -2.29749895</span></span>
+<span><span class="co">#&gt; Chem_100001397  0.1323507 -0.003866928 -0.08340496</span></span>
+<span><span class="co">#&gt;                   P101057    P101059     P101061</span></span>
+<span><span class="co">#&gt; Chem_100002945  0.1681043 -0.8517417 -0.80214648</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.0597999 -1.1313483 -0.25699974</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.5719122  0.3928758 -1.07911803</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.4110574  0.6676180  0.03368079</span></span>
+<span><span class="co">#&gt; Chem_100000657 -0.8242837  0.2289504 -0.11809493</span></span>
+<span><span class="co">#&gt; Chem_100001397 -1.6273812 -0.8768282  0.82233565</span></span>
+<span><span class="co">#&gt;                     P101062     P101064     P101065</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.212424092 -0.29037347 -1.01430996</span></span>
+<span><span class="co">#&gt; Chem_100002356  0.380130583 -0.64068901 -1.01468081</span></span>
+<span><span class="co">#&gt; Chem_100021502  0.942031935  1.17235520  0.01733636</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.246540820  0.02821322 -0.50583950</span></span>
+<span><span class="co">#&gt; Chem_100000657  0.009576575 -0.41962877 -1.06217007</span></span>
+<span><span class="co">#&gt; Chem_100001397 -1.721577407 -1.92445285 -0.00290000</span></span>
+<span><span class="co">#&gt;                     P101067     P101068    P101069</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.003299045  0.46934926  1.1451062</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.062895019  1.21147760  0.2290397</span></span>
+<span><span class="co">#&gt; Chem_100021502 -1.427023227  0.01261184  0.2054004</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.090326948 -1.32808732 -0.8518409</span></span>
+<span><span class="co">#&gt; Chem_100000657  1.167281224 -0.66958167  0.7051260</span></span>
+<span><span class="co">#&gt; Chem_100001397  0.185767205 -0.35772768  0.3721211</span></span>
+<span><span class="co">#&gt;                   P101071     P101072     P101074</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.2032196 -0.08576324 -0.59386916</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.5776847  0.48352488 -0.56010297</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.1292284 -1.29807207  0.31345022</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.3790460  0.67962371  0.89703195</span></span>
+<span><span class="co">#&gt; Chem_100000657  0.6959017 -0.72717873 -0.02654831</span></span>
+<span><span class="co">#&gt; Chem_100001397 -0.8295869  1.38520647  0.04111287</span></span>
+<span><span class="co">#&gt;                   P101075     P101076    P101077</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.6159217 -0.49414392 -0.9078624</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.4801326  0.15510081 -0.4410953</span></span>
+<span><span class="co">#&gt; Chem_100021502 -1.8614934 -1.46259716 -0.3369384</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.1071849 -0.35840476  1.2817143</span></span>
+<span><span class="co">#&gt; Chem_100000657  0.3067290 -0.01063717 -1.2738198</span></span>
+<span><span class="co">#&gt; Chem_100001397  0.5185327  0.29413098  1.3778912</span></span>
 <span><span class="co">#&gt;                    P101079    P101080    P101081    P101082</span></span>
-<span><span class="co">#&gt; Chem_100002945 -1.42377523 -0.3557742  1.2846662 -0.2028952</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.55867549 -0.7410245  1.0386309 -0.7075808</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.07531674  1.3138423 -1.3179406  0.3723564</span></span>
-<span><span class="co">#&gt; Chem_100020519  0.83032979 -1.7057653  0.7875397  0.8943481</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.02373964  1.6753779  0.2373957  1.1565220</span></span>
-<span><span class="co">#&gt; Chem_100009217  1.03322697  1.3570251  0.4346865 -0.0908827</span></span>
-<span><span class="co">#&gt;                   P101084    P101085   P101088    P101090</span></span>
-<span><span class="co">#&gt; Chem_100002945 -0.5571438 -0.6432060 0.2680558 -0.8631570</span></span>
-<span><span class="co">#&gt; Chem_100002356 -0.1780117  0.2362866 0.8376409 -1.0465957</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.5129976 -0.9397795 0.3032375  0.4512293</span></span>
-<span><span class="co">#&gt; Chem_100020519  0.8016100 -1.5150492 0.8345681  0.8427964</span></span>
-<span><span class="co">#&gt; Chem_100008903 -0.6930137  1.0481281 0.9958996  0.2774736</span></span>
-<span><span class="co">#&gt; Chem_100009217  0.1433649  0.2026186 0.9426616  0.6029496</span></span>
-<span><span class="co">#&gt;                    P101094    P101095    P101096</span></span>
-<span><span class="co">#&gt; Chem_100002945  0.60534398 -0.1098016  1.4375694</span></span>
-<span><span class="co">#&gt; Chem_100002356  0.95059563 -0.3602152  1.1136725</span></span>
-<span><span class="co">#&gt; Chem_100021502 -0.53483695  3.0939556  0.8708722</span></span>
-<span><span class="co">#&gt; Chem_100020519 -1.32067449  0.8750618 -1.1626365</span></span>
-<span><span class="co">#&gt; Chem_100008903  0.05615684 -2.3429673 -1.0188086</span></span>
-<span><span class="co">#&gt; Chem_100009217 -0.63260805 -0.6079294 -1.6079520</span></span></code></pre></div>
+<span><span class="co">#&gt; Chem_100002945 -1.39766849 -0.2815374  1.2411439 -0.2174673</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.55203632 -0.6806099  1.0146353 -0.7200718</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.07166915  1.3499028 -1.3252140  0.3605258</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.01517937  1.7767796  0.2037930  1.1324356</span></span>
+<span><span class="co">#&gt; Chem_100000657  0.81689897 -0.5145400  0.1341008  1.8329001</span></span>
+<span><span class="co">#&gt; Chem_100001397  1.20709278  0.2676124  0.5800063  0.4461643</span></span>
+<span><span class="co">#&gt;                    P101084     P101085    P101088</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.46790569 -0.79956923  0.1802240</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.10759663  0.09177914  0.7628154</span></span>
+<span><span class="co">#&gt; Chem_100021502 -0.46472994 -1.02787918  0.2536728</span></span>
+<span><span class="co">#&gt; Chem_100008903 -0.57912087  0.80980413  0.8781108</span></span>
+<span><span class="co">#&gt; Chem_100000657  0.04971752  1.39120715  1.3696377</span></span>
+<span><span class="co">#&gt; Chem_100001397  0.33924205  0.07559725 -1.5551143</span></span>
+<span><span class="co">#&gt;                   P101090    P101094     P101095    P101096</span></span>
+<span><span class="co">#&gt; Chem_100002945 -0.6907198  0.4533621 -0.04305132  1.4483158</span></span>
+<span><span class="co">#&gt; Chem_100002356 -0.9084270  0.8247035 -0.30391871  1.1374565</span></span>
+<span><span class="co">#&gt; Chem_100021502  0.5441123 -0.6113564  3.12218010  0.8849878</span></span>
+<span><span class="co">#&gt; Chem_100008903  0.5074603 -0.1412276 -2.25574976 -0.9769806</span></span>
+<span><span class="co">#&gt; Chem_100000657  1.2559215 -0.1213712 -1.27251866 -0.7621895</span></span>
+<span><span class="co">#&gt; Chem_100001397  0.6738970 -0.6924755 -1.14889648 -0.7480860</span></span></code></pre></div>
 </div>
-<div id="数据分布变化" class="section level2" number="8.9">
+<div id="数据分布变化" class="section level2" number="9.9">
 <h2>
-<span class="header-section-number">8.9</span> 数据分布变化<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E5%8F%98%E5%8C%96"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.9</span> 数据分布变化<a class="anchor" aria-label="anchor" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E5%8F%98%E5%8C%96"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li>函数来自于<strong>POMA</strong>包</li>
 </ul>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">POMABoxplots</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">data</span>,</span>
 <span>    <span class="va">group</span>,</span>
@@ -1037,7 +1052,7 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"ID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="va">group</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"TempGroup"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"TempGroup"</span></span>
 <span>  <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">target</span>, <span class="va">e</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -1067,7 +1082,7 @@
 <span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">feature_name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">value</span>, color <span class="op">=</span> <span class="va">TempGroup</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">feature_name</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">show_number</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">selected_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">show_number</span><span class="op">]</span></span>
+<span>      <span class="va">selected_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">show_number</span><span class="op">]</span></span>
 <span>      <span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">ID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">TempGroup</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -1144,7 +1159,7 @@
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"ID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="va">group</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"TempGroup"</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span> <span class="op">==</span> <span class="va">group</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"TempGroup"</span></span>
 <span>  <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">target</span>, <span class="va">e</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="va">feature_type</span> <span class="op">==</span> <span class="st">"samples"</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1173,7 +1188,7 @@
 <span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">feature_name</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">value</span>, fill <span class="op">=</span> <span class="va">TempGroup</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">feature_name</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span><span class="op">(</span><span class="va">show_number</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">selected_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">show_number</span><span class="op">]</span>      </span>
+<span>      <span class="va">selected_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">show_number</span><span class="op">]</span>      </span>
 <span>      <span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">ID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>        <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">TempGroup</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -1265,7 +1280,7 @@
 <ul>
 <li>以样本为基点的代谢物数据分布情况（组间箱线图）</li>
 </ul>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pl_unnor</span> <span class="op">&lt;-</span> <span class="fu">POMABoxplots</span><span class="op">(</span>data <span class="op">=</span> <span class="va">se_impute</span>, group <span class="op">=</span> <span class="st">"LiverFatClass"</span>, </span>
 <span>                         feature_type <span class="op">=</span> <span class="st">"samples"</span>, jitter <span class="op">=</span> <span class="cn">FALSE</span>, show_number <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Not Normalized (imputation)"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1291,7 +1306,7 @@
 <ul>
 <li>以代谢物为基点的代谢物数据分布情况（组间箱线图）</li>
 </ul>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pl_unnor</span> <span class="op">&lt;-</span> <span class="fu">POMADensity</span><span class="op">(</span>data <span class="op">=</span> <span class="va">se_impute</span>, group <span class="op">=</span> <span class="st">"LiverFatClass"</span>, feature_type <span class="op">=</span> <span class="st">"features"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Not Normalized"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="co"># data before normalization</span></span>
@@ -1313,7 +1328,7 @@
 <ul>
 <li>所有以代谢物为基点的数据分布</li>
 </ul>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">raw_pl</span> <span class="op">&lt;-</span> <span class="fu">get_distribution</span><span class="op">(</span>datset <span class="op">=</span> <span class="va">data_meta_new</span>, Type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span></span>
 <span><span class="va">check_pl</span> <span class="op">&lt;-</span> <span class="fu">get_distribution</span><span class="op">(</span>datset <span class="op">=</span> <span class="va">se_check</span>, Type <span class="op">=</span> <span class="st">"check"</span><span class="op">)</span></span>
 <span><span class="va">filter_pl</span> <span class="op">&lt;-</span> <span class="fu">get_distribution</span><span class="op">(</span>datset <span class="op">=</span> <span class="va">se_filter</span>, Type <span class="op">=</span> <span class="st">"filter"</span><span class="op">)</span></span>
@@ -1337,11 +1352,11 @@
 <li><p>Zscore是跨样本针对特征归一化其，数据分布呈现标准正态分布</p></li>
 </ul>
 </div>
-<div id="保存数据-1" class="section level2" number="8.10">
+<div id="保存数据-1" class="section level2" number="9.10">
 <h2>
-<span class="header-section-number">8.10</span> 保存数据<a class="anchor" aria-label="anchor" href="#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.10</span> 保存数据<a class="anchor" aria-label="anchor" href="#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE-1"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span><span class="op">(</span><span class="st">"./InputData/result/QC"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"./InputData/result/QC"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -1355,17 +1370,17 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_norm</span>, <span class="st">"./InputData/result/QC/se_norm.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">se_scale</span>, <span class="st">"./InputData/result/QC/se_scale.RDS"</span>, compress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="总结-3" class="section level2" number="8.11">
+<div id="总结-4" class="section level2" number="9.11">
 <h2>
-<span class="header-section-number">8.11</span> 总结<a class="anchor" aria-label="anchor" href="#%E6%80%BB%E7%BB%93-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.11</span> 总结<a class="anchor" aria-label="anchor" href="#%E6%80%BB%E7%BB%93-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>数据预处理是代谢组分析较为重要的步骤，通常建议使用log+zscore的方法对数据归一化处理，用于后续的统计分析，但看到有关文章在计算Log2FoldChange的时候使用原始intensity值计算。</p>
 </div>
-<div id="session-info-1" class="section level2" number="8.12">
+<div id="session-info-1" class="section level2" number="9.12">
 <h2>
-<span class="header-section-number">8.12</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.12</span> Session info<a class="anchor" aria-label="anchor" href="#session-info-1"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  setting  value</span></span>
@@ -1377,197 +1392,261 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2023-12-08</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  date     2024-02-06</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt;  package              * version   date (UTC) lib source</span></span>
-<span><span class="co">#&gt;  ade4                   1.7-22    2023-02-06 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ANCOMBC                1.4.0     2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  annotate               1.72.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  AnnotationDbi          1.60.2    2023-03-10 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  ape                    5.7-1     2023-03-13 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Biobase              * 2.54.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  BiocGenerics         * 0.40.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  BiocParallel           1.28.3    2021-12-09 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  biomformat             1.22.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  Biostrings             2.62.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  bit                    4.0.5     2022-11-15 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  bit64                  4.0.5     2020-08-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  bitops                 1.0-7     2021-04-24 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  blob                   1.2.4     2023-03-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  bookdown               0.34      2023-05-09 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  bslib                  0.6.0     2023-11-21 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  cachem                 1.0.8     2023-05-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  callr                  3.7.3     2022-11-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  caTools                1.18.2    2021-03-28 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  cli                    3.6.1     2023-03-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  cluster                2.1.4     2022-08-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  codetools              0.2-19    2023-02-01 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  colorspace             2.1-0     2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  cowplot                1.1.1     2020-12-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  crayon                 1.5.2     2022-09-29 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  data.table             1.14.8    2023-02-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  DBI                    1.1.3     2022-06-18 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  DelayedArray           0.20.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  DESeq2                 1.34.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  devtools               2.4.5     2022-10-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  digest                 0.6.33    2023-07-07 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  downlit                0.4.3     2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  dplyr                * 1.1.2     2023-04-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  ellipsis               0.3.2     2021-04-29 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  evaluate               0.21      2023-05-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fansi                  1.0.4     2023-01-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  farver                 2.1.1     2022-07-06 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fastmap                1.1.1     2023-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  forcats              * 1.0.0     2023-01-29 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  foreach                1.5.2     2022-02-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  fs                     1.6.2     2023-04-25 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  genefilter             1.76.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  geneplotter            1.72.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  generics               0.1.3     2022-07-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  GenomeInfoDb         * 1.30.1    2022-01-30 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  GenomeInfoDbData       1.2.7     2022-03-09 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  GenomicRanges        * 1.46.1    2021-11-18 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  ggplot2              * 3.4.2     2023-04-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  glmnet                 4.1-7     2023-03-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  glue                   1.6.2     2022-02-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gplots                 3.1.3     2022-04-25 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gtable                 0.3.3     2023-03-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  gtools                 3.9.4     2022-11-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  highr                  0.10      2022-12-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  hms                    1.1.3     2023-03-21 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  htmltools              0.5.7     2023-11-03 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  htmlwidgets            1.6.2     2023-03-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  httpuv                 1.6.11    2023-05-11 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  httr                   1.4.6     2023-05-08 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  igraph                 1.5.0     2023-06-16 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  impute                 1.68.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  IRanges              * 2.28.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  iterators              1.0.14    2022-02-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  jquerylib              0.1.4     2021-04-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  jsonlite               1.8.7     2023-06-29 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  KEGGREST               1.34.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  KernSmooth             2.23-22   2023-07-10 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  knitr                  1.43      2023-05-25 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  labeling               0.4.2     2020-10-20 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  later                  1.3.1     2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lattice                0.21-8    2023-04-05 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  lifecycle              1.0.3     2022-10-07 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  limma                  3.50.3    2022-04-07 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  locfit                 1.5-9.8   2023-06-11 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  lubridate            * 1.9.2     2023-02-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  magrittr               2.0.3     2022-03-30 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  MASS                   7.3-60    2023-05-04 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Matrix                 1.6-0     2023-07-08 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  MatrixGenerics       * 1.6.0     2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  matrixStats          * 1.0.0     2023-06-02 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  memoise                2.0.1     2021-11-26 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  metagenomeSeq          1.36.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  mgcv                   1.8-42    2023-03-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  microbiome             1.16.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  MicrobiomeAnalysis   * 1.0.3     2023-12-02 [1] Bioconductor</span></span>
-<span><span class="co">#&gt;  mime                   0.12      2021-09-28 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  miniUI                 0.1.1.1   2018-05-18 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  multtest               2.50.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  munsell                0.5.0     2018-06-12 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  nlme                   3.1-162   2023-01-31 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  nloptr                 2.0.3     2022-05-26 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  permute                0.9-7     2022-01-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  phyloseq               1.38.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  pillar                 1.9.0     2023-03-22 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  pkgbuild               1.4.2     2023-06-26 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  pkgconfig              2.0.3     2019-09-22 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  pkgload                1.3.2.1   2023-07-08 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  plyr                   1.8.8     2022-11-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  png                    0.1-8     2022-11-29 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  prettyunits            1.1.1     2020-01-24 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  processx               3.8.2     2023-06-30 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  profvis                0.3.8     2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  promises               1.2.0.1   2021-02-11 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  ps                     1.7.5     2023-04-18 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  purrr                * 1.0.1     2023-01-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  R6                     2.5.1     2021-08-19 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  rbibutils              2.2.13    2023-01-13 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  RColorBrewer           1.1-3     2022-04-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Rcpp                   1.0.11    2023-07-06 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  RCurl                  1.98-1.12 2023-03-27 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Rdpack                 2.4       2022-07-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  readr                * 2.1.4     2023-02-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  remotes                2.4.2     2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  reshape2               1.4.4     2020-04-09 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  rhdf5                  2.38.1    2022-03-10 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  rhdf5filters           1.6.0     2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  Rhdf5lib               1.16.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  rlang                  1.1.1     2023-04-28 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  rmarkdown              2.23      2023-07-01 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  RSQLite                2.3.1     2023-04-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  rstudioapi             0.15.0    2023-07-07 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  Rtsne                  0.16      2022-04-17 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  S4Vectors            * 0.32.4    2022-03-29 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  sass                   0.4.6     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  scales                 1.2.1     2022-08-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  sessioninfo            1.2.2     2021-12-06 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  shape                  1.4.6     2021-05-19 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  shiny                  1.7.4.1   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  stringi                1.7.12    2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  stringr              * 1.5.0     2022-12-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  SummarizedExperiment * 1.24.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  survival               3.5-5     2023-03-12 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tibble               * 3.2.1     2023-03-20 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyr                * 1.3.0     2023-01-24 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyselect             1.2.0     2022-10-10 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tidyverse            * 2.0.0     2023-02-22 [1] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  timechange             0.2.0     2023-01-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  tzdb                   0.4.0     2023-05-12 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  urlchecker             1.0.1     2021-11-30 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  usethis                2.2.2     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  utf8                   1.2.3     2023-01-31 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  vctrs                  0.6.3     2023-06-14 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  vegan                  2.6-4     2022-10-11 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  viridisLite            0.4.2     2023-05-02 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  withr                  2.5.0     2022-03-03 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  Wrench                 1.12.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  xfun                   0.40      2023-08-09 [1] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  XML                    3.99-0.14 2023-03-19 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  xml2                   1.3.5     2023-07-06 [2] CRAN (R 4.1.3)</span></span>
-<span><span class="co">#&gt;  xtable                 1.8-4     2019-04-21 [2] CRAN (R 4.1.0)</span></span>
-<span><span class="co">#&gt;  XVector                0.34.0    2021-10-26 [2] Bioconductor</span></span>
-<span><span class="co">#&gt;  yaml                   2.3.7     2023-01-23 [2] CRAN (R 4.1.2)</span></span>
-<span><span class="co">#&gt;  zlibbioc               1.40.0    2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  package                  * version    date (UTC) lib source</span></span>
+<span><span class="co">#&gt;  ade4                       1.7-22     2023-02-06 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ANCOMBC                    2.4.0      2023-10-26 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  annotate                   1.72.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  AnnotationDbi              1.60.2     2023-03-10 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ape                        5.7-1      2023-03-13 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  backports                  1.4.1      2021-12-13 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  base64enc                  0.1-3      2015-07-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  beachmat                   2.10.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  beeswarm                   0.4.0      2021-06-01 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Biobase                  * 2.54.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocGenerics             * 0.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocNeighbors              1.12.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocParallel               1.28.3     2021-12-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  BiocSingular               1.10.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  biomformat                 1.22.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  Biostrings                 2.62.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  bit                        4.0.5      2022-11-15 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bit64                      4.0.5      2020-08-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  bitops                     1.0-7      2021-04-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  blob                       1.2.4      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bluster                    1.4.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  bookdown                   0.34       2023-05-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  boot                       1.3-28.1   2022-11-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bslib                      0.6.0      2023-11-21 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  cachem                     1.0.8      2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  callr                      3.7.3      2022-11-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  caTools                    1.18.2     2021-03-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  cellranger                 1.1.0      2016-07-27 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  checkmate                  2.2.0      2023-04-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  class                      7.3-22     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cli                        3.6.1      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cluster                    2.1.4      2022-08-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  codetools                  0.2-19     2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  colorspace                 2.1-0      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cowplot                    1.1.2      2023-12-15 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  crayon                     1.5.2      2022-09-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  CVXR                       1.0-12     2024-02-02 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  data.table                 1.14.8     2023-02-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DBI                        1.1.3      2022-06-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  DECIPHER                   2.22.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  decontam                   1.14.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  DelayedArray               0.20.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  DelayedMatrixStats         1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  DescTools                  0.99.49    2023-05-17 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  DESeq2                     1.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  devtools                   2.4.5      2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  digest                     0.6.33     2023-07-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  DirichletMultinomial       1.36.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  doParallel                 1.0.17     2022-02-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  doRNG                      1.8.6      2023-01-16 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  downlit                    0.4.3      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  dplyr                    * 1.1.4      2023-11-17 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  e1071                      1.7-13     2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ellipsis                   0.3.2      2021-04-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  energy                     1.7-11     2022-12-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  evaluate                   0.21       2023-05-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Exact                      3.2        2022-09-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  expm                       0.999-7    2023-01-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fansi                      1.0.4      2023-01-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  farver                     2.1.1      2022-07-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmap                    1.1.1      2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  forcats                  * 1.0.0      2023-01-29 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  foreach                    1.5.2      2022-02-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  foreign                    0.8-84     2022-12-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Formula                    1.2-5      2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fs                         1.6.2      2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  genefilter                 1.76.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  geneplotter                1.72.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  generics                   0.1.3      2022-07-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  GenomeInfoDb             * 1.30.1     2022-01-30 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomeInfoDbData           1.2.7      2022-03-09 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  GenomicRanges            * 1.46.1     2021-11-18 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  ggbeeswarm                 0.7.2      2023-04-29 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggplot2                  * 3.4.4      2023-10-12 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  ggrepel                    0.9.3      2023-02-03 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gld                        2.6.6      2022-10-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glmnet                     4.1-7      2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glue                       1.6.2      2022-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gmp                        0.7-1      2023-02-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gplots                     3.1.3      2022-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gridExtra                  2.3        2017-09-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  gsl                        2.1-8      2023-01-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtable                     0.3.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtools                     3.9.4      2022-11-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  highr                      0.10       2022-12-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Hmisc                      5.1-0      2023-05-08 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hms                        1.1.3      2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmlTable                  2.4.1      2022-07-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmltools                  0.5.7      2023-11-03 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  htmlwidgets                1.6.2      2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  httpuv                     1.6.11     2023-05-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  httr                       1.4.6      2023-05-08 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  igraph                     1.5.0      2023-06-16 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  impute                     1.68.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  IRanges                  * 2.28.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  irlba                      2.3.5.1    2022-10-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  iterators                  1.0.14     2022-02-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  jquerylib                  0.1.4      2021-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  jsonlite                   1.8.7      2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  KEGGREST                   1.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  KernSmooth                 2.23-22    2023-07-10 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  knitr                      1.43       2023-05-25 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  labeling                   0.4.2      2020-10-20 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  later                      1.3.1      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lattice                    0.21-8     2023-04-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lazyeval                   0.2.2      2019-03-15 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  lifecycle                  1.0.3      2022-10-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  limma                      3.50.3     2022-04-07 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  lme4                       1.1-34     2023-07-04 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  lmerTest                   3.1-3      2020-10-23 [1] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  lmom                       2.9        2022-05-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  locfit                     1.5-9.8    2023-06-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  lubridate                * 1.9.2      2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  magrittr                   2.0.3      2022-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  MASS                       7.3-60     2023-05-04 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Matrix                     1.6-5      2024-01-11 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  MatrixGenerics           * 1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  matrixStats              * 1.1.0      2023-11-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  memoise                    2.0.1      2021-11-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  metagenomeSeq              1.36.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  mgcv                       1.8-42     2023-03-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  mia                        1.10.0     2023-10-24 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  MicrobiomeAnalysis       * 1.0.3      2023-12-02 [1] Bioconductor</span></span>
+<span><span class="co">#&gt;  mime                       0.12       2021-09-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  miniUI                     0.1.1.1    2018-05-18 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  minqa                      1.2.5      2022-10-19 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  multcomp                   1.4-25     2023-06-20 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  MultiAssayExperiment       1.20.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  multtest                   2.50.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  munsell                    0.5.0      2018-06-12 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mvtnorm                    1.2-2      2023-06-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  nlme                       3.1-162    2023-01-31 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  nloptr                     2.0.3      2022-05-26 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  nnet                       7.3-19     2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  numDeriv                   2016.8-1.1 2019-06-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  permute                    0.9-7      2022-01-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  phyloseq                   1.38.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  pillar                     1.9.0      2023-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pkgbuild                   1.4.2      2023-06-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pkgconfig                  2.0.3      2019-09-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pkgload                    1.3.2.1    2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  plyr                       1.8.8      2022-11-11 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  png                        0.1-8      2022-11-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  prettyunits                1.1.1      2020-01-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  processx                   3.8.2      2023-06-30 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  profvis                    0.3.8      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  promises                   1.2.0.1    2021-02-11 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  proxy                      0.4-27     2022-06-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ps                         1.7.5      2023-04-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr                    * 1.0.1      2023-01-10 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  R6                         2.5.1      2021-08-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rbibutils                  2.2.13     2023-01-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  RColorBrewer               1.1-3      2022-04-03 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Rcpp                       1.0.11     2023-07-06 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  RCurl                      1.98-1.12  2023-03-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Rdpack                     2.4        2022-07-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  readr                    * 2.1.4      2023-02-10 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  readxl                     1.4.3      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  remotes                    2.4.2      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  reshape2                   1.4.4      2020-04-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rhdf5                      2.38.1     2022-03-10 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rhdf5filters               1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  Rhdf5lib                   1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  rlang                      1.1.1      2023-04-28 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rmarkdown                  2.23       2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  Rmpfr                      0.9-2      2023-04-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rngtools                   1.5.2      2021-09-20 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rootSolve                  1.8.2.3    2021-09-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rpart                      4.1.19     2022-10-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  RSQLite                    2.3.1      2023-04-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rstudioapi                 0.15.0     2023-07-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  rsvd                       1.0.5      2021-04-16 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  S4Vectors                * 0.32.4     2022-03-29 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sandwich                   3.0-2      2022-06-15 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sass                       0.4.6      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ScaledMatrix               1.2.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  scales                     1.2.1      2022-08-20 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scater                     1.22.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  scuttle                    1.4.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sessioninfo                1.2.2      2021-12-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shape                      1.4.6      2021-05-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shiny                      1.7.4.1    2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  SingleCellExperiment       1.16.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  sparseMatrixStats          1.6.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  stringi                    1.7.12     2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr                  * 1.5.1      2023-11-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  SummarizedExperiment     * 1.24.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  survival                   3.5-5      2023-03-12 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  TH.data                    1.1-2      2023-04-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tibble                   * 3.2.1      2023-03-20 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr                    * 1.3.0      2023-01-24 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyselect                 1.2.0      2022-10-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidytree                   0.4.2      2022-12-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyverse                * 2.0.0      2023-02-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timechange                 0.2.0      2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  treeio                     1.18.1     2021-11-14 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  TreeSummarizedExperiment   2.2.0      2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  tzdb                       0.4.0      2023-05-12 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  urlchecker                 1.0.1      2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  usethis                    2.2.2      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  utf8                       1.2.3      2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vctrs                      0.6.5      2023-12-01 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  vegan                      2.6-4      2022-10-11 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vipor                      0.4.5      2017-03-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  viridis                    0.6.3      2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  viridisLite                0.4.2      2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  withr                      2.5.0      2022-03-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  Wrench                     1.12.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  xfun                       0.40       2023-08-09 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  XML                        3.99-0.14  2023-03-19 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xml2                       1.3.5      2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xtable                     1.8-4      2019-04-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  XVector                    0.34.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  yaml                       2.3.7      2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  yulab.utils                0.0.6      2022-12-20 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  zlibbioc                   1.40.0     2021-10-26 [2] Bioconductor</span></span>
+<span><span class="co">#&gt;  zoo                        1.8-12     2023-04-13 [2] CRAN (R 4.1.2)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
 <span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
 </div>
-<div id="reference-6" class="section level2" number="8.13">
+<div id="reference-7" class="section level2" number="9.13">
 <h2>
-<span class="header-section-number">8.13</span> Reference<a class="anchor" aria-label="anchor" href="#reference-6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.13</span> Reference<a class="anchor" aria-label="anchor" href="#reference-7"><i class="fas fa-link"></i></a>
 </h2>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></div>
-<div class="next"><a href="DimensionReduction.html"><span class="header-section-number">9</span> Dimension Reduction</a></div>
+<div class="prev"><a href="SurvivalAnalysis.html"><span class="header-section-number">8</span> Survival Analysis</a></div>
+<div class="next"><a href="DimensionReduction.html"><span class="header-section-number">10</span> Dimension Reduction</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#dataprocessing"><span class="header-section-number">8</span> Data Processing</a></li>
-<li><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="header-section-number">8.1</span> 处理流程</a></li>
-<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-4"><span class="header-section-number">8.2</span> 加载R包</a></li>
-<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-2"><span class="header-section-number">8.3</span> 导入数据</a></li>
-<li><a class="nav-link" href="#%E6%9E%84%E5%BB%BAqc%E6%A0%B7%E6%9C%AC"><span class="header-section-number">8.4</span> 构建QC样本</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4"><span class="header-section-number">8.5</span> 数据过滤</a></li>
-<li><a class="nav-link" href="#%E8%A1%A5%E7%BC%BA%E5%A4%B1%E5%80%BC"><span class="header-section-number">8.6</span> 补缺失值</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4-1"><span class="header-section-number">8.7</span> 数据过滤</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96"><span class="header-section-number">8.8</span> 数据标准化</a></li>
-<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E5%8F%98%E5%8C%96"><span class="header-section-number">8.9</span> 数据分布变化</a></li>
-<li><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE-1"><span class="header-section-number">8.10</span> 保存数据</a></li>
-<li><a class="nav-link" href="#%E6%80%BB%E7%BB%93-3"><span class="header-section-number">8.11</span> 总结</a></li>
-<li><a class="nav-link" href="#session-info-1"><span class="header-section-number">8.12</span> Session info</a></li>
-<li><a class="nav-link" href="#reference-6"><span class="header-section-number">8.13</span> Reference</a></li>
+<li><a class="nav-link" href="#dataprocessing"><span class="header-section-number">9</span> Data Processing</a></li>
+<li><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="header-section-number">9.1</span> 处理流程</a></li>
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-5"><span class="header-section-number">9.2</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-3"><span class="header-section-number">9.3</span> 导入数据</a></li>
+<li><a class="nav-link" href="#%E6%9E%84%E5%BB%BAqc%E6%A0%B7%E6%9C%AC"><span class="header-section-number">9.4</span> 构建QC样本</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4"><span class="header-section-number">9.5</span> 数据过滤</a></li>
+<li><a class="nav-link" href="#%E8%A1%A5%E7%BC%BA%E5%A4%B1%E5%80%BC"><span class="header-section-number">9.6</span> 补缺失值</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4-1"><span class="header-section-number">9.7</span> 数据过滤</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96"><span class="header-section-number">9.8</span> 数据标准化</a></li>
+<li><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E5%8F%98%E5%8C%96"><span class="header-section-number">9.9</span> 数据分布变化</a></li>
+<li><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE-1"><span class="header-section-number">9.10</span> 保存数据</a></li>
+<li><a class="nav-link" href="#%E6%80%BB%E7%BB%93-4"><span class="header-section-number">9.11</span> 总结</a></li>
+<li><a class="nav-link" href="#session-info-1"><span class="header-section-number">9.12</span> Session info</a></li>
+<li><a class="nav-link" href="#reference-7"><span class="header-section-number">9.13</span> Reference</a></li>
 </ul>
 
       <div class="book-extra">
@@ -1585,7 +1664,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2023-12-08.</p>
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2024-02-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

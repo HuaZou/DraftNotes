@@ -941,7 +941,7 @@ for (j in 1:length(KEGG_data)) {
 
 + plage (Tomfohr et al, 2005)
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 gsva_results <- gsva(
   as.matrix(profile_final),
   kegg_compound_gsva_list,

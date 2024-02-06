@@ -70,64 +70,64 @@ datSignif <- data.table::fread("./InputData/result/DA/Metabolites_FC_VIP_ttest.t
 head(datSignif)
 #>                                         FeatureID
 #> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
-#> 2:                                         serine
-#> 3:                 cysteine-glutathione disulfide
+#> 2:                 cysteine-glutathione disulfide
+#> 3:                                         serine
 #> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>            Block2                Block FoldChange
 #> 1: None vs Severe 10_None vs 12_Severe  0.6444244
-#> 2: None vs Severe 10_None vs 12_Severe  1.2218596
-#> 3: None vs Severe 10_None vs 12_Severe  1.7109000
+#> 2: None vs Severe 10_None vs 12_Severe  1.7109000
+#> 3: None vs Severe 10_None vs 12_Severe  1.2218596
 #> 4: None vs Severe 10_None vs 12_Severe  0.5199556
 #> 5: None vs Severe 10_None vs 12_Severe  0.5667863
 #> 6: None vs Severe 10_None vs 12_Severe  0.5638085
 #>    Log2FoldChange      VIP    CorPvalue Statistic
-#> 1:     -0.6339170 2.687525 8.117771e-05 -4.819854
-#> 2:      0.2890785 2.548672 2.690372e-04  4.485697
-#> 3:      0.7747554 2.650556 1.138437e-04  4.986734
-#> 4:     -0.9435396 2.512645 3.565018e-04 -4.210199
-#> 5:     -0.8191231 2.477067 4.658589e-04 -4.076152
-#> 6:     -0.8267228 2.357696 1.067887e-03 -3.676029
+#> 1:     -0.6339170 2.672936 8.114814e-05 -4.854409
+#> 2:      0.7747554 2.601041 1.550944e-04  4.858307
+#> 3:      0.2890785 2.541717 2.544812e-04  4.456220
+#> 4:     -0.9435396 2.549095 2.397091e-04 -4.400999
+#> 5:     -0.8191231 2.469432 4.460156e-04 -4.108909
+#> 6:     -0.8267228 2.369314 9.073991e-04 -3.748881
 #>          Pvalue AdjustedPvalue Mean Abundance (All)
-#> 1: 1.593233e-04     0.05015989              3841099
-#> 2: 2.262852e-04     0.05015989             63358904
-#> 3: 8.603076e-05     0.05015989              1246453
-#> 4: 5.617708e-04     0.09339439              2243154
-#> 5: 8.065149e-04     0.10726649              1817773
-#> 6: 2.258811e-03     0.20428466              1192929
+#> 1: 0.0001301058     0.04202417              3841099
+#> 2: 0.0001184340     0.04202417              1246453
+#> 3: 0.0002529654     0.05447188             63358904
+#> 4: 0.0003436084     0.05549276              2243154
+#> 5: 0.0007169002     0.09262350              1817773
+#> 6: 0.0019076334     0.17057034              1192929
 #>    Mean Abundance None Mean Abundance Severe  metabolitesID
 #> 1:           2952496.1             4581602.1 Chem_100015755
-#> 2:          70323857.2            57554776.3       Chem_503
-#> 3:           1611743.8              942044.4 Chem_100001437
+#> 2:           1611743.8              942044.4 Chem_100001437
+#> 3:          70323857.2            57554776.3       Chem_503
 #> 4:           1491869.7             2869225.1 Chem_100009066
 #> 5:           1282914.5             2263488.8 Chem_100009181
 #> 6:            838913.8             1487941.0 Chem_100010917
 #>                                       BIOCHEMICAL
 #> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
-#> 2:                                         serine
-#> 3:                 cysteine-glutathione disulfide
+#> 2:                 cysteine-glutathione disulfide
+#> 3:                                         serine
 #> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>    SUPER.PATHWAY                              SUB.PATHWAY
 #> 1:         Lipid                                Ceramides
-#> 2:    Amino Acid Glycine, Serine and Threonine Metabolism
-#> 3:    Amino Acid                   Glutathione Metabolism
+#> 2:    Amino Acid                   Glutathione Metabolism
+#> 3:    Amino Acid Glycine, Serine and Threonine Metabolism
 #> 4:         Lipid                Phosphatidylinositol (PI)
 #> 5:         Lipid                Phosphatidylinositol (PI)
 #> 6:         Lipid                           Diacylglycerol
 #>    COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM
 #> 1:  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
-#> 2:   1648 LC/MS Pos Early        503 1239 106.0499     5951
-#> 3:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
+#> 2:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
+#> 3:   1648 LC/MS Pos Early        503 1239 106.0499     5951
 #> 4:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
 #> 5:  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
 #> 6:  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283
 #>           CAS   KEGG SampleIDHMDBID
 #> 1:       <NA>   <NA>           <NA>
-#> 2:    56-45-1 C00065    HMDB0000187
-#> 3: 13081-14-6 R00900    HMDB0000656
+#> 2: 13081-14-6 R00900    HMDB0000656
+#> 3:    56-45-1 C00065    HMDB0000187
 #> 4:       <NA>   <NA>    HMDB0009783
 #> 5:       <NA>   <NA>           <NA>
 #> 6:       <NA> C13861    HMDB0007102
@@ -553,45 +553,52 @@ ORA_res <- get_enrichment(
   enrich_type = "ORA")
 
 head(ORA_res$enrich[, 1:6])
-#>                                                                      ID
-#> Central carbon metabolism in cancer Central carbon metabolism in cancer
-#> Protein digestion and absorption       Protein digestion and absorption
-#> Mineral absorption                                   Mineral absorption
-#> ABC transporters                                       ABC transporters
-#> Aminoacyl-tRNA biosynthesis                 Aminoacyl-tRNA biosynthesis
-#> D-Amino acid metabolism                         D-Amino acid metabolism
-#>                                                                    NAME
-#> Central carbon metabolism in cancer Central carbon metabolism in cancer
-#> Protein digestion and absorption       Protein digestion and absorption
-#> Mineral absorption                                   Mineral absorption
-#> ABC transporters                                       ABC transporters
-#> Aminoacyl-tRNA biosynthesis                 Aminoacyl-tRNA biosynthesis
-#> D-Amino acid metabolism                         D-Amino acid metabolism
-#>                                     CompoundRatio  BgRatio
-#> Central carbon metabolism in cancer        14/117  37/3527
-#> Protein digestion and absorption           13/117  47/3527
-#> Mineral absorption                         10/117  29/3527
-#> ABC transporters                           19/117 139/3527
-#> Aminoacyl-tRNA biosynthesis                11/117  52/3527
-#> D-Amino acid metabolism                    12/117  69/3527
-#>                                           pvalue
-#> Central carbon metabolism in cancer 2.876207e-12
-#> Protein digestion and absorption    1.641692e-09
-#> Mineral absorption                  1.293630e-08
-#> ABC transporters                    7.922692e-08
-#> Aminoacyl-tRNA biosynthesis         6.402536e-07
-#> D-Amino acid metabolism             1.801053e-06
-#>                                         p.adjust
-#> Central carbon metabolism in cancer 3.451448e-10
-#> Protein digestion and absorption    9.850155e-08
-#> Mineral absorption                  5.174520e-07
-#> ABC transporters                    2.376807e-06
-#> Aminoacyl-tRNA biosynthesis         1.536609e-05
-#> D-Amino acid metabolism             3.602105e-05
+#>                                                                                      ID
+#> Central carbon metabolism in cancer                 Central carbon metabolism in cancer
+#> Protein digestion and absorption                       Protein digestion and absorption
+#> Mineral absorption                                                   Mineral absorption
+#> ABC transporters                                                       ABC transporters
+#> Aminoacyl-tRNA biosynthesis                                 Aminoacyl-tRNA biosynthesis
+#> Alanine, aspartate and glutamate metabolism Alanine, aspartate and glutamate metabolism
+#>                                                                                    NAME
+#> Central carbon metabolism in cancer                 Central carbon metabolism in cancer
+#> Protein digestion and absorption                       Protein digestion and absorption
+#> Mineral absorption                                                   Mineral absorption
+#> ABC transporters                                                       ABC transporters
+#> Aminoacyl-tRNA biosynthesis                                 Aminoacyl-tRNA biosynthesis
+#> Alanine, aspartate and glutamate metabolism Alanine, aspartate and glutamate metabolism
+#>                                             CompoundRatio
+#> Central carbon metabolism in cancer                16/119
+#> Protein digestion and absorption                   15/119
+#> Mineral absorption                                 12/119
+#> ABC transporters                                   22/119
+#> Aminoacyl-tRNA biosynthesis                        13/119
+#> Alanine, aspartate and glutamate metabolism        10/119
+#>                                              BgRatio
+#> Central carbon metabolism in cancer          37/3527
+#> Protein digestion and absorption             47/3527
+#> Mineral absorption                           29/3527
+#> ABC transporters                            139/3527
+#> Aminoacyl-tRNA biosynthesis                  52/3527
+#> Alanine, aspartate and glutamate metabolism  28/3527
+#>                                                   pvalue
+#> Central carbon metabolism in cancer         7.256749e-15
+#> Protein digestion and absorption            1.044883e-11
+#> Mineral absorption                          3.993588e-11
+#> ABC transporters                            5.026872e-10
+#> Aminoacyl-tRNA biosynthesis                 7.958555e-09
+#> Alanine, aspartate and glutamate metabolism 1.029863e-08
+#>                                                 p.adjust
+#> Central carbon metabolism in cancer         8.562964e-13
+#> Protein digestion and absorption            6.164812e-10
+#> Mineral absorption                          1.570811e-09
+#> ABC transporters                            1.482927e-08
+#> Aminoacyl-tRNA biosynthesis                 1.878219e-07
+#> Alanine, aspartate and glutamate metabolism 2.025397e-07
 ```
 
 
-结果：在设置提取差异代谢物阈值后，可以得知ORA结果下有120, 9条通路存在，再根据qvalue卡差异通路即可。
+结果：在设置提取差异代谢物阈值后，可以得知ORA结果下有118, 9条通路存在，再根据qvalue卡差异通路即可。
 
 + 差异代谢物涉及到的通路
 
@@ -791,22 +798,22 @@ head(ORA_res$enrich[, 1:6])
 #> map04974 None vs Severe map04974
 #> map02010 None vs Severe map02010
 #> map01230 None vs Severe map01230
-#> map04978 None vs Severe map04978
 #> map00232 None vs Severe map00232
+#> map04978 None vs Severe map04978
 #>                                         NAME CompoundRatio
-#> map05230 Central carbon metabolism in cancer        22/190
-#> map04974    Protein digestion and absorption        20/190
-#> map02010                    ABC transporters        30/190
-#> map01230         Biosynthesis of amino acids        29/190
-#> map04978                  Mineral absorption        14/190
-#> map00232                 Caffeine metabolism        12/190
+#> map05230 Central carbon metabolism in cancer        22/192
+#> map04974    Protein digestion and absorption        20/192
+#> map02010                    ABC transporters        30/192
+#> map01230         Biosynthesis of amino acids        29/192
+#> map00232                 Caffeine metabolism        13/192
+#> map04978                  Mineral absorption        14/192
 #>           BgRatio       pvalue
-#> map05230  37/6200 9.261497e-25
-#> map04974  47/6200 9.300065e-19
-#> map02010 137/6200 3.712776e-18
-#> map01230 128/6200 5.238086e-18
-#> map04978  29/6200 2.073018e-14
-#> map00232  22/6200 2.403082e-13
+#> map05230  37/6200 1.176544e-24
+#> map04974  47/6200 1.149695e-18
+#> map02010 137/6200 5.042641e-18
+#> map01230 128/6200 7.045613e-18
+#> map00232  22/6200 6.268712e-15
+#> map04978  29/6200 2.401741e-14
 ```
 
 
@@ -1144,26 +1151,26 @@ gsva_results <- gsva(
 
 head(gsva_results[, 1:3])
 #>                                             P101001
-#> ABC transporters                        -0.21711898
-#> Aminoacyl-tRNA biosynthesis             -0.36701443
-#> Bile secretion                           0.05227962
-#> Biosynthesis of unsaturated fatty acids  0.34099650
-#> Central carbon metabolism in cancer     -0.29184863
-#> D-Amino acid metabolism                 -0.27998640
+#> ABC transporters                        -0.20228650
+#> Aminoacyl-tRNA biosynthesis             -0.44329459
+#> Bile secretion                           0.06301039
+#> Biosynthesis of unsaturated fatty acids  0.35032037
+#> Central carbon metabolism in cancer     -0.36038134
+#> D-Amino acid metabolism                 -0.26337821
 #>                                            P101003
-#> ABC transporters                        -0.3538321
-#> Aminoacyl-tRNA biosynthesis             -0.2177926
-#> Bile secretion                           0.1849802
-#> Biosynthesis of unsaturated fatty acids  0.7289389
-#> Central carbon metabolism in cancer     -0.3464794
-#> D-Amino acid metabolism                 -0.1094869
+#> ABC transporters                        -0.3587586
+#> Aminoacyl-tRNA biosynthesis             -0.2629152
+#> Bile secretion                           0.2382812
+#> Biosynthesis of unsaturated fatty acids  0.7107874
+#> Central carbon metabolism in cancer     -0.3790808
+#> D-Amino acid metabolism                 -0.1158670
 #>                                             P101004
-#> ABC transporters                         0.02992533
-#> Aminoacyl-tRNA biosynthesis              0.17762778
-#> Bile secretion                          -0.08113102
-#> Biosynthesis of unsaturated fatty acids  0.34352393
-#> Central carbon metabolism in cancer      0.12303156
-#> D-Amino acid metabolism                  0.05373659
+#> ABC transporters                        0.054898838
+#> Aminoacyl-tRNA biosynthesis             0.165783650
+#> Bile secretion                          0.207036545
+#> Biosynthesis of unsaturated fatty acids 0.311415933
+#> Central carbon metabolism in cancer     0.113331553
+#> D-Amino acid metabolism                 0.009637222
 ```
 
 ### 可视化结果
@@ -1324,8 +1331,8 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-08
-#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
+#>  date     2024-02-06
+#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package              * version    date (UTC) lib source
@@ -1334,7 +1341,7 @@ devtools::session_info()
 #>  affyio                 1.64.0     2021-10-26 [2] Bioconductor
 #>  annotate               1.72.0     2021-10-26 [2] Bioconductor
 #>  AnnotationDbi          1.60.2     2023-03-10 [2] Bioconductor
-#>  ape                    5.7-1      2023-03-13 [2] CRAN (R 4.1.2)
+#>  ape                    5.7-1      2023-03-13 [1] CRAN (R 4.1.2)
 #>  aplot                  0.1.10     2023-03-08 [2] CRAN (R 4.1.2)
 #>  attempt                0.3.1      2020-05-03 [2] CRAN (R 4.1.0)
 #>  backports              1.4.1      2021-12-13 [2] CRAN (R 4.1.0)
@@ -1379,8 +1386,8 @@ devtools::session_info()
 #>  DOSE                   3.20.1     2021-11-18 [2] Bioconductor
 #>  downlit                0.4.3      2023-06-29 [2] CRAN (R 4.1.3)
 #>  downloader             0.4        2015-07-09 [2] CRAN (R 4.1.0)
-#>  dplyr                * 1.1.2      2023-04-20 [2] CRAN (R 4.1.2)
-#>  DT                     0.28       2023-05-18 [2] CRAN (R 4.1.3)
+#>  dplyr                * 1.1.4      2023-11-17 [1] CRAN (R 4.1.3)
+#>  DT                     0.31       2023-12-09 [1] CRAN (R 4.1.3)
 #>  ellipsis               0.3.2      2021-04-29 [2] CRAN (R 4.1.0)
 #>  enrichplot             1.14.2     2022-02-24 [2] Bioconductor
 #>  evaluate               0.21       2023-05-05 [2] CRAN (R 4.1.2)
@@ -1389,7 +1396,7 @@ devtools::session_info()
 #>  fastmap                1.1.1      2023-02-24 [2] CRAN (R 4.1.2)
 #>  fastmatch              1.1-3      2021-07-23 [2] CRAN (R 4.1.0)
 #>  fgsea                  1.20.0     2021-10-26 [2] Bioconductor
-#>  forcats              * 1.0.0      2023-01-29 [2] CRAN (R 4.1.2)
+#>  forcats              * 1.0.0      2023-01-29 [1] CRAN (R 4.1.2)
 #>  foreach                1.5.2      2022-02-02 [2] CRAN (R 4.1.2)
 #>  fs                     1.6.2      2023-04-25 [2] CRAN (R 4.1.2)
 #>  furrr                  0.3.1      2022-08-15 [2] CRAN (R 4.1.2)
@@ -1401,11 +1408,11 @@ devtools::session_info()
 #>  GetoptLong             1.0.5      2020-12-15 [2] CRAN (R 4.1.0)
 #>  ggforce                0.4.1      2022-10-04 [2] CRAN (R 4.1.2)
 #>  ggfun                  0.1.1      2023-06-24 [2] CRAN (R 4.1.3)
-#>  ggplot2              * 3.4.2      2023-04-03 [2] CRAN (R 4.1.2)
+#>  ggplot2              * 3.4.4      2023-10-12 [1] CRAN (R 4.1.3)
 #>  ggplotify              0.1.1      2023-06-27 [2] CRAN (R 4.1.3)
-#>  ggpubr                 0.6.0      2023-02-10 [2] CRAN (R 4.1.2)
+#>  ggpubr                 0.6.0      2023-02-10 [1] CRAN (R 4.1.2)
 #>  ggraph                 2.1.0.9000 2023-07-11 [1] Github (thomasp85/ggraph@febab71)
-#>  ggrepel                0.9.3      2023-02-03 [2] CRAN (R 4.1.2)
+#>  ggrepel                0.9.3      2023-02-03 [1] CRAN (R 4.1.2)
 #>  ggsignif               0.6.4      2022-10-13 [2] CRAN (R 4.1.2)
 #>  ggtree                 3.2.1      2021-11-16 [2] Bioconductor
 #>  GlobalOptions          0.1.2      2020-06-10 [2] CRAN (R 4.1.0)
@@ -1447,13 +1454,13 @@ devtools::session_info()
 #>  lubridate            * 1.9.2      2023-02-10 [2] CRAN (R 4.1.2)
 #>  magrittr             * 2.0.3      2022-03-30 [2] CRAN (R 4.1.2)
 #>  MALDIquant             1.22.1     2023-03-20 [2] CRAN (R 4.1.2)
-#>  MASS                   7.3-60     2023-05-04 [2] CRAN (R 4.1.2)
+#>  MASS                   7.3-60     2023-05-04 [1] CRAN (R 4.1.2)
 #>  massdatabase         * 1.0.7      2023-05-30 [2] gitlab (jaspershen/massdatabase@df83e93)
 #>  massdataset          * 1.0.24     2023-05-30 [2] gitlab (jaspershen/massdataset@b397116)
 #>  masstools            * 1.0.10     2023-05-30 [2] gitlab (jaspershen/masstools@b3c73bc)
-#>  Matrix                 1.6-0      2023-07-08 [2] CRAN (R 4.1.3)
+#>  Matrix                 1.6-5      2024-01-11 [1] CRAN (R 4.1.3)
 #>  MatrixGenerics         1.6.0      2021-10-26 [2] Bioconductor
-#>  matrixStats            1.0.0      2023-06-02 [2] CRAN (R 4.1.3)
+#>  matrixStats            1.1.0      2023-11-07 [1] CRAN (R 4.1.3)
 #>  memoise                2.0.1      2021-11-26 [2] CRAN (R 4.1.0)
 #>  metid                * 1.2.26     2023-05-30 [2] gitlab (jaspershen/metid@6bde121)
 #>  metpath              * 1.0.5      2023-05-30 [2] gitlab (jaspershen/metpath@adcad4f)
@@ -1466,19 +1473,19 @@ devtools::session_info()
 #>  mzID                   1.32.0     2021-10-26 [2] Bioconductor
 #>  mzR                  * 2.28.0     2021-10-27 [2] Bioconductor
 #>  ncdf4                  1.21       2023-01-07 [2] CRAN (R 4.1.2)
-#>  nlme                   3.1-162    2023-01-31 [2] CRAN (R 4.1.2)
+#>  nlme                   3.1-162    2023-01-31 [1] CRAN (R 4.1.2)
 #>  openxlsx               4.2.5.2    2023-02-06 [2] CRAN (R 4.1.2)
 #>  parallelly             1.36.0     2023-05-26 [2] CRAN (R 4.1.3)
 #>  patchwork              1.1.2      2022-08-19 [2] CRAN (R 4.1.2)
 #>  pbapply                1.7-2      2023-06-27 [2] CRAN (R 4.1.3)
 #>  pcaMethods             1.86.0     2021-10-26 [2] Bioconductor
-#>  pheatmap               1.0.12     2019-01-04 [2] CRAN (R 4.1.0)
+#>  pheatmap               1.0.12     2019-01-04 [1] CRAN (R 4.1.0)
 #>  pillar                 1.9.0      2023-03-22 [2] CRAN (R 4.1.2)
 #>  pkgbuild               1.4.2      2023-06-26 [2] CRAN (R 4.1.3)
 #>  pkgconfig              2.0.3      2019-09-22 [2] CRAN (R 4.1.0)
 #>  pkgload                1.3.2.1    2023-07-08 [2] CRAN (R 4.1.3)
 #>  plotly                 4.10.2     2023-06-03 [2] CRAN (R 4.1.3)
-#>  plyr                   1.8.8      2022-11-11 [2] CRAN (R 4.1.2)
+#>  plyr                   1.8.8      2022-11-11 [1] CRAN (R 4.1.2)
 #>  png                    0.1-8      2022-11-29 [2] CRAN (R 4.1.2)
 #>  polyclip               1.10-4     2022-10-20 [2] CRAN (R 4.1.2)
 #>  preprocessCore         1.56.0     2021-10-26 [2] Bioconductor
@@ -1489,14 +1496,14 @@ devtools::session_info()
 #>  promises               1.2.0.1    2021-02-11 [2] CRAN (R 4.1.0)
 #>  ProtGenerics         * 1.26.0     2021-10-26 [2] Bioconductor
 #>  ps                     1.7.5      2023-04-18 [2] CRAN (R 4.1.2)
-#>  purrr                * 1.0.1      2023-01-10 [2] CRAN (R 4.1.2)
+#>  purrr                * 1.0.1      2023-01-10 [1] CRAN (R 4.1.2)
 #>  qvalue                 2.26.0     2021-10-26 [2] Bioconductor
 #>  R6                     2.5.1      2021-08-19 [2] CRAN (R 4.1.0)
-#>  RColorBrewer           1.1-3      2022-04-03 [2] CRAN (R 4.1.2)
+#>  RColorBrewer           1.1-3      2022-04-03 [1] CRAN (R 4.1.2)
 #>  Rcpp                 * 1.0.11     2023-07-06 [1] CRAN (R 4.1.3)
 #>  RCurl                  1.98-1.12  2023-03-27 [2] CRAN (R 4.1.2)
 #>  Rdisop                 1.54.0     2021-10-26 [2] Bioconductor
-#>  readr                * 2.1.4      2023-02-10 [2] CRAN (R 4.1.2)
+#>  readr                * 2.1.4      2023-02-10 [1] CRAN (R 4.1.2)
 #>  readxl                 1.4.3      2023-07-06 [2] CRAN (R 4.1.3)
 #>  remotes                2.4.2      2021-11-30 [2] CRAN (R 4.1.0)
 #>  reshape2               1.4.4      2020-04-09 [2] CRAN (R 4.1.0)
@@ -1514,7 +1521,7 @@ devtools::session_info()
 #>  S4Vectors            * 0.32.4     2022-03-29 [2] Bioconductor
 #>  sass                   0.4.6      2023-05-03 [2] CRAN (R 4.1.2)
 #>  ScaledMatrix           1.2.0      2021-10-26 [2] Bioconductor
-#>  scales                 1.2.1      2022-08-20 [2] CRAN (R 4.1.2)
+#>  scales                 1.2.1      2022-08-20 [1] CRAN (R 4.1.2)
 #>  scatterpie             0.2.1      2023-06-07 [2] CRAN (R 4.1.3)
 #>  sessioninfo            1.2.2      2021-12-06 [2] CRAN (R 4.1.0)
 #>  shadowtext             0.1.2      2022-04-22 [2] CRAN (R 4.1.2)
@@ -1526,11 +1533,11 @@ devtools::session_info()
 #>  sparseMatrixStats      1.6.0      2021-10-26 [2] Bioconductor
 #>  stringdist             0.9.10     2022-11-07 [2] CRAN (R 4.1.2)
 #>  stringi                1.7.12     2023-01-11 [2] CRAN (R 4.1.2)
-#>  stringr              * 1.5.0      2022-12-02 [2] CRAN (R 4.1.2)
+#>  stringr              * 1.5.1      2023-11-14 [1] CRAN (R 4.1.3)
 #>  SummarizedExperiment   1.24.0     2021-10-26 [2] Bioconductor
-#>  tibble               * 3.2.1      2023-03-20 [2] CRAN (R 4.1.2)
+#>  tibble               * 3.2.1      2023-03-20 [1] CRAN (R 4.1.2)
 #>  tidygraph              1.2.3      2023-02-01 [2] CRAN (R 4.1.2)
-#>  tidyr                * 1.3.0      2023-01-24 [2] CRAN (R 4.1.2)
+#>  tidyr                * 1.3.0      2023-01-24 [1] CRAN (R 4.1.2)
 #>  tidyselect             1.2.0      2022-10-10 [2] CRAN (R 4.1.2)
 #>  tidytree               0.4.2      2022-12-18 [2] CRAN (R 4.1.2)
 #>  tidyverse            * 2.0.0      2023-02-22 [1] CRAN (R 4.1.2)
@@ -1541,7 +1548,7 @@ devtools::session_info()
 #>  urlchecker             1.0.1      2021-11-30 [2] CRAN (R 4.1.0)
 #>  usethis                2.2.2      2023-07-06 [2] CRAN (R 4.1.3)
 #>  utf8                   1.2.3      2023-01-31 [2] CRAN (R 4.1.2)
-#>  vctrs                  0.6.3      2023-06-14 [1] CRAN (R 4.1.3)
+#>  vctrs                  0.6.5      2023-12-01 [1] CRAN (R 4.1.3)
 #>  viridis                0.6.3      2023-05-03 [2] CRAN (R 4.1.2)
 #>  viridisLite            0.4.2      2023-05-02 [2] CRAN (R 4.1.2)
 #>  vsn                    3.62.0     2021-10-26 [2] Bioconductor

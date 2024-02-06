@@ -525,7 +525,7 @@ bp0 = clf0.best_params_
 
 df.head()
 #>    mean_fit_time  std_fit_time  ...  mean_train_score  std_train_score
-#> 0        0.04329      0.008658  ...               1.0              0.0
+#> 0       0.032066      0.004569  ...               1.0              0.0
 #> 
 #> [1 rows x 56 columns]
 ```
@@ -1075,7 +1075,7 @@ session_info.show()
 #> Python 3.9.16 | packaged by conda-forge | (main, Feb  1 2023, 21:50:49) [Clang 14.0.6 ]
 #> macOS-10.16-x86_64-i386-64bit
 #> -----
-#> Session information updated at 2023-12-08 15:46
+#> Session information updated at 2024-02-06 13:57
 ```
 
 

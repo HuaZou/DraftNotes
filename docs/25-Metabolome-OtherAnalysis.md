@@ -177,64 +177,64 @@ datSignif <- data.table::fread("./InputData/result/DA/Metabolites_FC_VIP_ttest.t
 head(datSignif)
 #>                                         FeatureID
 #> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
-#> 2:                                         serine
-#> 3:                 cysteine-glutathione disulfide
+#> 2:                 cysteine-glutathione disulfide
+#> 3:                                         serine
 #> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>            Block2                Block FoldChange
 #> 1: None vs Severe 10_None vs 12_Severe  0.6444244
-#> 2: None vs Severe 10_None vs 12_Severe  1.2218596
-#> 3: None vs Severe 10_None vs 12_Severe  1.7109000
+#> 2: None vs Severe 10_None vs 12_Severe  1.7109000
+#> 3: None vs Severe 10_None vs 12_Severe  1.2218596
 #> 4: None vs Severe 10_None vs 12_Severe  0.5199556
 #> 5: None vs Severe 10_None vs 12_Severe  0.5667863
 #> 6: None vs Severe 10_None vs 12_Severe  0.5638085
 #>    Log2FoldChange      VIP    CorPvalue Statistic
-#> 1:     -0.6339170 2.687525 8.117771e-05 -4.819854
-#> 2:      0.2890785 2.548672 2.690372e-04  4.485697
-#> 3:      0.7747554 2.650556 1.138437e-04  4.986734
-#> 4:     -0.9435396 2.512645 3.565018e-04 -4.210199
-#> 5:     -0.8191231 2.477067 4.658589e-04 -4.076152
-#> 6:     -0.8267228 2.357696 1.067887e-03 -3.676029
+#> 1:     -0.6339170 2.672936 8.114814e-05 -4.854409
+#> 2:      0.7747554 2.601041 1.550944e-04  4.858307
+#> 3:      0.2890785 2.541717 2.544812e-04  4.456220
+#> 4:     -0.9435396 2.549095 2.397091e-04 -4.400999
+#> 5:     -0.8191231 2.469432 4.460156e-04 -4.108909
+#> 6:     -0.8267228 2.369314 9.073991e-04 -3.748881
 #>          Pvalue AdjustedPvalue Mean Abundance (All)
-#> 1: 1.593233e-04     0.05015989              3841099
-#> 2: 2.262852e-04     0.05015989             63358904
-#> 3: 8.603076e-05     0.05015989              1246453
-#> 4: 5.617708e-04     0.09339439              2243154
-#> 5: 8.065149e-04     0.10726649              1817773
-#> 6: 2.258811e-03     0.20428466              1192929
+#> 1: 0.0001301058     0.04202417              3841099
+#> 2: 0.0001184340     0.04202417              1246453
+#> 3: 0.0002529654     0.05447188             63358904
+#> 4: 0.0003436084     0.05549276              2243154
+#> 5: 0.0007169002     0.09262350              1817773
+#> 6: 0.0019076334     0.17057034              1192929
 #>    Mean Abundance None Mean Abundance Severe  metabolitesID
 #> 1:           2952496.1             4581602.1 Chem_100015755
-#> 2:          70323857.2            57554776.3       Chem_503
-#> 3:           1611743.8              942044.4 Chem_100001437
+#> 2:           1611743.8              942044.4 Chem_100001437
+#> 3:          70323857.2            57554776.3       Chem_503
 #> 4:           1491869.7             2869225.1 Chem_100009066
 #> 5:           1282914.5             2263488.8 Chem_100009181
 #> 6:            838913.8             1487941.0 Chem_100010917
 #>                                       BIOCHEMICAL
 #> 1: ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*
-#> 2:                                         serine
-#> 3:                 cysteine-glutathione disulfide
+#> 2:                 cysteine-glutathione disulfide
+#> 3:                                         serine
 #> 4:          1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*
 #> 5:           1-stearoyl-2-oleoyl-GPI (18:0/18:1)*
 #> 6:     palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*
 #>    SUPER.PATHWAY                              SUB.PATHWAY
 #> 1:         Lipid                                Ceramides
-#> 2:    Amino Acid Glycine, Serine and Threonine Metabolism
-#> 3:    Amino Acid                   Glutathione Metabolism
+#> 2:    Amino Acid                   Glutathione Metabolism
+#> 3:    Amino Acid Glycine, Serine and Threonine Metabolism
 #> 4:         Lipid                Phosphatidylinositol (PI)
 #> 5:         Lipid                Phosphatidylinositol (PI)
 #> 6:         Lipid                           Diacylglycerol
 #>    COMPID        PLATFORM CHEMICALID   RI     MASS  PUBCHEM
 #> 1:  57440  LC/MS Pos Late  100015755 3920 594.5820     <NA>
-#> 2:   1648 LC/MS Pos Early        503 1239 106.0499     5951
-#> 3:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
+#> 2:  35159 LC/MS Pos Early  100001437 2465 427.0952  3080690
+#> 3:   1648 LC/MS Pos Early        503 1239 106.0499     5951
 #> 4:  52669  LC/MS Pos Late  100009066 3140 854.5753 71296232
 #> 5:  52726  LC/MS Pos Late  100009181 3711 882.6066     <NA>
 #> 6:  54942  LC/MS Pos Late  100010917 3695 612.5562  5282283
 #>           CAS   KEGG SampleIDHMDBID
 #> 1:       <NA>   <NA>           <NA>
-#> 2:    56-45-1 C00065    HMDB0000187
-#> 3: 13081-14-6 R00900    HMDB0000656
+#> 2: 13081-14-6 R00900    HMDB0000656
+#> 3:    56-45-1 C00065    HMDB0000187
 #> 4:       <NA>   <NA>    HMDB0009783
 #> 5:       <NA>   <NA>           <NA>
 #> 6:       <NA> C13861    HMDB0007102
@@ -260,12 +260,12 @@ datSignif_KEGG <- datSignif %>%
 target_metabolites <- datSignif_KEGG[sample(1:nrow(datSignif_KEGG), 5), ,]
 
 head(target_metabolites)
-#>                               BIOCHEMICAL   KEGG
-#> 1: 2-hydroxybutyrate/2-hydroxyisobutyrate C21297
-#> 2:                                   urea C00086
-#> 3:            S-1-pyrroline-5-carboxylate C04322
-#> 4:                 3-methyl-2-oxovalerate C00671
-#> 5:                 alpha-ketoglutaramate* C00940
+#>             BIOCHEMICAL   KEGG
+#> 1:   N-formylmethionine C03145
+#> 2:        phenylalanine C00079
+#> 3:           asparagine C00152
+#> 4: methionine sulfoxide C02989
+#> 5:            ornithine C00077
 ```
 
 
@@ -297,14 +297,14 @@ myAnalysis <- enrich(
     data = fella.data)
 
 show(myAnalysis)
-#> Compounds in the input: 3
-#> [1] "C00086" "C00671" "C00940"
+#> Compounds in the input: 5
+#> [1] "C03145" "C00079" "C00152" "C02989" "C00077"
 #> Background compounds: all available compounds (default)
 #> -----------------------------
 #> Hypergeometric test: not performed
 #> -----------------------------
 #> Heat diffusion: ready.
-#> P-scores under 0.05:  101
+#> P-scores under 0.05:  172
 #> -----------------------------
 #> PageRank: not performed
 ```
@@ -356,61 +356,61 @@ knitr::kable(head(myTable, 10), format = "html")
    <td style="text-align:left;"> hsa00220 </td>
    <td style="text-align:left;"> pathway </td>
    <td style="text-align:left;"> Arginine biosynthesis - Homo sapiens (human) </td>
-   <td style="text-align:right;"> 0.0059421 </td>
+   <td style="text-align:right;"> 0.0005255 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> hsa00250 </td>
    <td style="text-align:left;"> pathway </td>
    <td style="text-align:left;"> Alanine, aspartate and glutamate metabolism -... </td>
-   <td style="text-align:right;"> 0.0000035 </td>
+   <td style="text-align:right;"> 0.0000015 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> hsa00270 </td>
    <td style="text-align:left;"> pathway </td>
    <td style="text-align:left;"> Cysteine and methionine metabolism - Homo sap... </td>
-   <td style="text-align:right;"> 0.0895812 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> hsa00290 </td>
-   <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Valine, leucine and isoleucine biosynthesis -... </td>
-   <td style="text-align:right;"> 0.0234188 </td>
+   <td style="text-align:right;"> 0.0000010 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> hsa00330 </td>
    <td style="text-align:left;"> pathway </td>
    <td style="text-align:left;"> Arginine and proline metabolism - Homo sapien... </td>
-   <td style="text-align:right;"> 0.0166064 </td>
+   <td style="text-align:right;"> 0.0664617 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> hsa00780 </td>
+   <td style="text-align:left;"> hsa00630 </td>
    <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Biotin metabolism - Homo sapiens (human) </td>
-   <td style="text-align:right;"> 0.0792884 </td>
+   <td style="text-align:left;"> Glyoxylate and dicarboxylate metabolism - Hom... </td>
+   <td style="text-align:right;"> 0.0000758 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> hsa05120 </td>
+   <td style="text-align:left;"> hsa01230 </td>
    <td style="text-align:left;"> pathway </td>
-   <td style="text-align:left;"> Epithelial cell signaling in Helicobacter pyl... </td>
+   <td style="text-align:left;"> Biosynthesis of amino acids - Homo sapiens (h... </td>
+   <td style="text-align:right;"> 0.0483221 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hsa04115 </td>
+   <td style="text-align:left;"> pathway </td>
+   <td style="text-align:left;"> p53 signaling pathway - Homo sapiens (human) </td>
+   <td style="text-align:right;"> 0.0417371 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hsa04148 </td>
+   <td style="text-align:left;"> pathway </td>
+   <td style="text-align:left;"> Efferocytosis - Homo sapiens (human) </td>
+   <td style="text-align:right;"> 0.0934019 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hsa04614 </td>
+   <td style="text-align:left;"> pathway </td>
+   <td style="text-align:left;"> Renin-angiotensin system - Homo sapiens (huma... </td>
    <td style="text-align:right;"> 0.0000010 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> M00019 </td>
-   <td style="text-align:left;"> module </td>
-   <td style="text-align:left;"> Valine/isoleucine biosynthesis, pyruvate =&gt; v... </td>
-   <td style="text-align:right;"> 0.0077912 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> M00027 </td>
-   <td style="text-align:left;"> module </td>
-   <td style="text-align:left;"> GABA (gamma-Aminobutyrate) shunt </td>
-   <td style="text-align:right;"> 0.0834940 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> M00029 </td>
-   <td style="text-align:left;"> module </td>
-   <td style="text-align:left;"> Urea cycle </td>
-   <td style="text-align:right;"> 0.0013335 </td>
+   <td style="text-align:left;"> hsa04972 </td>
+   <td style="text-align:left;"> pathway </td>
+   <td style="text-align:left;"> Pancreatic secretion - Homo sapiens (human) </td>
+   <td style="text-align:right;"> 0.0638621 </td>
   </tr>
 </tbody>
 </table>
@@ -465,10 +465,10 @@ compound_data <- datSignif_KEGG$Log2FoldChange
 names(compound_data) <- datSignif_KEGG$KEGG
 
 compound_data[1:6]
-#>     C00065     R00900     C00135     C05568     C00719 
-#>  0.2890785  0.7747554  0.1947889  0.3253860  0.2584803 
-#>     C01188 
-#> -0.4819788
+#>     R00900     C00065     C00135     C05568     C01188 
+#>  0.7747554  0.2890785  0.1947889  0.3253860 -0.4819788 
+#>     C00719 
+#>  0.2584803
 ```
 
 
@@ -613,13 +613,13 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-08
-#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
+#>  date     2024-02-06
+#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package          * version    date (UTC) lib source
 #>  AnnotationDbi      1.60.2     2023-03-10 [2] Bioconductor
-#>  ape                5.7-1      2023-03-13 [2] CRAN (R 4.1.2)
+#>  ape                5.7-1      2023-03-13 [1] CRAN (R 4.1.2)
 #>  aPEAR            * 1.0.0      2023-06-12 [1] CRAN (R 4.1.3)
 #>  aplot              0.1.10     2023-03-08 [2] CRAN (R 4.1.2)
 #>  arules             1.7-6      2023-03-23 [1] CRAN (R 4.1.2)
@@ -648,7 +648,7 @@ devtools::session_info()
 #>  DOSE               3.20.1     2021-11-18 [2] Bioconductor
 #>  downlit            0.4.3      2023-06-29 [2] CRAN (R 4.1.3)
 #>  downloader         0.4        2015-07-09 [2] CRAN (R 4.1.0)
-#>  dplyr            * 1.1.2      2023-04-20 [2] CRAN (R 4.1.2)
+#>  dplyr            * 1.1.4      2023-11-17 [1] CRAN (R 4.1.3)
 #>  ellipsis           0.3.2      2021-04-29 [2] CRAN (R 4.1.0)
 #>  enrichplot         1.14.2     2022-02-24 [2] Bioconductor
 #>  evaluate           0.21       2023-05-05 [2] CRAN (R 4.1.2)
@@ -659,17 +659,17 @@ devtools::session_info()
 #>  fastmatch          1.1-3      2021-07-23 [2] CRAN (R 4.1.0)
 #>  FELLA            * 1.14.0     2021-10-26 [1] Bioconductor
 #>  fgsea              1.20.0     2021-10-26 [2] Bioconductor
-#>  forcats          * 1.0.0      2023-01-29 [2] CRAN (R 4.1.2)
+#>  forcats          * 1.0.0      2023-01-29 [1] CRAN (R 4.1.2)
 #>  fs                 1.6.2      2023-04-25 [2] CRAN (R 4.1.2)
 #>  generics           0.1.3      2022-07-05 [2] CRAN (R 4.1.2)
 #>  GenomeInfoDb       1.30.1     2022-01-30 [2] Bioconductor
 #>  GenomeInfoDbData   1.2.7      2022-03-09 [2] Bioconductor
 #>  ggforce            0.4.1      2022-10-04 [2] CRAN (R 4.1.2)
 #>  ggfun              0.1.1      2023-06-24 [2] CRAN (R 4.1.3)
-#>  ggplot2          * 3.4.2      2023-04-03 [2] CRAN (R 4.1.2)
+#>  ggplot2          * 3.4.4      2023-10-12 [1] CRAN (R 4.1.3)
 #>  ggplotify          0.1.1      2023-06-27 [2] CRAN (R 4.1.3)
 #>  ggraph             2.1.0.9000 2023-07-11 [1] Github (thomasp85/ggraph@febab71)
-#>  ggrepel            0.9.3      2023-02-03 [2] CRAN (R 4.1.2)
+#>  ggrepel            0.9.3      2023-02-03 [1] CRAN (R 4.1.2)
 #>  ggtree             3.2.1      2021-11-16 [2] Bioconductor
 #>  glue               1.6.2      2022-02-24 [2] CRAN (R 4.1.2)
 #>  GO.db              3.14.0     2022-04-11 [2] Bioconductor
@@ -700,14 +700,14 @@ devtools::session_info()
 #>  lsa                0.73.3     2022-05-09 [1] CRAN (R 4.1.2)
 #>  lubridate        * 1.9.2      2023-02-10 [2] CRAN (R 4.1.2)
 #>  magrittr           2.0.3      2022-03-30 [2] CRAN (R 4.1.2)
-#>  MASS               7.3-60     2023-05-04 [2] CRAN (R 4.1.2)
-#>  Matrix             1.6-0      2023-07-08 [2] CRAN (R 4.1.3)
+#>  MASS               7.3-60     2023-05-04 [1] CRAN (R 4.1.2)
+#>  Matrix             1.6-5      2024-01-11 [1] CRAN (R 4.1.3)
 #>  MCL                1.0        2015-03-11 [1] CRAN (R 4.1.0)
 #>  memoise            2.0.1      2021-11-26 [2] CRAN (R 4.1.0)
 #>  mime               0.12       2021-09-28 [2] CRAN (R 4.1.0)
 #>  miniUI             0.1.1.1    2018-05-18 [2] CRAN (R 4.1.0)
 #>  munsell            0.5.0      2018-06-12 [2] CRAN (R 4.1.0)
-#>  nlme               3.1-162    2023-01-31 [2] CRAN (R 4.1.2)
+#>  nlme               3.1-162    2023-01-31 [1] CRAN (R 4.1.2)
 #>  org.Hs.eg.db       3.16.0     2023-03-22 [2] Bioconductor
 #>  patchwork          1.1.2      2022-08-19 [2] CRAN (R 4.1.2)
 #>  pathview         * 1.34.0     2021-10-26 [1] Bioconductor
@@ -715,7 +715,7 @@ devtools::session_info()
 #>  pkgbuild           1.4.2      2023-06-26 [2] CRAN (R 4.1.3)
 #>  pkgconfig          2.0.3      2019-09-22 [2] CRAN (R 4.1.0)
 #>  pkgload            1.3.2.1    2023-07-08 [2] CRAN (R 4.1.3)
-#>  plyr               1.8.8      2022-11-11 [2] CRAN (R 4.1.2)
+#>  plyr               1.8.8      2022-11-11 [1] CRAN (R 4.1.2)
 #>  png                0.1-8      2022-11-29 [2] CRAN (R 4.1.2)
 #>  polyclip           1.10-4     2022-10-20 [2] CRAN (R 4.1.2)
 #>  prettyunits        1.1.1      2020-01-24 [2] CRAN (R 4.1.0)
@@ -723,13 +723,13 @@ devtools::session_info()
 #>  profvis            0.3.8      2023-05-02 [2] CRAN (R 4.1.2)
 #>  promises           1.2.0.1    2021-02-11 [2] CRAN (R 4.1.0)
 #>  ps                 1.7.5      2023-04-18 [2] CRAN (R 4.1.2)
-#>  purrr            * 1.0.1      2023-01-10 [2] CRAN (R 4.1.2)
+#>  purrr            * 1.0.1      2023-01-10 [1] CRAN (R 4.1.2)
 #>  qvalue             2.26.0     2021-10-26 [2] Bioconductor
 #>  R6                 2.5.1      2021-08-19 [2] CRAN (R 4.1.0)
-#>  RColorBrewer       1.1-3      2022-04-03 [2] CRAN (R 4.1.2)
+#>  RColorBrewer       1.1-3      2022-04-03 [1] CRAN (R 4.1.2)
 #>  Rcpp               1.0.11     2023-07-06 [1] CRAN (R 4.1.3)
 #>  RCurl              1.98-1.12  2023-03-27 [2] CRAN (R 4.1.2)
-#>  readr            * 2.1.4      2023-02-10 [2] CRAN (R 4.1.2)
+#>  readr            * 2.1.4      2023-02-10 [1] CRAN (R 4.1.2)
 #>  remotes            2.4.2      2021-11-30 [2] CRAN (R 4.1.0)
 #>  reshape2           1.4.4      2020-04-09 [2] CRAN (R 4.1.0)
 #>  Rgraphviz          2.38.0     2021-10-26 [2] Bioconductor
@@ -739,17 +739,17 @@ devtools::session_info()
 #>  rstudioapi         0.15.0     2023-07-07 [2] CRAN (R 4.1.3)
 #>  S4Vectors          0.32.4     2022-03-29 [2] Bioconductor
 #>  sass               0.4.6      2023-05-03 [2] CRAN (R 4.1.2)
-#>  scales             1.2.1      2022-08-20 [2] CRAN (R 4.1.2)
+#>  scales             1.2.1      2022-08-20 [1] CRAN (R 4.1.2)
 #>  scatterpie         0.2.1      2023-06-07 [2] CRAN (R 4.1.3)
 #>  sessioninfo        1.2.2      2021-12-06 [2] CRAN (R 4.1.0)
 #>  shadowtext         0.1.2      2022-04-22 [2] CRAN (R 4.1.2)
 #>  shiny              1.7.4.1    2023-07-06 [2] CRAN (R 4.1.3)
 #>  SnowballC          0.7.1      2023-04-25 [2] CRAN (R 4.1.2)
 #>  stringi            1.7.12     2023-01-11 [2] CRAN (R 4.1.2)
-#>  stringr          * 1.5.0      2022-12-02 [2] CRAN (R 4.1.2)
-#>  tibble           * 3.2.1      2023-03-20 [2] CRAN (R 4.1.2)
+#>  stringr          * 1.5.1      2023-11-14 [1] CRAN (R 4.1.3)
+#>  tibble           * 3.2.1      2023-03-20 [1] CRAN (R 4.1.2)
 #>  tidygraph          1.2.3      2023-02-01 [2] CRAN (R 4.1.2)
-#>  tidyr            * 1.3.0      2023-01-24 [2] CRAN (R 4.1.2)
+#>  tidyr            * 1.3.0      2023-01-24 [1] CRAN (R 4.1.2)
 #>  tidyselect         1.2.0      2022-10-10 [2] CRAN (R 4.1.2)
 #>  tidytree           0.4.2      2022-12-18 [2] CRAN (R 4.1.2)
 #>  tidyverse        * 2.0.0      2023-02-22 [1] CRAN (R 4.1.2)
@@ -760,7 +760,7 @@ devtools::session_info()
 #>  urlchecker         1.0.1      2021-11-30 [2] CRAN (R 4.1.0)
 #>  usethis            2.2.2      2023-07-06 [2] CRAN (R 4.1.3)
 #>  utf8               1.2.3      2023-01-31 [2] CRAN (R 4.1.2)
-#>  vctrs              0.6.3      2023-06-14 [1] CRAN (R 4.1.3)
+#>  vctrs              0.6.5      2023-12-01 [1] CRAN (R 4.1.3)
 #>  viridis            0.6.3      2023-05-03 [2] CRAN (R 4.1.2)
 #>  viridisLite        0.4.2      2023-05-02 [2] CRAN (R 4.1.2)
 #>  withr              2.5.0      2022-03-03 [2] CRAN (R 4.1.2)

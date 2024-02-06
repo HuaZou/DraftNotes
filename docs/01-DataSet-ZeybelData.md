@@ -698,13 +698,13 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-08
-#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
+#>  date     2024-02-06
+#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package              * version   date (UTC) lib source
-#>  ade4                   1.7-22    2023-02-06 [2] CRAN (R 4.1.2)
-#>  ape                    5.7-1     2023-03-13 [2] CRAN (R 4.1.2)
+#>  ade4                   1.7-22    2023-02-06 [1] CRAN (R 4.1.2)
+#>  ape                    5.7-1     2023-03-13 [1] CRAN (R 4.1.2)
 #>  Biobase              * 2.54.0    2021-10-26 [2] Bioconductor
 #>  BiocGenerics         * 0.40.0    2021-10-26 [2] Bioconductor
 #>  biomformat             1.22.0    2021-10-26 [2] Bioconductor
@@ -726,7 +726,7 @@ devtools::session_info()
 #>  devtools               2.4.5     2022-10-11 [2] CRAN (R 4.1.2)
 #>  digest                 0.6.33    2023-07-07 [1] CRAN (R 4.1.3)
 #>  downlit                0.4.3     2023-06-29 [2] CRAN (R 4.1.3)
-#>  dplyr                * 1.1.2     2023-04-20 [2] CRAN (R 4.1.2)
+#>  dplyr                * 1.1.4     2023-11-17 [1] CRAN (R 4.1.3)
 #>  ellipsis               0.3.2     2021-04-29 [2] CRAN (R 4.1.0)
 #>  evaluate               0.21      2023-05-05 [2] CRAN (R 4.1.2)
 #>  fansi                  1.0.4     2023-01-22 [2] CRAN (R 4.1.2)
@@ -737,7 +737,7 @@ devtools::session_info()
 #>  GenomeInfoDb         * 1.30.1    2022-01-30 [2] Bioconductor
 #>  GenomeInfoDbData       1.2.7     2022-03-09 [2] Bioconductor
 #>  GenomicRanges        * 1.46.1    2021-11-18 [2] Bioconductor
-#>  ggplot2                3.4.2     2023-04-03 [2] CRAN (R 4.1.2)
+#>  ggplot2                3.4.4     2023-10-12 [1] CRAN (R 4.1.3)
 #>  glue                   1.6.2     2022-02-24 [2] CRAN (R 4.1.2)
 #>  gtable                 0.3.3     2023-03-21 [2] CRAN (R 4.1.2)
 #>  htmltools              0.5.7     2023-11-03 [1] CRAN (R 4.1.3)
@@ -753,30 +753,30 @@ devtools::session_info()
 #>  lattice                0.21-8    2023-04-05 [2] CRAN (R 4.1.2)
 #>  lifecycle              1.0.3     2022-10-07 [2] CRAN (R 4.1.2)
 #>  magrittr               2.0.3     2022-03-30 [2] CRAN (R 4.1.2)
-#>  MASS                   7.3-60    2023-05-04 [2] CRAN (R 4.1.2)
-#>  Matrix                 1.6-0     2023-07-08 [2] CRAN (R 4.1.3)
+#>  MASS                   7.3-60    2023-05-04 [1] CRAN (R 4.1.2)
+#>  Matrix                 1.6-5     2024-01-11 [1] CRAN (R 4.1.3)
 #>  MatrixGenerics       * 1.6.0     2021-10-26 [2] Bioconductor
-#>  matrixStats          * 1.0.0     2023-06-02 [2] CRAN (R 4.1.3)
+#>  matrixStats          * 1.1.0     2023-11-07 [1] CRAN (R 4.1.3)
 #>  memoise                2.0.1     2021-11-26 [2] CRAN (R 4.1.0)
 #>  mgcv                   1.8-42    2023-03-02 [2] CRAN (R 4.1.2)
 #>  mime                   0.12      2021-09-28 [2] CRAN (R 4.1.0)
 #>  miniUI                 0.1.1.1   2018-05-18 [2] CRAN (R 4.1.0)
 #>  multtest               2.50.0    2021-10-26 [2] Bioconductor
 #>  munsell                0.5.0     2018-06-12 [2] CRAN (R 4.1.0)
-#>  nlme                   3.1-162   2023-01-31 [2] CRAN (R 4.1.2)
+#>  nlme                   3.1-162   2023-01-31 [1] CRAN (R 4.1.2)
 #>  permute                0.9-7     2022-01-27 [2] CRAN (R 4.1.2)
 #>  phyloseq             * 1.38.0    2021-10-26 [2] Bioconductor
 #>  pillar                 1.9.0     2023-03-22 [2] CRAN (R 4.1.2)
 #>  pkgbuild               1.4.2     2023-06-26 [2] CRAN (R 4.1.3)
 #>  pkgconfig              2.0.3     2019-09-22 [2] CRAN (R 4.1.0)
 #>  pkgload                1.3.2.1   2023-07-08 [2] CRAN (R 4.1.3)
-#>  plyr                   1.8.8     2022-11-11 [2] CRAN (R 4.1.2)
+#>  plyr                   1.8.8     2022-11-11 [1] CRAN (R 4.1.2)
 #>  prettyunits            1.1.1     2020-01-24 [2] CRAN (R 4.1.0)
 #>  processx               3.8.2     2023-06-30 [2] CRAN (R 4.1.3)
 #>  profvis                0.3.8     2023-05-02 [2] CRAN (R 4.1.2)
 #>  promises               1.2.0.1   2021-02-11 [2] CRAN (R 4.1.0)
 #>  ps                     1.7.5     2023-04-18 [2] CRAN (R 4.1.2)
-#>  purrr                  1.0.1     2023-01-10 [2] CRAN (R 4.1.2)
+#>  purrr                  1.0.1     2023-01-10 [1] CRAN (R 4.1.2)
 #>  R6                     2.5.1     2021-08-19 [2] CRAN (R 4.1.0)
 #>  Rcpp                   1.0.11    2023-07-06 [1] CRAN (R 4.1.3)
 #>  RCurl                  1.98-1.12 2023-03-27 [2] CRAN (R 4.1.2)
@@ -791,20 +791,20 @@ devtools::session_info()
 #>  rstudioapi             0.15.0    2023-07-07 [2] CRAN (R 4.1.3)
 #>  S4Vectors            * 0.32.4    2022-03-29 [2] Bioconductor
 #>  sass                   0.4.6     2023-05-03 [2] CRAN (R 4.1.2)
-#>  scales                 1.2.1     2022-08-20 [2] CRAN (R 4.1.2)
+#>  scales                 1.2.1     2022-08-20 [1] CRAN (R 4.1.2)
 #>  sessioninfo            1.2.2     2021-12-06 [2] CRAN (R 4.1.0)
 #>  shiny                  1.7.4.1   2023-07-06 [2] CRAN (R 4.1.3)
 #>  stringi                1.7.12    2023-01-11 [2] CRAN (R 4.1.2)
-#>  stringr                1.5.0     2022-12-02 [2] CRAN (R 4.1.2)
+#>  stringr                1.5.1     2023-11-14 [1] CRAN (R 4.1.3)
 #>  SummarizedExperiment * 1.24.0    2021-10-26 [2] Bioconductor
 #>  survival               3.5-5     2023-03-12 [2] CRAN (R 4.1.2)
-#>  tibble               * 3.2.1     2023-03-20 [2] CRAN (R 4.1.2)
+#>  tibble               * 3.2.1     2023-03-20 [1] CRAN (R 4.1.2)
 #>  tidyselect             1.2.0     2022-10-10 [2] CRAN (R 4.1.2)
 #>  urlchecker             1.0.1     2021-11-30 [2] CRAN (R 4.1.0)
 #>  usethis                2.2.2     2023-07-06 [2] CRAN (R 4.1.3)
 #>  utf8                   1.2.3     2023-01-31 [2] CRAN (R 4.1.2)
-#>  vctrs                  0.6.3     2023-06-14 [1] CRAN (R 4.1.3)
-#>  vegan                  2.6-4     2022-10-11 [2] CRAN (R 4.1.2)
+#>  vctrs                  0.6.5     2023-12-01 [1] CRAN (R 4.1.3)
+#>  vegan                  2.6-4     2022-10-11 [1] CRAN (R 4.1.2)
 #>  withr                  2.5.0     2022-03-03 [2] CRAN (R 4.1.2)
 #>  xfun                   0.40      2023-08-09 [1] CRAN (R 4.1.3)
 #>  xml2                   1.3.5     2023-07-06 [2] CRAN (R 4.1.3)

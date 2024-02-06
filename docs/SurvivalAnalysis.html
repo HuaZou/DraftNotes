@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 8 Survival Analysis | 生物信息随记</title>
+<meta name="author" content="Hua Zou">
+<meta name="description" content="8.1 介绍 生存分析的目的是分析某个时间点的“生存概率”是多少。基于这样的研究目的，需要提供生存数据，它是一种由不同的开始时间和结束时间组成的事件-时间的数据，比如在癌症研究领域，研究手术到死亡的过程、治疗到疾病进展等等。...">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="Chapter 8 Survival Analysis | 生物信息随记">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://zouhua.top/DraftNotes/SurvivalAnalysis.html">
+<meta property="og:description" content="8.1 介绍 生存分析的目的是分析某个时间点的“生存概率”是多少。基于这样的研究目的，需要提供生存数据，它是一种由不同的开始时间和结束时间组成的事件-时间的数据，比如在癌症研究领域，研究手术到死亡的过程、治疗到疾病进展等等。...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 8 Survival Analysis | 生物信息随记">
+<meta name="twitter:description" content="8.1 介绍 生存分析的目的是分析某个时间点的“生存概率”是多少。基于这样的研究目的，需要提供生存数据，它是一种由不同的开始时间和结束时间组成的事件-时间的数据，比如在癌症研究领域，研究手术到死亡的过程、治疗到疾病进展等等。...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><link href="libs/Poppins-0.4.6/font.css" rel="stylesheet">
+<script src="libs/bs3compat-0.6.0/transition.js"></script><script src="libs/bs3compat-0.6.0/tabs.js"></script><script src="libs/bs3compat-0.6.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.31/datatables.js"></script><link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">生物信息随记</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> 介绍</a></li>
+<li class="book-part">Data Set</li>
+<li><a class="" href="ZeybelDataset.html"><span class="header-section-number">2</span> Zeybel Dataset</a></li>
+<li class="book-part">Statistical Methods</li>
+<li><a class="" href="GEEandMLM.html"><span class="header-section-number">3</span> GEE and MLM</a></li>
+<li><a class="" href="HypothesisTestingMethods.html"><span class="header-section-number">4</span> Hypothesis Testing Methods</a></li>
+<li><a class="" href="BatchEffectCorrection.html"><span class="header-section-number">5</span> Batch Effect Correction</a></li>
+<li><a class="" href="LinearModelonMicrobialCommunity.html"><span class="header-section-number">6</span> Linear Model on Microbial Community</a></li>
+<li><a class="" href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></li>
+<li><a class="active" href="SurvivalAnalysis.html"><span class="header-section-number">8</span> Survival Analysis</a></li>
+<li class="book-part">Metabolomics Data Analysis</li>
+<li><a class="" href="dataprocessing.html"><span class="header-section-number">9</span> Data Processing</a></li>
+<li><a class="" href="DimensionReduction.html"><span class="header-section-number">10</span> Dimension Reduction</a></li>
+<li><a class="" href="DifferetialAnalysis.html"><span class="header-section-number">11</span> Differetial Analysis</a></li>
+<li><a class="" href="FunctionalAnalysis.html"><span class="header-section-number">12</span> Functional Analysis</a></li>
+<li><a class="" href="MetOriginAnalysis.html"><span class="header-section-number">13</span> MetOrigin Analysis</a></li>
+<li><a class="" href="OtherAnalysis.html"><span class="header-section-number">14</span> Other Analysis</a></li>
+<li class="book-part">Machine Learning</li>
+<li><a class="" href="randomforestalgorithm.html"><span class="header-section-number">15</span> Random Forest Algorithm</a></li>
+<li><a class="" href="XGBoostalgorithm.html"><span class="header-section-number">16</span> XGBoost Algorithm</a></li>
+<li class="book-part">Knowledge</li>
+<li><a class="" href="Metageomics.html"><span class="header-section-number">17</span> Metageomics</a></li>
+<li><a class="" href="Notes.html"><span class="header-section-number">18</span> Notes</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/HuaZou/DraftNotes">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="SurvivalAnalysis" class="section level1" number="8">
+<h1>
+<span class="header-section-number">8</span> Survival Analysis<a class="anchor" aria-label="anchor" href="#SurvivalAnalysis"><i class="fas fa-link"></i></a>
+</h1>
+<div id="介绍-1" class="section level2" number="8.1">
+<h2>
+<span class="header-section-number">8.1</span> 介绍<a class="anchor" aria-label="anchor" href="#%E4%BB%8B%E7%BB%8D-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>生存分析的目的是分析某个时间点的“生存概率”是多少。基于这样的研究目的，需要提供生存数据，它是一种由不同的开始时间和结束时间组成的事件-时间的数据，比如在癌症研究领域，研究手术到死亡的过程、治疗到疾病进展等等。</p>
+<p>在开展生存分析前，需要了解什么是删失（censored）。对于确定的事件，由于其他原因导致其出现无法记录、无法观察等等，这些都可以称为删失。“删失（censored）数据指在观察或试验中,由于人力或其他原因未能观察到所感兴趣的事件发生，因而得到的数据。”</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="InputData/figures/Survival/survival_censor.png" alt="Censored survival data" width="90%" height="90%"><p class="caption">
+Figure 4.1: Censored survival data
+</p>
+</div>
+<p>图表示10个参与者，在事件为发生前有7位患者出现了删失情况。忽略删失样本会导致生存概率结果出现偏差。生存分析是一种可以适当考虑被删失患者的方法。</p>
+</div>
+<div id="组成" class="section level2" number="8.2">
+<h2>
+<span class="header-section-number">8.2</span> 组成<a class="anchor" aria-label="anchor" href="#%E7%BB%84%E6%88%90"><i class="fas fa-link"></i></a>
+</h2>
+<p>生存数据是有事件状态和对应时间组成，事件状态可以分成发生和删失。</p>
+<ul>
+<li><p>事件时间：<span class="math inline">\(T_i\)</span></p></li>
+<li><p>删失时间：<span class="math inline">\(C_i\)</span></p></li>
+<li><p>事件状态：如果观察到事件则是1；否则是删失0。事件时间要小于删失时间。</p></li>
+</ul>
+<p>通过密度分布图可以观察到事件发生和删失状态在时间上的区别，如果不考虑删失则会导致评估结果偏高。</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:unnamed-chunk-3"></span>
+<img src="InputData/figures/Survival/survival_event.png" alt="distribution of follow-up times" width="90%" height="90%"><p class="caption">
+Figure 8.1: distribution of follow-up times
+</p>
+</div>
+<p>某个对象在某个时间点的生存概率公式为：<span class="math inline">\(S(t) = Pr(T &gt; t) = 1- F(t)\)</span></p>
+<ul>
+<li><p><span class="math inline">\(S(t)\)</span>是生存函数</p></li>
+<li><p><span class="math inline">\(F(t) = 1- Pr(T &gt; t)\)</span>是累积分布函数</p></li>
+</ul>
+</div>
+<div id="案例" class="section level2" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> 案例<a class="anchor" aria-label="anchor" href="#%E6%A1%88%E4%BE%8B"><i class="fas fa-link"></i></a>
+</h2>
+<div id="加载r包-4" class="section level3" number="8.3.1">
+<h3>
+<span class="header-section-number">8.3.1</span> 加载R包<a class="anchor" aria-label="anchor" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-4"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>message <span class="op">=</span> <span class="cn">FALSE</span>, warning <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/survminer/index.html">survminer</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ddsjoberg/gtsummary">gtsummary</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># rm(list = ls())</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>future.globals.maxSize <span class="op">=</span> <span class="fl">1000</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># group &amp; color</span></span>
+<span><span class="va">sex_grp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Male"</span>, <span class="st">"Female"</span><span class="op">)</span></span>
+<span><span class="va">sex_col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#F28880"</span>, <span class="st">"#60C4D3"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="导入数据-2" class="section level3" number="8.3.2">
+<h3>
+<span class="header-section-number">8.3.2</span> 导入数据<a class="anchor" aria-label="anchor" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>肺癌数据: 本次研究目的—-不同性别以及患者的生存状态是否存在差异</p>
+<ul>
+<li><p>生存时间（time）: 观察到的生存时间 (days)</p></li>
+<li><p>生存状态（status）: 死亡(2-&gt;1)和删失(1-&gt;0)</p></li>
+<li><p>性别（sex）: 1=Male, 2=Female</p></li>
+<li><p>肿瘤活动状态（ph.ecog）：0=ECOG0，1=ECOG1，2=ECOG2</p></li>
+</ul>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">lung</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>status <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/recode.html">recode</a></span><span class="op">(</span><span class="va">status</span>, `1` <span class="op">=</span> <span class="fl">0</span>, `2` <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>         sex <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/recode.html">recode</a></span><span class="op">(</span><span class="va">sex</span>, `1` <span class="op">=</span> <span class="st">"Male"</span>, `2` <span class="op">=</span> <span class="st">"Female"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">ph.ecog</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>ph.ecog <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/recode.html">recode</a></span><span class="op">(</span><span class="va">ph.ecog</span>, `0` <span class="op">=</span> <span class="st">"ECOG0"</span>, `1` <span class="op">=</span> <span class="st">"ECOG1"</span>, `2` <span class="op">=</span> <span class="st">"ECOG2"</span><span class="op">)</span>,</span>
+<span>         sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">sex</span>, levels <span class="op">=</span> <span class="va">sex_grp</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"time"</span>, <span class="st">"status"</span>, <span class="st">"sex"</span>, <span class="st">"ph.ecog"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   time status  sex ph.ecog</span></span>
+<span><span class="co">#&gt; 1  306      1 Male   ECOG1</span></span>
+<span><span class="co">#&gt; 2  455      1 Male   ECOG0</span></span>
+<span><span class="co">#&gt; 3 1010      0 Male   ECOG0</span></span>
+<span><span class="co">#&gt; 4  210      1 Male   ECOG1</span></span>
+<span><span class="co">#&gt; 5  883      1 Male   ECOG0</span></span>
+<span><span class="co">#&gt; 6 1022      0 Male   ECOG1</span></span></code></pre></div>
+</div>
+<div id="生存对象" class="section level3" number="8.3.3">
+<h3>
+<span class="header-section-number">8.3.3</span> 生存对象<a class="anchor" aria-label="anchor" href="#%E7%94%9F%E5%AD%98%E5%AF%B9%E8%B1%A1"><i class="fas fa-link"></i></a>
+</h3>
+<p>通过<code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code>生成生存对象，在使用<code><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit()</a></code>生成生存曲线Kaplan-Meier plot的准备数据。</p>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sur_fit</span> <span class="op">&lt;-</span> <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sur_fit</span></span>
+<span><span class="co">#&gt; Call: survfit(formula = survival::Surv(time, status) ~ sex, data = dat)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;              n events median 0.95LCL 0.95UCL</span></span>
+<span><span class="co">#&gt; sex=Male   136    110    283     218     320</span></span>
+<span><span class="co">#&gt; sex=Female  90     53    426     348     550</span></span></code></pre></div>
+</div>
+<div id="组间生存时间差异比较" class="section level3" number="8.3.4">
+<h3>
+<span class="header-section-number">8.3.4</span> 组间生存时间差异比较<a class="anchor" aria-label="anchor" href="#%E7%BB%84%E9%97%B4%E7%94%9F%E5%AD%98%E6%97%B6%E9%97%B4%E5%B7%AE%E5%BC%82%E6%AF%94%E8%BE%83"><i class="fas fa-link"></i></a>
+</h3>
+<p>问题：在肺癌患者不同的性别分组中，生存概率是否存在差异性呢？</p>
+<p>通常采用Log-rank检验推断两生存曲线整体间（整个观察期间）是否有差异，若生存曲线出现交叉情况，由于不满足成比例假设，则Log-rank检验不适用。</p>
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">survminer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span></span>
+<span>    fit <span class="op">=</span> <span class="va">sur_fit</span>,</span>
+<span>    pval <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    xlab <span class="op">=</span> <span class="st">"Days"</span>,</span>
+<span>    ylab <span class="op">=</span> <span class="st">"Overall survival probability"</span>,</span>
+<span>    legend.title <span class="op">=</span> <span class="st">"Sex"</span>,</span>
+<span>    legend.labs <span class="op">=</span> <span class="va">sex_grp</span>,</span>
+<span>    palette <span class="op">=</span> <span class="va">sex_col</span>,</span>
+<span>    break.x.by <span class="op">=</span> <span class="fl">100</span>, </span>
+<span>    surv.median.line <span class="op">=</span> <span class="st">"hv"</span>,</span>
+<span>    risk.table <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    risk.table.y.text <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="15-Statistics_Survival_files/figure-html/unnamed-chunk-7-1.png" width="100%"></div>
+<p>从图上的<em>logRank p = 0.0018</em>来看，女性在肺癌中生存周期更长。结合男性可能抽烟的额外因素考虑，该结果也符合预期。</p>
+</div>
+<div id="中位生存期" class="section level3" number="8.3.5">
+<h3>
+<span class="header-section-number">8.3.5</span> 中位生存期<a class="anchor" aria-label="anchor" href="#%E4%B8%AD%E4%BD%8D%E7%94%9F%E5%AD%98%E6%9C%9F"><i class="fas fa-link"></i></a>
+</h3>
+<p>中位生存期(Median Survival Time)，又称为半数生存期， 即当累积生存率为0.5时所对应的生存时间，表示有且只有50%的个体可以活过这个时间。</p>
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sur_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://www.danieldsjoberg.com/gtsummary/reference/tbl_survfit.html">tbl_survfit</a></span><span class="op">(</span></span>
+<span>    probs <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>    label_header <span class="op">=</span> <span class="st">"**Median survival (95% CI)**"</span></span>
+<span>  <span class="op">)</span> </span></code></pre></div>
+<div id="lrsqvhxnda" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lrsqvhxnda table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#lrsqvhxnda thead, #lrsqvhxnda tbody, #lrsqvhxnda tfoot, #lrsqvhxnda tr, #lrsqvhxnda td, #lrsqvhxnda th {
+  border-style: none;
+}
+
+#lrsqvhxnda p {
+  margin: 0;
+  padding: 0;
+}
+
+#lrsqvhxnda .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#lrsqvhxnda .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#lrsqvhxnda .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#lrsqvhxnda .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#lrsqvhxnda .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#lrsqvhxnda .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#lrsqvhxnda .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#lrsqvhxnda .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#lrsqvhxnda .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#lrsqvhxnda .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#lrsqvhxnda .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#lrsqvhxnda .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#lrsqvhxnda .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#lrsqvhxnda .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#lrsqvhxnda .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lrsqvhxnda .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#lrsqvhxnda .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#lrsqvhxnda .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#lrsqvhxnda .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lrsqvhxnda .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#lrsqvhxnda .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lrsqvhxnda .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#lrsqvhxnda .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lrsqvhxnda .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lrsqvhxnda .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lrsqvhxnda .gt_left {
+  text-align: left;
+}
+
+#lrsqvhxnda .gt_center {
+  text-align: center;
+}
+
+#lrsqvhxnda .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#lrsqvhxnda .gt_font_normal {
+  font-weight: normal;
+}
+
+#lrsqvhxnda .gt_font_bold {
+  font-weight: bold;
+}
+
+#lrsqvhxnda .gt_font_italic {
+  font-style: italic;
+}
+
+#lrsqvhxnda .gt_super {
+  font-size: 65%;
+}
+
+#lrsqvhxnda .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#lrsqvhxnda .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#lrsqvhxnda .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#lrsqvhxnda .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#lrsqvhxnda .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#lrsqvhxnda .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#lrsqvhxnda .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<div class="inline-table"><table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Median survival (95% CI)&lt;/strong&gt;"><strong>Median survival (95% CI)</strong></th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="label" class="gt_row gt_left">sex</td>
+<td headers="stat_1" class="gt_row gt_center"></td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">283 (218, 320)</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">    Female</td>
+<td headers="stat_1" class="gt_row gt_center">426 (348, 550)</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>女性的中位生存期（426天）要远远高于男性的（283天）</p>
+</div>
+<div id="n年生存概率" class="section level3" number="8.3.6">
+<h3>
+<span class="header-section-number">8.3.6</span> N年生存概率<a class="anchor" aria-label="anchor" href="#n%E5%B9%B4%E7%94%9F%E5%AD%98%E6%A6%82%E7%8E%87"><i class="fas fa-link"></i></a>
+</h3>
+<p>选择1到3年生存概率，评估男女性间的差异</p>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sur_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://www.danieldsjoberg.com/gtsummary/reference/tbl_survfit.html">tbl_survfit</a></span><span class="op">(</span></span>
+<span>    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">365</span>, <span class="fl">730</span><span class="op">)</span>,</span>
+<span>    label_header <span class="op">=</span> <span class="st">"**{time} Days survival (95% CI)**"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div id="bhpqaslmox" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bhpqaslmox table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#bhpqaslmox thead, #bhpqaslmox tbody, #bhpqaslmox tfoot, #bhpqaslmox tr, #bhpqaslmox td, #bhpqaslmox th {
+  border-style: none;
+}
+
+#bhpqaslmox p {
+  margin: 0;
+  padding: 0;
+}
+
+#bhpqaslmox .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#bhpqaslmox .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#bhpqaslmox .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#bhpqaslmox .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#bhpqaslmox .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#bhpqaslmox .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#bhpqaslmox .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#bhpqaslmox .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#bhpqaslmox .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#bhpqaslmox .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#bhpqaslmox .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#bhpqaslmox .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#bhpqaslmox .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#bhpqaslmox .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#bhpqaslmox .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bhpqaslmox .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#bhpqaslmox .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#bhpqaslmox .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#bhpqaslmox .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bhpqaslmox .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#bhpqaslmox .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bhpqaslmox .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#bhpqaslmox .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bhpqaslmox .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#bhpqaslmox .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#bhpqaslmox .gt_left {
+  text-align: left;
+}
+
+#bhpqaslmox .gt_center {
+  text-align: center;
+}
+
+#bhpqaslmox .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#bhpqaslmox .gt_font_normal {
+  font-weight: normal;
+}
+
+#bhpqaslmox .gt_font_bold {
+  font-weight: bold;
+}
+
+#bhpqaslmox .gt_font_italic {
+  font-style: italic;
+}
+
+#bhpqaslmox .gt_super {
+  font-size: 65%;
+}
+
+#bhpqaslmox .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#bhpqaslmox .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#bhpqaslmox .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#bhpqaslmox .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#bhpqaslmox .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#bhpqaslmox .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#bhpqaslmox .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<div class="inline-table"><table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;365 Days survival (95% CI)&lt;/strong&gt;"><strong>365 Days survival (95% CI)</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;730 Days survival (95% CI)&lt;/strong&gt;"><strong>730 Days survival (95% CI)</strong></th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="label" class="gt_row gt_left">sex</td>
+<td headers="stat_1" class="gt_row gt_center"></td>
+<td headers="stat_2" class="gt_row gt_center"></td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">34% (26%, 44%)</td>
+<td headers="stat_2" class="gt_row gt_center">7.9% (4.0%, 16%)</td>
+</tr>
+<tr>
+<td headers="label" class="gt_row gt_left">    Female</td>
+<td headers="stat_1" class="gt_row gt_center">53% (42%, 66%)</td>
+<td headers="stat_2" class="gt_row gt_center">19% (9.8%, 36%)</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div id="cox回归模型" class="section level3" number="8.3.7">
+<h3>
+<span class="header-section-number">8.3.7</span> Cox回归模型<a class="anchor" aria-label="anchor" href="#cox%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B"><i class="fas fa-link"></i></a>
+</h3>
+<p>logRank test是定性变量是否和生存相关，定量变量之间的风险比例值需要用到Cox回归模型。单变量Cox回归仅评估该变量和生存的关系，多变量Cox回归可以校正其他因素影响后再评估单个变量的风险比例值。</p>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># conf.int = TRUE, exponentiate = TRUE</span></span>
+<span>            <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">statistic</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>`Hazard ratios` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>,</span>
+<span>                          HR_conf.low <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1.95</span><span class="op">*</span><span class="va">std.error</span>,</span>
+<span>                          HR_conf.high <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1.95</span><span class="op">*</span><span class="va">std.error</span>,</span>
+<span>                          HR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">`Hazard ratios`</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                          HR_conf.low <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">HR_conf.low</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                          HR_conf.high <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">HR_conf.high</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                          p.value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="va">p.value</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>            <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">HR</span>, <span class="va">HR_conf.low</span>, <span class="va">HR_conf.high</span>, <span class="va">p.value</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>term <span class="op">=</span> <span class="st">"RefMale"</span>, </span>
+<span>                  HR <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>                  HR_conf.low <span class="op">=</span> <span class="cn">NA</span>, </span>
+<span>                  HR_conf.high <span class="op">=</span> <span class="cn">NA</span>, </span>
+<span>                  p.value <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 5</span></span>
+<span><span class="co">#&gt;   term         HR HR_conf.low HR_conf.high p.value</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 sexFemale   0.6        0.27         0.92   0.002</span></span>
+<span><span class="co">#&gt; 2 RefMale    NA         NA           NA     NA</span></span></code></pre></div>
+<p>以Male作为Reference，Female的风险比例值HR为0.6且对应的p&lt;0.05，HR小于1，说明在肺癌患者中，Female的死亡风险要显著低于Male。</p>
+</div>
+<div id="其他生存分析" class="section level3" number="8.3.8">
+<h3>
+<span class="header-section-number">8.3.8</span> 其他生存分析<a class="anchor" aria-label="anchor" href="#%E5%85%B6%E4%BB%96%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90"><i class="fas fa-link"></i></a>
+</h3>
+<p>探究不同性别分组的ECOG是否与生存状态相关</p>
+<ul>
+<li>函数：1.获取生存分析结果；2.可视化生存曲线</li>
+</ul>
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">get_cox_res</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
+<span>    <span class="va">input</span>, <span class="va">groups</span>, </span>
+<span>    <span class="va">group_names</span>, <span class="va">RefGroup</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">input_dat</span> <span class="op">&lt;-</span> <span class="va">input</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TIME"</span>, <span class="st">"STATUS"</span>, <span class="st">"GROUP"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">GROUP</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">group_names</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>GROUP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">GROUP</span><span class="op">)</span>, levels <span class="op">=</span> <span class="va">group_names</span><span class="op">)</span><span class="op">)</span></span>
+<span>      </span>
+<span>  <span class="co">## Group: log rank-test</span></span>
+<span>  <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">TIME</span>, <span class="va">STATUS</span><span class="op">)</span> <span class="op">~</span> <span class="va">GROUP</span>, data <span class="op">=</span> <span class="va">input_dat</span><span class="op">)</span></span>
+<span>  <span class="va">logrank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survminer/man/surv_pvalue.html">surv_pvalue</a></span><span class="op">(</span>fit <span class="op">=</span> <span class="va">fit</span>, data <span class="op">=</span> <span class="va">input_dat</span><span class="op">)</span>      </span>
+<span>      </span>
+<span>  <span class="co">## Group: Hazard ratios: Low as reference</span></span>
+<span>  <span class="va">HR</span> <span class="op">&lt;-</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span><span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">TIME</span>, <span class="va">STATUS</span><span class="op">)</span> <span class="op">~</span> <span class="va">GROUP</span>, data <span class="op">=</span> <span class="va">input_dat</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">statistic</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>`Hazard ratios` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>,</span>
+<span>                      HR_conf.low <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1.95</span><span class="op">*</span><span class="va">std.error</span>,</span>
+<span>                      HR_conf.high <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1.95</span><span class="op">*</span><span class="va">std.error</span>,</span>
+<span>                      HR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="va">`Hazard ratios`</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                      HR_conf.low <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="va">HR_conf.low</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                      HR_conf.high <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="va">HR_conf.high</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                      cox_pval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="va">p.value</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                      HR_95 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">HR</span>, <span class="st">" ("</span>, <span class="va">HR_conf.low</span>, <span class="st">" - "</span>, <span class="va">HR_conf.high</span>, <span class="st">")"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">HR_95</span>, <span class="va">cox_pval</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>term <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Ref"</span>, <span class="va">RefGroup</span><span class="op">)</span>,</span>
+<span>                         HR_95 <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>                         cox_pval <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> </span>
+<span>      </span>
+<span>  <span class="co">## Group: Combination</span></span>
+<span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="va">logrank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">pval</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>logRank_pval <span class="op">=</span> <span class="va">pval</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>logRank_pval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">group_names</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">HR</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">term</span>, <span class="va">logRank_pval</span>, <span class="va">HR_95</span>, <span class="va">cox_pval</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>logRank_pval <span class="op">=</span> <span class="va">logRank_pval</span>,</span>
+<span>                      HR_95 <span class="op">=</span> <span class="va">HR_95</span>,</span>
+<span>                      cox_pval <span class="op">=</span> <span class="va">cox_pval</span><span class="op">)</span>           </span>
+<span>      </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># survival plot</span></span>
+<span><span class="va">get_plot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
+<span>    <span class="va">input</span>, <span class="va">groups</span>, <span class="va">group_names</span>,</span>
+<span>    <span class="va">feaID</span>, <span class="va">TypeTime</span>, <span class="va">NegGroup</span>, <span class="va">PosGroup</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      </span>
+<span>  <span class="va">input_dat</span> <span class="op">&lt;-</span> <span class="va">input</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">groups</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TIME"</span>, <span class="st">"STATUS"</span>, <span class="st">"GROUP"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">GROUP</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">group_names</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>GROUP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">GROUP</span><span class="op">)</span>, levels <span class="op">=</span> <span class="va">group_names</span><span class="op">)</span><span class="op">)</span></span>
+<span>      </span>
+<span>  <span class="co"># survival model</span></span>
+<span>  <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">survminer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/surv_fit.html">surv_fit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">TIME</span>, <span class="va">STATUS</span><span class="op">)</span> <span class="op">~</span> <span class="va">GROUP</span>, data <span class="op">=</span> <span class="va">input_dat</span><span class="op">)</span></span>
+<span>  <span class="va">logrank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survminer/man/surv_pvalue.html">surv_pvalue</a></span><span class="op">(</span>fit <span class="op">=</span> <span class="va">fit</span>, data <span class="op">=</span> <span class="va">input_dat</span><span class="op">)</span></span>
+<span>  <span class="va">pval_label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">logrank</span><span class="op">$</span><span class="va">method</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="va">logrank</span><span class="op">$</span><span class="va">pval</span>, <span class="fl">3</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">": p="</span><span class="op">)</span></span>
+<span>      </span>
+<span>  <span class="co"># median survival time</span></span>
+<span>  <span class="va">med_time</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>    <span class="fu">gtsummary</span><span class="fu">::</span><span class="fu"><a href="https://www.danieldsjoberg.com/gtsummary/reference/tbl_survfit.html">tbl_survfit</a></span><span class="op">(</span></span>
+<span>    probs <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>      label_header <span class="op">=</span> <span class="st">"**Median survival (95% CI)**"</span></span>
+<span>    <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/deprecated.html">as.tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="st">"Time"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Median_temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">Time</span>, <span class="st">"\\s+\\("</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Median <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Median_temp</span> <span class="op">==</span> <span class="st">"-"</span>, <span class="st">"undef."</span>, <span class="va">Median_temp</span><span class="op">)</span>,</span>
+<span>                  Median_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">Group</span>, <span class="st">" ("</span>, <span class="va">Median</span>, <span class="st">" Days)"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span>      </span>
+<span>    <span class="co"># cox model HR</span></span>
+<span>    <span class="va">cox_type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">NegGroup</span>, <span class="va">PosGroup</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">HR_95</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>term <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"GROUP"</span>, <span class="st">""</span>, <span class="va">term</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="va">term</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>HR_95 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\s+-\\s+"</span>, <span class="st">";"</span>, <span class="va">HR_95</span><span class="op">)</span>,</span>
+<span>                      HR_95 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\s+"</span>, <span class="st">""</span>, <span class="va">HR_95</span><span class="op">)</span>,</span>
+<span>                      cox_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cox p="</span>, <span class="va">cox_pval</span>, <span class="st">", HR="</span>, <span class="va">HR_95</span><span class="op">)</span>,</span>
+<span>                      logRank_pval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">signif</a></span><span class="op">(</span><span class="va">logRank_pval</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span>      </span>
+<span>    <span class="co"># merge labels </span></span>
+<span>    <span class="va">sur_labels</span> <span class="op">&lt;-</span> <span class="va">med_time</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>       <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">cox_type</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>                          <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Group</span>, <span class="va">cox_label</span><span class="op">)</span>, </span>
+<span>                        by <span class="op">=</span> <span class="st">"Group"</span><span class="op">)</span></span>
+<span>    <span class="va">sur_labels</span><span class="op">$</span><span class="va">cox_label</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">sur_labels</span><span class="op">$</span><span class="va">cox_label</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Reference"</span></span>
+<span>    <span class="va">sur_labels</span><span class="op">$</span><span class="va">final_label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">sur_labels</span><span class="op">$</span><span class="va">Median_label</span>, <span class="va">sur_labels</span><span class="op">$</span><span class="va">cox_label</span>,</span>
+<span>                                     sep <span class="op">=</span> <span class="st">"   "</span><span class="op">)</span></span>
+<span>     </span>
+<span>    <span class="co"># finale pvalue label</span></span>
+<span>    <span class="va">pval_label_final</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">pval_label</span>, <span class="st">"\n"</span>, </span>
+<span>                                <span class="st">"(Male: p="</span>, <span class="va">cox_type</span><span class="op">$</span><span class="va">logRank_pval</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>                                <span class="st">"; "</span>,</span>
+<span>                                <span class="st">"Female: p="</span>, <span class="va">cox_type</span><span class="op">$</span><span class="va">logRank_pval</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>                                <span class="st">")"</span><span class="op">)</span></span>
+<span>     </span>
+<span>    <span class="va">ggsurv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span></span>
+<span>        <span class="va">fit</span>,</span>
+<span>        pval <span class="op">=</span> <span class="va">pval_label_final</span>,</span>
+<span>        pval.size <span class="op">=</span> <span class="fl">4</span>, </span>
+<span>        pval.coord <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.05</span><span class="op">)</span>,</span>
+<span>        xlab <span class="op">=</span> <span class="st">"Overall Survival Time (Days)"</span>, </span>
+<span>        surv.scale <span class="op">=</span> <span class="st">"percent"</span>,</span>
+<span>        break.time.by <span class="op">=</span> <span class="fl">100</span>, </span>
+<span>        risk.table.y.text.col <span class="op">=</span> <span class="cn">T</span>, </span>
+<span>        risk.table <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>        risk.table.title <span class="op">=</span> <span class="st">""</span>,</span>
+<span>        risk.table.fontsize <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>        risk.table.height <span class="op">=</span> <span class="fl">0.3</span>,</span>
+<span>        risk.table.y.text <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>        ncensor.plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>        surv.median.line <span class="op">=</span> <span class="st">"hv"</span>,</span>
+<span>        palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#803C08"</span>, <span class="st">"#F1A340"</span>, </span>
+<span>                    <span class="st">"#2C0a4B"</span>, <span class="st">"#998EC3"</span><span class="op">)</span>,</span>
+<span>        legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">0.89</span><span class="op">)</span>,</span>
+<span>        legend.labs <span class="op">=</span> <span class="va">sur_labels</span><span class="op">$</span><span class="va">final_label</span>,</span>
+<span>        legend.title <span class="op">=</span> <span class="st">""</span>,</span>
+<span>        font.legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="st">"plain"</span><span class="op">)</span>,</span>
+<span>        tables.theme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvtheme.html">theme_cleantable</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        ggtheme <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>             axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
+<span>             axis.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">9</span><span class="op">)</span>,</span>
+<span>             legend.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"transparent"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>             legend.box.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"transparent"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span>           <span class="op">)</span>        </span>
+<span>      <span class="op">)</span>      </span>
+<span>      </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">ggsurv</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<ul>
+<li>准备数据和获取生存结果</li>
+</ul>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat_new</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span>, <span class="va">sex</span>, <span class="va">ph.ecog</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>MixedGroup <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">ph.ecog</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>MixedGroup <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">MixedGroup</span>, </span>
+<span>            levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Male_ECOG0"</span>, <span class="st">"Male_ECOG1"</span>, <span class="st">"Male_ECOG2"</span>, </span>
+<span>                       <span class="st">"Female_ECOG0"</span>, <span class="st">"Female_ECOG1"</span>, <span class="st">"Female_ECOG2"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">sex</span>, levels <span class="op">=</span> <span class="va">sex_grp</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">MaleGroup</span> <span class="op">&lt;-</span> <span class="fu">get_cox_res</span><span class="op">(</span></span>
+<span>      input <span class="op">=</span> <span class="va">dat_new</span>, </span>
+<span>      groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"time"</span>, <span class="st">"status"</span>, <span class="st">"MixedGroup"</span><span class="op">)</span>, </span>
+<span>      group_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Male_ECOG0"</span>, <span class="st">"Male_ECOG1"</span><span class="op">)</span>, </span>
+<span>      RefGroup <span class="op">=</span> <span class="st">"Male_ECOG0"</span><span class="op">)</span> </span>
+<span><span class="va">FemaleGroup</span> <span class="op">&lt;-</span> <span class="fu">get_cox_res</span><span class="op">(</span></span>
+<span>      input <span class="op">=</span> <span class="va">dat_new</span>, </span>
+<span>      groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"time"</span>, <span class="st">"status"</span>, <span class="st">"MixedGroup"</span><span class="op">)</span>, </span>
+<span>      group_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Female_ECOG0"</span>, <span class="st">"Female_ECOG1"</span><span class="op">)</span>, </span>
+<span>      RefGroup <span class="op">=</span> <span class="st">"Female_ECOG0"</span><span class="op">)</span> </span></code></pre></div>
+<ul>
+<li>画图</li>
+</ul>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ggsurpl</span> <span class="op">&lt;-</span> <span class="fu">get_plot</span><span class="op">(</span></span>
+<span>        input <span class="op">=</span> <span class="va">dat_new</span>, </span>
+<span>        groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"time"</span>, <span class="st">"status"</span>, <span class="st">"MixedGroup"</span><span class="op">)</span>, </span>
+<span>        group_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Male_ECOG0"</span>, <span class="st">"Male_ECOG1"</span>,</span>
+<span>                        <span class="st">"Female_ECOG0"</span>, <span class="st">"Female_ECOG1"</span><span class="op">)</span>, </span>
+<span>        feaID <span class="op">=</span> <span class="st">"ECOG"</span>,</span>
+<span>        NegGroup <span class="op">=</span> <span class="va">MaleGroup</span>,</span>
+<span>        PosGroup <span class="op">=</span> <span class="va">FemaleGroup</span><span class="op">)</span></span>
+<span><span class="va">ggsurpl</span></span></code></pre></div>
+<div class="inline-figure"><img src="15-Statistics_Survival_files/figure-html/unnamed-chunk-13-1.png" width="100%"></div>
+<p>结果：不同性别分组内的ECOG组（ECOG0和ECOG1）与生存状态没有显著差异。</p>
+</div>
+</div>
+<div id="总结-3" class="section level2" number="8.4">
+<h2>
+<span class="header-section-number">8.4</span> 总结<a class="anchor" aria-label="anchor" href="#%E6%80%BB%E7%BB%93-3"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><p>生存数据很常见，是时间到事件的数据；</p></li>
+<li><p>需要生存分析技术来解释删失的数据；</p></li>
+<li><p><strong>survival</strong> R包提供了生存分析工具，包括<code>Surv</code>和<code>surfit</code>函数</p></li>
+<li><p><strong>survminer</strong> R包提供了<code>ggsurvplot</code>函数允许基于ggplot2定制Kaplan-Meier图</p></li>
+<li><p>组间比较可采用log-rank检验，采用<code><a href="https://rdrr.io/pkg/survival/man/survdiff.html">survival::survdiff</a></code></p></li>
+<li><p>单或多变量Cox回归分析可以使用<code>survival::Cox</code>进行</p></li>
+</ul>
+</div>
+<div id="systemic-information-5" class="section level2" number="8.5">
+<h2>
+<span class="header-section-number">8.5</span> Systemic information<a class="anchor" aria-label="anchor" href="#systemic-information-5"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ─ Session info ───────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  setting  value</span></span>
+<span><span class="co">#&gt;  version  R version 4.1.3 (2022-03-10)</span></span>
+<span><span class="co">#&gt;  os       macOS Big Sur/Monterey 10.16</span></span>
+<span><span class="co">#&gt;  system   x86_64, darwin17.0</span></span>
+<span><span class="co">#&gt;  ui       X11</span></span>
+<span><span class="co">#&gt;  language (EN)</span></span>
+<span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
+<span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
+<span><span class="co">#&gt;  date     2024-02-06</span></span>
+<span><span class="co">#&gt;  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;  package       * version date (UTC) lib source</span></span>
+<span><span class="co">#&gt;  abind           1.4-5   2016-07-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  backports       1.4.1   2021-12-13 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  bookdown        0.34    2023-05-09 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  broom           1.0.5   2023-06-09 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  broom.helpers   1.13.0  2023-03-28 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  bslib           0.6.0   2023-11-21 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  cachem          1.0.8   2023-05-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  callr           3.7.3   2022-11-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  car             3.1-2   2023-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  carData         3.0-5   2022-01-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  cli             3.6.1   2023-03-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  colorspace      2.1-0   2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  commonmark      1.9.0   2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  crayon          1.5.2   2022-09-29 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  data.table      1.14.8  2023-02-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  devtools        2.4.5   2022-10-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  digest          0.6.33  2023-07-07 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  downlit         0.4.3   2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  dplyr         * 1.1.4   2023-11-17 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  ellipsis        0.3.2   2021-04-29 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  evaluate        0.21    2023-05-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fansi           1.0.4   2023-01-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  farver          2.1.1   2022-07-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fastmap         1.1.1   2023-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  forcats       * 1.0.0   2023-01-29 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  fs              1.6.2   2023-04-25 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  generics        0.1.3   2022-07-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggplot2       * 3.4.4   2023-10-12 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  ggpubr        * 0.6.0   2023-02-10 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggsignif        0.6.4   2022-10-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  ggtext          0.1.2   2022-09-16 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  glue            1.6.2   2022-02-24 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gridExtra       2.3     2017-09-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  gridtext        0.1.5   2022-09-16 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gt              0.9.0   2023-03-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtable          0.3.3   2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  gtsummary     * 1.7.1   2023-04-27 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  highr           0.10    2022-12-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  hms             1.1.3   2023-03-21 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  htmltools       0.5.7   2023-11-03 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  htmlwidgets     1.6.2   2023-03-17 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  httpuv          1.6.11  2023-05-11 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  jquerylib       0.1.4   2021-04-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  jsonlite        1.8.7   2023-06-29 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  km.ci           0.5-6   2022-04-06 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  KMsurv          0.1-5   2012-12-03 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  knitr           1.43    2023-05-25 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  labeling        0.4.2   2020-10-20 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  later           1.3.1   2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lattice         0.21-8  2023-04-05 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lifecycle       1.0.3   2022-10-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  lubridate     * 1.9.2   2023-02-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  magrittr        2.0.3   2022-03-30 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  markdown        1.7     2023-05-16 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  Matrix          1.6-5   2024-01-11 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  memoise         2.0.1   2021-11-26 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  mime            0.12    2021-09-28 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  miniUI          0.1.1.1 2018-05-18 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  munsell         0.5.0   2018-06-12 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pillar          1.9.0   2023-03-22 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  pkgbuild        1.4.2   2023-06-26 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  pkgconfig       2.0.3   2019-09-22 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  pkgload         1.3.2.1 2023-07-08 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  prettyunits     1.1.1   2020-01-24 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  processx        3.8.2   2023-06-30 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  profvis         0.3.8   2023-05-02 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  promises        1.2.0.1 2021-02-11 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  ps              1.7.5   2023-04-18 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  purrr         * 1.0.1   2023-01-10 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  R6              2.5.1   2021-08-19 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  Rcpp            1.0.11  2023-07-06 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  readr         * 2.1.4   2023-02-10 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  remotes         2.4.2   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  rlang           1.1.1   2023-04-28 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rmarkdown       2.23    2023-07-01 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  rstatix         0.7.2   2023-02-01 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  rstudioapi      0.15.0  2023-07-07 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  sass            0.4.6   2023-05-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  scales          1.2.1   2022-08-20 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  sessioninfo     1.2.2   2021-12-06 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  shiny           1.7.4.1 2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  stringi         1.7.12  2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  stringr       * 1.5.1   2023-11-14 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  survival      * 3.5-5   2023-03-12 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  survminer     * 0.4.9   2021-03-09 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  survMisc        0.5.6   2022-04-07 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tibble        * 3.2.1   2023-03-20 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyr         * 1.3.0   2023-01-24 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyselect      1.2.0   2022-10-10 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tidyverse     * 2.0.0   2023-02-22 [1] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  timechange      0.2.0   2023-01-11 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  tzdb            0.4.0   2023-05-12 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  urlchecker      1.0.1   2021-11-30 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  usethis         2.2.2   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  utf8            1.2.3   2023-01-31 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  vctrs           0.6.5   2023-12-01 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  withr           2.5.0   2022-03-03 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  xfun            0.40    2023-08-09 [1] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xml2            1.3.5   2023-07-06 [2] CRAN (R 4.1.3)</span></span>
+<span><span class="co">#&gt;  xtable          1.8-4   2019-04-21 [2] CRAN (R 4.1.0)</span></span>
+<span><span class="co">#&gt;  yaml            2.3.7   2023-01-23 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt;  zoo             1.8-12  2023-04-13 [2] CRAN (R 4.1.2)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  [1] /Users/zouhua/Library/R/x86_64/4.1/library</span></span>
+<span><span class="co">#&gt;  [2] /Library/Frameworks/R.framework/Versions/4.1/Resources/library</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ──────────────────────────────────────────────────────────</span></span></code></pre></div>
+</div>
+<div id="reference-6" class="section level2" number="8.6">
+<h2>
+<span class="header-section-number">8.6</span> Reference<a class="anchor" aria-label="anchor" href="#reference-6"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li><a href="https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html#Kaplan-Meier_plots">Survival Analysis in R</a></li>
+</ul>
+</div>
+</div>
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="PermutationTest.html"><span class="header-section-number">7</span> Permutation Test</a></div>
+<div class="next"><a href="dataprocessing.html"><span class="header-section-number">9</span> Data Processing</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#SurvivalAnalysis"><span class="header-section-number">8</span> Survival Analysis</a></li>
+<li><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="header-section-number">8.1</span> 介绍</a></li>
+<li><a class="nav-link" href="#%E7%BB%84%E6%88%90"><span class="header-section-number">8.2</span> 组成</a></li>
+<li>
+<a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="header-section-number">8.3</span> 案例</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDr%E5%8C%85-4"><span class="header-section-number">8.3.1</span> 加载R包</a></li>
+<li><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-2"><span class="header-section-number">8.3.2</span> 导入数据</a></li>
+<li><a class="nav-link" href="#%E7%94%9F%E5%AD%98%E5%AF%B9%E8%B1%A1"><span class="header-section-number">8.3.3</span> 生存对象</a></li>
+<li><a class="nav-link" href="#%E7%BB%84%E9%97%B4%E7%94%9F%E5%AD%98%E6%97%B6%E9%97%B4%E5%B7%AE%E5%BC%82%E6%AF%94%E8%BE%83"><span class="header-section-number">8.3.4</span> 组间生存时间差异比较</a></li>
+<li><a class="nav-link" href="#%E4%B8%AD%E4%BD%8D%E7%94%9F%E5%AD%98%E6%9C%9F"><span class="header-section-number">8.3.5</span> 中位生存期</a></li>
+<li><a class="nav-link" href="#n%E5%B9%B4%E7%94%9F%E5%AD%98%E6%A6%82%E7%8E%87"><span class="header-section-number">8.3.6</span> N年生存概率</a></li>
+<li><a class="nav-link" href="#cox%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B"><span class="header-section-number">8.3.7</span> Cox回归模型</a></li>
+<li><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90"><span class="header-section-number">8.3.8</span> 其他生存分析</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#%E6%80%BB%E7%BB%93-3"><span class="header-section-number">8.4</span> 总结</a></li>
+<li><a class="nav-link" href="#systemic-information-5"><span class="header-section-number">8.5</span> Systemic information</a></li>
+<li><a class="nav-link" href="#reference-6"><span class="header-section-number">8.6</span> Reference</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/HuaZou/DraftNotes/blob/main/15-Statistics_Survival.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/HuaZou/DraftNotes/edit/main/15-Statistics_Survival.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>生物信息随记</strong>" was written by Hua Zou. It was last built on 2023-08-24 and updated on 2024-02-06.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

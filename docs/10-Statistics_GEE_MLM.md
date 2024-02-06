@@ -294,8 +294,8 @@ DT::datatable(gee_cc)
 
 
 ```{=html}
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-21ae260c1cec9de6475c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-21ae260c1cec9de6475c">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","micro","macro","age","time","micro:time","gender","macro:time"],[81.38429217652833,-20.23342244731935,-28.7164247071349,-0.256111656191009,-1.630455424592818,-1.558160417586715,-2.985396653143875,-1.056006126981865],[3.80862739516465,1.792665644682256,2.10887332478298,0.05828494636203599,0.3727030053548214,0.5209701594154882,1.954885620307319,0.6986072461618382],[456.6087266621688,127.3913990188601,185.4213542569168,19.3083822012732,19.13780259246356,8.945376805723933,2.332176307769848,2.284897403147905],[0,0,0,1.11217032087163e-05,1.216121750136079e-05,0.002781727080120699,0.126724596434603,0.1306387803020597],["81.38 (73.92, 88.85)","-20.23 (-23.75, -16.72)","-28.72 (-32.85, -24.58)","-0.26 (-0.37, -0.14)","-1.63 (-2.36, -0.9)","-1.56 (-2.58, -0.54)","-2.99 (-6.82, 0.85)","-1.06 (-2.43, 0.31)"],[2.211816053474321e+35,0,0,0.77,0.2,0.21,0.05,0.35]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std.err<\/th>\n      <th>Wald<\/th>\n      <th>Pr(&gt;|W|)<\/th>\n      <th>Estimate_95CI<\/th>\n      <th>OddRatio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-70f05b60e28a63b73b8e" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-70f05b60e28a63b73b8e">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","micro","macro","age","time","micro:time","gender","macro:time"],[81.38429217652833,-20.23342244731935,-28.7164247071349,-0.256111656191009,-1.630455424592818,-1.558160417586715,-2.985396653143875,-1.056006126981865],[3.80862739516465,1.792665644682256,2.10887332478298,0.05828494636203599,0.3727030053548214,0.5209701594154882,1.954885620307319,0.6986072461618382],[456.6087266621688,127.3913990188601,185.4213542569168,19.3083822012732,19.13780259246356,8.945376805723933,2.332176307769848,2.284897403147905],[0,0,0,1.11217032087163e-05,1.216121750136079e-05,0.002781727080120699,0.126724596434603,0.1306387803020597],["81.38 (73.92, 88.85)","-20.23 (-23.75, -16.72)","-28.72 (-32.85, -24.58)","-0.26 (-0.37, -0.14)","-1.63 (-2.36, -0.9)","-1.56 (-2.58, -0.54)","-2.99 (-6.82, 0.85)","-1.06 (-2.43, 0.31)"],[2.211816053474321e+35,0,0,0.77,0.2,0.21,0.05,0.35]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Estimate<\/th>\n      <th>Std.err<\/th>\n      <th>Wald<\/th>\n      <th>Pr(&gt;|W|)<\/th>\n      <th>Estimate_95CI<\/th>\n      <th>OddRatio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Estimate","targets":1},{"name":"Std.err","targets":2},{"name":"Wald","targets":3},{"name":"Pr(>|W|)","targets":4},{"name":"Estimate_95CI","targets":5},{"name":"OddRatio","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 
@@ -385,8 +385,8 @@ print(res.summary())
 #>                       Estimating Equations   Max. cluster size:                   8
 #> Family:                           Gaussian   Mean cluster size:                 6.9
 #> Dependence structure:         Exchangeable   Num. iterations:                     9
-#> Date:                     Fri, 08 Dec 2023   Scale:                         251.425
-#> Covariance type:                    robust   Time:                         15:40:45
+#> Date:                     Tue, 06 Feb 2024   Scale:                         251.425
+#> Covariance type:                    robust   Time:                         13:51:20
 #> ==============================================================================
 #>                  coef    std err          z      P>|z|      [0.025      0.975]
 #> ------------------------------------------------------------------------------
@@ -545,8 +545,8 @@ DT::datatable(mlm_cc)
 
 
 ```{=html}
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-bc6a8d8ead9a1d39badb" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-bc6a8d8ead9a1d39badb">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","time","macro","micro","micro:time","age","macro:time","gender"],[81.37630590707489,-1.630229255264624,-28.71468702803945,-20.23950572775084,-1.553319718414145,-0.2559440159194223,-1.04467322510874,-2.992563368714388],[4.055919807528009,0.1577394720042213,2.477851428705093,2.447453795648101,0.2617731914322335,0.06404800327077127,0.2940514680723924,2.089155674110269],[1175,1175,195,195,1175,195,1175,195],[20.06358847530368,-10.33494809226316,-11.58854267668726,-8.269617086843224,-5.933838029461698,-3.996127948554237,-3.552688350637828,-1.432427178979308],[3.125272620866286e-77,5.047585556854928e-24,5.779570515029318e-24,2.058724488473e-14,3.889121369838315e-09,9.12439085807107e-05,0.0003964288820463114,0.1536226918207506],["81.38 (73.43, 89.33)","-1.63 (-1.94, -1.32)","-28.71 (-33.57, -23.86)","-20.24 (-25.04, -15.44)","-1.55 (-2.07, -1.04)","-0.26 (-0.38, -0.13)","-1.04 (-1.62, -0.47)","-2.99 (-7.09, 1.1)"],[2.19422224245931e+35,0.2,0,0,0.21,0.77,0.35,0.05]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Value<\/th>\n      <th>Std.Error<\/th>\n      <th>DF<\/th>\n      <th>t-value<\/th>\n      <th>p-value<\/th>\n      <th>Estimate_95CI<\/th>\n      <th>OddRatio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-3a545fb38830b239cd2c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-3a545fb38830b239cd2c">{"x":{"filter":"none","vertical":false,"data":[["(Intercept)","time","macro","micro","micro:time","age","macro:time","gender"],[81.37630590707489,-1.630229255264624,-28.71468702803945,-20.23950572775084,-1.553319718414145,-0.2559440159194223,-1.04467322510874,-2.992563368714388],[4.055919807528009,0.1577394720042213,2.477851428705093,2.447453795648101,0.2617731914322335,0.06404800327077127,0.2940514680723924,2.089155674110269],[1175,1175,195,195,1175,195,1175,195],[20.06358847530368,-10.33494809226316,-11.58854267668726,-8.269617086843224,-5.933838029461698,-3.996127948554237,-3.552688350637828,-1.432427178979308],[3.125272620866286e-77,5.047585556854928e-24,5.779570515029318e-24,2.058724488473e-14,3.889121369838315e-09,9.12439085807107e-05,0.0003964288820463114,0.1536226918207506],["81.38 (73.43, 89.33)","-1.63 (-1.94, -1.32)","-28.71 (-33.57, -23.86)","-20.24 (-25.04, -15.44)","-1.55 (-2.07, -1.04)","-0.26 (-0.38, -0.13)","-1.04 (-1.62, -0.47)","-2.99 (-7.09, 1.1)"],[2.19422224245931e+35,0.2,0,0,0.21,0.77,0.35,0.05]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Value<\/th>\n      <th>Std.Error<\/th>\n      <th>DF<\/th>\n      <th>t-value<\/th>\n      <th>p-value<\/th>\n      <th>Estimate_95CI<\/th>\n      <th>OddRatio<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Value","targets":1},{"name":"Std.Error","targets":2},{"name":"DF","targets":3},{"name":"t-value","targets":4},{"name":"p-value","targets":5},{"name":"Estimate_95CI","targets":6},{"name":"OddRatio","targets":7}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ```
 
 
@@ -639,8 +639,8 @@ devtools::session_info()
 #>  collate  en_US.UTF-8
 #>  ctype    en_US.UTF-8
 #>  tz       Asia/Shanghai
-#>  date     2023-12-08
-#>  pandoc   3.1.3 @ /Users/zouhua/opt/anaconda3/bin/ (via rmarkdown)
+#>  date     2024-02-06
+#>  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)
 #> 
 #> ─ Packages ───────────────────────────────────────────────
 #>  package     * version date (UTC) lib source
@@ -658,18 +658,18 @@ devtools::session_info()
 #>  devtools      2.4.5   2022-10-11 [2] CRAN (R 4.1.2)
 #>  digest        0.6.33  2023-07-07 [1] CRAN (R 4.1.3)
 #>  downlit       0.4.3   2023-06-29 [2] CRAN (R 4.1.3)
-#>  dplyr       * 1.1.2   2023-04-20 [2] CRAN (R 4.1.2)
-#>  DT            0.28    2023-05-18 [2] CRAN (R 4.1.3)
+#>  dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.1.3)
+#>  DT            0.31    2023-12-09 [1] CRAN (R 4.1.3)
 #>  ellipsis      0.3.2   2021-04-29 [2] CRAN (R 4.1.0)
 #>  evaluate      0.21    2023-05-05 [2] CRAN (R 4.1.2)
 #>  fansi         1.0.4   2023-01-22 [2] CRAN (R 4.1.2)
 #>  farver        2.1.1   2022-07-06 [2] CRAN (R 4.1.2)
 #>  fastmap       1.1.1   2023-02-24 [2] CRAN (R 4.1.2)
-#>  forcats     * 1.0.0   2023-01-29 [2] CRAN (R 4.1.2)
+#>  forcats     * 1.0.0   2023-01-29 [1] CRAN (R 4.1.2)
 #>  fs            1.6.2   2023-04-25 [2] CRAN (R 4.1.2)
 #>  geepack     * 1.3.9   2022-08-16 [1] CRAN (R 4.1.2)
 #>  generics      0.1.3   2022-07-05 [2] CRAN (R 4.1.2)
-#>  ggplot2     * 3.4.2   2023-04-03 [2] CRAN (R 4.1.2)
+#>  ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.1.3)
 #>  glue          1.6.2   2022-02-24 [2] CRAN (R 4.1.2)
 #>  gtable        0.3.3   2023-03-21 [2] CRAN (R 4.1.2)
 #>  here          1.0.1   2020-12-13 [2] CRAN (R 4.1.0)
@@ -687,13 +687,13 @@ devtools::session_info()
 #>  lifecycle     1.0.3   2022-10-07 [2] CRAN (R 4.1.2)
 #>  lubridate   * 1.9.2   2023-02-10 [2] CRAN (R 4.1.2)
 #>  magrittr      2.0.3   2022-03-30 [2] CRAN (R 4.1.2)
-#>  MASS          7.3-60  2023-05-04 [2] CRAN (R 4.1.2)
-#>  Matrix        1.6-0   2023-07-08 [2] CRAN (R 4.1.3)
+#>  MASS          7.3-60  2023-05-04 [1] CRAN (R 4.1.2)
+#>  Matrix        1.6-5   2024-01-11 [1] CRAN (R 4.1.3)
 #>  memoise       2.0.1   2021-11-26 [2] CRAN (R 4.1.0)
 #>  mime          0.12    2021-09-28 [2] CRAN (R 4.1.0)
 #>  miniUI        0.1.1.1 2018-05-18 [2] CRAN (R 4.1.0)
 #>  munsell       0.5.0   2018-06-12 [2] CRAN (R 4.1.0)
-#>  nlme        * 3.1-162 2023-01-31 [2] CRAN (R 4.1.2)
+#>  nlme        * 3.1-162 2023-01-31 [1] CRAN (R 4.1.2)
 #>  pillar        1.9.0   2023-03-22 [2] CRAN (R 4.1.2)
 #>  pkgbuild      1.4.2   2023-06-26 [2] CRAN (R 4.1.3)
 #>  pkgconfig     2.0.3   2019-09-22 [2] CRAN (R 4.1.0)
@@ -704,10 +704,10 @@ devtools::session_info()
 #>  profvis       0.3.8   2023-05-02 [2] CRAN (R 4.1.2)
 #>  promises      1.2.0.1 2021-02-11 [2] CRAN (R 4.1.0)
 #>  ps            1.7.5   2023-04-18 [2] CRAN (R 4.1.2)
-#>  purrr       * 1.0.1   2023-01-10 [2] CRAN (R 4.1.2)
+#>  purrr       * 1.0.1   2023-01-10 [1] CRAN (R 4.1.2)
 #>  R6            2.5.1   2021-08-19 [2] CRAN (R 4.1.0)
 #>  Rcpp          1.0.11  2023-07-06 [1] CRAN (R 4.1.3)
-#>  readr       * 2.1.4   2023-02-10 [2] CRAN (R 4.1.2)
+#>  readr       * 2.1.4   2023-02-10 [1] CRAN (R 4.1.2)
 #>  remotes       2.4.2   2021-11-30 [2] CRAN (R 4.1.0)
 #>  reticulate  * 1.30    2023-06-09 [2] CRAN (R 4.1.3)
 #>  rlang         1.1.1   2023-04-28 [1] CRAN (R 4.1.2)
@@ -715,13 +715,13 @@ devtools::session_info()
 #>  rprojroot     2.0.3   2022-04-02 [2] CRAN (R 4.1.2)
 #>  rstudioapi    0.15.0  2023-07-07 [2] CRAN (R 4.1.3)
 #>  sass          0.4.6   2023-05-03 [2] CRAN (R 4.1.2)
-#>  scales        1.2.1   2022-08-20 [2] CRAN (R 4.1.2)
+#>  scales        1.2.1   2022-08-20 [1] CRAN (R 4.1.2)
 #>  sessioninfo   1.2.2   2021-12-06 [2] CRAN (R 4.1.0)
 #>  shiny         1.7.4.1 2023-07-06 [2] CRAN (R 4.1.3)
 #>  stringi       1.7.12  2023-01-11 [2] CRAN (R 4.1.2)
-#>  stringr     * 1.5.0   2022-12-02 [2] CRAN (R 4.1.2)
-#>  tibble      * 3.2.1   2023-03-20 [2] CRAN (R 4.1.2)
-#>  tidyr       * 1.3.0   2023-01-24 [2] CRAN (R 4.1.2)
+#>  stringr     * 1.5.1   2023-11-14 [1] CRAN (R 4.1.3)
+#>  tibble      * 3.2.1   2023-03-20 [1] CRAN (R 4.1.2)
+#>  tidyr       * 1.3.0   2023-01-24 [1] CRAN (R 4.1.2)
 #>  tidyselect    1.2.0   2022-10-10 [2] CRAN (R 4.1.2)
 #>  tidyverse   * 2.0.0   2023-02-22 [1] CRAN (R 4.1.2)
 #>  timechange    0.2.0   2023-01-11 [2] CRAN (R 4.1.2)
@@ -729,7 +729,7 @@ devtools::session_info()
 #>  urlchecker    1.0.1   2021-11-30 [2] CRAN (R 4.1.0)
 #>  usethis       2.2.2   2023-07-06 [2] CRAN (R 4.1.3)
 #>  utf8          1.2.3   2023-01-31 [2] CRAN (R 4.1.2)
-#>  vctrs         0.6.3   2023-06-14 [1] CRAN (R 4.1.3)
+#>  vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.1.3)
 #>  withr         2.5.0   2022-03-03 [2] CRAN (R 4.1.2)
 #>  xfun          0.40    2023-08-09 [1] CRAN (R 4.1.3)
 #>  xml2          1.3.5   2023-07-06 [2] CRAN (R 4.1.3)
